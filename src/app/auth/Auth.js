@@ -17,9 +17,9 @@ class Auth extends Component {
 	componentDidMount() {
 		return Promise.all([
 			// Comment the lines which you do not use
-			// this.firebaseCheck(),
+			 this.firebaseCheck(),
 			// this.auth0Check(),
-			// this.jwtCheck()
+			  this.jwtCheck()
 		]).then(() => {
 			this.setState({ waitAuthCheck: false });
 		});
@@ -43,9 +43,9 @@ class Auth extends Component {
 						this.props.showMessage({ message: 'Logged in with JWT' });
 					})
 					.catch(error => {
-						this.props.showMessage({ message: error.message });
+						//this.props.showMessage({ message: 'Logged in with JWT' });
 
-						resolve();
+						//resolve();
 					});
 			});
 
@@ -106,7 +106,7 @@ class Auth extends Component {
 
 			firebaseService.onAuthStateChanged(authUser => {
 				if (authUser) {
-					this.props.showMessage({ message: 'Logging in with Firebase' });
+					this.props.showMessage({ message: 'Ingresando...' });
 
 					/**
 					 * Retrieve user data from Firebase
@@ -117,7 +117,7 @@ class Auth extends Component {
 
 							resolve();
 
-							this.props.showMessage({ message: 'Logged in with Firebase' });
+							this.props.showMessage({ message: 'Usuario autenticado' });
 						},
 						error => {
 							resolve();

@@ -51,6 +51,7 @@
         "react-chartjs-2": "2.9.0",
         "react-dom": "16.13.1",
         "react-draggable": "4.4.3",
+        "react-file-reader": "^1.1.4",
         "react-frame-component": "4.1.2",
         "react-i18next": "11.7.0",
         "react-masonry-css": "1.0.14",

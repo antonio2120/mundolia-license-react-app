@@ -18,15 +18,11 @@ const languages = [
 		flag: 'us'
 	},
 	{
-		id: 'tr',
-		title: 'Turkish',
-		flag: 'tr'
-	},
-	{
-		id: 'ar',
-		title: 'Arabic',
-		flag: 'sa'
+		id: 'es',
+		title: 'Español',
+		flag: 'es'
 	}
+
 ];
 
 function LanguageSwitcher(props) {
@@ -103,14 +99,14 @@ function LanguageSwitcher(props) {
 					</MenuItem>
 				))}
 
-				<MenuItem
-					component={Link}
-					to="/documentation/working-with-fuse-react/multi-language"
-					onClick={langMenuClose}
-					role="button"
-				>
-					<ListItemText primary="Learn More" />
-				</MenuItem>
+				{/*<MenuItem*/}
+				{/*	component={Link}*/}
+				{/*	to="/documentation/working-with-fuse-react/multi-language"*/}
+				{/*	onClick={langMenuClose}*/}
+				{/*	role="button"*/}
+				{/*>*/}
+				{/*	<ListItemText primary="Learn More" />*/}
+				{/*</MenuItem>*/}
 			</Popover>
 		</>
 	);

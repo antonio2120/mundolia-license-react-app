@@ -9,18 +9,31 @@ export const submitLogin = ({ email, password }) => async dispatch => {
 		.signInWithEmailAndPassword(email, password)
 		.then(user => {
 			dispatch(setUserData(user));
-
 			return dispatch(loginSuccess());
 		})
 		.catch(error => {
-			return dispatch(loginError(error));
+			const usernameErrorCodes = [
+				'auth/email-already-in-use',
+				'auth/invalid-email',
+				'auth/operation-not-allowed',
+				'auth/user-not-found',
+				'auth/user-disabled'
+			];
+			const passwordErrorCodes = ['auth/weak-password', 'INVALID_PASSWORD'];
+			const response = {
+				email: usernameErrorCodes.includes(error.code) ? error.message : null,
+				password: passwordErrorCodes.includes(error.code) ? error.message : null
+			};
+			if (error.code === 'auth/invalid-api-key') {
+				dispatch(showMessage({ message: error.message }));
+			}
+			return dispatch(loginError(response));
 		});
 };
 
 export const submitLoginWithFireBase = ({ username, password }) => async dispatch => {
 	if (!firebaseService.auth) {
 		console.warn("Firebase Service didn't initialize, check your configuration");
-
 		return () => false;
 	}
 	return firebaseService.auth

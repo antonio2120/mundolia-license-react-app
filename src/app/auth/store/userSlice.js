@@ -54,7 +54,7 @@ export const createUserSettingsFirebase = authUser => async (dispatch, getState)
 	const user = _.merge({}, guestUser, {
 		uid: authUser.uid,
 		from: 'firebase',
-		role: ['admin'],
+		role: ['user'],
 		data: {
 			displayName: authUser.displayName,
 			email: authUser.email,
@@ -72,7 +72,7 @@ export const setUserData = user => async (dispatch, getState) => {
 	/*
         You can redirect the logged-in user to a specific route depending on his role
          */
-
+	const fuseDefaultSettings = getState().fuse.settings.defaults;
 	history.location.state = {
 		redirectUrl: user.redirectUrl // for example 'apps/academy'
 	};
@@ -80,9 +80,21 @@ export const setUserData = user => async (dispatch, getState) => {
 	/*
     Set User Settings
      */
-	dispatch(setDefaultSettings(user.data.settings));
+	const userSet = _.merge({}, user, {
+		uid: user.data.uuid,
+		from: 'jwt',
+		role: user.data.role,
+		data: {
+			displayName: user.data.displayName,
+			email: user.data.email,
+			photoURL: 'assets/images/avatars/user.jpg',
+			settings: { ...fuseDefaultSettings }
+		}
+	});
 
-	dispatch(setUser(user));
+	dispatch(setDefaultSettings(fuseDefaultSettings));
+
+	dispatch(setUser(userSet));
 };
 
 export const updateUserSettings = settings => async (dispatch, getState) => {
@@ -188,9 +200,9 @@ export const updateUserData = user => async (dispatch, getState) => {
 const initialState = {
 	role: [], // guest
 	data: {
-		displayName: 'John Doe',
-		photoURL: 'assets/images/avatars/Velazquez.jpg',
-		email: 'johndoe@withinpixels.com',
+		displayName: 'José Andrade Muñoz',
+		photoURL: 'assets/images/avatars/user.jpg',
+		email: 'jandrade@educationmakeover.org',
 		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
 	}
 };

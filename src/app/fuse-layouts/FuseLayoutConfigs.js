@@ -3,9 +3,7 @@ import layout2 from './layout2/Layout2Config';
 import layout3 from './layout3/Layout3Config';
 
 const FuseLayoutConfigs = {
-	layout1,
-	layout2,
-	layout3
+	layout1
 };
 
 export default FuseLayoutConfigs;

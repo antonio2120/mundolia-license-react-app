@@ -1,6 +1,8 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import {showMessage} from "../../store/fuse/messageSlice";
+import {loginError} from "../../auth/store/loginSlice";
 /* eslint-disable camelcase */
 
 class JwtService extends FuseUtils.EventEmitter {
@@ -8,7 +10,6 @@ class JwtService extends FuseUtils.EventEmitter {
 		this.setInterceptors();
 		this.handleAuthentication();
 	}
-
 	setInterceptors = () => {
 		axios.interceptors.response.use(
 			response => {
@@ -47,7 +48,7 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	createUser = data => {
 		return new Promise((resolve, reject) => {
-			axios.post('/api/auth/register', data).then(response => {
+			axios.post('http://127.0.0.1:8000/api/register', data).then(response => {
 				if (response.data.user) {
 					this.setSession(response.data.access_token);
 					resolve(response.data.user);
@@ -61,11 +62,9 @@ class JwtService extends FuseUtils.EventEmitter {
 	signInWithEmailAndPassword = (email, password) => {
 		return new Promise((resolve, reject) => {
 			axios
-				.get('/api/auth', {
-					data: {
+				.post('http://127.0.0.1:8000/api/login', {
 						email,
 						password
-					}
 				})
 				.then(response => {
 					if (response.data.user) {
@@ -74,6 +73,9 @@ class JwtService extends FuseUtils.EventEmitter {
 					} else {
 						reject(response.data.error);
 					}
+				})
+				.catch(error => {
+					reject(error.response.data.error);
 				});
 		});
 	};
@@ -81,10 +83,10 @@ class JwtService extends FuseUtils.EventEmitter {
 	signInWithToken = () => {
 		return new Promise((resolve, reject) => {
 			axios
-				.get('/api/auth/access-token', {
-					data: {
-						access_token: this.getAccessToken()
-					}
+				.post('http://127.0.0.1:8000/api/access-token', {
+
+					access_token: this.getAccessToken()
+
 				})
 				.then(response => {
 					if (response.data.user) {
