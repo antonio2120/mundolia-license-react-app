@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getUserData } from './userSlice';
+import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
+
 
 export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', async (routeParams, { getState }) => {
 	routeParams = routeParams || getState().contactsApp.contacts.routeParams;
@@ -26,7 +28,7 @@ export const addContact = createAsyncThunk(
 		const data = await response.data;
 
 		dispatch(getContacts());
-
+		dispatch(showMessage({message: 'Usuario creado correctamente.',variant: 'success'	}));
 		return data;
 	}
 );
@@ -46,7 +48,7 @@ export const updateContact = createAsyncThunk(
 			verified_email: 1
 		});
 		const data = await response.data;
-
+		dispatch(showMessage({message: 'Usuario actualizado correctamente.',variant: 'success'	}));
 		dispatch(getContacts());
 
 		return data;
@@ -58,8 +60,8 @@ export const removeContact = createAsyncThunk(
 	async (uuid, { dispatch, getState }) => {
 		const response = await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid);
 		const data = await response.data;
+		dispatch(showMessage({message: 'Usuario eliminado correctamente.',variant: 'success'	}));
 		dispatch(getContacts());
-
 		return data;
 	}
 );

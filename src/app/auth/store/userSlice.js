@@ -10,7 +10,7 @@ import jwtService from 'app/services/jwtService';
 
 export const setUserDataAuth0 = tokenData => async dispatch => {
 	const user = {
-		role: ['admin'],
+		role: ['admin_escuela'],
 		from: 'auth0',
 		data: {
 			displayName: tokenData.username || tokenData.name,
@@ -54,7 +54,7 @@ export const createUserSettingsFirebase = authUser => async (dispatch, getState)
 	const user = _.merge({}, guestUser, {
 		uid: authUser.uid,
 		from: 'firebase',
-		role: ['user'],
+		role: ['school'],
 		data: {
 			displayName: authUser.displayName,
 			email: authUser.email,
@@ -69,21 +69,19 @@ export const createUserSettingsFirebase = authUser => async (dispatch, getState)
 };
 
 export const setUserData = user => async (dispatch, getState) => {
-	/*
-        You can redirect the logged-in user to a specific route depending on his role
-         */
+	//You can redirect the logged-in user to a specific route depending on his role
+
 	const fuseDefaultSettings = getState().fuse.settings.defaults;
 	history.location.state = {
 		redirectUrl: user.redirectUrl // for example 'apps/academy'
 	};
 
-	/*
-    Set User Settings
-     */
 	const userSet = _.merge({}, user, {
 		uid: user.data.uuid,
 		from: 'jwt',
 		role: user.data.role,
+		school_id: user.data.id_school,
+		school_name: user.data.school_name,
 		data: {
 			displayName: user.data.displayName,
 			email: user.data.email,
@@ -203,7 +201,7 @@ const initialState = {
 		displayName: 'José Andrade Muñoz',
 		photoURL: 'assets/images/avatars/user.jpg',
 		email: 'jandrade@educationmakeover.org',
-		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
+		shortcuts: null
 	}
 };
 
@@ -216,7 +214,5 @@ const userSlice = createSlice({
 	},
 	extraReducers: {}
 });
-
 export const { setUser, userLoggedOut } = userSlice.actions;
-
 export default userSlice.reducer;

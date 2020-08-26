@@ -11,21 +11,18 @@ import FuseScrollbars from "../../../@fuse/core/FuseScrollbars/FuseScrollbars";
 import SwipeableViews from "react-swipeable-views";
 import Paper from "@material-ui/core/Paper";
 import Fab from "@material-ui/core/Fab";
-import {Link} from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import FolderIcon from '@material-ui/icons/ArrowRight';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Button from '@material-ui/core/Button';
 import CSVReader from 'react-csv-reader'
-
-const useStyles = makeStyles(theme => ({
-	layoutRoot: {},
-	button: { margin: theme.spacing(1),}
-}));
+import LinearProgress from '@material-ui/core/LinearProgress';
+import SimpleTable from './Table'
+import axios from 'axios';
+import Alert from '@material-ui/lab/Alert';
 
 const papaparseOptions = {
 	header: true,
@@ -52,20 +49,53 @@ const colsCsv = [
 class LicenciasPage extends Component {
 
 	constructor(props) {
-
 		super(props);
 		this.state = {
 			activeStep: 1,
-			records:null
+			recordsOK:null,
+			file:false,
+			loading: false,
+			resultImport:null,
+			error:false,
+			errorMessage:null
 		};
 
 	}
+
 	handleForce = res =>{
-		console.log(res);
+		this.setState({loading: true, recordsOK:null, file:false, error: false})
+		const result = [];
+		const resultAll = [];
+		let valid = 'Invalido';
+		let i =0;
+		let iAll =0;
+		res.map((row) => {
+			valid = 'Invalido';
+			if (row.tipo_usuario  && row.nombre  && (row.apellido_paterno  || row.apellido_materno )  && row.email  && row.seccion  && row.grado  ) {
+				valid = 'Valido';
+
+				result[i] = {
+					tipo_usuario: row.tipo_usuario,
+					nombre: row.nombre,
+					username: row.nombre + '.' + row.apellido_paterno,
+					segundo_nombre: row.segundo_nombre,
+					apellido_paterno: row.apellido_paterno,
+					apellido_materno: row.apellido_materno,
+					email: row.email,
+					seccion: row.seccion,
+					grado: 1,
+					nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor,
+					mail_padre: row.mail_padre,
+					result: 'Valido'
+				}
+				++i;
+			}
+
+		});
+		this.setState({recordsOK: result, recordsAll: resultAll, file: true, activeStep: 3, loading: false});
 
 	}
 	handleDarkSideForce = error =>{
-		console.log(error);
 		alert("Error al cargar el archivo.");
 	}
 
@@ -75,14 +105,45 @@ class LicenciasPage extends Component {
 
 	handleNext() {
 		this.setState({ activeStep: this.state.activeStep + 1 })
-
 	}
 
 	handleBack() {
 		this.setState({ activeStep: this.state.activeStep - 1 })
+	}
+	handleEnd() {
+		this.setState({
+			activeStep: 1,
+			recordsOK:null,
+			recordsAll: null,
+			file:false,
+			loading: false,
+			resultImport:null,
+			error: false,
+			errorMessage:null
+		})
+	}
+	async handleImport() {
+		let data = null;
+		this.setState({loading: true, resultImport:null, error: false});
+		 const response = await axios.post(process.env.REACT_APP_API+'/importar/usuarios', {
+		 	data: this.state.recordsOK
+		 }).then(response => {
+			 if (response.data) {
+				 data = response.data;
+				 this.setState({loading: false, resultImport:data,activeStep: 4});
+			 } else {
+				 this.setState({loading: false, error: true, errorMessage: 'Error al procesar la información'});
+			 }
+		 }).catch(error => {
+			 this.setState({
+				 loading: false,
+				 error: true,
+				 errorMessage: 'Se ha producido un error en el Servidor. Por favor contacte al administrador. '
+			 });
+		 });
+		this.setState({loading: false, resultImport:data});
 
 	}
-
 	render() {
 		return (
 			<FusePageSimple
@@ -103,23 +164,17 @@ class LicenciasPage extends Component {
 					</div>
 				}
 
-				// contentToolbar={
-				// 	<div className="px-24">
-				// 		<h4>Subir Archivo</h4>
-				// 	</div>
-				// }
 				content={
 					<div className="flex flex-1 relative overflow-hidden">
 						<FuseScrollbars className="w-full overflow-auto">
 							<SwipeableViews
 								className="overflow-hidden"
 								index={this.state.activeStep - 1}
-								enableMouseEvents
 								onChangeIndex={this.handleChangeActiveStep}
-								animateHeight
+
 							>
 								<div className="flex justify-center p-10 pb-64 sm:p-24 sm:pb-30 md:p-20 md:pb-30" key={0}>
-									<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
+									<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-20">
 											<div>
 												<h1 className="py-16">Descargar Plantilla para carga de usuarios</h1>
@@ -141,7 +196,7 @@ class LicenciasPage extends Component {
 													Al finalizar, deberá guardar este archivo en formato CSV, como se describe a continuación:
 												</p>
 												<List>
-													<ListItem>
+													<ListItem key={'li1'}>
 														<ListItemAvatar>
 															<Avatar>
 																<FolderIcon />
@@ -150,7 +205,7 @@ class LicenciasPage extends Component {
 														<ListItemText primary="Menú Archivo"
 														/>
 													</ListItem>
-													<ListItem>
+													<ListItem key={'li2'}>
 														<ListItemAvatar>
 															<Avatar>
 																<FolderIcon />
@@ -159,7 +214,7 @@ class LicenciasPage extends Component {
 														<ListItemText primary="Guardar Como"
 														/>
 													</ListItem>
-													<ListItem>
+													<ListItem key={'li3'}>
 														<ListItemAvatar>
 															<Avatar>
 																<FolderIcon />
@@ -168,7 +223,7 @@ class LicenciasPage extends Component {
 														<ListItemText primary="Cambiar el tipo de archivo por: CSV (delimitado por comas) (*.csv)"
 														/>
 													</ListItem>
-													<ListItem>
+													<ListItem key={'li4'}>
 														<ListItemAvatar>
 															<Avatar>
 																<FolderIcon />
@@ -177,14 +232,14 @@ class LicenciasPage extends Component {
 														<ListItemText primary="Guardar"/>
 													</ListItem>
 												</List>
-												<p><img src="assets/images/user-import/xlsx1.jpg" alt=""/></p>
+												<p><img className={'max-w-md'} src="assets/images/user-import/xlsx1.jpg" alt=""/></p>
 
 											</div>
 										</div>
 									</Paper>
 								</div>
 								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={1}>
-									<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1} margin={'dense'}>
+									<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1} margin={'dense'}>
 										<div className="p-20">
 											<div >
 												<h1 className="py-16">Subir archivo con la información de usuarios en formato CSV</h1>
@@ -196,10 +251,13 @@ class LicenciasPage extends Component {
 													parserOptions={papaparseOptions}
 													inputId="ObiWan"
 													inputStyle={{color: 'red'}}
+													disabled ={this.state.loading}
+													fileEncoding={'UTF-8'}
 												/>
+												{this.state.loading && (<LinearProgress color="secondary" />)}
 
 												<p className="py-16">
-													El archivo en formato CSV (delimitado por comas), es resultado de la edición de la plantilla en formato XLSX.
+													El archivo en formato CSV UTF-8(delimitado por comas), es resultado de la edición de la plantilla en formato XLSX.
 												</p>
 												<p>Ejemplo:</p>
 
@@ -218,63 +276,60 @@ class LicenciasPage extends Component {
 									</Paper>
 								</div>
 								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={2}>
-									<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
+									<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-24">
-											<h4>Content</h4>
-											<br />
-											<div>
-
-
-												<h1 className="py-16">Early Sunrise</h1>
-												<h4 className="pb-12">Demo Content</h4>
-												<p>
-													One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a
-													horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his
-													brown belly, slightly domed and divided by arches into stiff sections.
-												</p>
-
-											</div>
+											<h1 className="py-16">Datos a Procesar</h1>
+											{this.state.recordsOK ?
+												(<SimpleTable data={this.state.recordsOK}/>) :
+												(<h1 className="py-16">No hay datos a procesar</h1>)
+											}
+										</div>
+										<div className="p-24">
+											<Button variant="contained" color="primary"
+													disabled={this.state.loading || !this.state.recordsOK}
+													onClick={() => this.handleImport()}>
+												Importar Usuarios
+											</Button>
+											{this.state.error && (<Alert severity="error">{this.state.errorMessage}</Alert>)}
+										</div>
+										<div className="p-24">
+											{this.state.loading && (<LinearProgress color="secondary" />)}
 										</div>
 									</Paper>
 								</div>
 								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={3}>
 									<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-24">
-											<h4>Content</h4>
-											<br />
-											<div>
-
-
-												<h1 className="py-16">Early Sunrise</h1>
-												<h4 className="pb-12">Demo Content</h4>
-												<p>
-													One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a
-													horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his
-													brown belly, slightly domed and divided by arches into stiff sections.
-												</p>
-
-											</div>
+											<h1 className="py-16">Resultados de la importación</h1>
+											{this.state.resultImport ?
+												(<SimpleTable data={this.state.resultImport}/>) :
+												(<h1 className="py-16">No hay resultados</h1>)
+											}
 										</div>
 									</Paper>
 								</div>
 							</SwipeableViews>
 						</FuseScrollbars>
 						<div className="flex justify-center w-full absolute left-0 right-0 bottom-0 pb-16 md:pb-32">
-							<div className="flex justify-between w-full max-w-xl px-8">
+							<div className="flex  w-full px-8">
 								<div>
 									{this.state.activeStep !== 1 && (
-										<Fab className="" color="secondary" onClick={() => this.handleBack()}>
+										<Fab className="" color="secondary" onClick={() => this.handleBack()} disabled={this.state.loading}>
 											<Icon>{'chevron_left'}</Icon>
 										</Fab>
 									)}
 								</div>
 								<div>
-									{this.state.activeStep < 4 ? (
-										<Fab className="" color="secondary" onClick={() => this.handleNext()}>
+									{this.state.activeStep === 1 && (
+										<Fab className="" color="secondary" onClick={() => this.handleNext()} disabled={this.state.loading}>
 											<Icon>{'chevron_right'}</Icon>
 										</Fab>
-									) : (
-										<Fab className={'this.classes.successFab'} to="/licencias" component={Link}>
+									)
+									}
+								</div>
+								<div>
+									{this.state.activeStep === 4 && (
+										<Fab className={'this.classes.successFab'} onClick={() => this.handleEnd()} disabled={this.state.loading}>
 											<Icon>check</Icon>
 										</Fab>
 									)}
@@ -289,22 +344,22 @@ class LicenciasPage extends Component {
 
 					<Stepper classes={{ root: 'bg-transparent' }} activeStep={this.state.activeStep - 1} orientation="vertical">
 
-						<Step key={0} onClick={() => this.handleChangeActiveStep(0)}>
+						<Step key={0} >
 							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
 								Descargar Plantilla
 							</StepLabel>
 						</Step>
-						<Step key={1} onClick={() => this.handleChangeActiveStep(0)}>
+						<Step key={1} >
 							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
 								Subir archivo CSV
 							</StepLabel>
 						</Step>
-						<Step key={2} onClick={() => this.handleChangeActiveStep(0)}>
+						<Step key={2} >
 							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
 								Verificar Datos
 							</StepLabel>
 						</Step>
-						<Step key={0} onClick={() => this.handleChangeActiveStep(0)}>
+						<Step key={4} >
 							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
 								Resultados
 							</StepLabel>
