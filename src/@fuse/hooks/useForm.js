@@ -5,7 +5,6 @@ function useForm(initialState, onSubmit) {
 	const [form, setForm] = useState(initialState);
 
 	const handleChange = useCallback(event => {
-		console.log("--------------------",event);
 		event.persist();
 
 		setForm(_form =>

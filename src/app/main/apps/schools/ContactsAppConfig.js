@@ -10,7 +10,7 @@ const ContactsAppConfig = {
 	routes: [
 		{
 			path: '/apps/usuarios/:id',
-			component: React.lazy(() => import('./ContactsApp'))
+			component: React.lazy(() => import('./SchoolApp'))
 		},
 		{
 			path: '/apps/usuarios',

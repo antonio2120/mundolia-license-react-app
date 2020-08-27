@@ -3,6 +3,8 @@ import axios from 'axios';
 import { getUserData } from './userSlice';
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
+import { registerError, registerSuccess } from '../../../../auth/store/registerSlice';
+import jwtService from 'app/services/jwtService';
 
 export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', async (routeParams, { getState }) => {
 	routeParams = routeParams || getState().contactsApp.contacts.routeParams;
@@ -10,6 +12,23 @@ export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', 
 	const data = await response.data;
 	return { data, routeParams };
 });
+
+export const submitRegister = ({ displayName, password, email, username }) => async dispatch => {
+	return jwtService
+		.createUser({
+			name: displayName,
+			password: password,
+			username: username,
+			email: email,
+			c_password: password,
+		})
+		.then(user => {
+			return dispatch(registerSuccess());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
 
 export const addContact = createAsyncThunk(
 	'contactsApp/contacts/addContact',
@@ -22,8 +41,7 @@ export const addContact = createAsyncThunk(
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			is_active: userdata.is_active,
-			verified_email: 1
+			password: userdata.password
 		});
 		const data = await response.data;
 
@@ -44,8 +62,7 @@ export const updateContact = createAsyncThunk(
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			is_active: userdata.is_active,
-			verified_email: 1
+			password: userdata.password
 		});
 		const data = await response.data;
 		dispatch(showMessage({message: 'Usuario actualizado correctamente.',variant: 'success'	}));

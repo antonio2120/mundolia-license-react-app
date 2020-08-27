@@ -16,7 +16,6 @@ function ContactsList(props) {
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 
-	console.log("/////////// ContactsList",contacts)
 	const [filteredData, setFilteredData] = useState(null);
 
 	const columns = React.useMemo(
@@ -75,31 +74,12 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
-				Header: 'Verificado',
-				accessor: 'verified_email',
-				sortable: true
-			},
-			{
-				Header: 'Member Since',
-				accessor: 'MemberSince',
-				sortable: true
-			},
-			{
 				id: 'action',
 				width: 128,
 				sortable: false,
 				Cell: ({ row }) => (
 					<div className="flex items-center">
-						<IconButton
-							onClick={ev => {
-								ev.stopPropagation();
-								dispatch(toggleStarredContact(row.original.id));
-							}}
-						>
-							{ (
-								<Icon>vpn_key</Icon>
-							) }
-						</IconButton>
+
 						<IconButton
 							onClick={ev => {
 								ev.stopPropagation();

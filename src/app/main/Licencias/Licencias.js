@@ -77,13 +77,14 @@ class LicenciasPage extends Component {
 				result[i] = {
 					tipo_usuario: row.tipo_usuario,
 					nombre: row.nombre,
-					username: row.nombre + '.' + row.apellido_paterno,
+					username: '',
 					segundo_nombre: row.segundo_nombre,
 					apellido_paterno: row.apellido_paterno,
 					apellido_materno: row.apellido_materno,
 					email: row.email,
 					seccion: row.seccion,
-					grado: 1,
+					grado: row.grado,
+					school_id: null,
 					nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor,
 					mail_padre: row.mail_padre,
 					result: 'Valido'
@@ -128,6 +129,7 @@ class LicenciasPage extends Component {
 		 const response = await axios.post(process.env.REACT_APP_API+'/importar/usuarios', {
 		 	data: this.state.recordsOK
 		 }).then(response => {
+		 	console.log("RESP IMPORT", response)
 			 if (response.data) {
 				 data = response.data;
 				 this.setState({loading: false, resultImport:data,activeStep: 4});
@@ -298,7 +300,7 @@ class LicenciasPage extends Component {
 									</Paper>
 								</div>
 								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={3}>
-									<Paper className="w-full max-w-lg rounded-8 p-16 md:p-24" elevation={1}>
+									<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-24">
 											<h1 className="py-16">Resultados de la importación</h1>
 											{this.state.resultImport ?
@@ -313,7 +315,7 @@ class LicenciasPage extends Component {
 						<div className="flex justify-center w-full absolute left-0 right-0 bottom-0 pb-16 md:pb-32">
 							<div className="flex  w-full px-8">
 								<div>
-									{this.state.activeStep !== 1 && (
+									{(this.state.activeStep !== 1 && this.state.activeStep !== 4 )&& (
 										<Fab className="" color="secondary" onClick={() => this.handleBack()} disabled={this.state.loading}>
 											<Icon>{'chevron_left'}</Icon>
 										</Fab>
@@ -329,7 +331,7 @@ class LicenciasPage extends Component {
 								</div>
 								<div>
 									{this.state.activeStep === 4 && (
-										<Fab className={'this.classes.successFab'} onClick={() => this.handleEnd()} disabled={this.state.loading}>
+										<Fab color="secondary" onClick={() => this.handleEnd()} disabled={this.state.loading}>
 											<Icon>check</Icon>
 										</Fab>
 									)}

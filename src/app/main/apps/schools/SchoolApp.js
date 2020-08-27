@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 	}
 });
 
-function ContactsApp(props) {
+function SchoolApp(props) {
 	const dispatch = useDispatch();
 
 	const classes = useStyles(props);
@@ -69,4 +69,4 @@ function ContactsApp(props) {
 	);
 }
 
-export default withReducer('contactsApp', reducer)(ContactsApp);
+export default withReducer('contactsApp', reducer)(SchoolApp);

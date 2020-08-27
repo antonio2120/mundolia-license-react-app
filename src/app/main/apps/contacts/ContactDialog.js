@@ -9,10 +9,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { submitRegister } from 'app/auth/store/registerSlice';
+
 import {
 	removeContact,
 	updateContact,
@@ -23,8 +29,10 @@ import {
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import FuseChipSelect from "../../../../@fuse/core/FuseChipSelect/FuseChipSelect";
 import FormControl from "@material-ui/core/FormControl";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const defaultFormState = {
 	uuid : '',
@@ -36,16 +44,35 @@ const defaultFormState = {
 	email : '',
 	grade: '',
 	active: '',
-	verified_email: '',
-	updated_at:'',
-	created_at: ''
+	password :''
 };
 
 function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const userEdit = useSelector(({ auth }) => auth.userEdit);
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
+
+	const [values, setValues] = React.useState({
+		showPassword: false,
+		loading : false
+	});
+	const [isFormValid, setIsFormValid] = useState(false);
+	const formRef = useRef(null);
+
+
+	function disableButton() {
+		setIsFormValid(false);
+	}
+
+	const handleClickShowPassword = () => {
+		setValues({ ...values, showPassword: !values.showPassword });
+	};
+
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
 
 	const initDialog = useCallback(() => {
 		/**
@@ -81,10 +108,11 @@ function ContactDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.name.length > 0;
+		return (form.name.length > 0);
 	}
 
 	function handleSubmit(event) {
+		setValues({ ...values, loading: true });
 		event.preventDefault();
 
 		if (contactDialog.type === 'new') {
@@ -92,8 +120,9 @@ function ContactDialog(props) {
 		} else {
 			dispatch(updateContact(form));
 		}
-		closeComposeDialog();
+		//closeComposeDialog();
 	}
+
 
 	function handleRemove() {
 		dispatch(removeContact(form.uuid));
@@ -248,6 +277,35 @@ function ContactDialog(props) {
 							fullWidth
 						/>
 					</div>
+					<div className="flex">
+						<div className="min-w-48 pt-20">
+							<Icon color="action">vpn_key</Icon>
+						</div>
+						<FormControl variant="outlined" className="mb-24" fullWidth>
+							<InputLabel id="password-label">Contraseña</InputLabel>
+							<OutlinedInput
+								id="password"
+								labelId="password-label"
+								name='password'
+								type={values.showPassword ? 'text' : 'password'}
+								value={form.password}
+								onChange={handleChange}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{values.showPassword ? <Visibility /> : <VisibilityOff />}
+										</IconButton>
+									</InputAdornment>
+								}
+								fullWidth
+							/>
+						</FormControl>
+					</div>
 
 					{/*<div className="flex">*/}
 					{/*	<div className="min-w-48 pt-20">*/}
@@ -301,6 +359,7 @@ function ContactDialog(props) {
 					{/*		fullWidth*/}
 					{/*	/>*/}
 					{/*</div>*/}
+					{values.loading && <LinearProgress />}
 				</DialogContent>
 
 				{contactDialog.type === 'new' ? (
@@ -311,9 +370,9 @@ function ContactDialog(props) {
 								color="primary"
 								onClick={handleSubmit}
 								type="submit"
-								disabled={!canBeSubmitted()}
+								disabled={(!canBeSubmitted() || values.loading)}
 							>
-								Add
+								Agregar
 							</Button>
 						</div>
 					</DialogActions>
@@ -325,12 +384,12 @@ function ContactDialog(props) {
 								color="primary"
 								type="submit"
 								onClick={handleSubmit}
-								disabled={!canBeSubmitted()}
+								disabled={(!canBeSubmitted() || values.loading)}
 							>
-								Save
+								Guardar
 							</Button>
 						</div>
-						<IconButton onClick={handleRemove}>
+						<IconButton onClick={handleRemove} disabled={(values.loading)}>
 							<Icon>delete</Icon>
 						</IconButton>
 					</DialogActions>

@@ -82,10 +82,10 @@ function JWTLoginTab(props) {
 					label="Contraseña"
 					value=""
 					validations={{
-						minLength: 4
+						minLength: 3
 					}}
 					validationErrors={{
-						minLength: 'Min character length is 4'
+						minLength: 'El mínimo de caracteres es 3'
 					}}
 					InputProps={{
 						className: 'pr-2',
