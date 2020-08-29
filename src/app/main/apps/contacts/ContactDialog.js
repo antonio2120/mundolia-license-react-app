@@ -50,6 +50,8 @@ const defaultFormState = {
 function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
+	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const userEdit = useSelector(({ auth }) => auth.userEdit);
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
@@ -245,37 +247,54 @@ function ContactDialog(props) {
 							fullWidth
 						/>
 					</div>
-
 					<div className="flex">
 						<div className="min-w-48 pt-20">
-							<Icon color="action">domain</Icon>
+							<Icon color="action">navigation</Icon>
 						</div>
-						<TextField
-							className="mb-24"
-							label="Escuela"
-							id="school"
-							name="school"
-							value={form.school}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
+						<FormControl variant="outlined" className="mb-24" fullWidth>
+							<InputLabel id="school-label">Escuela</InputLabel>
 
+							{schools.length >0 ?
+								(
+									<Select
+										labelId="school-label"
+										id="school_id"
+										name="school_id"
+										value={form.school_id}
+										onChange={handleChange}
+										label="Escuela"
+										fullWidth
+									>
+										{schools.map((row) =>(<MenuItem value={row.id}>{row.School}</MenuItem>))}
+									</Select>
+								):
+								<CircularProgress color="secondary"/>
+							}
+						</FormControl>
+					</div>
 					<div className="flex">
 						<div className="min-w-48 pt-20">
 							<Icon color="action">security</Icon>
 						</div>
-						<TextField
-							className="mb-24"
-							label="Rol"
-							id="rol"
-							name="rol"
-							value={form.rol}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
+						<FormControl variant="outlined" className="mb-24" fullWidth>
+							<InputLabel id="role-label">Rol</InputLabel>
+							{roles.length >0 ?
+								(
+									<Select
+										labelId="role-label"
+										id="role_id"
+										name="role_id"
+										value={form.role_id}
+										onChange={handleChange}
+										label="Rol"
+										fullWidth
+									>
+										{roles.map((row) =>(<MenuItem value={row.id}>{row.name}</MenuItem>))}
+									</Select>
+								):
+								<CircularProgress color="secondary"/>
+							}
+						</FormControl>
 					</div>
 					<div className="flex">
 						<div className="min-w-48 pt-20">

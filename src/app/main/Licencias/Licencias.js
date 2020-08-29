@@ -1,6 +1,6 @@
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
-import React, {Component} from 'react';
+import React, {Component, useCallback} from 'react';
 import FuseAnimate from "../../../@fuse/core/FuseAnimate/FuseAnimate";
 import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
@@ -23,6 +23,12 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import SimpleTable from './Table'
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import _ from "../../../@lodash";
 
 const papaparseOptions = {
 	header: true,
@@ -48,6 +54,18 @@ const colsCsv = [
 	];
 class LicenciasPage extends Component {
 
+	async componentDidMount() {
+		const response = await axios.get(process.env.REACT_APP_API+'/lia-schools')
+			.then(response => {
+
+			if (response.data) {
+				this.setState({ schools:response.data});
+			}
+		}).catch(error => {
+
+		});
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -57,9 +75,11 @@ class LicenciasPage extends Component {
 			loading: false,
 			resultImport:null,
 			error:false,
-			errorMessage:null
+			errorMessage:null,
+			schools :null,
+			school_id : null
 		};
-
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleForce = res =>{
@@ -127,9 +147,9 @@ class LicenciasPage extends Component {
 		let data = null;
 		this.setState({loading: true, resultImport:null, error: false});
 		 const response = await axios.post(process.env.REACT_APP_API+'/importar/usuarios', {
-		 	data: this.state.recordsOK
+		 	data: this.state.recordsOK,
+			school_id:this.state.school_id
 		 }).then(response => {
-		 	console.log("RESP IMPORT", response)
 			 if (response.data) {
 				 data = response.data;
 				 this.setState({loading: false, resultImport:data,activeStep: 4});
@@ -145,6 +165,9 @@ class LicenciasPage extends Component {
 		 });
 		this.setState({loading: false, resultImport:data});
 
+	}
+	handleChange(event) {
+		this.setState({school_id: event.target.value});
 	}
 	render() {
 		return (
@@ -281,6 +304,29 @@ class LicenciasPage extends Component {
 									<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-24">
 											<h1 className="py-16">Datos a Procesar</h1>
+											<div className="flex">
+
+												<FormControl variant="outlined" className="mb-24" fullWidth>
+													<InputLabel id="school-label">Escuela</InputLabel>
+
+													{this.state.schools ?
+														(
+															<Select
+																labelId="school-label"
+																id="school_id"
+																name="school_id"
+																value={this.state.school_id}
+																onChange={this.handleChange}
+																label="Escuela"
+																fullWidth
+															>
+																{this.state.schools.map((row) =>(<MenuItem value={row.id}>{row.School}</MenuItem>))}
+															</Select>
+														):
+														<CircularProgress color="secondary"/>
+													}
+												</FormControl>
+											</div>
 											{this.state.recordsOK ?
 												(<SimpleTable data={this.state.recordsOK}/>) :
 												(<h1 className="py-16">No hay datos a procesar</h1>)

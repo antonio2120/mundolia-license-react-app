@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 
 
 export default function SimpleTable(data) {
-	console.log("DATA TABLE", data);
 	const classes = useStyles();
 
 	return (

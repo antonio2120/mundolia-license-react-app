@@ -15,6 +15,8 @@ import ContactsSidebarContent from './ContactsSidebarContent';
 import reducer from './store';
 import { openNewContactDialog, getContacts } from './store/contactsSlice';
 import { getUserData } from './store/userSlice';
+import {getSchoolsData} from "./store/schoolsSlice";
+import {getRolesData} from "./store/rolesSlice";
 
 const useStyles = makeStyles({
 	addButton: {
@@ -35,6 +37,8 @@ function ContactsApp(props) {
 	useDeepCompareEffect(() => {
 		dispatch(getContacts(routeParams));
 		dispatch(getUserData());
+		dispatch(getSchoolsData());
+		dispatch(getRolesData());
 	}, [dispatch, routeParams]);
 
 	return (
