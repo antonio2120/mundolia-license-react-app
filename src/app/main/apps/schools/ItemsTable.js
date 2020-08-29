@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
-import ContactsTablePaginationActions from './ContactsTablePaginationActions';
+import SchoolsTablePaginationActions from './ItemsTablePaginationActions';
 
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
 	const defaultRef = React.useRef();
@@ -61,17 +61,17 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 					// In that case, getToggleAllRowsSelectedProps works fine.
 					Header: ({ getToggleAllRowsSelectedProps }) => (
 						<div>
-							<IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+							{/*<IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />*/}
 						</div>
 					),
 					// The cell can use the individual row's getToggleRowSelectedProps method
 					// to the render a checkbox
 					Cell: ({ row }) => (
 						<div>
-							<IndeterminateCheckbox
-								{...row.getToggleRowSelectedProps()}
-								onClick={ev => ev.stopPropagation()}
-							/>
+							{/*<IndeterminateCheckbox*/}
+							{/*	{...row.getToggleRowSelectedProps()}*/}
+							{/*	onClick={ev => ev.stopPropagation()}*/}
+							{/*/>*/}
 						</div>
 					)
 				},
@@ -122,7 +122,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 							return (
 								<TableRow
 									{...row.getRowProps()}
-									onClick={ev => onRowClick(ev, row)}
+									// onClick={ev => onRowClick(ev, row)}
 									className="truncate cursor-pointer"
 								>
 									{row.cells.map(cell => {
@@ -158,7 +158,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 				}}
 				onChangePage={handleChangePage}
 				onChangeRowsPerPage={handleChangeRowsPerPage}
-				ActionsComponent={ContactsTablePaginationActions}
+				ActionsComponent={SchoolsTablePaginationActions}
 			/>
 		</div>
 	);

@@ -9,34 +9,23 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMainTheme } from 'app/store/fuse/settingsSlice';
-import { setContactsSearchText } from './store/contactsSlice';
+import { setItemsSearchText } from './store/itemSlice';
 
-function ContactsHeader(props) {
+function ItemsHeader(props) {
 	const dispatch = useDispatch();
-	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
+	const searchText = useSelector(({ schoolsApp }) => schoolsApp.items.searchText);
 	const mainTheme = useSelector(selectMainTheme);
 
 	return (
 		<div className="flex flex-1 items-center justify-between p-8 sm:p-24">
 			<div className="flex flex-shrink items-center sm:w-224">
-				<Hidden lgUp>
-					<IconButton
-						onClick={ev => {
-							props.pageLayout.current.toggleLeftSidebar();
-						}}
-						aria-label="open left sidebar"
-					>
-						<Icon>menu</Icon>
-					</IconButton>
-				</Hidden>
-
 				<div className="flex items-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className="text-32">account_box</Icon>
+						<Icon className="text-32">account_balance</Icon>
 					</FuseAnimate>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Typography variant="h6" className="mx-12 hidden sm:flex">
-							Usuarios
+							Escuelas
 						</Typography>
 					</FuseAnimate>
 				</div>
@@ -60,7 +49,7 @@ function ContactsHeader(props) {
 								inputProps={{
 									'aria-label': 'Search'
 								}}
-								onChange={ev => dispatch(setContactsSearchText(ev))}
+								onChange={ev => dispatch(setItemsSearchText(ev))}
 							/>
 						</Paper>
 					</FuseAnimate>
@@ -70,4 +59,4 @@ function ContactsHeader(props) {
 	);
 }
 
-export default ContactsHeader;
+export default ItemsHeader;

@@ -9,8 +9,10 @@ import pagesConfigs from 'app/main/pages/pagesConfigs';
 import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import LicenciasConfig from "../main/Licencias/LicenciasConfig";
+import SchoolsConfig from "../main/apps/schools/ItemsAppConfig";
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import SchoolApp from "../main/apps/schools/ItemsApp";
 
 const routeConfigs = [
 	...appsConfigs,
@@ -23,7 +25,8 @@ const routeConfigs = [
 	RegisterConfig,
 	LogoutConfig,
 	CallbackConfig,
-	LicenciasConfig
+	LicenciasConfig,
+	SchoolsConfig
 ];
 
 const routes = [

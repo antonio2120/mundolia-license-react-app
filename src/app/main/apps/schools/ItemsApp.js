@@ -8,13 +8,11 @@ import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import ContactDialog from './ContactDialog';
-import ContactsHeader from './ContactsHeader';
-import ContactsList from './ContactsList';
-import ContactsSidebarContent from './ContactsSidebarContent';
+import ItemDialog from './ItemDialog';
+import ItemsHeader from './ItemsHeader';
+import ItemlList from './ItemsList';
 import reducer from './store';
-import { openNewContactDialog, getContacts } from './store/contactsSlice';
-import { getUserData } from './store/userSlice';
+import { openNewItemDialog, getInfo } from './store/itemSlice';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -25,7 +23,7 @@ const useStyles = makeStyles({
 	}
 });
 
-function SchoolApp(props) {
+function ItemApp(props) {
 	const dispatch = useDispatch();
 
 	const classes = useStyles(props);
@@ -33,8 +31,7 @@ function SchoolApp(props) {
 	const routeParams = useParams();
 
 	useDeepCompareEffect(() => {
-		dispatch(getContacts(routeParams));
-		dispatch(getUserData());
+		dispatch(getInfo(routeParams));
 	}, [dispatch, routeParams]);
 
 	return (
@@ -47,26 +44,25 @@ function SchoolApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0'
 				}}
-				header={<ContactsHeader pageLayout={pageLayout} />}
-				content={<ContactsList />}
-				leftSidebarContent={<ContactsSidebarContent />}
+				header={<ItemsHeader pageLayout={pageLayout} />}
+				content={<ItemlList />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={ev => dispatch(openNewContactDialog())}
-				>
-					<Icon>person_add</Icon>
-				</Fab>
-			</FuseAnimate>
-			<ContactDialog />
+			{/*<FuseAnimate animation="transition.expandIn" delay={300}>*/}
+				{/*<Fab*/}
+				{/*	color="primary"*/}
+				{/*	aria-label="add"*/}
+				{/*	className={classes.addButton}*/}
+				{/*	onClick={ev => dispatch(openNewItemDialog())}*/}
+				{/*>*/}
+				{/*	<Icon>person_add</Icon>*/}
+				{/*</Fab>*/}
+			{/*</FuseAnimate>*/}
+			<ItemDialog />
 		</>
 	);
 }
 
-export default withReducer('contactsApp', reducer)(SchoolApp);
+export default withReducer('schoolsApp', reducer)(ItemApp);

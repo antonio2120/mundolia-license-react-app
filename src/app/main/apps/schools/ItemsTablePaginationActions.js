@@ -7,7 +7,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import { useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
-const ContactsTablePaginationActions = props => {
+const ItemsTablePaginationActions = props => {
 	const theme = useTheme();
 	const { count, page, rowsPerPage, onChangePage } = props;
 
@@ -53,11 +53,11 @@ const ContactsTablePaginationActions = props => {
 	);
 };
 
-ContactsTablePaginationActions.propTypes = {
+ItemsTablePaginationActions.propTypes = {
 	count: PropTypes.number.isRequired,
 	onChangePage: PropTypes.func.isRequired,
 	page: PropTypes.number.isRequired,
 	rowsPerPage: PropTypes.number.isRequired
 };
 
-export default ContactsTablePaginationActions;
+export default ItemsTablePaginationActions;

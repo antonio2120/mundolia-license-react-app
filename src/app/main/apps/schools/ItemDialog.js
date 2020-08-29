@@ -14,12 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	removeContact,
-	updateContact,
-	addContact,
-	closeNewContactDialog,
-	closeEditContactDialog
-} from './store/contactsSlice';
+	removeItem,
+	updateItem,
+	addItem,
+	closeNewItemDialog,
+	closeEditItemDialog
+} from './store/itemSlice';
 
 const defaultFormState = {
 	id: '',
@@ -36,9 +36,9 @@ const defaultFormState = {
 	notes: ''
 };
 
-function ContactDialog(props) {
+function ItemDialog(props) {
 	const dispatch = useDispatch();
-	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const itemDialog = useSelector(({ schoolsApp }) => schoolsApp.items.itemDialog);
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
 
@@ -46,33 +46,33 @@ function ContactDialog(props) {
 		/**
 		 * Dialog type: 'edit'
 		 */
-		if (contactDialog.type === 'edit' && contactDialog.data) {
-			setForm({ ...contactDialog.data });
+		if (itemDialog.type === 'edit' && itemDialog.data) {
+			setForm({ ...itemDialog.data });
 		}
 
 		/**
 		 * Dialog type: 'new'
 		 */
-		if (contactDialog.type === 'new') {
+		if (itemDialog.type === 'new') {
 			setForm({
 				...defaultFormState,
-				...contactDialog.data,
+				...itemDialog.data,
 				id: FuseUtils.generateGUID()
 			});
 		}
-	}, [contactDialog.data, contactDialog.type, setForm]);
+	}, [itemDialog.data, itemDialog.type, setForm]);
 
 	useEffect(() => {
 		/**
 		 * After Dialog Open
 		 */
-		if (contactDialog.props.open) {
+		if (itemDialog.props.open) {
 			initDialog();
 		}
-	}, [contactDialog.props.open, initDialog]);
+	}, [itemDialog.props.open, initDialog]);
 
 	function closeComposeDialog() {
-		return contactDialog.type === 'edit' ? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
+		return itemDialog.type === 'edit' ? dispatch(closeEditItemDialog()) : dispatch(closeNewItemDialog());
 	}
 
 	function canBeSubmitted() {
@@ -82,16 +82,16 @@ function ContactDialog(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 
-		if (contactDialog.type === 'new') {
-			dispatch(addContact(form));
+		if (itemDialog.type === 'new') {
+			dispatch(addItem(form));
 		} else {
-			dispatch(updateContact(form));
+			dispatch(updateItem(form));
 		}
 		closeComposeDialog();
 	}
 
 	function handleRemove() {
-		dispatch(removeContact(form.id));
+		dispatch(removeItem(form.id));
 		closeComposeDialog();
 	}
 
@@ -100,7 +100,7 @@ function ContactDialog(props) {
 			classes={{
 				paper: 'm-24 rounded-8'
 			}}
-			{...contactDialog.props}
+			{...itemDialog.props}
 			onClose={closeComposeDialog}
 			fullWidth
 			maxWidth="xs"
@@ -108,12 +108,12 @@ function ContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full">
 					<Typography variant="subtitle1" color="inherit">
-						{contactDialog.type === 'new' ? 'Nuevo Usuario' : 'Editar Usuario'}
+						{itemDialog.type === 'new' ? 'Nuevo Usuario' : 'Editar Usuario'}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
-					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
-					{contactDialog.type === 'edit' && (
+					<Avatar className="w-96 h-96" alt="item avatar" src={form.avatar} />
+					{itemDialog.type === 'edit' && (
 						<Typography variant="h6" color="inherit" className="pt-8">
 							{form.name}
 						</Typography>
@@ -289,7 +289,7 @@ function ContactDialog(props) {
 					</div>
 				</DialogContent>
 
-				{contactDialog.type === 'new' ? (
+				{itemDialog.type === 'new' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
 							<Button
@@ -326,4 +326,4 @@ function ContactDialog(props) {
 	);
 }
 
-export default ContactDialog;
+export default ItemDialog;
