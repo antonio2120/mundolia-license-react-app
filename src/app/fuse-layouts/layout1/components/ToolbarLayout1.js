@@ -46,9 +46,9 @@ function ToolbarLayout1(props) {
 					</div>
 
 					<div className="flex items-center px-16">
-						<LanguageSwitcher />
+						{/*<LanguageSwitcher />*/}
 
-						<FuseSearch />
+						{/*<FuseSearch />*/}
 
 						<QuickPanelToggleButton />
 

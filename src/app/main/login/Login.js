@@ -113,17 +113,17 @@ function Login() {
 							{selectedTab === 2 && <Auth0LoginTab />}
 						</CardContent>
 
-						<div className="flex flex-col items-center justify-center pb-32">
-							<div>
-								<span className="font-medium mr-8">No tiene una cuenta de usuario?</span>
-								<Link className="font-medium" to="/register">
-									Ir a Registro
-								</Link>
-							</div>
-							<Link className="font-medium mt-8" to="/">
+						{/*<div className="flex flex-col items-center justify-center pb-32">*/}
+						{/*	<div>*/}
+						{/*		<span className="font-medium mr-8">No tiene una cuenta de usuario?</span>*/}
+						{/*		<Link className="font-medium" to="/register">*/}
+						{/*			Ir a Registro*/}
+						{/*		</Link>*/}
+						{/*	</div>*/}
+						{/*	<Link className="font-medium mt-8" to="/">*/}
 
-							</Link>
-						</div>
+						{/*	</Link>*/}
+						{/*</div>*/}
 					</Card>
 
 					<div

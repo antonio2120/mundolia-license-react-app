@@ -54,8 +54,8 @@ const navigationConfig = [
 			},
 			{
 				id: 'generar-licencias',
-				title: 'Asignar Licencias',
-				translate: 'Asignar Licencias',
+				title: 'Importar Usuarios',
+				translate: 'Importar Usuarios',
 				type: 'item',
 				'auth' : authRoles.admin_escuela,
 				icon: 'unarchive',

@@ -6,7 +6,6 @@ import DocumentationConfig from 'app/main/documentation/DocumentationConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
 import pagesConfigs from 'app/main/pages/pagesConfigs';
-import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import LicenciasConfig from "../main/Licencias/LicenciasConfig";
 import SchoolsConfig from "../main/apps/schools/ItemsAppConfig";
@@ -22,7 +21,6 @@ const routeConfigs = [
 	DocumentationConfig,
 	LogoutConfig,
 	LoginConfig,
-	RegisterConfig,
 	LogoutConfig,
 	CallbackConfig,
 	LicenciasConfig,
