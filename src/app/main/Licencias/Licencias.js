@@ -55,11 +55,11 @@ const colsCsv = [
 class LicenciasPage extends Component {
 
 	async componentDidMount() {
-		const response = await axios.get(process.env.REACT_APP_API+'/lia-schools')
+		const response = await axios.get(process.env.REACT_APP_API+'/schools')
 			.then(response => {
 
 			if (response.data) {
-				this.setState({ schools:response.data});
+				this.setState({ schools:response.data, school_id:response.data[0].id});
 			}
 		}).catch(error => {
 
@@ -130,8 +130,10 @@ class LicenciasPage extends Component {
 
 	handleBack() {
 		this.setState({ activeStep: this.state.activeStep - 1 })
+		document.querySelector('.csv-input').value = ''
 	}
 	handleEnd() {
+		document.querySelector('.csv-input').value = ''
 		this.setState({
 			activeStep: 1,
 			recordsOK:null,

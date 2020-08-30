@@ -12,7 +12,7 @@ import ItemDialog from './ItemDialog';
 import ItemsHeader from './ItemsHeader';
 import ItemlList from './ItemsList';
 import reducer from './store';
-import { openNewItemDialog, getInfo } from './store/itemSlice';
+import { openNewItemDialog, getInfo ,syncInfo} from './store/itemSlice';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -30,8 +30,10 @@ function ItemApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 
+
 	useDeepCompareEffect(() => {
 		dispatch(getInfo(routeParams));
+		dispatch(syncInfo(routeParams));
 	}, [dispatch, routeParams]);
 
 	return (

@@ -50,7 +50,7 @@ function ContactsList(props) {
 			},
 			{
 				Header: 'Escuela',
-				accessor: 'id_school',
+				accessor: 'school_name',
 				sortable: true
 			},
 			{
@@ -64,8 +64,8 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
-				Header: 'Role',
-				accessor: 'RoleId',
+				Header: 'Rol',
+				accessor: 'role_name',
 				sortable: true
 			},
 			{

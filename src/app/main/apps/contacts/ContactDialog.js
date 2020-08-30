@@ -8,16 +8,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitRegister } from 'app/auth/store/registerSlice';
+import { submitCreateContact,submitUpdateContact } from './store/userSlice';
 
 import {
 	removeContact,
@@ -27,12 +23,12 @@ import {
 	closeEditContactDialog
 } from './store/contactsSlice';
 import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
+import Formsy from "formsy-react";
+import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 const defaultFormState = {
 	uuid : '',
@@ -50,11 +46,12 @@ const defaultFormState = {
 function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
+	const formOrigin = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog.data);
 	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
-	const userEdit = useSelector(({ auth }) => auth.userEdit);
+	const user = useSelector(({ contactsApp }) => contactsApp.user);
 
-	const { form, handleChange, setForm } = useForm(defaultFormState);
+	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
 	const [values, setValues] = React.useState({
 		showPassword: false,
@@ -67,14 +64,6 @@ function ContactDialog(props) {
 	function disableButton() {
 		setIsFormValid(false);
 	}
-
-	const handleClickShowPassword = () => {
-		setValues({ ...values, showPassword: !values.showPassword });
-	};
-
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
 
 	const initDialog = useCallback(() => {
 		/**
@@ -105,12 +94,32 @@ function ContactDialog(props) {
 		}
 	}, [contactDialog.props.open, initDialog]);
 
+	useEffect(() => {
+		if (user.error && (
+			user.error.errors.name ||
+			user.error.errors.password ||
+			user.error.errors.email ||
+			user.error.errors.username ||
+			user.error.errors.last_name ||
+			user.error.errors.grado
+		)) {
+			formRef.current.updateInputsWithError({
+				...user.error.errors
+			});
+			disableButton();
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:user.error.message,variant: 'error'	}));
+
+		}
+		if(user.success){
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:'Operación exitosa!',variant: 'success'	}));
+
+			closeComposeDialog();
+		}
+	}, [user.error,user.success]);
 	function closeComposeDialog() {
 		return contactDialog.type === 'edit' ? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
-	}
-
-	function canBeSubmitted() {
-		return (form.name.length > 0);
 	}
 
 	function handleSubmit(event) {
@@ -118,19 +127,23 @@ function ContactDialog(props) {
 		event.preventDefault();
 
 		if (contactDialog.type === 'new') {
-			dispatch(addContact(form));
+			dispatch(submitCreateContact(form));
 		} else {
-			dispatch(updateContact(form));
+			dispatch(submitUpdateContact(form,formOrigin));
 		}
-		//closeComposeDialog();
-	}
 
+	}
 
 	function handleRemove() {
-		dispatch(removeContact(form.uuid));
+		dispatch(removeContact(formOrigin.uuid));
 		closeComposeDialog();
 	}
-
+	function enableButton() {
+		setIsFormValid(true);
+	}
+	function validateForm (values) {
+		setForm(values);
+	}
 	return (
 		<Dialog
 			classes={{
@@ -156,231 +169,200 @@ function ContactDialog(props) {
 					)}
 				</div>
 			</AppBar>
-			<form noValidate onSubmit={handleSubmit} className="flex flex-col md:overflow-hidden">
+			<Formsy
+				onValidSubmit={handleSubmit}
+				onChange={validateForm}
+				onValid={enableButton}
+				onInvalid={disableButton}
+				ref={formRef}
+				className="flex flex-col md:overflow-hidden"
+			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">account_circle</Icon>
-						</div>
+					<TextFieldFormsy
+						className="mb-16"
+						type="text"
+						name="name"
+						value={form.name}
+						label="Nombre"
+						validations={{
+							minLength: 4
+						}}
+						validationErrors={{
+							minLength: 'El mínimo de caracteres es 4'
+						}}
+						fullWidth
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										person
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						autoFocus
+						variant="outlined"
+						required
+					/>
+					<TextFieldFormsy
+						className="mb-16"
+						type="text"
+						name="last_name"
+						value={form.last_name}
+						label="Apellido(s)"
+						validations={{
+							minLength: 4
+						}}
+						validationErrors={{
+							minLength: 'El mínimo de caracteres es 4'
+						}}
+						fullWidth
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										person
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+					/>
 
-						<TextField
-							className="mb-24"
-							label="Nombre(s)"
-							autoFocus
-							id="name"
-							name="name"
-							value={form.name}
+					<TextFieldFormsy
+						className="mb-16"
+						type="text"
+						name="email"
+						value={form.email}
+						label="Email"
+						validations="isEmail"
+						validationErrors={{
+							isEmail: 'Email invalido.'
+						}}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										email
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+						fullWidth
+					/>
+					{contactDialog.type === 'new' && (
+					<TextFieldFormsy
+						fullWidth
+						className="mb-16"
+						type="text"
+						name="username"
+						label="Username"
+						id="username"
+						value={form.username}
+						validations={{
+							minLength: 4
+						}}
+						validationErrors={{
+							minLength: 'Min character length is 4'
+						}}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										star
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+					/>
+					)
+					}
+
+					<TextFieldFormsy
+						className="mb-16"
+						type="password"
+						name="password"
+						id="password"
+						label="Password"
+						validations={{
+							minLength: 3
+						}}
+						validationErrors={{
+							minLength: 'Min character length is 3'
+						}}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										vpn_key
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						fullWidth
+					/>
+
+					<SelectFormsy
+						id="grade"
+						name="grade"
+						width="100%"
+						value={form.grade}
+						onChange={handleChange}
+						label="Grado"
+						fullWidth
+						variant="outlined"
+						className="mb-24 MuiInputBase-fullWidth"
+
+					>
+						<MenuItem key={'grade1'} value={1}>1</MenuItem>
+						<MenuItem key={'grade2'} value={2}>2</MenuItem>
+						<MenuItem key={'grade3'} value={3}>3</MenuItem>
+						<MenuItem key={'grade4'} value={4}>4</MenuItem>
+						<MenuItem key={'grade5'} value={5}>5</MenuItem>
+						<MenuItem key={'grade6'} value={6}>6</MenuItem>
+					</SelectFormsy>
+					{schools.length > 0 ?
+						<SelectFormsy
+							id="school_id"
+							name="school_id"
+							value={form.school_id}
 							onChange={handleChange}
+							label="Escuela"
+							fullWidth
+
 							variant="outlined"
+							className="mb-24 MuiInputBase-fullWidth"
 							required
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20" />
-						<TextField
-							className="mb-24"
-							label="Apellido(s)"
-							id="last_name"
-							name="last_name"
-							value={form.last_name}
+						>
+							{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
+						</SelectFormsy>:
+						<CircularProgress color="secondary"/>
+					}
+					{roles.length > 0 ?
+						<SelectFormsy
+							id="role_id"
+							name="role_id"
+							value={form.role_id}
 							onChange={handleChange}
-							variant="outlined"
+							label="Rol"
 							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">star</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Username"
-							id="username"
-							name="username"
-							value={form.username}
-							onChange={handleChange}
 							variant="outlined"
-							fullWidth
-						/>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">navigation</Icon>
-						</div>
-						<FormControl variant="outlined" className="mb-24" fullWidth>
-							<InputLabel id="grade-label">Grado</InputLabel>
-							<Select
-								labelId="grade-label"
-								id="grade"
-								name="grade"
-								value={form.grade}
-								onChange={handleChange}
-								label="Grado"
-								fullWidth
-							>
-								<MenuItem value={1}>1</MenuItem>
-								<MenuItem value={2}>2</MenuItem>
-								<MenuItem value={3}>3</MenuItem>
-								<MenuItem value={4}>4</MenuItem>
-								<MenuItem value={5}>5</MenuItem>
-								<MenuItem value={6}>6</MenuItem>
-							</Select>
-						</FormControl>
-					</div>
-
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">email</Icon>
-						</div>
-						<TextField
-							className="mb-24"
-							label="Email"
-							id="email"
-							name="email"
-							value={form.email}
-							onChange={handleChange}
-							variant="outlined"
-							fullWidth
-						/>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">navigation</Icon>
-						</div>
-						<FormControl variant="outlined" className="mb-24" fullWidth>
-							<InputLabel id="school-label">Escuela</InputLabel>
-
-							{schools.length >0 ?
-								(
-									<Select
-										labelId="school-label"
-										id="school_id"
-										name="school_id"
-										value={form.school_id}
-										onChange={handleChange}
-										label="Escuela"
-										fullWidth
-									>
-										{schools.map((row) =>(<MenuItem value={row.id}>{row.School}</MenuItem>))}
-									</Select>
-								):
-								<CircularProgress color="secondary"/>
-							}
-						</FormControl>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">security</Icon>
-						</div>
-						<FormControl variant="outlined" className="mb-24" fullWidth>
-							<InputLabel id="role-label">Rol</InputLabel>
-							{roles.length >0 ?
-								(
-									<Select
-										labelId="role-label"
-										id="role_id"
-										name="role_id"
-										value={form.role_id}
-										onChange={handleChange}
-										label="Rol"
-										fullWidth
-									>
-										{roles.map((row) =>(<MenuItem value={row.id}>{row.name}</MenuItem>))}
-									</Select>
-								):
-								<CircularProgress color="secondary"/>
-							}
-						</FormControl>
-					</div>
-					<div className="flex">
-						<div className="min-w-48 pt-20">
-							<Icon color="action">vpn_key</Icon>
-						</div>
-						<FormControl variant="outlined" className="mb-24" fullWidth>
-							<InputLabel id="password-label">Contraseña</InputLabel>
-							<OutlinedInput
-								id="password"
-								labelId="password-label"
-								name='password'
-								type={values.showPassword ? 'text' : 'password'}
-								value={form.password}
-								onChange={handleChange}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											edge="end"
-										>
-											{values.showPassword ? <Visibility /> : <VisibilityOff />}
-										</IconButton>
-									</InputAdornment>
-								}
-								fullWidth
-							/>
-						</FormControl>
-					</div>
-
-					{/*<div className="flex">*/}
-					{/*	<div className="min-w-48 pt-20">*/}
-					{/*		<Icon color="action">cake</Icon>*/}
-					{/*	</div>*/}
-					{/*	<TextField*/}
-					{/*		className="mb-24"*/}
-					{/*		id="birthday"*/}
-					{/*		label="Birthday"*/}
-					{/*		type="date"*/}
-					{/*		value={form.birthday}*/}
-					{/*		onChange={handleChange}*/}
-					{/*		InputLabelProps={{*/}
-					{/*			shrink: true*/}
-					{/*		}}*/}
-					{/*		variant="outlined"*/}
-					{/*		fullWidth*/}
-					{/*	/>*/}
-					{/*</div>*/}
-
-					{/*<div className="flex">*/}
-					{/*	<div className="min-w-48 pt-20">*/}
-					{/*		<Icon color="action">home</Icon>*/}
-					{/*	</div>*/}
-					{/*	<TextField*/}
-					{/*		className="mb-24"*/}
-					{/*		label="Address"*/}
-					{/*		id="address"*/}
-					{/*		name="address"*/}
-					{/*		value={form.address}*/}
-					{/*		onChange={handleChange}*/}
-					{/*		variant="outlined"*/}
-					{/*		fullWidth*/}
-					{/*	/>*/}
-					{/*</div>*/}
-
-					{/*<div className="flex">*/}
-					{/*	<div className="min-w-48 pt-20">*/}
-					{/*		<Icon color="action">note</Icon>*/}
-					{/*	</div>*/}
-					{/*	<TextField*/}
-					{/*		className="mb-24"*/}
-					{/*		label="Notes"*/}
-					{/*		id="notes"*/}
-					{/*		name="notes"*/}
-					{/*		value={form.notes}*/}
-					{/*		onChange={handleChange}*/}
-					{/*		variant="outlined"*/}
-					{/*		multiline*/}
-					{/*		rows={5}*/}
-					{/*		fullWidth*/}
-					{/*	/>*/}
-					{/*</div>*/}
+							className="mb-24 MuiInputBase-fullWidth"
+							required
+						>
+							{roles.map((row) =>(<MenuItem key={'role'+row.id} value={row.id}>{row.name}</MenuItem>))}
+						</SelectFormsy>:
+						<CircularProgress color="secondary"/>
+					}
 					{values.loading && <LinearProgress />}
-				</DialogContent>
 
+				</DialogContent>
 				{contactDialog.type === 'new' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
@@ -389,7 +371,7 @@ function ContactDialog(props) {
 								color="primary"
 								onClick={handleSubmit}
 								type="submit"
-								disabled={(!canBeSubmitted() || values.loading)}
+								disabled={( values.loading || !isFormValid)}
 							>
 								Agregar
 							</Button>
@@ -403,7 +385,7 @@ function ContactDialog(props) {
 								color="primary"
 								type="submit"
 								onClick={handleSubmit}
-								disabled={(!canBeSubmitted() || values.loading)}
+								disabled={(values.loading || !isFormValid)}
 							>
 								Guardar
 							</Button>
@@ -413,7 +395,7 @@ function ContactDialog(props) {
 						</IconButton>
 					</DialogActions>
 				)}
-			</form>
+			</Formsy>
 		</Dialog>
 	);
 }

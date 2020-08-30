@@ -3,11 +3,16 @@ import axios from 'axios';
 
 export const getInfo = createAsyncThunk('schoolsApp/items/getInfo', async (routeParams, { getState }) => {
 	routeParams = routeParams || getState().ItemsApp.items.routeParams;
-	const response = await axios.get(process.env.REACT_APP_API+'/lia-schools');
-	console.log(" *** response schools ***",response.data)
+	const response = await axios.get(process.env.REACT_APP_API+'/schools');
 	const data = await response.data;
 
 	return { data, routeParams };
+});
+export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (routeParams, { getState }) => {
+	routeParams = routeParams || getState().ItemsApp.items.routeParams;
+	const response = await axios.get(process.env.REACT_APP_API+'/lia-schools-sync');
+	console.log(response)
+	return { response, routeParams };
 });
 
 export const addItem = createAsyncThunk(

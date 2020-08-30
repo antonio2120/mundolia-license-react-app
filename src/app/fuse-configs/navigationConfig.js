@@ -16,33 +16,17 @@ const navigationConfig = [
 		type: 'group',
 		icon: 'apps',
 		children: [
+
 			{
-				id: 'Project-dashboard',
-				title: 'Dashboard',
-				translate: 'Dashboard',
-				'auth' : authRoles.admin,
-				type: 'item',
-				icon: 'dashboard',
-				url: '/apps/dashboards/project'
-			},
-			{
-				id: 'estudiantes',
-				title: 'Estudiantes',
-				translate: 'Estudiantes',
+				id: 'usuarios',
+				title: 'Usuarios',
+				translate: 'Usuarios',
 				type: 'item',
 				'auth' : authRoles.admin_escuela,
 				icon: 'account_box',
-				url: '/apps/estudiantes/all'
+				url: '/apps/usuarios/all'
 			},
-			{
-				id: 'profesores',
-				title: 'Profesores',
-				translate: 'Profesores',
-				type: 'item',
-				'auth' : authRoles.admin_escuela,
-				icon: 'account_box',
-				url: '/apps/profesores/all'
-			},
+
 			{
 				id: 'schools-component',
 				title: 'Escuelas',

@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import jwtService from "../../../../services/jwtService";
+import { showMessage } from 'app/store/fuse/messageSlice';
+import {getContacts} from "./contactsSlice";
 
 export const getUserData = createAsyncThunk('contactsApp/user/getUserData', async () => {
 	const response = await axios.get('http://127.0.0.1:8000/api/usuarios');
@@ -7,13 +10,81 @@ export const getUserData = createAsyncThunk('contactsApp/user/getUserData', asyn
 	return data;
 });
 
+export const submitCreateContact = ( userdata ) => async dispatch => {
+	return jwtService
+		.addContact({
+			username: userdata.username,
+			name: userdata.name,
+			last_name: userdata.last_name,
+			school_id: userdata.school_id,
+			role_id: userdata.role_id,
+			email: userdata.email,
+			grade: userdata.grade,
+			password: userdata.password
+		})
+		.then(user => {
+			dispatch(registerSuccess());
+			dispatch(getContacts());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch => {
+	return jwtService
+		.updateContact({
+			uuid:userdataOri.uuid,
+			name: userdata.name,
+			last_name: userdata.last_name,
+			school_id: userdata.school_id,
+			role_id: userdata.role_id,
+			email: userdata.email,
+			grade: userdata.grade,
+			password: userdata.password
+		})
+		.then(user => {
+			dispatch(registerSuccess());
+			dispatch(getContacts());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+const initialState = {
+	success: false,
+	response: false,
+	error: {
+		errors: {
+			username: null,
+			password: null,
+			email: null,
+			name: null,
+			last_name: null,
+			grado: null,
+		}
+	}
+};
 const userSlice = createSlice({
 	name: 'contactsApp/user',
-	initialState: {},
-	reducers: {},
-	extraReducers: {
-		[getUserData.fulfilled]: (state, action) => action.payload
-	}
+	initialState,
+	reducers: {registerSuccess: (state, action) => {
+			state.success = true;
+			state.response = action.payload;
+		},
+		registerError: (state, action) => {
+			state.success = false;
+			state.error = action.payload;
+		},
+		registerReset: (state, action) => {
+			state.success = false;
+			state.error = null;
+		}},
+	extraReducers: {}
 });
+
+export const { registerSuccess, registerError, registerReset } = userSlice.actions;
+
 
 export default userSlice.reducer;
