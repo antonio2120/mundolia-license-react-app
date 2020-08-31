@@ -23,15 +23,12 @@ function MaintenancePage() {
 				<Grow in>
 					<Card className="w-full max-w-384 rounded-8">
 						<CardContent className="flex flex-col items-center justify-center text-center p-48">
-							<img className="w-128 m-32" src="assets/images/logos/fuse.svg" alt="logo" />
-
-							<Typography variant="subtitle1" className="mb-16">
-								Closed for scheduled maintenance!
+							<img className="w-128 m-32" src="assets/images/logos/clublia.png" alt="logo" />
+							<Typography variant="h4" color="inherit" className="font-800 leading-tight">
+								Bienvenido a
+								Sistema ClubLIA!
 							</Typography>
 
-							<Typography color="textSecondary" className="mb-40">
-								We're sorry for the inconvenience. <br /> Please check back later.
-							</Typography>
 						</CardContent>
 					</Card>
 				</Grow>

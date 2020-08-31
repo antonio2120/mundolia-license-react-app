@@ -8,7 +8,7 @@ const MaintenancePageConfig = {
 	},
 	routes: [
 		{
-			path: '/pages/maintenance',
+			path: '/pages/bienvenido',
 			component: React.lazy(() => import('./MaintenancePage'))
 		}
 	]

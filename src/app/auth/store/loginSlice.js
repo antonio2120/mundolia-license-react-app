@@ -4,9 +4,9 @@ import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import { setUserData } from './userSlice';
 
-export const submitLogin = ({ email, password }) => async dispatch => {
+export const submitLogin = ({ username, password }) => async dispatch => {
 	return jwtService
-		.signInWithEmailAndPassword(email, password)
+		.signInWithEmailAndPassword(username, password)
 		.then(user => {
 			dispatch(setUserData(user));
 			return dispatch(loginSuccess());
@@ -21,7 +21,7 @@ export const submitLogin = ({ email, password }) => async dispatch => {
 			];
 			const passwordErrorCodes = ['auth/weak-password', 'INVALID_PASSWORD'];
 			const response = {
-				email: usernameErrorCodes.includes(error.code) ? error.message : null,
+				username: usernameErrorCodes.includes(error.code) ? error.message : null,
 				password: passwordErrorCodes.includes(error.code) ? error.message : null
 			};
 			if (error.code === 'auth/invalid-api-key') {

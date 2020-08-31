@@ -72,10 +72,17 @@ export const setUserData = user => async (dispatch, getState) => {
 	//You can redirect the logged-in user to a specific route depending on his role
 
 	const fuseDefaultSettings = getState().fuse.settings.defaults;
+
 	history.location.state = {
 		redirectUrl: user.redirectUrl // for example 'apps/academy'
 	};
 
+
+	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' ){;
+		const data_url = user.data.username+'|'+user.data.uuid_;
+		const encodedData = btoa(data_url);
+		window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
+	}
 	const userSet = _.merge({}, user, {
 		uid: user.data.uuid,
 		from: 'jwt',

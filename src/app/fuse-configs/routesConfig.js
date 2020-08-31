@@ -12,6 +12,7 @@ import SchoolsConfig from "../main/apps/schools/ItemsAppConfig";
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
+import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConfig";
 
 const routeConfigs = [
 	...appsConfigs,
@@ -24,18 +25,19 @@ const routeConfigs = [
 	LogoutConfig,
 	CallbackConfig,
 	LicenciasConfig,
-	SchoolsConfig
+	SchoolsConfig,
+	MaintenancePageConfig
 ];
 
 const routes = [
 	// if you want to make whole app auth protected by default change defaultAuth for example:
 	// ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
 	// The individual route configs which has auth option won't be overridden.
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'admin_escuela', 'user']),
+	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'admin_escuela', 'user', 'alumno','maestro']),
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/licencias" />
+		component: () => <Redirect to="/pages/bienvenido" />
 	},
 	{
 		component: () => <Redirect to="/pages/errors/error-404" />

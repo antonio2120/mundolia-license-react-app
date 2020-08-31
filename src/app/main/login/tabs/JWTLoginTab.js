@@ -21,7 +21,7 @@ function JWTLoginTab(props) {
 
 
 	useEffect(() => {
-		if (login.error && (login.error.email || login.error.password)) {
+		if (login.error && (login.error.username || login.error.password)) {
 			formRef.current.updateInputsWithError({
 				...login.error
 			});
@@ -53,8 +53,8 @@ function JWTLoginTab(props) {
 				<TextFieldFormsy
 					className="mb-16"
 					type="text"
-					name="email"
-					label="Email"
+					name="username"
+					label="Usuario"
 					value=""
 					validations={{
 						minLength: 4

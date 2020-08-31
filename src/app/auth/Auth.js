@@ -17,7 +17,7 @@ class Auth extends Component {
 	componentDidMount() {
 		return Promise.all([
 			// Comment the lines which you do not use
-			 this.firebaseCheck(),
+			 //this.firebaseCheck(),
 			// this.auth0Check(),
 			  this.jwtCheck()
 		]).then(() => {

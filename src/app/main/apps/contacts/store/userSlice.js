@@ -5,7 +5,7 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import {getContacts} from "./contactsSlice";
 
 export const getUserData = createAsyncThunk('contactsApp/user/getUserData', async () => {
-	const response = await axios.get('http://127.0.0.1:8000/api/usuarios');
+	const response = await axios.get(process.env.REACT_APP_API+'/usuarios');
 	const data = await response.data;
 	return data;
 });
