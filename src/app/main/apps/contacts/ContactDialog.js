@@ -185,7 +185,7 @@ function ContactDialog(props) {
 						value={form.name}
 						label="Nombre"
 						validations={{
-							minLength: 4
+							minLength: 2
 						}}
 						validationErrors={{
 							minLength: 'El mínimo de caracteres es 4'
@@ -263,7 +263,7 @@ function ContactDialog(props) {
 						id="username"
 						value={form.username}
 						validations={{
-							minLength: 4
+							minLength: 2
 						}}
 						validationErrors={{
 							minLength: 'Min character length is 4'
