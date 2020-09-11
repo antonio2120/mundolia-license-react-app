@@ -128,7 +128,7 @@ export const updateUserShortcuts = shortcuts => async (dispatch, getState) => {
 
 export const logoutUser = () => async (dispatch, getState) => {
 	const { user } = getState().auth;
-
+	dispatch(userLoggedOut());
 	if (!user.role || user.role.length === 0) {
 		// is guest
 		return null;
@@ -154,7 +154,7 @@ export const logoutUser = () => async (dispatch, getState) => {
 
 	dispatch(setInitialSettings());
 
-	dispatch(userLoggedOut());
+
 };
 
 export const updateUserData = user => async (dispatch, getState) => {
@@ -205,9 +205,9 @@ export const updateUserData = user => async (dispatch, getState) => {
 const initialState = {
 	role: [], // guest
 	data: {
-		displayName: 'José Andrade Muñoz',
+		displayName: '',
 		photoURL: 'assets/images/avatars/user.jpg',
-		email: 'jandrade@educationmakeover.org',
+		email: '',
 		shortcuts: null
 	}
 };
