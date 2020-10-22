@@ -13,7 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitCreateContact,submitUpdateContact } from './store/userSlice';
+import { submitCreateContact,submitUpdateContact, submitUpdateContactGroup } from './store/userSlice';
 
 import {
 	removeContact,
@@ -47,6 +47,7 @@ function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
 	const formOrigin = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog.data);
+	const users = useSelector(({ contactsApp }) => contactsApp.contacts.ids);
 	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
@@ -69,7 +70,7 @@ function ContactDialog(props) {
 		/**
 		 * Dialog type: 'edit'
 		 */
-		if (contactDialog.type === 'edit' && contactDialog.data) {
+		if ((contactDialog.type === 'edit' || contactDialog.type === 'editGroup' )&& contactDialog.data) {
 			setForm({ ...contactDialog.data });
 		}
 
@@ -95,7 +96,11 @@ function ContactDialog(props) {
 	}, [contactDialog.props.open, initDialog]);
 
 	useEffect(() => {
-		if (user.error && (
+		if (user.error.code == '500'){
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:user.error.message,variant: 'error'	}));
+		}
+		else if (user.error && (
 			user.error.errors.name ||
 			user.error.errors.password ||
 			user.error.errors.email ||
@@ -111,6 +116,7 @@ function ContactDialog(props) {
 			dispatch(showMessage({message:user.error.message,variant: 'error'	}));
 
 		}
+
 		if(user.success){
 			setValues({ ...values, loading: false });
 			dispatch(showMessage({message:'Operación exitosa!',variant: 'success'	}));
@@ -119,7 +125,7 @@ function ContactDialog(props) {
 		}
 	}, [user.error,user.success]);
 	function closeComposeDialog() {
-		return contactDialog.type === 'edit' ? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
+		return (contactDialog.type === 'edit' || contactDialog.type === 'editGroup')? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
 	}
 
 	function handleSubmit(event) {
@@ -128,10 +134,13 @@ function ContactDialog(props) {
 
 		if (contactDialog.type === 'new') {
 			dispatch(submitCreateContact(form));
-		} else {
+		}
+		else if (contactDialog.type === 'edit'){
 			dispatch(submitUpdateContact(form,formOrigin));
 		}
-
+		else {
+			dispatch(submitUpdateContactGroup(form,users));
+		}
 	}
 
 	function handleRemove() {
@@ -157,7 +166,9 @@ function ContactDialog(props) {
 			<AppBar position="static" elevation={1}>
 				<Toolbar className="flex w-full">
 					<Typography variant="subtitle1" color="inherit">
-						{contactDialog.type === 'new' ? 'Nuevo Usuario' : 'Editar Usuario'}
+						{contactDialog.type === 'new' && 'Nuevo Usuario'}
+						{contactDialog.type === 'edit' && 'Editar Usuario'}
+						{contactDialog.type === 'editGroup' && 'Editar Grupo de Usuarios'}
 					</Typography>
 				</Toolbar>
 				<div className="flex flex-col items-center justify-center pb-24">
@@ -178,81 +189,86 @@ function ContactDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					<TextFieldFormsy
-						className="mb-16"
-						type="text"
-						name="name"
-						value={form.name}
-						label="Nombre"
-						validations={{
-							minLength: 2
-						}}
-						validationErrors={{
-							minLength: 'El mínimo de caracteres es 4'
-						}}
-						fullWidth
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<Icon className="text-20" color="action">
-										person
-									</Icon>
-								</InputAdornment>
-							)
-						}}
-						autoFocus
-						variant="outlined"
-						required
-					/>
-					<TextFieldFormsy
-						className="mb-16"
-						type="text"
-						name="last_name"
-						value={form.last_name}
-						label="Apellido(s)"
-						validations={{
-							minLength: 4
-						}}
-						validationErrors={{
-							minLength: 'El mínimo de caracteres es 4'
-						}}
-						fullWidth
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<Icon className="text-20" color="action">
-										person
-									</Icon>
-								</InputAdornment>
-							)
-						}}
-						variant="outlined"
-						required
-					/>
+					{contactDialog.type !== 'editGroup' &&
+					(
+						<div>
+							<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="name"
+								value={form.name}
+								label="Nombre"
+								validations={{
+									minLength: 2
+								}}
+								validationErrors={{
+									minLength: 'El mínimo de caracteres es 4'
+								}}
+								fullWidth
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												person
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								autoFocus
+								variant="outlined"
+								required
+							/>
+							<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="last_name"
+								value={form.last_name}
+								label="Apellido(s)"
+								validations={{
+									minLength: 4
+								}}
+								validationErrors={{
+									minLength: 'El mínimo de caracteres es 4'
+								}}
+								fullWidth
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												person
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								variant="outlined"
+								required
+							/>
 
-					<TextFieldFormsy
-						className="mb-16"
-						type="text"
-						name="email"
-						value={form.email}
-						label="Email"
-						validations="isEmail"
-						validationErrors={{
-							isEmail: 'Email invalido.'
-						}}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<Icon className="text-20" color="action">
-										email
-									</Icon>
-								</InputAdornment>
-							)
-						}}
-						variant="outlined"
-						required
-						fullWidth
-					/>
+							<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="email"
+								value={form.email}
+								label="Email"
+								validations="isEmail"
+								validationErrors={{
+									isEmail: 'Email invalido.'
+								}}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												email
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								variant="outlined"
+								required
+								fullWidth
+							/>
+						</div>
+					)}
 					{contactDialog.type === 'new' && (
 					<TextFieldFormsy
 						fullWidth
@@ -318,7 +334,6 @@ function ContactDialog(props) {
 						fullWidth
 						variant="outlined"
 						className="mb-24 MuiInputBase-fullWidth"
-
 					>
 						<MenuItem key={'grade1'} value={1}>1</MenuItem>
 						<MenuItem key={'grade2'} value={2}>2</MenuItem>
@@ -338,7 +353,7 @@ function ContactDialog(props) {
 
 							variant="outlined"
 							className="mb-24 MuiInputBase-fullWidth"
-							required
+							required={ contactDialog.type === 'editGroup' ? false : true}
 						>
 							{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
 						</SelectFormsy>:
@@ -354,7 +369,7 @@ function ContactDialog(props) {
 							fullWidth
 							variant="outlined"
 							className="mb-24 MuiInputBase-fullWidth"
-							required
+							required={ contactDialog.type === 'editGroup' ? false : true}
 						>
 							{roles.map((row) =>(<MenuItem key={'role'+row.id} value={row.id}>{row.name}</MenuItem>))}
 						</SelectFormsy>:
@@ -390,9 +405,11 @@ function ContactDialog(props) {
 								Guardar
 							</Button>
 						</div>
-						<IconButton onClick={handleRemove} disabled={(values.loading)}>
-							<Icon>delete</Icon>
-						</IconButton>
+						{contactDialog.type !== 'editGroup' && (
+							<IconButton onClick={handleRemove} disabled={(values.loading)}>
+								<Icon>delete</Icon>
+							</IconButton>
+						)}
 					</DialogActions>
 				)}
 			</Formsy>

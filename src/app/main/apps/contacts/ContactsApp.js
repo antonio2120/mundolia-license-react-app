@@ -24,6 +24,12 @@ const useStyles = makeStyles({
 		right: 12,
 		bottom: 12,
 		zIndex: 99
+	},
+	exportButton: {
+		position: 'absolute',
+		right: 80,
+		bottom: 12,
+		zIndex: 99
 	}
 });
 
@@ -58,6 +64,16 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<Fab
+					color="primary"
+					aria-label="add"
+					className={classes.exportButton}
+					//onClick={ev => dispatch(openNewContactDialog())}
+				>
+					<Icon>cloud_download</Icon>
+				</Fab>
+			</FuseAnimate>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab
 					color="primary"

@@ -4,6 +4,8 @@ import authRoleExamplesConfigs from 'app/main/auth/authRoleExamplesConfigs';
 import CallbackConfig from 'app/main/callback/CallbackConfig';
 import DocumentationConfig from 'app/main/documentation/DocumentationConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
+import LoginPhpFoxConfig from 'app/main/loginPhpFox/LoginPhpFoxConfig';
+import LoginAcademiaConfig from 'app/main/loginAcademia/LoginAcademiaConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
 import pagesConfigs from 'app/main/pages/pagesConfigs';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
@@ -22,7 +24,8 @@ const routeConfigs = [
 	DocumentationConfig,
 	LogoutConfig,
 	LoginConfig,
-	LogoutConfig,
+	LoginPhpFoxConfig,
+	LoginAcademiaConfig,
 	CallbackConfig,
 	LicenciasConfig,
 	SchoolsConfig,

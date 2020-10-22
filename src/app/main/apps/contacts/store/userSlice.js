@@ -51,6 +51,26 @@ export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch =
 		.catch(error => {
 			return dispatch(registerError(error));
 		});
+
+};
+
+export const submitUpdateContactGroup = ( userdata, users ) => async dispatch => {
+	return jwtService
+		.updateContactGroup({
+			users: users,
+			school_id: userdata.school_id,
+			role_id: userdata.role_id,
+			grade: userdata.grade,
+			password: userdata.password
+		})
+		.then(user => {
+			dispatch(registerSuccess());
+			dispatch(getContacts());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
 };
 const initialState = {
 	success: false,

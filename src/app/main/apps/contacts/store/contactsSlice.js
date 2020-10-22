@@ -8,7 +8,10 @@ import jwtService from 'app/services/jwtService';
 
 export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', async (routeParams, { getState }) => {
 	routeParams = routeParams || getState().contactsApp.contacts.routeParams;
-	const response = await axios.get(process.env.REACT_APP_API+'/usuarios');
+	let filterContacts = getState().contactsApp.filter.contacts;
+	const response = await axios.get(process.env.REACT_APP_API+'/usuarios',{
+		params:filterContacts
+	});
 	const data = await response.data;
 	return { data, routeParams };
 });
@@ -212,6 +215,29 @@ const contactsSlice = createSlice({
 				},
 				data: null
 			};
+		},
+		openEditContactGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'editGroup',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeEditContactGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'editGroup',
+				props: {
+					open: false
+				},
+				data: null
+			};
+		},
+		setContactsFilter: (state, action) => {
+			state.contactDialog = {
+				filterSchool: action.payload,
+			};
 		}
 	},
 	extraReducers: {
@@ -228,10 +254,13 @@ const contactsSlice = createSlice({
 
 export const {
 	setContactsSearchText,
+	setContactsFilter,
 	openNewContactDialog,
 	closeNewContactDialog,
 	openEditContactDialog,
-	closeEditContactDialog
+	closeEditContactDialog,
+	openEditContactGroupDialog,
+	closeEditContactGroupDialog
 } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

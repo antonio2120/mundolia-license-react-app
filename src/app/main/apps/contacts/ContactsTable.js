@@ -61,17 +61,17 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 					// In that case, getToggleAllRowsSelectedProps works fine.
 					Header: ({ getToggleAllRowsSelectedProps }) => (
 						<div>
-							{/*<IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />*/}
+							<IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
 						</div>
 					),
 					// The cell can use the individual row's getToggleRowSelectedProps method
 					// to the render a checkbox
 					Cell: ({ row }) => (
 						<div>
-							{/*<IndeterminateCheckbox*/}
-							{/*	{...row.getToggleRowSelectedProps()}*/}
-							{/*	onClick={ev => ev.stopPropagation()}*/}
-							{/*/>*/}
+							<IndeterminateCheckbox
+								{...row.getToggleRowSelectedProps()}
+								onClick={ev => ev.stopPropagation()}
+							/>
 						</div>
 					)
 				},

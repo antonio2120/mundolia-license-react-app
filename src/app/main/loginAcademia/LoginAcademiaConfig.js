@@ -1,7 +1,7 @@
+import { authRoles } from 'app/auth';
+import LoginAcademia from './LoginAcademia';
 
-import Logout from './Logout'
-
-const LogoutConfig = {
+const LoginAcademiaConfig = {
 	settings: {
 		layout: {
 			config: {
@@ -26,10 +26,10 @@ const LogoutConfig = {
 
 	routes: [
 		{
-			path: '/logout',
-			component: Logout
+			path: '/logina',
+			component: LoginAcademia
 		}
 	]
 };
 
-export default LogoutConfig;
+export default LoginAcademiaConfig;

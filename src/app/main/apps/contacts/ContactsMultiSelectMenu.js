@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setContactsUnstarred, setContactsStarred, removeContacts } from './store/contactsSlice';
+import {setContactsUnstarred, setContactsStarred, removeContacts, openEditContactGroupDialog} from './store/contactsSlice';
 
 function ContactsMultiSelectMenu(props) {
 	const dispatch = useDispatch();
@@ -40,39 +40,29 @@ function ContactsMultiSelectMenu(props) {
 				onClose={closeSelectedContactsMenu}
 			>
 				<MenuList>
+					{/*<MenuItem*/}
+					{/*	onClick={() => {*/}
+					{/*		dispatch(removeContacts(selectedContactIds));*/}
+					{/*		closeSelectedContactsMenu();*/}
+					{/*	}}*/}
+					{/*>*/}
+					{/*	<ListItemIcon className="min-w-40">*/}
+					{/*		<Icon>delete</Icon>*/}
+					{/*	</ListItemIcon>*/}
+					{/*	<ListItemText primary="Remover" />*/}
+					{/*</MenuItem>*/}
 					<MenuItem
 						onClick={() => {
-							dispatch(removeContacts(selectedContactIds));
+							dispatch(openEditContactGroupDialog(selectedContactIds));
 							closeSelectedContactsMenu();
 						}}
 					>
 						<ListItemIcon className="min-w-40">
-							<Icon>delete</Icon>
+							<Icon>edit</Icon>
 						</ListItemIcon>
-						<ListItemText primary="Remove" />
+						<ListItemText primary="Editar" />
 					</MenuItem>
-					<MenuItem
-						onClick={() => {
-							dispatch(setContactsStarred(selectedContactIds));
-							closeSelectedContactsMenu();
-						}}
-					>
-						<ListItemIcon className="min-w-40">
-							<Icon>star</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Starred" />
-					</MenuItem>
-					<MenuItem
-						onClick={() => {
-							dispatch(setContactsUnstarred(selectedContactIds));
-							closeSelectedContactsMenu();
-						}}
-					>
-						<ListItemIcon className="min-w-40">
-							<Icon>star_border</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Unstarred" />
-					</MenuItem>
+
 				</MenuList>
 			</Menu>
 		</>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 import { openEditContactDialog, removeContact, toggleStarredContact, selectContacts } from './store/contactsSlice';
+import ContactsSidebarContent from "./ContactsSidebarContent";
 
 function ContactsList(props) {
 	const dispatch = useDispatch();
@@ -22,8 +23,7 @@ function ContactsList(props) {
 		() => [
 			{
 				Header: ({ selectedFlatRows }) => {
-					const selectedRowIds = selectedFlatRows.map(row => row.original.id);
-
+					const selectedRowIds = selectedFlatRows.map(row => row.original.uuid);
 					return (
 						selectedFlatRows.length > 0 && <ContactsMultiSelectMenu selectedContactIds={selectedRowIds} />
 					);
@@ -111,19 +111,19 @@ function ContactsList(props) {
 	if (!filteredData) {
 		return null;
 	}
-
+let res
 	if (filteredData.length === 0) {
-		return (
-			<div className="flex flex-1 items-center justify-center h-full">
-				<Typography color="textSecondary" variant="h5">
-					No hay usuarios que mostrar!
-				</Typography>
-			</div>
+		res = (
+			<>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						No hay usuarios que mostrar!
+					</Typography>
+				</div>
+			</>
 		);
-	}
-
-	return (
-		<FuseAnimate animation="transition.slideUpIn" delay={300}>
+	}else{
+		res =  (
 			<ContactsTable
 				columns={columns}
 				data={filteredData}
@@ -133,6 +133,15 @@ function ContactsList(props) {
 					}
 				}}
 			/>
+		)
+	}
+
+	return (
+		<FuseAnimate animation="transition.slideUpIn" delay={300}>
+			<>
+			<ContactsSidebarContent />
+				{res}
+			</>
 		</FuseAnimate>
 	);
 }

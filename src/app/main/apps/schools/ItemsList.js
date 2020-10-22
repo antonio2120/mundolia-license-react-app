@@ -44,7 +44,7 @@ function ItemsList(props) {
 			},
 			{
 				Header: 'Usuarios actuales',
-				accessor: 'CurrentUsers',
+				accessor: 'Usuarios',
 				sortable: true
 			},
 		],

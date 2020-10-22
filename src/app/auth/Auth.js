@@ -8,6 +8,8 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 import { setUserDataFirebase, setUserDataAuth0, setUserData, logoutUser } from './store/userSlice';
+import axios from "axios";
+import store from "../store";
 
 class Auth extends Component {
 	state = {
@@ -26,6 +28,16 @@ class Auth extends Component {
 				this.setState({waitAuthCheck: false});
 			});
 		}else{
+			axios
+				.post(process.env.REACT_APP_API+'/logout')
+				.then(response => {
+					console.log(response);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+			localStorage.removeItem('jwt_access_token');
+			delete axios.defaults.headers.common.Authorization;
 			this.setState({waitAuthCheck: false});
 		}
 	}
@@ -49,7 +61,7 @@ class Auth extends Component {
 					})
 					.catch(error => {
 						//this.props.showMessage({ message: 'Logged in with JWT' });
-
+						this.props.logoutUser();
 						//resolve();
 					});
 			});
@@ -59,7 +71,7 @@ class Auth extends Component {
 					this.props.showMessage({ message });
 				}
 
-				this.props.logout();
+				this.props.logoutUser();
 
 				resolve();
 			});
@@ -144,7 +156,7 @@ class Auth extends Component {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
-			logout: logoutUser,
+			logoutUser,
 			setUserData,
 			setUserDataAuth0,
 			setUserDataFirebase,

@@ -70,10 +70,28 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 	updateContact = data => {
+		return  new Promise(function(resolve, reject) {
+			try {
+				axios.put(process.env.REACT_APP_API + '/usuarios/' + data.uuid, data).then(response => {
+					if (response.data.code == 200) {
+						resolve(response.data.user);
+					} else {
+						reject(response.data.error);
+					}
+				}).catch(error => {
+					reject(error.response.data.error);
+				});
+			}catch (e){
+				console.log(e);
+			}
+		});
+
+	};
+	updateContactGroup = data => {
 		return new Promise((resolve, reject) => {
-			axios.put(process.env.REACT_APP_API+'/usuarios/'+data.uuid, data).then(response => {
+			axios.put(process.env.REACT_APP_API+'/usuariosgroup', data).then(response => {
 				if (response.data.code == 200) {
-					resolve(response.data.user);
+					resolve(response.data);
 				} else {
 					reject(response.data.error);
 				}
@@ -97,7 +115,8 @@ class JwtService extends FuseUtils.EventEmitter {
 					}
 				})
 				.catch(error => {
-					reject(error.response.data.error);
+					console.log(error);
+					//reject(error.response.data.error);
 				});
 		});
 	};
@@ -137,6 +156,14 @@ class JwtService extends FuseUtils.EventEmitter {
 			localStorage.setItem('jwt_access_token', access_token);
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
+			axios
+				.post(process.env.REACT_APP_API+'/logout')
+				.then(response => {
+					console.log(response);
+				})
+				.catch(error => {
+					console.log(error);
+				});
 			localStorage.removeItem('jwt_access_token');
 			delete axios.defaults.headers.common.Authorization;
 		}

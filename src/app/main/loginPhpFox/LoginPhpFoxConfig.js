@@ -1,7 +1,7 @@
+import { authRoles } from 'app/auth';
+import LoginPhpFox from './LoginPhpFox';
 
-import Logout from './Logout'
-
-const LogoutConfig = {
+const LoginPhpFoxConfig = {
 	settings: {
 		layout: {
 			config: {
@@ -26,10 +26,10 @@ const LogoutConfig = {
 
 	routes: [
 		{
-			path: '/logout',
-			component: Logout
+			path: '/loginp',
+			component: LoginPhpFox
 		}
 	]
 };
 
-export default LogoutConfig;
+export default LoginPhpFoxConfig;
