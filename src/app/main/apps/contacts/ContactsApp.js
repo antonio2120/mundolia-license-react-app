@@ -11,6 +11,7 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import ContactDialog from './ContactDialog';
 import ContactsHeader from './ContactsHeader';
 import ContactsList from './ContactsList';
+import Download from './Download';
 import ContactsSidebarContent from './ContactsSidebarContent';
 import reducer from './store';
 import { openNewContactDialog, getContacts } from './store/contactsSlice';
@@ -49,6 +50,7 @@ function ContactsApp(props) {
 
 	return (
 		<>
+
 			<FusePageSimple
 				classes={{
 					contentWrapper: 'p-0 sm:p-24 pb-80 sm:pb-80 h-full',
@@ -65,13 +67,14 @@ function ContactsApp(props) {
 				innerScroll
 			/>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
+
 				<Fab
 					color="primary"
 					aria-label="add"
 					className={classes.exportButton}
-					//onClick={ev => dispatch(openNewContactDialog())}
+					//onClick={downloadContacts}
 				>
-					<Icon>cloud_download</Icon>
+					<Download />
 				</Fab>
 			</FuseAnimate>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
