@@ -1,6 +1,6 @@
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
-import React, {Component, useCallback} from 'react';
+import React, {Component, useCallback, useRef} from 'react';
 import FuseAnimate from "../../../@fuse/core/FuseAnimate/FuseAnimate";
 import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
@@ -84,7 +84,13 @@ class LicenciasPage extends Component {
 			password: null,
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.containerRef = React.createRef()
 	}
+	onSwitch = (index, action) => {
+		const targetIndex = index > 0.5 ? Math.floor(index) : Math.ceil(index);
+		const children = Array.from(this.containerRef.current.containerNode.children);
+		children[targetIndex].scrollTop = 0;
+	};
 	async componentDidMount() {
 		const response = await axios.get(process.env.REACT_APP_API+'/schools')
 			.then(response => {
@@ -286,9 +292,9 @@ class LicenciasPage extends Component {
 								className="overflow-hidden"
 								index={this.state.activeStep - 1}
 								onChangeIndex={this.handleChangeActiveStep}
-
+								ref={this.containerRef}
+								onSwitching={this.onSwitch}
 							>
-
 								<div className="flex justify-center p-10 pb-64 sm:p-24 sm:pb-30 md:p-20 md:pb-30" key={0}>
 									<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1}>
 										<div className="p-20">
