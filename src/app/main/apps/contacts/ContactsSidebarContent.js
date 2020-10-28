@@ -11,6 +11,8 @@ import {setContactsFilter} from "./store/filterSlice";
 import {  getContacts } from './store/contactsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from "@material-ui/core/Button";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
 	formControl:{
@@ -45,20 +47,24 @@ const defaultFormState = {
 	role_id :''
 };
 
+
 function ContactsSidebarContent(props) {
 
 	const dispatch = useDispatch();
 	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const {form, setForm, handleChange} = useForm(defaultFormState);
+	const [inputValue, setInputValue] = React.useState('');
+	const [value, setValue] = React.useState('');
 	const classes = useStyles(props);
 	dispatch(setContactsFilter(form));
 	useDeepCompareEffect(() => {
-		console.log('-----------------------',form);
 		dispatch(getContacts());
 	}, [dispatch,form]);
 	function handleFilterClean(){
 		setForm({defaultFormState})
+		setValue({value: ''})
+		setInputValue({inputValue: ''})
 	}
 	return (
 		<div className="p-0 lg:p-24 lg:ltr:pr-4 lg:rtl:pl-4">
@@ -73,24 +79,27 @@ function ContactsSidebarContent(props) {
 						<div className="flex flex-shrink items-center w-full" >
 						{schools.length > 0 &&
 							<FormControl variant="outlined" className={classes.formControl}>
-								<InputLabel id="school_id">Escuela</InputLabel>
-								<Select
-									labelId="school_id"
+								<Autocomplete
 									id="school_id"
 									name="school_id"
-									value={form.school_id}
-									onChange={handleChange}
-									label="Escuela"
-									fullWidth
-
-									variant="outlined"
-									className="mb-24 MuiInputBase-fullWidth"
-								>
-									<MenuItem value="">
-										<em></em>
-									</MenuItem>
-									{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
-								</Select>
+									value={value}
+									onChange={(event, newValue) => {
+										setValue(newValue);
+										event.target.name = 'school_id';
+										event.target.value = newValue.id;
+										handleChange(event);
+									}}
+									disableClearable={true}
+									inputValue={inputValue}
+									onInputChange={(event, newInputValue) => {
+										setInputValue(newInputValue);
+									}}
+									options={schools}
+									getOptionLabel={(option) => option.title}
+									style={{ width: '100%' }}
+									renderInput={(params) => <TextField {...params} label="Escuela" name="school_id" variant="outlined" fullWidth/>}
+									className="mb-24 MuiInputBase-fullWidth w-full"
+								/>
 							</FormControl>
 						}
 						</div>
@@ -106,7 +115,6 @@ function ContactsSidebarContent(props) {
 									onChange={handleChange}
 									label="Roles"
 									fullWidth
-
 									variant="outlined"
 									className="mb-24 MuiInputBase-fullWidth"
 								>

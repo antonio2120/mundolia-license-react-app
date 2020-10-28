@@ -78,11 +78,18 @@ export const updateContact = createAsyncThunk(
 export const removeContact = createAsyncThunk(
 	'contactsApp/contacts/removeContact',
 	async (uuid, { dispatch, getState }) => {
-		const response = await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid);
-		const data = await response.data;
-		dispatch(showMessage({message: 'Usuario eliminado correctamente.',variant: 'success'	}));
-		dispatch(getContacts());
-		return data;
+		try {
+			await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid).then(response => {
+				const data = response.data;
+				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(getContacts());
+				return data;
+			}).catch(error => {
+				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+			});
+		}catch (e){
+			console.log(e);
+		}
 	}
 );
 

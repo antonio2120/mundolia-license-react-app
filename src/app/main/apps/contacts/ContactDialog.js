@@ -59,6 +59,7 @@ function ContactDialog(props) {
 		loading : false
 	});
 	const [isFormValid, setIsFormValid] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 	const formRef = useRef(null);
 
 
@@ -96,25 +97,26 @@ function ContactDialog(props) {
 	}, [contactDialog.props.open, initDialog]);
 
 	useEffect(() => {
-		if (user.error.code == '500'){
-			setValues({ ...values, loading: false });
-			dispatch(showMessage({message:user.error.message,variant: 'error'	}));
-		}
-		else if (user.error && (
-			user.error.errors.name ||
-			user.error.errors.password ||
-			user.error.errors.email ||
-			user.error.errors.username ||
-			user.error.errors.last_name ||
-			user.error.errors.grado
-		)) {
-			formRef.current.updateInputsWithError({
-				...user.error.errors
-			});
-			disableButton();
-			setValues({ ...values, loading: false });
-			dispatch(showMessage({message:user.error.message,variant: 'error'	}));
+		if (user.error) {
+			if (user.error.code == '500') {
+				setValues({...values, loading: false});
+				dispatch(showMessage({message: user.error.message, variant: 'error'}));
+			} else if (user.error && (
+				user.error.errors.name ||
+				user.error.errors.password ||
+				user.error.errors.email ||
+				user.error.errors.username ||
+				user.error.errors.last_name ||
+				user.error.errors.grado
+			)) {
+				formRef.current.updateInputsWithError({
+					...user.error.errors
+				});
+				disableButton();
+				setValues({...values, loading: false});
+				dispatch(showMessage({message: user.error.message, variant: 'error'}));
 
+			}
 		}
 
 		if(user.success){
@@ -312,14 +314,19 @@ function ContactDialog(props) {
 							minLength: 'Min character length is 3'
 						}}
 						InputProps={{
+							className: 'pr-2',
+							type: showPassword ? 'text' : 'password',
 							endAdornment: (
 								<InputAdornment position="end">
-									<Icon className="text-20" color="action">
-										vpn_key
-									</Icon>
+									<IconButton onClick={() => setShowPassword(!showPassword)}>
+										<Icon className="text-20" color="action">
+											{showPassword ? 'visibility' : 'visibility_off'}
+										</Icon>
+									</IconButton>
 								</InputAdornment>
 							)
 						}}
+
 						variant="outlined"
 						fullWidth
 					/>
