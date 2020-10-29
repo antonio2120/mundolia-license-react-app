@@ -47,7 +47,7 @@ function ContactDialog(props) {
 	const dispatch = useDispatch();
 	const contactDialog = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog);
 	const formOrigin = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog.data);
-	const users = useSelector(({ contactsApp }) => contactsApp.contacts.ids);
+	const users = useSelector(({ contactsApp }) => contactsApp.contacts.contactDialog.data);
 	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
@@ -170,17 +170,19 @@ function ContactDialog(props) {
 					<Typography variant="subtitle1" color="inherit">
 						{contactDialog.type === 'new' && 'Nuevo Usuario'}
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
-						{contactDialog.type === 'editGroup' && 'Editar Grupo de Usuarios'}
+						{contactDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
 					</Typography>
 				</Toolbar>
-				<div className="flex flex-col items-center justify-center pb-24">
-					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
-					{contactDialog.type === 'edit' && (
-						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.name}
-						</Typography>
-					)}
-				</div>
+				{contactDialog.type !== 'editGroup' && (
+					<div className="flex flex-col items-center justify-center pb-24">
+						<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
+						{contactDialog.type === 'edit' && (
+							<Typography variant="h6" color="inherit" className="pt-8">
+								{form.name}
+							</Typography>
+						)}
+					</div>
+				)}
 			</AppBar>
 			<Formsy
 				onValidSubmit={handleSubmit}
