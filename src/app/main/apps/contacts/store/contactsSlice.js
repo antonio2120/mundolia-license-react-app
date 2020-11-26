@@ -93,6 +93,24 @@ export const removeContact = createAsyncThunk(
 	}
 );
 
+export const sendEmail = createAsyncThunk(
+	'contactsApp/contacts/sendEmail',
+	async (userData, { dispatch, getState }) => {
+		try {
+			await axios.post(process.env.REACT_APP_API+'/emails/',{message:userData.message,subject:userData.subject,uuids:userData.uuids}).then(response => {
+				const data = response.data;
+				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(getContacts());
+				return data;
+			}).catch(error => {
+				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+			});
+		}catch (e){
+			console.log(e);
+		}
+	}
+);
+
 export const removeContacts = createAsyncThunk(
 	'contactsApp/contacts/removeContacts',
 	async (contactIds, { dispatch, getState }) => {
@@ -241,6 +259,24 @@ const contactsSlice = createSlice({
 				data: null
 			};
 		},
+		openMassiveMessageGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'massiveMessage',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeMassiveMessageGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'massiveMessage',
+				props: {
+					open: false
+				},
+				data: action.payload
+			};
+		},
 		setContactsFilter: (state, action) => {
 			state.contactDialog = {
 				filterSchool: action.payload,
@@ -267,7 +303,9 @@ export const {
 	openEditContactDialog,
 	closeEditContactDialog,
 	openEditContactGroupDialog,
-	closeEditContactGroupDialog
+	closeEditContactGroupDialog,
+	openMassiveMessageGroupDialog,
+	closeMassiveMessageGroupDialog
 } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

@@ -20,7 +20,8 @@ import {
 	updateContact,
 	addContact,
 	closeNewContactDialog,
-	closeEditContactDialog
+	closeEditContactDialog,
+	sendEmail
 } from './store/contactsSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -72,6 +73,13 @@ function ContactDialog(props) {
 		 * Dialog type: 'edit'
 		 */
 		if ((contactDialog.type === 'edit' || contactDialog.type === 'editGroup' )&& contactDialog.data) {
+			setForm({ ...contactDialog.data });
+		}
+
+		/**
+		 * Dialog type: 'massiveMessage'
+		 */
+		if ((contactDialog.type === 'massiveMessage')&& contactDialog.data) {
 			setForm({ ...contactDialog.data });
 		}
 
@@ -137,6 +145,12 @@ function ContactDialog(props) {
 		if (contactDialog.type === 'new') {
 			dispatch(submitCreateContact(form));
 		}
+		else if (contactDialog.type === 'massiveMessage'){
+			var data = {...form, uuids:formOrigin}
+			dispatch(sendEmail(data));
+			closeComposeDialog();
+			setValues({ ...values, loading: false });
+		}
 		else if (contactDialog.type === 'edit'){
 			dispatch(submitUpdateContact(form,formOrigin));
 		}
@@ -171,8 +185,10 @@ function ContactDialog(props) {
 						{contactDialog.type === 'new' && 'Nuevo Usuario'}
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
 						{contactDialog.type === 'editGroup' && 'Editar Grupo de Usuarios'}
+						{contactDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'}
 					</Typography>
 				</Toolbar>
+				{contactDialog.type !== 'massiveMessage' && 
 				<div className="flex flex-col items-center justify-center pb-24">
 					<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
 					{contactDialog.type === 'edit' && (
@@ -181,6 +197,7 @@ function ContactDialog(props) {
 						</Typography>
 					)}
 				</div>
+				}
 			</AppBar>
 			<Formsy
 				onValidSubmit={handleSubmit}
@@ -191,7 +208,7 @@ function ContactDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					{contactDialog.type !== 'editGroup' &&
+					{contactDialog.type !== 'editGroup' && contactDialog.type !== 'massiveMessage' &&
 					(
 						<div>
 							<TextFieldFormsy
@@ -300,88 +317,140 @@ function ContactDialog(props) {
 					/>
 					)
 					}
-
-					<TextFieldFormsy
-						className="mb-16"
-						type="password"
-						name="password"
-						id="password"
-						label="Password"
-						validations={{
-							minLength: 3
-						}}
-						validationErrors={{
-							minLength: 'Min character length is 3'
-						}}
-						InputProps={{
-							className: 'pr-2',
-							type: showPassword ? 'text' : 'password',
-							endAdornment: (
-								<InputAdornment position="end">
-									<IconButton onClick={() => setShowPassword(!showPassword)}>
-										<Icon className="text-20" color="action">
-											{showPassword ? 'visibility' : 'visibility_off'}
-										</Icon>
-									</IconButton>
-								</InputAdornment>
-							)
-						}}
-
-						variant="outlined"
-						fullWidth
-					/>
-
-					<SelectFormsy
-						id="grade"
-						name="grade"
-						width="100%"
-						value={form.grade}
-						onChange={handleChange}
-						label="Grado"
-						fullWidth
-						variant="outlined"
-						className="mb-24 MuiInputBase-fullWidth"
-					>
-						<MenuItem key={'grade1'} value={1}>1</MenuItem>
-						<MenuItem key={'grade2'} value={2}>2</MenuItem>
-						<MenuItem key={'grade3'} value={3}>3</MenuItem>
-						<MenuItem key={'grade4'} value={4}>4</MenuItem>
-						<MenuItem key={'grade5'} value={5}>5</MenuItem>
-						<MenuItem key={'grade6'} value={6}>6</MenuItem>
-					</SelectFormsy>
-					{schools.length > 0 ?
-						<SelectFormsy
-							id="school_id"
-							name="school_id"
-							value={form.school_id}
-							onChange={handleChange}
-							label="Escuela"
-							fullWidth
+					{contactDialog.type !== 'massiveMessage' && (
+					<>
+						<TextFieldFormsy
+							className="mb-16"
+							type="password"
+							name="password"
+							id="password"
+							label="Password"
+							validations={{
+								minLength: 3
+							}}
+							validationErrors={{
+								minLength: 'Min character length is 3'
+							}}
+							InputProps={{
+								className: 'pr-2',
+								type: showPassword ? 'text' : 'password',
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton onClick={() => setShowPassword(!showPassword)}>
+											<Icon className="text-20" color="action">
+												{showPassword ? 'visibility' : 'visibility_off'}
+											</Icon>
+										</IconButton>
+									</InputAdornment>
+								)
+							}}
 
 							variant="outlined"
-							className="mb-24 MuiInputBase-fullWidth"
-							required={ contactDialog.type === 'editGroup' ? false : true}
-						>
-							{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
-						</SelectFormsy>:
-						<CircularProgress color="secondary"/>
-					}
-					{roles.length > 0 ?
+							fullWidth
+						/>
+
 						<SelectFormsy
-							id="role_id"
-							name="role_id"
-							value={form.role_id}
+							id="grade"
+							name="grade"
+							width="100%"
+							value={form.grade}
 							onChange={handleChange}
-							label="Rol"
+							label="Grado"
 							fullWidth
 							variant="outlined"
 							className="mb-24 MuiInputBase-fullWidth"
-							required={ contactDialog.type === 'editGroup' ? false : true}
 						>
-							{roles.map((row) =>(<MenuItem key={'role'+row.id} value={row.id}>{row.name}</MenuItem>))}
-						</SelectFormsy>:
-						<CircularProgress color="secondary"/>
+							<MenuItem key={'grade1'} value={1}>1</MenuItem>
+							<MenuItem key={'grade2'} value={2}>2</MenuItem>
+							<MenuItem key={'grade3'} value={3}>3</MenuItem>
+							<MenuItem key={'grade4'} value={4}>4</MenuItem>
+							<MenuItem key={'grade5'} value={5}>5</MenuItem>
+							<MenuItem key={'grade6'} value={6}>6</MenuItem>
+						</SelectFormsy>
+						{schools.length > 0 ?
+							<SelectFormsy
+								id="school_id"
+								name="school_id"
+								value={form.school_id}
+								onChange={handleChange}
+								label="Escuela"
+								fullWidth
+
+								variant="outlined"
+								className="mb-24 MuiInputBase-fullWidth"
+								required={ contactDialog.type === 'editGroup' ? false : true}
+							>
+								{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
+							</SelectFormsy>:
+							<CircularProgress color="secondary"/>
+						}
+						{roles.length > 0 ?
+							<SelectFormsy
+								id="role_id"
+								name="role_id"
+								value={form.role_id}
+								onChange={handleChange}
+								label="Rol"
+								fullWidth
+								variant="outlined"
+								className="mb-24 MuiInputBase-fullWidth"
+								required={ contactDialog.type === 'editGroup' ? false : true}
+							>
+								{roles.map((row) =>(<MenuItem key={'role'+row.id} value={row.id}>{row.name}</MenuItem>))}
+							</SelectFormsy>:
+							<CircularProgress color="secondary"/>
+						}
+					
+					</>
+					)
 					}
+					{contactDialog.type === 'massiveMessage' && (
+						<>
+							<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="subject"
+								value={form.subject}
+								label="Asunto"
+								validations={{
+									minLength: 1
+								}}
+								validationErrors={{
+									minLength: 'El mínimo de caracteres es 1'
+								}}
+								fullWidth
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												subject
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								autoFocus
+								variant="outlined"
+								required
+							/>
+							<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="message"
+								label="Crear mensaje"
+								validations={{
+									minLength: 1
+								}}
+								validationErrors={{
+									minLength: 'El mínimo de caracteres es 1'
+								}}
+								fullWidth
+								variant="outlined"
+								required
+								multiline
+								rows={4}
+							/>
+						</>
+					)}
 					{values.loading && <LinearProgress />}
 
 				</DialogContent>
@@ -396,6 +465,20 @@ function ContactDialog(props) {
 								disabled={( values.loading || !isFormValid)}
 							>
 								Agregar
+							</Button>
+						</div>
+					</DialogActions>
+				) : contactDialog.type === 'massiveMessage' ? (
+					<DialogActions className="justify-between p-8">
+						<div className="px-16">
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={handleSubmit}
+								type="submit"
+								disabled={( values.loading || !isFormValid)}
+							>
+								Enviar
 							</Button>
 						</div>
 					</DialogActions>
