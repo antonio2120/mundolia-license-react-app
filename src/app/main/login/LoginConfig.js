@@ -1,5 +1,5 @@
 import { authRoles } from 'app/auth';
-import Login from './Login';
+import Login from '../loginView/Login';
 
 const LoginConfig = {
 	settings: {
