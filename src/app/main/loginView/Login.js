@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import Auth0LoginTab from './tabs/Auth0LoginTab';
 import FirebaseLoginTab from './tabs/FirebaseLoginTab';
 import JWTLoginTab from './tabs/JWTLoginTab';
+import ImageMapper from 'react-image-mapper';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -20,9 +21,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	div:{backgroundColor:"lightgreen"},
 	image_overlay:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(255,0,255,0.5)',},
-	circle:{position:"absolute",top:"10%",bottom:"10%",left:0,right:"50%",backgroundColor:'rgba(255,255,0,0.5)',},
+	circle:{position:"absolute",top:"10%",bottom:"10%",left:0,right:"75%",backgroundColor:'rgba(255,255,0,0.5)',},
 	circle_horizontal:{position:"absolute",top:0,bottom:"50%",left:"10%",right:"10%",paddingRight:"10%",paddingLeft:"10%", alignItems:"center",backgroundColor:'rgba(255,255,0,0.5)'},
-	circle_image:{maxHeight:"100%",},
+	circle_image:{width:100},
 	circle_image_horizontal:{maxHeight:"100%",backgroundColor:"red",padding:0},
 	leftSection: {},
 	rightSection: {}
@@ -34,6 +35,7 @@ function Login() {
 	const classes = useStyles();
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [widthFlag, setFlag] = useState(true);
+	const [sizeW, setSize] = useState(500);
 
 	function handleTabChange(event, value) {
 		setSelectedTab(value);
@@ -103,22 +105,30 @@ function Login() {
 				</div>
 			</FuseAnimate>
 			{widthFlag ?
-			<div className={clsx(classes.circle)}>
-				<img ref={el => {
-						if (!el) return;
-   						window.addEventListener('resize', function(){
-							   console.log("image width",el.getBoundingClientRect().width); // prints 200px
-						   });
-					}}  src="assets/images/login/circle-complete.png" className={clsx(classes.circle_image)} alt="circle"/>
+			<div className={clsx(classes.circle)} ref={el => {
+				if (!el) return;
+				setSize(el.getBoundingClientRect().width)
+				   window.addEventListener('resize', function(){
+					   console.log("image width",el.getBoundingClientRect().width); // prints 200px
+					   setSize(el.getBoundingClientRect().width)
+				   });
+			}} >
+				<ImageMapper
+					width={sizeW}
+					src={require('./circle-complete.png')}  alt="circle"
+					map={{
+						name:"my-app",
+						areas:[
+							{name:"1",shape:"poly",coords:[25,33,27,300,128,240,128,94]}
+						]
+					}}
+					onClick={area => console.log("clicked",area)}
+				/>
+				
 			</div>
 			:
 			<div className={clsx(classes.circle_horizontal)}>
-				<img ref={el => {
-						if (!el) return;
-   						window.addEventListener('resize', function(){
-							   console.log("image width",el.getBoundingClientRect().width); // prints 200px
-						   });
-					}}  src="assets/images/login/circle-complete-horizontal.png" className={clsx(classes.circle_image_horizontal)} alt="circle"/>
+				<img  src="assets/images/login/circle-complete-horizontal.png" className={clsx(classes.circle_image_horizontal)} alt="circle"/>
 			</div>}
 		</div>
 	);
