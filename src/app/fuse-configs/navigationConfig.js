@@ -26,7 +26,15 @@ const navigationConfig = [
 				icon: 'account_box',
 				url: '/apps/usuarios/all'
 			},
-
+			{
+				id: 'generar-licencias',
+				title: 'Importar Usuarios',
+				translate: 'Importar Usuarios',
+				type: 'item',
+				'auth' : authRoles.admin_escuela,
+				icon: 'unarchive',
+				url: '/licencias/'
+			},
 			{
 				id: 'schools-component',
 				title: 'Escuelas',
@@ -37,13 +45,13 @@ const navigationConfig = [
 				url: '/apps/schools/all'
 			},
 			{
-				id: 'generar-licencias',
-				title: 'Importar Usuarios',
-				translate: 'Importar Usuarios',
+				id: 'periodos-component',
+				title: 'Periodos',
+				translate: 'Periodos',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
-				icon: 'unarchive',
-				url: '/licencias/'
+				'auth' : authRoles.admin,
+				icon: 'calendar_today',
+				url: '/apps/periodos/all'
 			},
 		]
 	}
