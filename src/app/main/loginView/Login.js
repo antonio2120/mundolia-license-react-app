@@ -16,22 +16,21 @@ import JWTLoginTab from './tabs/JWTLoginTab';
 import ImageMapper from 'react-image-mapper';
 
 
-
 const useStyles = makeStyles(theme => ({
 	root_alumnos: {
 		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_maestros: {
-		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_padres: {
-		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_escuelas: {
-		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	image_overlay_alumnos:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(148,88,183,0.8)',},
@@ -43,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 	circle_image:{width:100},
 	circle_image_horizontal:{maxHeight:"100%",padding:0},
 	textButton:{position:"absolute",justifyContent:"center",alignSelf:"center",color:"#FFF"},
-	div:{zIndex:2},
+	divCard:{flexDirection:"row",zIndex:2},
 	divFooter:{zIndex:1,height:"10%"},
 	footerStyle:{width:"100%",alignSelf:"end"},
 	leftSection: {},
@@ -88,8 +87,10 @@ function Login() {
 			<FuseAnimate animation="transition.slideUpIn" delay={400}>
 				<div className={widthFlag ? "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-end" : "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-center mt-400"}>
 					<div className='flex flex-col w-full max-w-sm items-center justify-center float-md-right'>
-						<Typography fontFamily variant="h3" color="inherit" className="font-900 leading-tight justify-end">
-							{selectedUserType == 1 ? "ALUMNOS" : selectedUserType == 2 ? "MAESTROS" : selectedUserType == 3 ? "PADRES" : "ESCUELAS"}
+						<Typography fontFamily variant="h1" color="inherit" className="font-700 leading-tight justify-end">
+							<div className={"grobold"}>
+								{selectedUserType == 1 ? "Alumnos" : selectedUserType == 2 ? "Maestros" : selectedUserType == 3 ? "Padres" : "Escuelas"}
+							</div>
 						</Typography>
 					</div>
 				</div>
@@ -106,7 +107,7 @@ function Login() {
 					}} 
 					className={widthFlag ? clsx(classes.divCard,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")
 							  	: clsx(classes.divCard,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")}>
-					<div className={clsx(classes.loginLeftSection,"justify-center")}>
+					<div className={clsx(classes.loginLeftSection)}>
 						<img  src="assets/images/login/SignIn.png" className={clsx(classes.loginLeftSectionImg)} alt="circle"/>
 					</div>
 					<Card
@@ -154,6 +155,7 @@ function Login() {
 				</div>
 			</FuseAnimate>
 			{widthFlag ?
+			<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			<div className={clsx(classes.circle)} ref={el => {
 				if (!el) return;
 				let widthDiv = el.getBoundingClientRect().width
@@ -168,10 +170,10 @@ function Login() {
 					map={{
 						name:"my-app",
 						areas:[
-							{name:"alumnos",shape:"poly",coords: [17,10, 17,305, 60,310, 105,340, 310,130, 200,55, 120,25]},
-							{name:"maestros",shape:"poly",coords: [282,170, 110,342, 135,380, 143,430, 390,430, 370,310, 330,243]},
-							{name:"padres",shape:"poly",coords: [137,435, 130,470, 110,517, 306,707, 385,593, 415,490, 420,435]},
-							{name:"escuelas",shape:"poly",coords: [127,482, 90,507, 17,562, 17,790, 150,723, 230,685, 290,643]}
+							{name:"alumnos",shape:"poly",coords: [15,10, 15,252, 50,257, 85,277, 250,110, 170,50, 110,26]},
+							{name:"maestros",shape:"poly",coords: [90,283, 110,313, 115,353, 320,353, 320,323, 275,200, 235,140]},
+							{name:"padres",shape:"poly",coords: [115,357, 110,387, 87,420, 252,584, 300,520, 345,387, 345,357]},
+							{name:"escuelas",shape:"poly",coords: [55,445, 15,455, 15,650, 115,640, 155,620, 225,570, 85,425]}
 						]
 					}}
 					onClick={area => clickedArea(area.name)}
@@ -179,7 +181,10 @@ function Login() {
 				/>
 				
 			</div>
+			</FuseAnimate>
 			:
+			<FuseAnimate animation="transition.slideUpIn" delay={400}>
+			
 			<div className={clsx(classes.buttons_mobile_view,'flex flex-col flex-auto justify-center flex-shrink-0 items-center')}>
 				<div>
 					<Button
@@ -230,6 +235,8 @@ function Login() {
 					</Button>
 				</div>
 			</div>
+			
+			</FuseAnimate>
 			}
 		</div>
 		<footer className={clsx(classes.divFooter)}>

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor:"rgb(72,131,192)"
 	},
 	textButton:{
-		color:"#FFF"
+		color:"#FFF",fontSize:22
 	}
 }));
 
