@@ -8,8 +8,20 @@ import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitLogin } from 'app/auth/store/loginSlice';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+
+const useStyles = makeStyles(theme => ({
+	loginButton:{
+		backgroundColor:"rgb(72,131,192)"
+	},
+	textButton:{
+		color:"#FFF",fontSize:22
+	}
+}));
 
 function JWTLoginTab(props) {
+	const classes = useStyles();
 
 	const dispatch = useDispatch();
 	const login = useSelector(({ auth }) => auth.login);
@@ -107,13 +119,13 @@ function JWTLoginTab(props) {
 				<Button
 					type="submit"
 					variant="contained"
-					color="primary"
-					className="w-full mx-auto mt-16 normal-case"
+					color="rgb(72,131,192)"
+					className={clsx(classes.loginButton,"w-full mx-auto mt-16 normal-case shadow-2xl")}
 					aria-label="LOG IN"
 					disabled={!isFormValid}
 					value="legacy"
 				>
-					Entrar
+					<Typography className={clsx(classes.textButton)}>LOG IN NOW!</Typography>
 				</Button>
 			</Formsy>
 
