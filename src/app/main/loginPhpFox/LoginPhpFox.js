@@ -34,6 +34,7 @@ function getUrl(){
 	.then(response => {
 		if (response.data) {
 			window.location.href = response.data;
+			console.log(response.data)
 		} else {
 			//dispatch(showMessage({ message: error.message }));
 		}

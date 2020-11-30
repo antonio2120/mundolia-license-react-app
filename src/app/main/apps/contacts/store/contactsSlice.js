@@ -12,7 +12,8 @@ export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', 
 	const response = await axios.get(process.env.REACT_APP_API+'/usuarios',{
 		params:filterContacts
 	});
-	const data = await response.data;
+	console.log(response)
+	const data = await response.data.data;
 	return { data, routeParams };
 });
 
@@ -46,7 +47,7 @@ export const addContact = createAsyncThunk(
 			grade: userdata.grade,
 			password: userdata.password
 		});
-		const data = await response.data;
+		const data = await response.data.data;
 
 		dispatch(getContacts());
 		dispatch(showMessage({message: 'Usuario creado correctamente.',variant: 'success'	}));
@@ -67,7 +68,7 @@ export const updateContact = createAsyncThunk(
 			grade: userdata.grade,
 			password: userdata.password
 		});
-		const data = await response.data;
+		const data = await response.data.data;
 		dispatch(showMessage({message: 'Usuario actualizado correctamente.',variant: 'success'	}));
 		dispatch(getContacts());
 
@@ -80,7 +81,7 @@ export const removeContact = createAsyncThunk(
 	async (uuid, { dispatch, getState }) => {
 		try {
 			await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid).then(response => {
-				const data = response.data;
+				const data = response.data.data;
 				dispatch(showMessage({message: response.data.message, variant: 'success'}));
 				dispatch(getContacts());
 				return data;
@@ -97,7 +98,7 @@ export const removeContacts = createAsyncThunk(
 	'contactsApp/contacts/removeContacts',
 	async (contactIds, { dispatch, getState }) => {
 		const response = await axios.post('/api/contacts-app/remove-contacts', { contactIds });
-		const data = await response.data;
+		const data = await response.data.data;
 
 		dispatch(getContacts());
 

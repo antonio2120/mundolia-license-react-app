@@ -52,16 +52,16 @@ function ItemApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{/*<FuseAnimate animation="transition.expandIn" delay={300}>*/}
-				{/*<Fab*/}
-				{/*	color="primary"*/}
-				{/*	aria-label="add"*/}
-				{/*	className={classes.addButton}*/}
-				{/*	onClick={ev => dispatch(openNewItemDialog())}*/}
-				{/*>*/}
-				{/*	<Icon>person_add</Icon>*/}
-				{/*</Fab>*/}
-			{/*</FuseAnimate>*/}
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<Fab
+					color="primary"
+					aria-label="add"
+					className={classes.addButton}
+					onClick={ev => dispatch(openNewItemDialog())}
+				>
+					<Icon>add</Icon>
+				</Fab>
+			</FuseAnimate>
 			<ItemDialog />
 		</>
 	);

@@ -152,6 +152,7 @@ class LicenciasPage extends Component {
 			valid = this.validReacord(row);
 			if (valid === 'valid') {
 				result[i] = {
+					num:iAll,
 					tipo_usuario: row.tipo_usuario.toUpperCase().trim(),
 					nombre: row.nombre.toUpperCase().trim(),
 					username: '',
@@ -171,6 +172,7 @@ class LicenciasPage extends Component {
 				++iAll;
 			}else{
 				resultAll[iAll] = {
+					num:iAll,
 					tipo_usuario: row.tipo_usuario,
 					nombre: row.nombre,
 					username: '',
