@@ -19,32 +19,37 @@ import ImageMapper from 'react-image-mapper';
 
 const useStyles = makeStyles(theme => ({
 	root_alumnos: {
-		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_maestros: {
-		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_padres: {
-		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_escuelas: {
-		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"100%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	image_overlay_alumnos:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(148,88,183,0.8)',},
 	image_overlay_maestros:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgb(208,66,55,0.7)',},
 	image_overlay_padres:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(231,162,63,0.7)',},
 	image_overlay_escuelas:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(34,79,245,0.7)',},
-	circle:{position:"absolute",top:"10%",bottom:"10%",left:0,right:"75%"},
-	buttons_mobile_view:{width:"100%", position:"absolute",top:"10%"},
+	circle:{position:"absolute",top:"10%",bottom:"10%",left:0,right:"75%",zIndex:2},
+	buttons_mobile_view:{width:"100%", position:"absolute",top:"10%",zIndex:0},
 	circle_image:{width:100},
 	circle_image_horizontal:{maxHeight:"100%",padding:0},
 	textButton:{position:"absolute",justifyContent:"center",alignSelf:"center",color:"#FFF"},
+	div:{zIndex:2},
+	divFooter:{zIndex:1,height:"10%"},
+	footerStyle:{width:"100%",alignSelf:"end"},
 	leftSection: {},
-	rightSection: {}
+	rightSection: {borderRadius:15},
+	loginLeftSection:{height:"100%"},
+	loginLeftSectionImg:{height:"30%"}
 }));
 
 
@@ -69,10 +74,11 @@ function Login() {
 	}
 
 	return (
+		<>
 		<div
 			className={clsx(
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,
-				'flex flex-col flex-auto justify-center flex-shrink-0 items-center'
+				'flex flex-col flex-fixed flex-auto justify-center flex-shrink-0 items-center'
 			)}
 		>
 			<div className={clsx(
@@ -82,7 +88,7 @@ function Login() {
 			<FuseAnimate animation="transition.slideUpIn" delay={400}>
 				<div className={widthFlag ? "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-end" : "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-center mt-400"}>
 					<div className='flex flex-col w-full max-w-sm items-center justify-center float-md-right'>
-						<Typography variant="h3" color="inherit" className="font-900 leading-tight justify-end">
+						<Typography fontFamily variant="h3" color="inherit" className="font-900 leading-tight justify-end">
 							{selectedUserType == 1 ? "ALUMNOS" : selectedUserType == 2 ? "MAESTROS" : selectedUserType == 3 ? "PADRES" : "ESCUELAS"}
 						</Typography>
 					</div>
@@ -98,8 +104,11 @@ function Login() {
 							   el.getBoundingClientRect().width > 400 ? setFlag(true) : setFlag(false)
 						   });
 					}} 
-					className={widthFlag ? clsx(classes.div,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")
-							  	: clsx(classes.div,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")}>
+					className={widthFlag ? clsx(classes.divCard,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")
+							  	: clsx(classes.divCard,"flex w-full max-w-400 md:max-w-3xl rounded-20 overflow-hidden justify-end")}>
+					<div className={clsx(classes.loginLeftSection,"justify-center")}>
+						<img  src="assets/images/login/SignIn.png" className={clsx(classes.loginLeftSectionImg)} alt="circle"/>
+					</div>
 					<Card
 						className={clsx(
 							classes.rightSection,
@@ -117,7 +126,7 @@ function Login() {
 
 										</Typography>
 										<Typography
-											className="text-16 tracking-widest -mt-8 font-700"
+											className="text-16 -mt-8 font-700"
 											color="textSecondary"
 										>
 
@@ -154,18 +163,19 @@ function Login() {
 				   });
 			}} >
 				<ImageMapper
-					width={450}
-					src={require('./circle-complete.png')}  alt="circle"
+					width={370}
+					src={require('./circle-complete2.png')}  alt="circle"
 					map={{
 						name:"my-app",
 						areas:[
-							{name:"alumnos",shape:"poly",coords: [47,10, 47,280, 90,290, 130,315, 320,120, 230,55, 150,25]},
-							{name:"maestros",shape:"poly",coords: [292,160, 130,322, 155,360, 163,400, 390,400, 370,290, 340,223]},
-							{name:"padres",shape:"poly",coords: [163,405, 150,450, 130,477, 312,657, 372,583, 415,470, 420,405]},
-							{name:"escuelas",shape:"poly",coords: [127,482, 90,507, 50,512, 50,740, 150,723, 230,685, 290,643]}
+							{name:"alumnos",shape:"poly",coords: [17,10, 17,305, 60,310, 105,340, 310,130, 200,55, 120,25]},
+							{name:"maestros",shape:"poly",coords: [282,170, 110,342, 135,380, 143,430, 390,430, 370,310, 330,243]},
+							{name:"padres",shape:"poly",coords: [137,435, 130,470, 110,517, 306,707, 385,593, 415,490, 420,435]},
+							{name:"escuelas",shape:"poly",coords: [127,482, 90,507, 17,562, 17,790, 150,723, 230,685, 290,643]}
 						]
 					}}
 					onClick={area => clickedArea(area.name)}
+					active={false}
 				/>
 				
 			</div>
@@ -222,6 +232,10 @@ function Login() {
 			</div>
 			}
 		</div>
+		<footer className={clsx(classes.divFooter)}>
+			<img src="assets/images/login/BOTTOM.png" className={clsx(classes.footerStyle)} alt="footer"/>
+		</footer>
+		</>
 	);			
 }
 
