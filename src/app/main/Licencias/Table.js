@@ -18,12 +18,13 @@ const useStyles = makeStyles({
 
 export default function SimpleTable(data) {
 	const classes = useStyles();
-
+	let i = 0;
 	return (
 		<TableContainer component={Paper}>
 			<Table className={classes.table} aria-label="simple table">
 				<TableHead>
 					<TableRow>
+						<TableCell align="center">Num</TableCell>
 						<TableCell align="center">Validación</TableCell>
 						<TableCell align="center">tipo_usuario</TableCell>
 						<TableCell align="center">nombre</TableCell>
@@ -41,6 +42,7 @@ export default function SimpleTable(data) {
 				<TableBody>
 					{data.data.map((row) => (
 						<TableRow key={row.username}>
+							<TableCell align="left">{++i}</TableCell>
 							<TableCell align="left">{row.result}</TableCell>
 							<TableCell align="left">{row.tipo_usuario}</TableCell>
 							<TableCell align="left">{row.nombre}</TableCell>

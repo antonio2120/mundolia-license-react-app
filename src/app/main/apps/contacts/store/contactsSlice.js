@@ -12,7 +12,8 @@ export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', 
 	const response = await axios.get(process.env.REACT_APP_API+'/usuarios',{
 		params:filterContacts
 	});
-	const data = await response.data;
+	console.log(response)
+	const data = await response.data.data;
 	return { data, routeParams };
 });
 
@@ -46,7 +47,7 @@ export const addContact = createAsyncThunk(
 			grade: userdata.grade,
 			password: userdata.password
 		});
-		const data = await response.data;
+		const data = await response.data.data;
 
 		dispatch(getContacts());
 		dispatch(showMessage({message: 'Usuario creado correctamente.',variant: 'success'	}));
@@ -67,7 +68,7 @@ export const updateContact = createAsyncThunk(
 			grade: userdata.grade,
 			password: userdata.password
 		});
-		const data = await response.data;
+		const data = await response.data.data;
 		dispatch(showMessage({message: 'Usuario actualizado correctamente.',variant: 'success'	}));
 		dispatch(getContacts());
 
@@ -80,6 +81,24 @@ export const removeContact = createAsyncThunk(
 	async (uuid, { dispatch, getState }) => {
 		try {
 			await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid).then(response => {
+				const data = response.data.data;
+				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(getContacts());
+				return data;
+			}).catch(error => {
+				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+			});
+		}catch (e){
+			console.log(e);
+		}
+	}
+);
+
+export const sendEmail = createAsyncThunk(
+	'contactsApp/contacts/sendEmail',
+	async (userData, { dispatch, getState }) => {
+		try {
+			await axios.post(process.env.REACT_APP_API+'/emails/',{message:userData.message,subject:userData.subject,uuids:userData.uuids}).then(response => {
 				const data = response.data;
 				dispatch(showMessage({message: response.data.message, variant: 'success'}));
 				dispatch(getContacts());
@@ -97,7 +116,7 @@ export const removeContacts = createAsyncThunk(
 	'contactsApp/contacts/removeContacts',
 	async (contactIds, { dispatch, getState }) => {
 		const response = await axios.post('/api/contacts-app/remove-contacts', { contactIds });
-		const data = await response.data;
+		const data = await response.data.data;
 
 		dispatch(getContacts());
 
@@ -241,6 +260,24 @@ const contactsSlice = createSlice({
 				data: null
 			};
 		},
+		openMassiveMessageGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'massiveMessage',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeMassiveMessageGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'massiveMessage',
+				props: {
+					open: false
+				},
+				data: action.payload
+			};
+		},
 		setContactsFilter: (state, action) => {
 			state.contactDialog = {
 				filterSchool: action.payload,
@@ -267,7 +304,9 @@ export const {
 	openEditContactDialog,
 	closeEditContactDialog,
 	openEditContactGroupDialog,
-	closeEditContactGroupDialog
+	closeEditContactGroupDialog,
+	openMassiveMessageGroupDialog,
+	closeMassiveMessageGroupDialog
 } = contactsSlice.actions;
 
 export default contactsSlice.reducer;
