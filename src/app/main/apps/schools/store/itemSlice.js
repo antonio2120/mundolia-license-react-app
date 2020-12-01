@@ -20,7 +20,7 @@ export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (rou
 export const addItem = createAsyncThunk(
 	'schoolsApp/items/addItem',
 	async (item, { dispatch, getState }) => {
-		const response = await axios.post(process.env.REACT_APP_API+'/escuelas', { item });
+		const response = await axios.post(process.env.REACT_APP_API+'/escuelas', item);
 		const data = await response.data;
 
 		dispatch(getInfo());
