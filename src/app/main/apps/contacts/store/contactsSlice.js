@@ -98,7 +98,7 @@ export const sendEmail = createAsyncThunk(
 	'contactsApp/contacts/sendEmail',
 	async (userData, { dispatch, getState }) => {
 		try {
-			await axios.post(process.env.REACT_APP_API+'/emails/',{message:userData.message,subject:userData.subject,uuids:userData.uuids}).then(response => {
+			await axios.post(process.env.REACT_APP_API+'/emails',{message:userData.message,subject:userData.subject,uuids:userData.uuids}).then(response => {
 				const data = response.data;
 				dispatch(showMessage({message: response.data.message, variant: 'success'}));
 				dispatch(getContacts());

@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 }));
 function getUrl(){
 	axios
-	.post(process.env.REACT_APP_API+'/usuario_p/login/')
+	.post(process.env.REACT_APP_API+'/usuario_p/login')
 	.then(response => {
 		if (response.data) {
 			window.location.href = response.data;
