@@ -78,9 +78,13 @@ export const setUserData = user => async (dispatch, getState) => {
 	};
 
 
-	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' ){;
+	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){;
 		const data_url = user.data.username+'|'+user.data.uuid_;
 		const encodedData = btoa(data_url);
+		history.location.state = {
+			redirectUrl: 'loginp' // for example 'apps/academy'
+		};
+
 		//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
 	}
 	const userSet = _.merge({}, user, {

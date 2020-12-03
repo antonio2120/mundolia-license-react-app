@@ -46,25 +46,21 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 function getUrl(){
-	axios
-	.post(process.env.REACT_APP_API+'/usuario_p/login')
-	.then(response => {
-		if (response.data) {
-			window.location.href = response.data;
-			console.log(response.data)
-		} else {
-			//dispatch(showMessage({ message: error.message }));
-		}
-	})
-	.catch(error => {
-		//dispatch(showMessage({ message: error.message }));
-	});
+
 
 }
 
 function LoginLia() {
 	const classes = useStyles();
-	getUrl();
+
+	const user = useSelector(({ auth }) => auth.user);
+	console.log(user.data.username)
+	console.log(user.data.uuid)
+	const data_url = user.data.username+'|'+user.data.uuid;
+	const encodedData = btoa(data_url);
+	console.log('http://plus.clublia.com/SSO?data='+encodedData)
+	window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
+
 	const dispatch = useDispatch();
 	const userType = useSelector(({ auth }) => auth.user.role);
 	console.log(userType)
