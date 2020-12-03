@@ -36,7 +36,9 @@ function MaintenancePage() {
 							</Typography>
 							<Link to={'/loginp'}> Comunidad </Link>
 							<Link to={'/logint'}> Academia </Link>
-							<a href={url} > LIA </a>
+							<Link to={'/loginlia'}> LIA </Link>
+							{/*<a href={url} > LIA </a>*/}
+
 
 						</CardContent>
 					</Card>
