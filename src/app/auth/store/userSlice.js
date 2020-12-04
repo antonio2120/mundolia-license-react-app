@@ -73,22 +73,15 @@ export const setUserData = user => async (dispatch, getState) => {
 
 	const fuseDefaultSettings = getState().fuse.settings.defaults;
 
-	history.location.state = {
-		redirectUrl: user.redirectUrl // for example 'apps/academy'
-	};
+	// history.location.state = {
+	// 	redirectUrl: user.redirectUrl // for example 'apps/academy'
+	// };
 
 
-	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){;
-		const data_url = user.data.username+'|'+user.data.uuid_;
-		const encodedData = btoa(data_url);
-		history.location.state = {
-			redirectUrl: 'loginp' // for example 'apps/academy'
-		};
 
-		//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
-	}
 	const userSet = _.merge({}, user, {
-		uid: user.data.uuid,
+		uuid: user.data.uuid,
+		uuid_:user.data.uuid_,
 		from: 'jwt',
 		role: user.data.role,
 		school_id: user.data.id_school,
@@ -104,6 +97,15 @@ export const setUserData = user => async (dispatch, getState) => {
 	dispatch(setDefaultSettings(fuseDefaultSettings));
 
 	dispatch(setUser(userSet));
+
+	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
+
+		history.location.state = {
+			redirectUrl: 'loginp' // for example 'apps/academy'
+		};
+
+		//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
+	}
 };
 
 export const updateUserSettings = settings => async (dispatch, getState) => {

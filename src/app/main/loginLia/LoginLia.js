@@ -56,7 +56,7 @@ function LoginLia() {
 	const user = useSelector(({ auth }) => auth.user);
 	console.log(user.data.username)
 	console.log(user.data.uuid)
-	const data_url = user.data.username+'|'+user.data.uuid;
+	const data_url = user.data.username+'|'+user.data.uuid_;
 	const encodedData = btoa(data_url);
 	console.log('http://plus.clublia.com/SSO?data='+encodedData)
 	window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
@@ -67,11 +67,11 @@ function LoginLia() {
 
 	return (
 		<div
-		className={clsx((userType == "admin" || userType == "alumno") ? classes.root_alumnos : userType == "maestro" ? classes.root_maestros : userType === "padres" ? classes.root_padres :classes.root_escuelas,
+		className={clsx((userType == "admin" || userType == "alumno"|| userType == "preescolar") ? classes.root_alumnos : userType == "maestro" ? classes.root_maestros : userType === "padre" ? classes.root_padres :classes.root_escuelas,
 			'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
 		)}
 	>
-		<div className={clsx((userType == "admin" || userType == "alumno") ? classes.image_overlay_alumnos : userType == "maestro" ? classes.image_overlay_maestros : userType === "padres" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
+		<div className={clsx((userType == "admin" || userType == "alumno"|| userType == "preescolar") ? classes.image_overlay_alumnos : userType == "maestro" ? classes.image_overlay_maestros : userType === "padre" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
 			<FuseAnimate animation="transition.expandIn">
 				<div className={clsx("flex w-full max-w-400 md:max-w-3xl rounded-12 overflow-hidden justify-center")}>
 					
