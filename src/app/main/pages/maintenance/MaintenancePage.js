@@ -34,10 +34,6 @@ function MaintenancePage() {
 								Bienvenido a
 								Sistema ClubLIA!
 							</Typography>
-							<Link to={'/loginp'}> Comunidad </Link>
-							<Link to={'/logint'}> Academia </Link>
-							<Link to={'/loginlia'}> LIA </Link>
-							{/*<a href={url} > LIA </a>*/}
 
 
 						</CardContent>
