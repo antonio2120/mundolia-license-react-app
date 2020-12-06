@@ -17,6 +17,10 @@ import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
 
+import packageJson from "../../package.json";
+import { getBuildDate } from "./utils/utils";
+import withClearCache from "./ClearCache";
+
 const jss = create({
 	...jssPreset(),
 	plugins: [...jssPreset().plugins, jssExtend(), rtl()],
@@ -25,7 +29,13 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
-const App = () => {
+const ClearCacheComponent = withClearCache(MainApp);
+
+function App(){
+	return <ClearCacheComponent />
+}
+
+function MainApp(props){
 	return (
 		<AppContext.Provider
 			value={{
@@ -35,7 +45,7 @@ const App = () => {
 			<StylesProvider jss={jss} generateClassName={generateClassName}>
 				<Provider store={store}>
 					<MuiPickersUtilsProvider utils={MomentUtils}>
-						<Auth>
+						<Auth history={history}>
 							<Router history={history}>
 								<FuseAuthorization>
 									<FuseTheme>
@@ -50,5 +60,4 @@ const App = () => {
 		</AppContext.Provider>
 	);
 };
-
 export default App;

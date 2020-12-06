@@ -137,7 +137,7 @@ function Login() {
 								</Typography>
 							</FuseAnimate>
 
-							<FuseAnimate delay={500}>
+							<FuseAnimate delay={500} >
 								<Typography variant="subtitle1" color="inherit" className="mt-32">
 									Administración de Licencias para tu institución.
 								</Typography>

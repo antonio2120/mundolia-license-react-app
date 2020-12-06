@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import ItemsTable from './ItemsTable';
 import { openEditItemDialog, removeItem, toggleStarredItem, selectItems } from './store/itemSlice';
+import ItemsSidebarContent from "./ItemsSidebarContent";
+import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
+import ContactsTable from "../contacts/ContactsTable";
+import {openEditContactDialog} from "../contacts/store/contactsSlice";
 
 function ItemsList(props) {
 	const dispatch = useDispatch();
@@ -44,7 +48,7 @@ function ItemsList(props) {
 			},
 			{
 				Header: 'Usuarios actuales',
-				accessor: 'CurrentUsers',
+				accessor: 'Usuarios',
 				sortable: true
 			},
 		],
@@ -67,27 +71,38 @@ function ItemsList(props) {
 		return null;
 	}
 
+
+	let res
 	if (filteredData.length === 0) {
-		return (
-			<div className="flex flex-1 items-center justify-center h-full">
-				<Typography color="textSecondary" variant="h5">
-					No hay registros que mostrar!
-				</Typography>
-			</div>
+		res = (
+			<>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						No hay registros que mostrar!
+					</Typography>
+				</div>
+			</>
 		);
+	}else{
+		res =  (
+			<ItemsTable
+				columns={columns}
+				data={filteredData}
+				onRowClick={(ev, row) => {
+					if (row) {
+						dispatch(openEditItemDialog(row.original));
+					}
+				}}
+			/>
+		)
 	}
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={300}>
-			<ItemsTable
-				columns={columns}
-				data={filteredData}
-				// onRowClick={(ev, row) => {
-				// 	if (row) {
-				// 		dispatch(openEditItemDialog(row.original));
-				// 	}
-				// }}
-			/>
+			<>
+				<ItemsSidebarContent />
+				{res}
+			</>
 		</FuseAnimate>
 	);
 }

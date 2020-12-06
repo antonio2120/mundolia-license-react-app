@@ -6,6 +6,8 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
+import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -15,7 +17,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function MaintenancePage() {
+	const user = useSelector(({ auth }) => auth.user);
 	const classes = useStyles();
+	const data_url = user.data.username+'|'+user.data.uuid_;
+	const encodedData = btoa(data_url);
+	const url = 'http://plus.clublia.com/SSO?data='+encodedData;
 
 	return (
 		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
@@ -28,6 +34,7 @@ function MaintenancePage() {
 								Bienvenido a
 								Sistema ClubLIA!
 							</Typography>
+
 
 						</CardContent>
 					</Card>

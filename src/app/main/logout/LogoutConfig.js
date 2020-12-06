@@ -1,16 +1,33 @@
-import { authRoles } from 'app/auth';
-import store from 'app/store';
-import { logoutUser } from 'app/auth/store/userSlice';
+
+import Logout from './Logout'
 
 const LogoutConfig = {
-	auth: authRoles.user,
+	settings: {
+		layout: {
+			config: {
+				navbar: {
+					display: false
+				},
+				toolbar: {
+					display: false
+				},
+				footer: {
+					display: false
+				},
+				leftSidePanel: {
+					display: false
+				},
+				rightSidePanel: {
+					display: false
+				}
+			}
+		}
+	},
+
 	routes: [
 		{
 			path: '/logout',
-			component: () => {
-				store.dispatch(logoutUser());
-				return 'Logging out..';
-			}
+			component: Logout
 		}
 	]
 };

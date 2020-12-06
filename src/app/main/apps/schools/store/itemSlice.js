@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/too
 import axios from 'axios';
 
 export const getInfo = createAsyncThunk('schoolsApp/items/getInfo', async (routeParams, { getState }) => {
-	routeParams = routeParams || getState().ItemsApp.items.routeParams;
-	const response = await axios.get(process.env.REACT_APP_API+'/schools');
+	routeParams = routeParams || getState().schoolsApp.items.routeParams;
+	let filterContacts = getState().schoolsApp.filter.school_active;
+	const response = await axios.get(process.env.REACT_APP_API+'/schools',{
+		params:{active : filterContacts}
+	});
 	const data = await response.data;
-
 	return { data, routeParams };
 });
 export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (routeParams, { getState }) => {
@@ -18,7 +20,7 @@ export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (rou
 export const addItem = createAsyncThunk(
 	'schoolsApp/items/addItem',
 	async (item, { dispatch, getState }) => {
-		const response = await axios.post('/api/items-app/add-item', { item });
+		const response = await axios.post(process.env.REACT_APP_API+'/escuelas', item);
 		const data = await response.data;
 
 		dispatch(getInfo());
@@ -30,7 +32,11 @@ export const addItem = createAsyncThunk(
 export const updateItem = createAsyncThunk(
 	'schoolsApp/items/updateItem',
 	async (item, { dispatch, getState }) => {
-		const response = await axios.post('/api/items-app/update-item', { item });
+		const response = await axios.put(process.env.REACT_APP_API+'/escuelas/'+item.id, {
+			description: item.Description,
+			is_active: item.IsActive,
+			name: item.School
+		});
 		const data = await response.data;
 
 		dispatch(getInfo());
@@ -42,7 +48,7 @@ export const updateItem = createAsyncThunk(
 export const removeItem = createAsyncThunk(
 	'schoolsApp/items/removeItem',
 	async (itemId, { dispatch, getState }) => {
-		const response = await axios.post('/api/items-app/remove-item', { itemId });
+		const response = await axios.delete(process.env.REACT_APP_API+'/escuelas/'+itemId, { itemId });
 		const data = await response.data;
 		dispatch(getInfo());
 
@@ -53,7 +59,7 @@ export const removeItem = createAsyncThunk(
 export const removeItems = createAsyncThunk(
 	'schoolsApp/items/removeItems',
 	async (itemIds, { dispatch, getState }) => {
-		const response = await axios.post('/api/items-app/remove-items', { itemIds });
+		const response = await axios.post(process.env.REACT_APP_API+'/items-app/remove-items', { itemIds });
 		const data = await response.data;
 
 		dispatch(getInfo());
@@ -65,7 +71,7 @@ export const removeItems = createAsyncThunk(
 export const toggleStarredItem = createAsyncThunk(
 	'schoolsApp/items/toggleStarredItem',
 	async (itemId, { dispatch, getState }) => {
-		const response = await axios.post('/api/items-app/toggle-starred-item', { itemId });
+		const response = await axios.post('/items-app/toggle-starred-item', { itemId });
 		const data = await response.data;
 
 

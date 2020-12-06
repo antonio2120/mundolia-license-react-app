@@ -73,18 +73,15 @@ export const setUserData = user => async (dispatch, getState) => {
 
 	const fuseDefaultSettings = getState().fuse.settings.defaults;
 
-	history.location.state = {
-		redirectUrl: user.redirectUrl // for example 'apps/academy'
-	};
+	// history.location.state = {
+	// 	redirectUrl: user.redirectUrl // for example 'apps/academy'
+	// };
 
 
-	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' ){;
-		const data_url = user.data.username+'|'+user.data.uuid_;
-		const encodedData = btoa(data_url);
-		window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
-	}
+
 	const userSet = _.merge({}, user, {
-		uid: user.data.uuid,
+		uuid: user.data.uuid,
+		uuid_:user.data.uuid_,
 		from: 'jwt',
 		role: user.data.role,
 		school_id: user.data.id_school,
@@ -100,6 +97,15 @@ export const setUserData = user => async (dispatch, getState) => {
 	dispatch(setDefaultSettings(fuseDefaultSettings));
 
 	dispatch(setUser(userSet));
+
+	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
+
+		history.location.state = {
+			redirectUrl: 'loginp' // for example 'apps/academy'
+		};
+
+		//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
+	}
 };
 
 export const updateUserSettings = settings => async (dispatch, getState) => {
@@ -128,7 +134,7 @@ export const updateUserShortcuts = shortcuts => async (dispatch, getState) => {
 
 export const logoutUser = () => async (dispatch, getState) => {
 	const { user } = getState().auth;
-
+	dispatch(userLoggedOut());
 	if (!user.role || user.role.length === 0) {
 		// is guest
 		return null;
@@ -154,7 +160,7 @@ export const logoutUser = () => async (dispatch, getState) => {
 
 	dispatch(setInitialSettings());
 
-	dispatch(userLoggedOut());
+
 };
 
 export const updateUserData = user => async (dispatch, getState) => {
@@ -205,9 +211,9 @@ export const updateUserData = user => async (dispatch, getState) => {
 const initialState = {
 	role: [], // guest
 	data: {
-		displayName: 'José Andrade Muñoz',
+		displayName: '',
 		photoURL: 'assets/images/avatars/user.jpg',
-		email: 'jandrade@educationmakeover.org',
+		email: '',
 		shortcuts: null
 	}
 };
