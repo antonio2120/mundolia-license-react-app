@@ -17,6 +17,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
 import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConfig";
+import RedirectPageConfig from "../main/pages/redirect/RedirectPageConfig";
 
 const routeConfigs = [
 	...appsConfigs,
@@ -33,7 +34,8 @@ const routeConfigs = [
 	LicenciasConfig,
 	SchoolsConfig,
 	PeriodosConfig,
-	MaintenancePageConfig
+	MaintenancePageConfig,
+	RedirectPageConfig
 ];
 
 const routes = [
@@ -44,7 +46,7 @@ const routes = [
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/pages/bienvenido" />
+		component: () => <Redirect to="/pages/redirect" />
 	},
 	{
 		component: () => <Redirect to="/pages/errors/error-404" />
