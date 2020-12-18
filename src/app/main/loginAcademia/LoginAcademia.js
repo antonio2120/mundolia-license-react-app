@@ -6,18 +6,35 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		background: `linear-gradient(to left, ${theme.palette.primary.dark} 0%, ${darken(
-			theme.palette.primary.dark,
-			0.5
-		)} 100%)`,
+	root_alumnos: {
+		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
+	root_maestros: {
+		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		color: theme.palette.primary.contrastText
+	},
+	root_padres: {
+		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		color: theme.palette.primary.contrastText
+	},
+	root_escuelas: {
+		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		color: theme.palette.primary.contrastText
+	},
+
+	image_overlay_alumnos:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(148,88,183,0.8)',},
+	image_overlay_maestros:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgb(208,66,55,0.7)',},
+	image_overlay_padres:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(231,162,63,0.7)',},
+	image_overlay_escuelas:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(34,79,245,0.7)',},
+	
 	leftSection: {},
 	rightSection: {
 		background: `linear-gradient(to right, ${theme.palette.primary.dark} 0%, ${darken(
@@ -46,66 +63,25 @@ function getUrl(){
 function LoginAcademia() {
 	const classes = useStyles();
 	getUrl();
+	const dispatch = useDispatch();
+	const userType = useSelector(({ auth }) => auth.user.role);
+	console.log(userType)
 	return (
 		<div
-			className={clsx(
-				classes.root,
-				'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
-			)}
-		>
+		className={clsx((userType == "admin" || userType == "alumno"|| userType == "preescolar") ? classes.root_alumnos : userType == "maestro" ? classes.root_maestros : userType === "padre" ? classes.root_padres :classes.root_escuelas,
+			'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
+		)}
+	>
+		<div className={clsx((userType == "admin" || userType == "alumno"|| userType == "preescolar") ? classes.image_overlay_alumnos : userType == "maestro" ? classes.image_overlay_maestros : userType === "padre" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
 			<FuseAnimate animation="transition.expandIn">
-				<div className="flex w-full max-w-400 md:max-w-3xl rounded-12 shadow-2xl overflow-hidden">
-					<Card
-						className={clsx(
-							classes.leftSection,
-							'flex flex-col w-full max-w-sm items-center justify-center'
-						)}
-						square
-						elevation={0}
-					>
-						<CardContent className="flex flex-col items-center justify-center w-full py-96 max-w-320">
-							<FuseAnimate delay={300}>
-								<div className="flex items-center mb-32">
-									<img className="logo-icon w-49" src="assets/images/logos/clublia.png" alt="logo" />
-									<div className="border-l-1 mr-4 w-1 h-40" />
-									<div>
-										<Typography className="text-24 font-800 logo-text" color="inherit">
-
-										</Typography>
-										<Typography
-											className="text-16 tracking-widest -mt-8 font-700"
-											color="textSecondary"
-										>
-
-										</Typography>
-									</div>
-								</div>
-							</FuseAnimate>
-
-						</CardContent>
-
-
-					</Card>
-
-					<div
-						className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-64')}
-					>
-						<div className="max-w-500">
-							<FuseAnimate animation="transition.slideUpIn" delay={400}>
-								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
-									Academia CLUBLIA!
-								</Typography>
-							</FuseAnimate>
-
-							<FuseAnimate delay={500}>
-								<Typography variant="h5" color="inherit" className="mt-32">
-									Bienvenido
-								</Typography>
-							</FuseAnimate>
-						</div>
-					</div>
+				<div className={clsx("flex w-full max-w-400 md:max-w-3xl rounded-12 overflow-hidden justify-center")}>
+					
+					<img className="logo-icon w-49" src="assets/images/logos/clublia.png" alt="logo" />
+									
 				</div>
+
 			</FuseAnimate>
+					<CircularProgress color="secondary" />
 		</div>
 	);
 }
