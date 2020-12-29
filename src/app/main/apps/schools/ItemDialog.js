@@ -28,6 +28,7 @@ const defaultFormState = {
 	id: '',
 	School: '',
 	Description: '',
+	Admin: '',
 	IsActive: false,
 };
 
@@ -71,7 +72,7 @@ function ItemDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.School.length > 0;
+		return form.School.length > 0 && form.Admin.length > 0;
 	}
 
 	function handleSubmit(event) {
@@ -150,6 +151,28 @@ function ItemDialog(props) {
 							fullWidth
 						/>
 					</div>
+					{itemDialog.type === 'new' && (
+						<div className="flex">
+							<div className="min-w-48 pt-20">
+								<Icon color="action">mail</Icon>
+							</div>
+							<TextField
+								className="mb-24"
+								validations="isEmail"
+								validationErrors={{
+									isEmail: 'Email invalido.'
+								}}
+								label="Administrador"
+								id="Admin"
+								name="Admin"
+								value={form.Admin}
+								onChange={handleChange}
+								variant="outlined"
+								required
+								fullWidth
+							/>
+						</div>
+					)}
 					<FormControl variant="outlined" >
 						<FormControlLabel
 							control={
