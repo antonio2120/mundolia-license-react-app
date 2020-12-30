@@ -72,7 +72,7 @@ function ItemDialog(props) {
 	}
 
 	function canBeSubmitted() {
-		return form.School.length > 0 && form.Admin.length > 0;
+		return itemDialog.type === 'edit' ? form.School.length > 0 : form.School.length > 0 && form.Admin.length > 0;
 	}
 
 	function handleSubmit(event) {
