@@ -36,6 +36,15 @@ const navigationConfig = [
 				url: '/licencias/'
 			},
 			{
+				id: 'grupos',
+				title: 'Grupos',
+				translate: 'Grupos',
+				type: 'item',
+				'auth' : authRoles.admin_escuela,
+				icon: 'groups',
+				url: '/apps/grupos/all'
+			},
+			{
 				id: 'schools-component',
 				title: 'Escuelas',
 				translate: 'Escuelas',

@@ -8,16 +8,10 @@ import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import ContactDialog from './ContactDialog';
-import ContactsHeader from './ContactsHeader';
-import ContactsList from './ContactsList';
-import Download from './Download';
-import ContactsSidebarContent from './ContactsSidebarContent';
+import GroupDialog from './GroupDialog';
+import GroupsHeader from './GroupsHeader';
 import reducer from './store';
-import { openNewContactDialog, getContacts } from './store/contactsSlice';
-import { getUserData } from './store/userSlice';
-import {getSchoolsData} from "./store/schoolsSlice";
-import {getRolesData} from "./store/rolesSlice";
+import { openNewGroupDialog, getGroups } from './store/groupSlice';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -34,7 +28,7 @@ const useStyles = makeStyles({
 	}
 });
 
-function ContactsApp(props) {
+function GroupsApp(props) {
 	const dispatch = useDispatch();
 
 	const classes = useStyles(props);
@@ -42,10 +36,8 @@ function ContactsApp(props) {
 	const routeParams = useParams();
 
 	useDeepCompareEffect(() => {
-		dispatch(getContacts(routeParams));
-		dispatch(getUserData());
-		dispatch(getSchoolsData());
-		dispatch(getRolesData());
+		dispatch(getGroups(routeParams));
+	
 	}, [dispatch, routeParams]);
 
 	return (
@@ -59,37 +51,27 @@ function ContactsApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0'
 				}}
-				header={<ContactsHeader pageLayout={pageLayout} />}
-				content={<ContactsList />}
+				header={<GroupsHeader pageLayout={pageLayout} />}
+				// content={<GroupsList />}
 				// leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
 			<FuseAnimate animation="transition.expandIn" delay={300}>
-
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.exportButton}
-					//onClick={downloadContacts}
-				>
-					<Download />
-				</Fab>
-			</FuseAnimate>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab
 					color="primary"
 					aria-label="add"
 					className={classes.addButton}
-					onClick={ev => dispatch(openNewContactDialog())}
+					onClick={ev => dispatch(openNewGroupDialog())}
 				>
-					<Icon>person_add</Icon>
+					<Icon>group_add</Icon>
 				</Fab>
 			</FuseAnimate>
-			<ContactDialog /> 
+			<GroupDialog/>
+
 		</>
 	);
 }
 
-export default withReducer('contactsApp', reducer)(ContactsApp);
+export default withReducer('GroupsApp', reducer)(GroupsApp);
