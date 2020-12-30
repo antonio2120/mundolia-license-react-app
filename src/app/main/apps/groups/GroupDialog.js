@@ -48,14 +48,7 @@ function GroupDialog(props) {
     const groupDialog = useSelector(({ GroupsApp }) => GroupsApp.group.groupDialog);
 	const formOrigin = useSelector(({ GroupsApp }) => GroupsApp.group.groupDialog.data);
 	const group = useSelector(({ GroupsApp }) => GroupsApp.group.group);
-	const teachers = useSelector(({ GroupsApp }) => GroupsApp.teachers);
-	console.log(teachers);
-
-	// const group = useSelector(({ GroupsApp }) => GroupsApp);
-	// console.log(teachers);
-
-
-
+	const teachers = useSelector(({ GroupsApp }) => GroupsApp.teachers.data);
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
 	const [values, setValues] = React.useState({
@@ -247,23 +240,31 @@ function GroupDialog(props) {
 							<MenuItem key={'grade5'} value={5}>5</MenuItem>
 							<MenuItem key={'grade6'} value={6}>6</MenuItem>
 						</SelectFormsy>
-						{/* {schools.length > 0 ?
-							<SelectFormsy
-								id="school_id"
-								name="school_id"
-								value={form.school_id}
-								onChange={handleChange}
-								label="Escuela"
-								fullWidth
 
+						{ teachers ?
+
+							<SelectFormsy
+								id="teacher"
+								name="teacher"
+								width="100%"
+								value={form.teacher}
+								onChange={handleChange}
+								label="Maestro"
+								fullWidth
 								variant="outlined"
 								className="mb-24 MuiInputBase-fullWidth"
-								required={ groupDialog.type === 'editGroup' ? false : true}
+								required
 							>
-								{schools.map((row) =>(<MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>))}
-							</SelectFormsy>:
+								{teachers.map((row) => (
+									// <MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>)
+
+									<MenuItem key={row.email} value={row}>{row.email}</MenuItem>
+								))
+								}
+							</SelectFormsy>
+							:
 							<CircularProgress color="secondary"/>
-						} */}
+						}
 				
 
 		

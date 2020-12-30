@@ -19,14 +19,9 @@ export const submitCreateGroup = ( groupdata ) => async dispatch => {
 	return jwtService
 		.addGroup({
 			groupName: groupdata.groupName,
-			// teacherId: groupdata.teacherId,
-			// schoolId: groupdata.schoolId,
+			teacherId: groupdata.teacher.id,
+			schoolId: groupdata.teacher.school_id,
 			grade: groupdata.grade,
-
-			// groupName: 'grupoPrueba',
-			teacherId: '4',
-			schoolId: '305',
-			// grade: '2'
 		})
 		.then(group => {
 			dispatch(registerSuccess());

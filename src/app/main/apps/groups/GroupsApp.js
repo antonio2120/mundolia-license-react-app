@@ -12,6 +12,7 @@ import GroupDialog from './GroupDialog';
 import GroupsHeader from './GroupsHeader';
 import reducer from './store';
 import { openNewGroupDialog, getGroups } from './store/groupSlice';
+import { getTeacherInfo } from './store/teacherSlice';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -37,6 +38,7 @@ function GroupsApp(props) {
 
 	useDeepCompareEffect(() => {
 		dispatch(getGroups(routeParams));
+		dispatch(getTeacherInfo());
 	
 	}, [dispatch, routeParams]);
 
