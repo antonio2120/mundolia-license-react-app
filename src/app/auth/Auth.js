@@ -28,17 +28,23 @@ class Auth extends Component {
 				this.setState({waitAuthCheck: false});
 			});
 		}else{
-			axios
-				.post(process.env.REACT_APP_API+'/logout')
-				.then(response => {
-					console.log(response);
-				})
-				.catch(error => {
-					console.log(error);
-				});
+			var token = window.localStorage.getItem('jwt_access_token');
+			axios.defaults.headers.common.Authorization = `Bearer ${token}`; 	
+			jwtService
+					.signInWithToken()
+					.then(user => {
+						this.props.setUserData(user);
+						this.props.showMessage({ message: 'Logout' });
+						this.setState({waitAuthCheck: false});
+					})
+					.catch(error => {
+						this.props.logoutUser();
+						this.setState({waitAuthCheck: false});
+					})
 			localStorage.removeItem('jwt_access_token');
 			delete axios.defaults.headers.common.Authorization;
-			this.setState({waitAuthCheck: false});
+				
+		
 		}
 	}
 
