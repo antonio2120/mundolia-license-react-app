@@ -6,36 +6,32 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
-import ContactsTable from './ContactsTable';
-import { openEditContactDialog, removeGroup, toggleStarredContact, selectGroups } from './store/contactsSlice';
-import ContactsSidebarContent from "./ContactsSidebarContent";
+// import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
+import GroupsTable from './GroupsTable';
+import { openEditItemDialog, removeItem, toggleStarredItem, selectGroups } from './store/groupSlice';
+
+// import ItemsSidebarContent from "./ItemsSidebarContent";
+// import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
+// import ContactsTable from "../contacts/ContactsTable";
+// import {openEditContactDialog} from "../contacts/store/contactsSlice";
 
 function GroupsList(props) {
+
 	const dispatch = useDispatch();
-	const contacts = useSelector(selectGroups);
-	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
-	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const groups = useSelector(selectGroups);
+	let searchText = useSelector(({ GroupsApp }) => GroupsApp.group.searchText);
+	searchText =searchText? searchText : '';
+
+
+	// const groups = useSelector(({ GroupsApp }) => GroupsApp.groups.entities);
+	// let searchText = useSelector(({ GroupsApp }) => GroupsApp.groups.searchText);
+	// // console.log(groups);
+	// const user = useSelector(({ GroupsApp }) => GroupsApp.user);
 
 	const [filteredData, setFilteredData] = useState(null);
 
 	const columns = React.useMemo(
 		() => [
-			{
-				Header: ({ selectedFlatRows }) => {
-					const selectedRowIds = selectedFlatRows.map(row => row.original.uuid);
-					return (
-						selectedFlatRows.length > 0 && <ContactsMultiSelectMenu selectedContactIds={selectedRowIds} />
-					);
-				},
-				accessor: 'avatar',
-				Cell: ({ row }) => {
-					return <Avatar className="mx-8" alt={row.original.name} src={row.original.avatar} />;
-				},
-				className: 'justify-center',
-				width: 64,
-				sortable: false
-			},
 			{
 				Header: 'Nombre del Grupo',
 				accessor: 'name',
@@ -43,95 +39,58 @@ function GroupsList(props) {
 				sortable: true
 			},
 			{
-				Header: 'Grado',
-				accessor: 'last_name',
+				Header: 'Profesor',
+				accessor: 'teacher_id',
+				sortable: true
+			},
+			{
+				Header: 'Numero del miembros',
+				accessor: '',
 				className: 'font-bold',
 				sortable: true
 			},
-			{
-				Header: 'Profesor',
-				accessor: 'school_name',
-				sortable: true
-			},
-			{
-				Header: 'Grado',
-				accessor: 'grade',
-				sortable: true
-			},
-			{
-				Header: 'Username',
-				accessor: 'username',
-				sortable: true
-			},
-			{
-				Header: 'Rol',
-				accessor: 'role_name',
-				sortable: true
-			},
-			{
-				Header: 'Email',
-				accessor: 'email',
-				sortable: true
-			},
-			{
-				id: 'action',
-				width: 128,
-				sortable: false,
-				Cell: ({ row }) => (
-					<div className="flex items-center">
-
-						<IconButton
-							onClick={ev => {
-								ev.stopPropagation();
-								dispatch(removeGroup(row.original.uuid));
-							}}
-						>
-							<Icon>delete</Icon>
-						</IconButton>
-					</div>
-				)
-			}
 		],
-		[dispatch, user.starred]
+		[dispatch]
 	);
 
 	useEffect(() => {
 		function getFilteredArray(entities, _searchText) {
 			if (_searchText.length === 0) {
-				return contacts;
+				return groups;
 			}
-			return FuseUtils.filterArrayByString(contacts, _searchText);
+			return FuseUtils.filterArrayByString(groups, _searchText);
 		}
-
-		if (contacts) {
-			setFilteredData(getFilteredArray(contacts, searchText));
+		if (groups) {
+			setFilteredData(getFilteredArray(groups, searchText));
 		}
-	}, [contacts, searchText]);
+	}, [groups, searchText]);
 
 	if (!filteredData) {
 		return null;
 	}
-let res
+
+
+	let res
 	if (filteredData.length === 0) {
 		res = (
 			<>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						No hay usuarios que mostrar!
+						No hay registros que mostrar!
 					</Typography>
 				</div>
 			</>
 		);
 	}else{
 		res =  (
-			<ContactsTable
+			<GroupsTable
 				columns={columns}
 				data={filteredData}
-				onRowClick={(ev, row) => {
-					if (row) {
-						dispatch(openEditContactDialog(row.original));
-					}
-				}}
+				// onRowClick={(ev, row) => {
+				// 	if (row) {
+				// 		dispatch(openEditItemDialog(row.original));
+				// 	}
+				// }}
 			/>
 		)
 	}
@@ -139,7 +98,7 @@ let res
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={300}>
 			<>
-			<ContactsSidebarContent />
+				{/* <ItemsSidebarContent /> */}
 				{res}
 			</>
 		</FuseAnimate>

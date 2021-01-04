@@ -13,6 +13,7 @@ import GroupsHeader from './GroupsHeader';
 import reducer from './store';
 import { openNewGroupDialog, getGroups } from './store/groupSlice';
 import { getTeacherInfo } from './store/teacherSlice';
+import GroupsList from './GroupsList';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -54,7 +55,7 @@ function GroupsApp(props) {
 					wrapper: 'min-h-0'
 				}}
 				header={<GroupsHeader pageLayout={pageLayout} />}
-				// content={<GroupsList />}
+				content={<GroupsList />}
 				// leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}

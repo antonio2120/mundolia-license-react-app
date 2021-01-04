@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMainTheme } from 'app/store/fuse/settingsSlice';
-// import { setContactsSearchText } from './store/contactsSlice';
+import { setGroupsSearchText } from './store/groupSlice';
 
 function GroupsHeader(props) {
 	const dispatch = useDispatch();
@@ -60,7 +60,7 @@ function GroupsHeader(props) {
 								inputProps={{
 									'aria-label': 'Search'
 								}}
-								// onChange={ev => dispatch(setContactsSearchText(ev))}
+								onChange={ev => dispatch(setGroupsSearchText(ev))}
 							/>
 						</Paper>
 					</FuseAnimate>
