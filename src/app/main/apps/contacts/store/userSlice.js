@@ -72,6 +72,22 @@ export const submitUpdateContactGroup = ( userdata, users ) => async dispatch =>
 			return dispatch(registerError(error));
 		});
 };
+export const submitAddContactToGroup = ( group, users ) => async dispatch => {
+	return jwtService
+		.addContactToGroup({
+			groupId: group.groupList,
+			uuids: users,
+		})
+		.then(user => {
+			console.log(user);
+			dispatch(registerSuccess());
+			// dispatch(getContacts());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
 const initialState = {
 	success: false,
 	response: false,

@@ -14,6 +14,7 @@ import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import LicenciasConfig from "../main/Licencias/LicenciasConfig";
 import SchoolsConfig from "../main/apps/schools/ItemsAppConfig";
 import PeriodosConfig from "../main/apps/periodos/AppConfig";
+import GroupsConfig from "../main/apps/groups/GroupsAppConfig";
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
@@ -36,6 +37,7 @@ const routeConfigs = [
 	LicenciasConfig,
 	SchoolsConfig,
 	PeriodosConfig,
+	GroupsConfig,
 	MaintenancePageConfig,
 	RedirectPageConfig
 ];

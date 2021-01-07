@@ -13,7 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitCreateContact,submitUpdateContact, submitUpdateContactGroup } from './store/userSlice';
+import { submitCreateContact,submitUpdateContact, submitUpdateContactGroup, submitAddContactToGroup } from './store/userSlice';
 
 import {
 	removeContact,
@@ -52,6 +52,7 @@ function ContactDialog(props) {
 	const schools = useSelector(({ contactsApp }) => contactsApp.schools);
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const groupList = useSelector(({ contactsApp }) => contactsApp.groups.data);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
@@ -69,7 +70,7 @@ function ContactDialog(props) {
 	}
 
 	const initDialog = useCallback(() => {
-		/**
+				/**
 		 * Dialog type: 'edit'
 		 */
 		if ((contactDialog.type === 'edit' || contactDialog.type === 'editGroup' )&& contactDialog.data) {
@@ -80,6 +81,13 @@ function ContactDialog(props) {
 		 * Dialog type: 'massiveMessage'
 		 */
 		if ((contactDialog.type === 'massiveMessage')&& contactDialog.data) {
+			setForm({ ...contactDialog.data });
+		}
+
+		/**
+		 * Dialog type: 'addToGroup'
+		 */
+		if ((contactDialog.type === 'addToGroup')&& contactDialog.data) {
 			setForm({ ...contactDialog.data });
 		}
 
@@ -135,7 +143,7 @@ function ContactDialog(props) {
 		}
 	}, [user.error,user.success]);
 	function closeComposeDialog() {
-		return (contactDialog.type === 'edit' || contactDialog.type === 'editGroup')? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
+		return (contactDialog.type === 'edit' || contactDialog.type === 'editGroup')?  dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
 	}
 
 	function handleSubmit(event) {
@@ -154,6 +162,9 @@ function ContactDialog(props) {
 		else if (contactDialog.type === 'edit'){
 			dispatch(submitUpdateContact(form,formOrigin));
 		}
+		else if (contactDialog.type === 'addToGroup'){
+			dispatch(submitAddContactToGroup(form,formOrigin));
+		} 
 		else {
 			dispatch(submitUpdateContactGroup(form,users));
 		}
@@ -186,9 +197,10 @@ function ContactDialog(props) {
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
 						{contactDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
 						{contactDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'}
+						{contactDialog.type === 'addToGroup' && 'Añadir usuarios a un grupo'}
 					</Typography>
 				</Toolbar>
-				{(contactDialog.type !== 'editGroup' && contactDialog.type !== 'massiveMessage') && (
+				{(contactDialog.type !== 'editGroup' && contactDialog.type !== 'massiveMessage' && contactDialog.type !== 'addToGroup') && (
 					<div className="flex flex-col items-center justify-center pb-24">
 						<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
 						{contactDialog.type === 'edit' && (
@@ -208,7 +220,7 @@ function ContactDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					{contactDialog.type !== 'editGroup' && contactDialog.type !== 'massiveMessage' &&
+					{contactDialog.type !== 'editGroup' && contactDialog.type !== 'massiveMessage' && contactDialog.type !== 'addToGroup' &&
 					(
 						<div>
 							<TextFieldFormsy
@@ -317,7 +329,7 @@ function ContactDialog(props) {
 					/>
 					)
 					}
-					{contactDialog.type !== 'massiveMessage' && (
+					{contactDialog.type !== 'massiveMessage' && contactDialog.type !== 'addToGroup' && (
 					<>
 						<TextFieldFormsy
 							className="mb-16"
@@ -451,6 +463,35 @@ function ContactDialog(props) {
 							/>
 						</>
 					)}
+					{contactDialog.type === 'addToGroup' && (
+						<>
+						{ groupList ?
+
+								<SelectFormsy
+									id="groupList"
+									name="groupList"
+									width="100%"
+									value={form.groupList}
+									onChange={handleChange}
+									label="Grupo"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									required
+								>
+									{groupList.map((row) => (
+										// <MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>)
+
+										<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))
+									}
+								</SelectFormsy>
+								:
+								<CircularProgress color="secondary" />
+							}
+
+						</>
+					)}
 					{values.loading && <LinearProgress />}
 
 				</DialogContent>
@@ -482,7 +523,7 @@ function ContactDialog(props) {
 							</Button>
 						</div>
 					</DialogActions>
-				) : (
+				) : contactDialog.type === 'addToGroup' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
 							<Button
@@ -492,16 +533,30 @@ function ContactDialog(props) {
 								onClick={handleSubmit}
 								disabled={(values.loading || !isFormValid)}
 							>
-								Guardar
+								Añadir
 							</Button>
 						</div>
-						{contactDialog.type !== 'editGroup' && (
-							<IconButton onClick={handleRemove} disabled={(values.loading)}>
-								<Icon>delete</Icon>
-							</IconButton>
-						)}
 					</DialogActions>
-				)}
+						) : (
+								<DialogActions className="justify-between p-8">
+									<div className="px-16">
+										<Button
+											variant="contained"
+											color="primary"
+											type="submit"
+											onClick={handleSubmit}
+											disabled={(values.loading || !isFormValid)}
+										>
+											Guardar
+										</Button>
+									</div>
+									{contactDialog.type !== 'editGroup' && contactDialog.type !== 'addToGroup' && (
+										<IconButton onClick={handleRemove} disabled={(values.loading)}>
+											<Icon>delete</Icon>
+										</IconButton>
+									)}
+								</DialogActions>
+							)}
 			</Formsy>
 		</Dialog>
 	);

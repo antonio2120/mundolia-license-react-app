@@ -20,12 +20,23 @@ export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (rou
 export const addItem = createAsyncThunk(
 	'schoolsApp/items/addItem',
 	async (item, { dispatch, getState }) => {
-		const response = await axios.post(process.env.REACT_APP_API+'/escuelas', item);
-		const data = await response.data;
-
-		dispatch(getInfo());
-
-		return data;
+		const res = await axios.post(process.env.REACT_APP_API+'/escuelas', item)
+		.then(response =>{
+			if(response.status == 201){
+				dispatch(registerSuccess());
+				dispatch(getInfo());
+				dispatch(registerReset());
+				return response;
+			}else{
+				dispatch(registerError(response.data));
+				return response;
+			}
+		}).catch(error => {
+			console.log(error);
+			dispatch(registerError(error));
+			return;
+		})
+		return res.data;
 	}
 );
 
@@ -137,6 +148,11 @@ const itemSlice = createSlice({
 				open: false
 			},
 			data: null
+		},
+		school:{
+			success:false,
+			response:false,
+			error:null
 		}
 	}),
 	reducers: {
@@ -181,7 +197,26 @@ const itemSlice = createSlice({
 				},
 				data: null
 			};
-		}
+		},
+		registerSuccess: (state, action) => {
+            state.school = {
+                success: true,
+                response: action.payload,
+            };  
+        },
+        registerError: (state, action) => {
+            state.school = {
+                success: false,
+                error: action.payload,
+                // error: true
+            };  
+        },
+        registerReset: (state, action) => {
+            state.school = {
+                success: false,
+                error: null,
+            };  
+        },
 	},
 	extraReducers: {
 		[updateItem.fulfilled]: itemsAdapter.upsertOne,
@@ -200,7 +235,10 @@ export const {
 	openNewItemDialog,
 	closeNewItemDialog,
 	openEditItemDialog,
-	closeEditItemDialog
+	closeEditItemDialog,
+	registerSuccess,
+	registerError,
+	registerReset
 } = itemSlice.actions;
 
 export default itemSlice.reducer;
