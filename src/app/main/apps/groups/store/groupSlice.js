@@ -2,9 +2,7 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/too
 import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 
-export const getGroups = createAsyncThunk('groupsApp/groups/getGroups', async (routeParams, { getState }) => {
-	routeParams = routeParams || getState().groupsApp.groups.routeParams;
-	// let filterContacts = getState().contactsApp.filter.contacts;
+export const getGroups = createAsyncThunk('groupsApp/groups/getGroups', async () => {
 	const response = await axios.get(process.env.REACT_APP_API+'/grupos',{
 		// params:filterContacts
 	});

@@ -22,13 +22,9 @@ function GroupsList(props) {
 	let searchText = useSelector(({ GroupsApp }) => GroupsApp.group.searchText);
 	searchText =searchText? searchText : '';
 
-
-	// const groups = useSelector(({ GroupsApp }) => GroupsApp.groups.entities);
-	// let searchText = useSelector(({ GroupsApp }) => GroupsApp.groups.searchText);
-	// // console.log(groups);
-	// const user = useSelector(({ GroupsApp }) => GroupsApp.user);
-
 	const [filteredData, setFilteredData] = useState(null);
+	// var name = groups.teacher_name+groups.teacher_second_name + groups.teacher_last_name;
+	// console.log(groups);
 
 	const columns = React.useMemo(
 		() => [
@@ -40,12 +36,12 @@ function GroupsList(props) {
 			},
 			{
 				Header: 'Profesor',
-				accessor: 'teacher_id',
+				accessor: 'teachers_name',
 				sortable: true
 			},
 			{
 				Header: 'Numero del miembros',
-				accessor: '',
+				accessor: 'students_count',
 				className: 'font-bold',
 				sortable: true
 			},
@@ -54,7 +50,7 @@ function GroupsList(props) {
 	);
 
 	useEffect(() => {
-		function getFilteredArray(entities, _searchText) {
+		function getFilteredArray(groups, _searchText) {
 			if (_searchText.length === 0) {
 				return groups;
 			}

@@ -4,13 +4,15 @@ import user from './userSlice';
 import schools from './schoolsSlice';
 import roles from './rolesSlice';
 import filter from './filterSlice';
+import groups from './groupSlice';
 
 const reducer = combineReducers({
 	contacts,
 	user,
 	schools,
 	roles,
-	filter
+	filter,
+	groups
 });
 
 export default reducer;
