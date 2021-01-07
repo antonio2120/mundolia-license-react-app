@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {setContactsUnstarred, setContactsStarred, removeContacts, openEditContactGroupDialog, openMassiveMessageGroupDialog} from './store/contactsSlice';
+import {setContactsUnstarred, setContactsStarred, removeContacts, openEditContactGroupDialog, openMassiveMessageGroupDialog, openAddToGroupDialog } from './store/contactsSlice';
 
 function ContactsMultiSelectMenu(props) {
 	const dispatch = useDispatch();
@@ -72,6 +72,17 @@ function ContactsMultiSelectMenu(props) {
 							<Icon>email</Icon>
 						</ListItemIcon>
 						<ListItemText primary="Crear mensaje" />
+					</MenuItem>
+					<MenuItem
+						onClick={() => {
+							dispatch(openAddToGroupDialog(selectedContactIds));
+							closeSelectedContactsMenu();
+						}}
+					>
+						<ListItemIcon className="min-w-40">
+							<Icon>group</Icon>
+						</ListItemIcon>
+						<ListItemText primary="Añadir a un grupo" />
 					</MenuItem>
 
 				</MenuList>

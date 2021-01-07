@@ -278,6 +278,24 @@ const contactsSlice = createSlice({
 				data: action.payload
 			};
 		},
+		openAddToGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'addToGroup',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeAddToGroupDialog: (state, action) => {
+			state.contactDialog = {
+				type: 'addToGroup',
+				props: {
+					open: false
+				},
+				data: null
+			};
+		},
 		setContactsFilter: (state, action) => {
 			state.contactDialog = {
 				filterSchool: action.payload,
@@ -306,7 +324,9 @@ export const {
 	openEditContactGroupDialog,
 	closeEditContactGroupDialog,
 	openMassiveMessageGroupDialog,
-	closeMassiveMessageGroupDialog
+	closeMassiveMessageGroupDialog,
+	openAddToGroupDialog,
+	closeAddToGroupDialog
 } = contactsSlice.actions;
 
 export default contactsSlice.reducer;
