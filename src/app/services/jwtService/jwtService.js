@@ -154,14 +154,17 @@ class JwtService extends FuseUtils.EventEmitter {
 						password
 				})
 				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
-						reject(response.data.error);
-					}
+						if (response.data.user) {
+							this.setSession(response.data.access_token);
+							resolve(response.data.user);
+						} else {
+							reject(response.data.error);
+						}
 				})
 				.catch(error => {
+					if (error.response.data.error.code==='INVALID_USER'){
+						window.location.href = '/loginerror';
+					}
 					reject(error.response.data.error);
 				});
 		});
