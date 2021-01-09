@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
 import Login from '../loginView/Login';
+import LoginError from '../loginView/LoginError';
 
 const LoginConfig = {
 	settings: {
@@ -28,6 +29,10 @@ const LoginConfig = {
 		{
 			path: '/login',
 			component: Login
+		},
+		{
+			path: '/loginerror',
+			component: LoginError
 		}
 	]
 };
