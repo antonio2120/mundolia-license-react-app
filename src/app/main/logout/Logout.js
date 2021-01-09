@@ -13,8 +13,6 @@ import store from "../../store";
 import {logoutUser} from "../../auth/store/userSlice";
 function logout(){
 	store.dispatch(logoutUser());
-
-
 }
 
 const useStyles = makeStyles(theme => ({
