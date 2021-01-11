@@ -105,7 +105,7 @@ function GroupDialog(props) {
 
 				disableButton();
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: group.error.response.data.message, variant: 'error'}));
+				dispatch(showMessage({message: 'Faltan campos requeridos', variant: 'error'}));
 			}
 		}
 
