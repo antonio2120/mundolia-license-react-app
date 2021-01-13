@@ -77,7 +77,7 @@ function LoginError() {
 					<div className='flex flex-col w-full p-80 m-80'>
 						<Typography fontFamily variant="h1" color="inherit" className="font-400 leading-tight justify-center p-80 m-80" class="home-title">
 							<div className={"grobold"}>
-								Error! Al parecer tu correo esta duplicado, 
+								Upps! Al parecer tu correo esta duplicado,
 								por favor contacta al Administrador de tu Colegio, o manda un correo a soporte@clublia.com
 							</div>
 							<Link className={"grobold"} to="/login">Regresar al Login</Link>
