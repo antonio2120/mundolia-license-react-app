@@ -36,6 +36,15 @@ const navigationConfig = [
 				url: '/licencias/'
 			},
 			{
+				id: 'grupos',
+				title: 'Grupos',
+				translate: 'Grupos',
+				type: 'item',
+				'auth' : authRoles.admin_escuela,
+				icon: 'groups',
+				url: '/apps/grupos/all'
+			},
+			{
 				id: 'schools-component',
 				title: 'Escuelas',
 				translate: 'Escuelas',
@@ -61,15 +70,6 @@ const navigationConfig = [
 				'auth' : authRoles.admin_escuela,
 				icon: 'forum',
 				url: '/loginp'
-			},
-			{
-				id: 'lia-component',
-				title: 'LIA',
-				translate: 'LIA',
-				type: 'item',
-				'auth' : authRoles.admin_escuela,
-				icon: 'school',
-				url: '/loginlia'
 			},
 		]
 	}

@@ -23,6 +23,7 @@ import {
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import FormControl from "@material-ui/core/FormControl";
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 const defaultFormState = {
 	id: '',
@@ -35,9 +36,14 @@ const defaultFormState = {
 function ItemDialog(props) {
 	const dispatch = useDispatch();
 	const itemDialog = useSelector(({ schoolsApp }) => schoolsApp.items.itemDialog);
+	const school = useSelector(({ schoolsApp }) => schoolsApp.items.school);
 
 	const { form, handleChange, setForm } = useForm(defaultFormState);
-
+	
+	const [values, setValues] = React.useState({
+		showPassword: false,
+		loading : false
+	});
 	const initDialog = useCallback(() => {
 		/**
 		 * Dialog type: 'edit'
@@ -66,6 +72,21 @@ function ItemDialog(props) {
 			initDialog();
 		}
 	}, [itemDialog.props.open, initDialog]);
+	useEffect(() => {
+		console.log('1e')
+		if (school.error) {
+			console.log('2e',school.error)
+			setValues({...values, loading: false});
+			dispatch(showMessage({message: 'Ya existe una escuela con ese nombre', variant: 'error'}));
+		}
+
+		if(school.success){
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:'La escuela se añadió satifactoriamente!',variant: 'success'	}));
+
+			closeComposeDialog();
+		}
+	}, [school.error,school.success]);
 
 	function closeComposeDialog() {
 		return itemDialog.type === 'edit' ? dispatch(closeEditItemDialog()) : dispatch(closeNewItemDialog());

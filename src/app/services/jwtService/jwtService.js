@@ -104,6 +104,47 @@ class JwtService extends FuseUtils.EventEmitter {
 			}
 		});
 	};
+	addGroup = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.post(process.env.REACT_APP_API+'/grupos/crear', data 
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 201) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			}
+			);
+			
+		});
+	};
+	addContactToGroup = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.post(process.env.REACT_APP_API+'/grupoestudiante/crear', data 
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 201) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			}
+			);
+			
+		});
+	};
+
 
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
@@ -113,14 +154,17 @@ class JwtService extends FuseUtils.EventEmitter {
 						password
 				})
 				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
-						reject(response.data.error);
-					}
+						if (response.data.user) {
+							this.setSession(response.data.access_token);
+							resolve(response.data.user);
+						} else {
+							reject(response.data.error);
+						}
 				})
 				.catch(error => {
+					if (error.response.data.error.code==='INVALID_USER'){
+						window.location.href = '/loginerror';
+					}
 					reject(error.response.data.error);
 				});
 		});
