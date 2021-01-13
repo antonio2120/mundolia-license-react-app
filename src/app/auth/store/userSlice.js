@@ -98,7 +98,7 @@ export const setUserData = user => async (dispatch, getState) => {
 
 	dispatch(setUser(userSet));
 
-	if(user.data.role == 'alumno' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
+	if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'maestro_preescolar' || user.data.role == 'maestro_secundaria' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
 
 		history.location.state = {
 			redirectUrl: 'loginp' // for example 'apps/academy'

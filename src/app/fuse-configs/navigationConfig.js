@@ -71,15 +71,6 @@ const navigationConfig = [
 				icon: 'forum',
 				url: '/loginp'
 			},
-			{
-				id: 'lia-component',
-				title: 'LIA',
-				translate: 'LIA',
-				type: 'item',
-				'auth' : authRoles.admin_escuela,
-				icon: 'school',
-				url: '/loginlia'
-			},
 		]
 	}
 ];
