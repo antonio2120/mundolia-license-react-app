@@ -91,7 +91,7 @@ class JwtService extends FuseUtils.EventEmitter {
 		return new Promise((resolve, reject) => {
 			try {
 				axios.put(process.env.REACT_APP_API+'/usuariosgroup', data).then(response => {
-					if (response.data.code == 200) {
+					if (response.status == 200) {
 						resolve(response.data);
 					} else {
 						reject(response.data.error);
