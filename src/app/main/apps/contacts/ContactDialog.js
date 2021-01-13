@@ -166,7 +166,7 @@ function ContactDialog(props) {
 			dispatch(submitAddContactToGroup(form,formOrigin));
 		} 
 		else {
-			dispatch(submitUpdateContactGroup(form,users));
+			dispatch(submitUpdateContactGroup(form,formOrigin));
 		}
 	}
 
