@@ -36,6 +36,12 @@ function GroupsList(props) {
 				sortable: true
 			},
 			{
+				Header: 'email',
+				accessor: 'email',
+				className: 'font-bold',
+				sortable: true
+			},
+			{
 				Header: 'Numero del miembros',
 				accessor: 'students_count',
 				className: 'font-bold',

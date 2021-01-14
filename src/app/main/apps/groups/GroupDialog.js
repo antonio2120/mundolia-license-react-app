@@ -39,6 +39,7 @@ const defaultFormState = {
     schoolId: '',
     grade: '',
 	uuid : '',
+	teachers_name: '',
 	avatar: 'assets/images/avatars/profile.jpg',	
     
 };
@@ -254,9 +255,7 @@ function GroupDialog(props) {
 								required
 							>
 								{teachers.map((row) => (
-									// <MenuItem key={'school'+row.id} value={row.id}>{row.School}</MenuItem>)
-
-									<MenuItem key={row.email} value={row}>{row.email}</MenuItem>
+									<MenuItem key={row.id} value={row}>{row.teachers_name}</MenuItem>
 								))
 								}
 							</SelectFormsy>
