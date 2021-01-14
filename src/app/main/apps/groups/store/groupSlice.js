@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
+import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 export const getGroups = createAsyncThunk('groupsApp/groups/getGroups', async () => {
 	const response = await axios.get(process.env.REACT_APP_API+'/grupos',{
@@ -13,7 +14,9 @@ export const getGroups = createAsyncThunk('groupsApp/groups/getGroups', async ()
 export const submitCreateGroup = ( groupdata ) => async dispatch => {
 	return jwtService
 		.addGroup({
-			groupName: groupdata.groupName,
+			// groupId: groupdata.groupList,
+			// uuids: users,
+			groupName: groupdata.name,
 			teacherId: groupdata.teacher.id,
 			schoolId: groupdata.teacher.school_id,
 			grade: groupdata.grade,
@@ -27,6 +30,38 @@ export const submitCreateGroup = ( groupdata ) => async dispatch => {
 			return dispatch(registerError(error));
 		});
 };
+
+export const submitUpdateGroup = ( groupdata, groupOrigin ) => async dispatch => {
+	return jwtService
+		.updateGroup({
+			groupId: groupOrigin.id,
+			groupTitle: groupdata.name,
+			teacherId: groupdata.teacher.id,
+		})
+		.then(group => {
+			dispatch(registerSuccess());
+			dispatch(getGroups());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+export const removeGroup = createAsyncThunk('groupsApp/groups/removeGroup', async (id, { dispatch, getState }) => {
+		try {
+			await axios.delete(process.env.REACT_APP_API+'/grupos/'+id).then(response => {
+				const data = response.data.data;
+				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(getGroups());
+				return data;
+			}).catch(error => {
+				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+			});
+		}catch (e){
+			console.log(e);
+		}
+	}
+);
 
 const groupsAdapter = createEntityAdapter({});
 
@@ -76,24 +111,25 @@ const groupSlice = createSlice({
 				data: null
 			};
 		},
-		// openEditGroupDialog: (state, action) => {
-		// 	state.groupDialog = {
-		// 		type: 'edit',
-		// 		props: {
-		// 			open: true
-		// 		},
-		// 		data: action.payload
-		// 	};
-		// },
-		// closeEditGroupDialog: (state, action) => {
-		// 	state.groupDialog = {
-		// 		type: 'edit',
-		// 		props: {
-		// 			open: false
-		// 		},
-		// 		data: null
-		// 	};
-		// },
+		openEditGroupDialog: (state, action) => {
+			console.log('opeeeeeeeeeeeeen');
+			state.groupDialog = {
+				type: 'edit',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeEditGroupDialog: (state, action) => {
+			state.groupDialog = {
+				type: 'edit',
+				props: {
+					open: false
+				},
+				data: null
+			};
+		},
 		registerSuccess: (state, action) => {
 			state.group = {
 				success: true,
@@ -132,7 +168,9 @@ export const {
 	closeNewGroupDialog,
 	registerSuccess,
 	registerError,
-	registerReset 
+	registerReset,
+	openEditGroupDialog,
+	closeEditGroupDialog,
 } = groupSlice.actions;
 
 

@@ -124,6 +124,25 @@ class JwtService extends FuseUtils.EventEmitter {
 			
 		});
 	};
+	updateGroup = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.put(process.env.REACT_APP_API+'/grupos/update', data 
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			}
+			);
+
+		});
+	};
 	addContactToGroup = data => {
 		return new Promise((resolve, reject) => {
 

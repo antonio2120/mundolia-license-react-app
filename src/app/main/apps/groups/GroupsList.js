@@ -8,12 +8,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import GroupsTable from './GroupsTable';
-import { openEditItemDialog, removeItem, toggleStarredItem, selectGroups } from './store/groupSlice';
+import { openEditGroupDialog, removeItem, toggleStarredItem, selectGroups } from './store/groupSlice';
 
 // import ItemsSidebarContent from "./ItemsSidebarContent";
 // import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
 // import ContactsTable from "../contacts/ContactsTable";
-// import {openEditContactDialog} from "../contacts/store/contactsSlice";
 
 function GroupsList(props) {
 
@@ -21,10 +20,7 @@ function GroupsList(props) {
 	const groups = useSelector(selectGroups);
 	let searchText = useSelector(({ GroupsApp }) => GroupsApp.group.searchText);
 	searchText =searchText? searchText : '';
-
 	const [filteredData, setFilteredData] = useState(null);
-	// var name = groups.teacher_name+groups.teacher_second_name + groups.teacher_last_name;
-	// console.log(groups);
 
 	const columns = React.useMemo(
 		() => [
@@ -37,6 +33,12 @@ function GroupsList(props) {
 			{
 				Header: 'Profesor',
 				accessor: 'teachers_name',
+				sortable: true
+			},
+			{
+				Header: 'email',
+				accessor: 'email',
+				className: 'font-bold',
 				sortable: true
 			},
 			{
@@ -82,11 +84,11 @@ function GroupsList(props) {
 			<GroupsTable
 				columns={columns}
 				data={filteredData}
-				// onRowClick={(ev, row) => {
-				// 	if (row) {
-				// 		dispatch(openEditItemDialog(row.original));
-				// 	}
-				// }}
+				onRowClick={(ev, row) => {
+					if (row) {
+						dispatch(openEditGroupDialog(row.original));
+					}
+				}}
 			/>
 		)
 	}
