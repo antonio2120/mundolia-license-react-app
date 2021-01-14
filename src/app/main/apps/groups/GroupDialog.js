@@ -18,13 +18,12 @@ import {showMessage} from "../../../store/fuse/messageSlice";
 
 
 import {
-	// removeContact,
-	// updateContact,
-	// addContact,
-    closeNewGroupDialog,
-    addGroup
-	// closeEditContactDialog,
-	// sendEmail
+	removeGroup,
+	closeNewGroupDialog,
+	closeEditGroupDialog,
+    addGroup,
+	closeEditContactDialog,
+	submitUpdateGroup
 } from './store/groupSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -34,7 +33,8 @@ import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 
 const defaultFormState = {
-    groupName: '',
+	id: '',
+    name: '',
 	teacherId: '',
     schoolId: '',
     grade: '',
@@ -49,7 +49,9 @@ function GroupDialog(props) {
 	const formOrigin = useSelector(({ GroupsApp }) => GroupsApp.group.groupDialog.data);
 	const group = useSelector(({ GroupsApp }) => GroupsApp.group.group);
 	const teachers = useSelector(({ GroupsApp }) => GroupsApp.teachers.data);
-	const { form, handleChange ,setForm} = useForm(defaultFormState);
+	const { form, handleChange, setForm} = useForm(defaultFormState);
+
+	console.log(teachers);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
@@ -68,9 +70,9 @@ function GroupDialog(props) {
 		// /**
 		//  * Dialog type: 'edit'
 		//  */
-		// if ((contactDialog.type === 'edit' || contactDialog.type === 'editGroup' )&& contactDialog.data) {
-		// 	setForm({ ...contactDialog.data });
-		// }
+		if ((groupDialog.type === 'edit')&& groupDialog.data) {
+			setForm({ ...groupDialog.data });
+		}
 
 
 		/**
@@ -118,8 +120,8 @@ function GroupDialog(props) {
 	}, [group.error,group.success]);
     
 	function closeComposeDialog() {
-        // return (contactDialog.type === 'edit' || contactDialog.type === 'editGroup')? dispatch(closeEditContactDialog()) : dispatch(closeNewContactDialog());
-        return  dispatch(closeNewGroupDialog());
+        return (groupDialog.type === 'edit' )? dispatch(closeEditGroupDialog()) : dispatch(closeNewGroupDialog());
+        // return  dispatch(closeNewGroupDialog());
 	}
 
 	function handleSubmit(event) {
@@ -129,24 +131,19 @@ function GroupDialog(props) {
 		if (groupDialog.type === 'new') {
 			dispatch(submitCreateGroup(form));
 		}
-		// else if (contactDialog.type === 'massiveMessage'){
-		// 	var data = {...form, uuids:formOrigin}
-		// 	dispatch(sendEmail(data));
-		// 	closeComposeDialog();
-		// 	setValues({ ...values, loading: false });
-		// }
-		// else if (contactDialog.type === 'edit'){
-		// 	dispatch(submitUpdateContact(form,formOrigin));
-		// }
+		else 
+		if (groupDialog.type === 'edit'){
+			dispatch(submitUpdateGroup(form,formOrigin));
+		}
 		// else {
 		// 	dispatch(submitUpdateContactGroup(form,users));
 		// }
 	}
 
-	// function handleRemove() {
-	// 	dispatch(removeContact(formOrigin.uuid));
-	// 	closeComposeDialog();
-	// }
+	function handleRemove() {
+		dispatch(removeGroup(formOrigin.id));
+		closeComposeDialog();
+	}
 	function enableButton() {
 		setIsFormValid(true);
 	}
@@ -167,21 +164,19 @@ function GroupDialog(props) {
 				<Toolbar className="flex w-full">
 					<Typography variant="subtitle1" color="inherit">
 						{groupDialog.type === 'new' && 'Nuevo Grupo'}
-						{/*{groupDialog.type === 'edit' && 'Editar Grupo'}
-						{groupDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
+						{groupDialog.type === 'edit' && 'Editar Grupo'}
+						{/*{groupDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
 						{groupDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'} */}
 					</Typography>
 				</Toolbar>
-				{/* {(groupDialog.type !== 'editGroup' && groupDialog.type !== 'massiveMessage') && (
 					<div className="flex flex-col items-center justify-center pb-24">
-						<Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} />
+						{/* <Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} /> */}
 						{groupDialog.type === 'edit' && (
 							<Typography variant="h6" color="inherit" className="pt-8">
 								{form.name}
 							</Typography>
 						)}
 					</div>
-				)} */}
 			</AppBar>
 			<Formsy
 				onValidSubmit={handleSubmit}
@@ -197,10 +192,11 @@ function GroupDialog(props) {
 						fullWidth
 						className="mb-16"
 						type="text"
-						name="groupName"
+						name="name"
 						label="Nombre del Grupo"
-						id="groupName"
-						value={form.groupName}
+						id="name"
+						value={form.name}
+						onChange={handleChange}
 						validations={{
 							minLength: 2
 						}}
@@ -220,7 +216,8 @@ function GroupDialog(props) {
 						required
 					/>
 
-			
+					{groupDialog.type === 'new' ? 
+						(
 						<SelectFormsy
 							id="grade"
 							name="grade"
@@ -240,6 +237,7 @@ function GroupDialog(props) {
 							<MenuItem key={'grade5'} value={5}>5</MenuItem>
 							<MenuItem key={'grade6'} value={6}>6</MenuItem>
 						</SelectFormsy>
+						):null}
 
 						{ teachers ?
 
@@ -291,21 +289,7 @@ function GroupDialog(props) {
                 : null
             }
                 
-                {/*: groupDialog.type === 'massiveMessage' ? (
-					<DialogActions className="justify-between p-8">
-						<div className="px-16">
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={handleSubmit}
-								type="submit"
-								disabled={( values.loading || !isFormValid)}
-							>
-								Enviar
-							</Button>
-						</div>
-					</DialogActions>
-				) : (
+                { groupDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
 							<Button
@@ -318,13 +302,15 @@ function GroupDialog(props) {
 								Guardar
 							</Button>
 						</div>
-						{groupDialog.type !== 'editGroup' && (
-							<IconButton onClick={handleRemove} disabled={(values.loading)}>
+							<IconButton 
+							onClick={handleRemove} 
+							disabled={(values.loading)}>
 								<Icon>delete</Icon>
 							</IconButton>
-						)}
 					</DialogActions> 
-				)}*/}
+				)
+				: null
+				}
 			</Formsy>
 		</Dialog>
 	);
