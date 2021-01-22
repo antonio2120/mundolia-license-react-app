@@ -14,23 +14,24 @@ import Auth0LoginTab from './tabs/Auth0LoginTab';
 import FirebaseLoginTab from './tabs/FirebaseLoginTab';
 import JWTLoginTab from './tabs/JWTLoginTab';
 import ImageMapper from 'react-image-mapper';
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles(theme => ({
 	root_alumnos: {
-		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_alumnos.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_maestros: {
-		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_maestros.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_padres: {
-		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_padres.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	root_escuelas: {
-		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"90%",backgroundSize:"cover",
+		backgroundImage: "url(assets/images/login/bg_escuelas.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
 		color: theme.palette.primary.contrastText
 	},
 	image_overlay_alumnos:{position:"absolute",left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(148,88,183,0.8)',},
@@ -43,12 +44,17 @@ const useStyles = makeStyles(theme => ({
 	circle_image_horizontal:{maxHeight:"100%",padding:0},
 	textButton:{position:"absolute",justifyContent:"center",alignSelf:"center",color:"#FFF"},
 	divCard:{flexDirection:"row",zIndex:2},
+	divHeader:{flexGrow:1,height:"10%"},
+	gridHeader:{justifyContent:"flex-end",alignContent:"flex-end", textAlign:"right"},
 	divFooter:{zIndex:1,height:"10%"},
 	footerStyle:{width:"100%",alignSelf:"end"},
 	leftSection: {},
 	rightSection: {borderRadius:15},
 	loginLeftSection:{height:"100%"},
-	loginLeftSectionImg:{height:"30%"}
+	loginLeftSectionImg:{height:"30%"},
+	headerImg:{height:40,margin:2},
+	loginButton:{backgroundColor:"#4883C0",color:"white"},
+	signupButton:{backgroundColor:"#D9AB0C",color:"white"},
 }));
 
 
@@ -74,6 +80,23 @@ function Login() {
 
 	return (
 		<>
+		<header>
+			<div  className={clsx(classes.divHeader)}>
+				<Grid container>
+					<Grid item xs={8}>
+						<img  src="assets/images/logos/clublia.png" className={clsx(classes.headerImg)} alt="clublia"/>
+					</Grid>
+					<Grid item xs={4} className={clsx(classes.gridHeader)}>
+						<Button onClick={()=>console.log("login button")} className={clsx(classes.loginButton,"normal-case")}>
+							<Typography>Log In</Typography>
+						</Button>
+						<Button onClick={()=>window.location.href = '/register'} className={clsx(classes.signupButton,"normal-case m-6")}>
+							<Typography>Sign Up</Typography>
+						</Button>
+					</Grid>
+				</Grid>
+			</div>
+		</header>
 		<div
 			className={clsx(
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,

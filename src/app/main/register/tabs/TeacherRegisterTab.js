@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitRegister } from 'app/auth/store/registerSlice';
 
-function JWTRegisterTab(props) {
+function TeacherRegisterTab(props) {
 	const dispatch = useDispatch();
 	const register = useSelector(({ auth }) => auth.register);
 
@@ -105,7 +105,7 @@ function JWTRegisterTab(props) {
 						endAdornment: (
 							<InputAdornment position="end">
 								<Icon className="text-20" color="action">
-									user
+									assignment_ind
 								</Icon>
 							</InputAdornment>
 						)
@@ -174,4 +174,4 @@ function JWTRegisterTab(props) {
 	);
 }
 
-export default JWTRegisterTab;
+export default TeacherRegisterTab;

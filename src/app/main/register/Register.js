@@ -11,7 +11,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Auth0RegisterTab from './tabs/Auth0RegisterTab';
 import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
-import JWTRegisterTab from './tabs/JWTRegisterTab';
+import ParentRegisterTab from './tabs/ParentRegisterTab';
+import TeacherRegisterTab from './tabs/TeacherRegisterTab';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -48,6 +49,32 @@ function Register() {
 		>
 			<FuseAnimate animation="transition.expandIn">
 				<div className="flex w-full max-w-400 md:max-w-3xl rounded-12 shadow-2xl overflow-hidden">
+					
+					<div
+						className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-64')}
+					>
+						<div className="max-w-320">
+							<FuseAnimate animation="transition.slideUpIn" delay={400}>
+								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
+									Bienvenido a<br />
+									Sistema <br /> Club LIA!
+								</Typography>
+							</FuseAnimate>
+
+							<FuseAnimate delay={500}>
+								<Typography variant="subtitle1" color="inherit" className="mt-32">
+									Registro como usuario padre.
+								</Typography>
+							</FuseAnimate>
+
+							<FuseAnimate delay={500}>
+								<Typography variant="subtitle2" color="inherit">
+									Administración de Licencias para tu institución.
+								</Typography> 
+							</FuseAnimate>
+						</div>
+					</div>
+					
 					<Card
 						className={clsx(
 							classes.leftSection,
@@ -75,17 +102,9 @@ function Register() {
 								</div>
 							</FuseAnimate>
 
-							<Tabs
-								value={selectedTab}
-								onChange={handleTabChange}
-								variant="fullWidth"
-								className="w-full mb-32"
-							>
 
-							</Tabs>
-
-							{selectedTab === 0 && <JWTRegisterTab />}
-							{selectedTab === 1 && <FirebaseRegisterTab />}
+							{selectedTab === 0 && <ParentRegisterTab />}
+							{selectedTab === 1 && <TeacherRegisterTab />}
 							{selectedTab === 2 && <Auth0RegisterTab />}
 						</CardContent>
 
@@ -96,30 +115,8 @@ function Register() {
 									Entrar
 								</Link>
 							</div>
-							<Link className="font-medium mt-8" to="https://clublia.com/">
-								Ir al Club LIA
-							</Link>
 						</div>
 					</Card>
-
-					<div
-						className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-64')}
-					>
-						<div className="max-w-320">
-							<FuseAnimate animation="transition.slideUpIn" delay={400}>
-								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
-									Bienvenido a<br />
-									Sistema <br /> Club LIA!
-								</Typography>
-							</FuseAnimate>
-
-							<FuseAnimate delay={500}>
-								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Administración de Licencias para tu institución.
-								</Typography>
-							</FuseAnimate>
-						</div>
-					</div>
 				</div>
 			</FuseAnimate>
 		</div>
