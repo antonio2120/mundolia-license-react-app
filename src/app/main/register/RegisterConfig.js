@@ -1,5 +1,7 @@
 import { authRoles } from 'app/auth';
 import Register from './Register';
+import Pricing from './PricingApp';
+
 
 const RegisterConfig = {
 	settings: {
@@ -28,6 +30,10 @@ const RegisterConfig = {
 		{
 			path: '/register',
 			component: Register
+		},
+		{
+			path: '/pricing',
+			component: Pricing
 		}
 	]
 };
