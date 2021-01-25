@@ -13,6 +13,7 @@ import Auth0RegisterTab from './tabs/Auth0RegisterTab';
 import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
 import ParentRegisterTab from './tabs/ParentRegisterTab';
 import TeacherRegisterTab from './tabs/TeacherRegisterTab';
+import reducer from './store';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -32,7 +33,12 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-function Register() {
+function Register(props) {
+	const search = props.location.search; // returns the URL query String
+	const params = new URLSearchParams(search); 
+	const type = params.get('type'); 
+	const membership = params.get('membership'); 
+	console.log("params::",type,membership);
 	const classes = useStyles();
 	const [selectedTab, setSelectedTab] = useState(0);
 
@@ -51,7 +57,7 @@ function Register() {
 				<div className="flex w-full max-w-400 md:max-w-3xl rounded-12 shadow-2xl overflow-hidden">
 					
 					<div
-						className={clsx(classes.rightSection, 'hidden md:flex flex-1 items-center justify-center p-64')}
+						className={clsx(classes.rightSection, 'flex flex-col w-full max-w-sm items-center justify-center')}
 					>
 						<div className="max-w-320">
 							<FuseAnimate animation="transition.slideUpIn" delay={400}>
@@ -63,7 +69,7 @@ function Register() {
 
 							<FuseAnimate delay={500}>
 								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Registro como usuario padre.
+									Registro como usuario {type == "padre" ? "padre." : "escuela."}
 								</Typography>
 							</FuseAnimate>
 
@@ -78,7 +84,7 @@ function Register() {
 					<Card
 						className={clsx(
 							classes.leftSection,
-							'flex flex-col w-full max-w-sm items-center justify-center'
+							'hidden md:flex flex-1 p-64'
 						)}
 						square
 						elevation={0}
@@ -101,13 +107,8 @@ function Register() {
 									</div>
 								</div>
 							</FuseAnimate>
-
-
-							{selectedTab === 0 && <ParentRegisterTab />}
-							{selectedTab === 1 && <TeacherRegisterTab />}
-							{selectedTab === 2 && <Auth0RegisterTab />}
-						</CardContent>
-
+							{type == "maestro" ? <TeacherRegisterTab /> : <ParentRegisterTab />}
+							
 						<div className="flex flex-col items-center justify-center pb-32">
 							<div>
 								<span className="font-medium mr-8">Ya tiene una cuenta de usuario?</span>
@@ -116,6 +117,7 @@ function Register() {
 								</Link>
 							</div>
 						</div>
+						</CardContent>
 					</Card>
 				</div>
 			</FuseAnimate>

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import {
-	RegisterPapas
+	RegisterPapas,RegisterMaestros
 } from '../store/pricingSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -40,15 +40,13 @@ function PricingPapas(props) {
 	// console.log(RegisterScreen);
 
 	function handleSubmit(event) {
-
-		dispatch(RegisterPapas());
-		console.log(Membership);
+		dispatch(RegisterMaestros());
 
 		// let membershipType = {
 			
 
 		// }
-		window.location.href = '/register';
+		window.location.href = '/register?type=padre&membership=mensual';
 		
 	}
 

@@ -6,6 +6,8 @@ import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitRegister } from 'app/auth/store/registerSlice';
+import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function ParentRegisterTab(props) {
 	const dispatch = useDispatch();
@@ -36,6 +38,7 @@ function ParentRegisterTab(props) {
 	}
 
 	function handleSubmit(model) {
+		console.log("model",model);
 		dispatch(submitRegister(model));
 	}
 
@@ -152,12 +155,50 @@ function ParentRegisterTab(props) {
 					required
 				/>
 
+				<SelectFormsy
+					id="age"
+					name="age"
+					width="100%"
+					label="Edad del alumno"
+					fullWidth
+					variant="outlined"
+					className="mb-24 MuiInputBase-fullWidth"
+				>
+					<MenuItem key={'3'} value={3}>3</MenuItem>
+					<MenuItem key={'4'} value={4}>4</MenuItem>
+					<MenuItem key={'5'} value={5}>5</MenuItem>
+					<MenuItem key={'6'} value={6}>6</MenuItem>
+					<MenuItem key={'7'} value={7}>7</MenuItem>
+					<MenuItem key={'8'} value={8}>8</MenuItem>
+					<MenuItem key={'9'} value={9}>9</MenuItem>
+					<MenuItem key={'10'} value={10}>10</MenuItem>
+					<MenuItem key={'11'} value={11}>11</MenuItem>
+					<MenuItem key={'12'} value={12}>12</MenuItem>
+					<MenuItem key={'13'} value={13}>13</MenuItem>
+					<MenuItem key={'14'} value={14}>14</MenuItem>
+					<MenuItem key={'15'} value={15}>15</MenuItem>
+				</SelectFormsy>
+
+				<SelectFormsy
+					id="level"
+					name="level"
+					width="100%"
+					label="Nivel del alumno"
+					fullWidth
+					variant="outlined"
+					className="mb-24 MuiInputBase-fullWidth"
+				>
+					<MenuItem key={'kinder'} value={"kinder"}>Kinder</MenuItem>
+					<MenuItem key={'primaria'} value={"primaria"}>Primaria</MenuItem>
+					<MenuItem key={'secundaria'} value={"secundaria"}>Secundaria</MenuItem>
+					
+				</SelectFormsy>
+
 				<TextFieldFormsy
 					className="mb-16"
 					type="text"
-					name="username"
-					label="Username"
-					validations="isEmail"
+					name="schoolName"
+					label="Nombre de la escuela"
 					validations={{
 						minLength: 4
 					}}
@@ -168,7 +209,7 @@ function ParentRegisterTab(props) {
 						endAdornment: (
 							<InputAdornment position="end">
 								<Icon className="text-20" color="action">
-									assignment_ind
+									school
 								</Icon>
 							</InputAdornment>
 						)
