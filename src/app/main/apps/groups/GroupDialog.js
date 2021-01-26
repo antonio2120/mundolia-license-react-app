@@ -108,7 +108,18 @@ function GroupDialog(props) {
 
 				disableButton();
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: 'Faltan campos requeridos', variant: 'error'}));
+				
+				if (group.error.response.data.message.schoolId){
+					dispatch(showMessage({message: 'El usuario no tiene escuela', variant: 'error'}));
+				}
+				else{
+					if (group.error.response.data.message.includes("No query results")){
+						dispatch(showMessage({message: 'Grupo invalido. Contacta al administrador.', variant: 'error'}));
+					}
+					else{
+						dispatch(showMessage({message: group.error.response.data.message, variant: 'error'}));
+					}
+				}
 			}
 		}
 
