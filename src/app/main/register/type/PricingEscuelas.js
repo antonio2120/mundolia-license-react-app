@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function PricingPapas(props) {
+function PricingEscuelas(props) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const Membership = useSelector(({ PricingApp }) => PricingApp.pricing.RegisterScreen);
@@ -41,7 +41,7 @@ function PricingPapas(props) {
 	// console.log(RegisterScreen);
 
 	function handleSubmit(event) {
-		window.location.href = '/register?type=padre&membership='+event;
+		window.location.href = '/register?type=escuela&membership='+event;
 
 	}
 
@@ -53,7 +53,7 @@ function PricingPapas(props) {
 					<div className="text-center my-128 mx-24">
 						<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 							<Typography variant="h2" color="inherit" className="font-light">
-								Membresía Alumnos!
+								Membresía Escuelas!
 							</Typography>
 						</FuseAnimate>
 
@@ -92,7 +92,7 @@ function PricingPapas(props) {
 								</div>
 
 								<CardContent className="text-center p-0">
-									<div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
+                                    <div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
 										<div className="flex justify-center">
 											<Typography color="inherit" className="font-medium">
 												$
@@ -110,45 +110,62 @@ function PricingPapas(props) {
 									</div>
 
 									<div className="flex flex-col p-32">
+                                        <Typography color="textSecondary" className="mb-16">
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Acceso a COMUNIDAD:
+										</Typography>
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											Acceso a COMUNIDAD:
+                                        Acceso como director / lider educativo a: 
 										</Typography>
 										<Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Canal LIA
+											    Canal LIA
 										</Typography>
 										<Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Podcast LIA
+											Podcast Lia 
 										</Typography>
-										<Typography color="textSecondary" >
+                                        <Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Colectivo LIA
+											Colectivo Lia 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Experiencias LIA abiertas 
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Presenciar Experiencias LIA abiertas (participación con costo)
+											Acceso de visitante a Grupos de Actividades y Recursos Digitales. 
 										</Typography>
 
 										
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											CURSOS:
+                                            LEARNING LIA:
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Cursos Gratuitos disponibles alumnos y papás. 
-											(Ciudadania digital con juego interland  y curso programación  1.0) 
+											Webinars y cursos abiertos  para escuelas y directores.
 										</Typography>
+
+                                        <Typography color="textSecondary" className="mb-16">
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Cursos / por sesion / Tema en Learning Lia:
+										</Typography>
+										<Typography color="textSecondary" className="mb-16">
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Cursos Gratuitos disponibles para Escuelas    
+										</Typography>
+
 
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-										   Membresía Comunidad + Cursos :
+                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso gratuito a Comunidad alumnos (igual que free) + 1 brief Civismo digital / acceso a juego interland con curso breve explicación.
+                                            Acceso (vista) a Grupos Públicos y su contenido.
 										</Typography>
 										
 
@@ -188,7 +205,7 @@ function PricingPapas(props) {
 												color="inherit"
 												className="text-32 mx-4 font-light leading-none"
 											>
-												250
+												250 m.n.
 											</Typography>
 										</div>
 										{/* <Typography color="inherit" className="mx-4">
@@ -199,59 +216,89 @@ function PricingPapas(props) {
 
 
 									<div className="flex flex-col p-32">
-										<Typography color="textSecondary" className="mb-16">
+                                        <Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											Acceso a COMUNIDAD:
+                                            Acceso a COMUNIDAD:
+										</Typography>
+										<Typography color="textSecondary">
+										    <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            ACCESO A toda su comunidad educativa. 
+										</Typography>
+										<Typography color="textSecondary" >
+											<Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon>
+											De 20 hasta 500 alumnos el total de sus maestros y padres (preescolar, primaria y secundaria) 
+										</Typography>
+										<Typography color="textSecondary" >
+											{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Acceso personalizado a
 										</Typography>
 										<Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Canal LIA
+											Su grupo escolar. 
 										</Typography>
-										<Typography color="textSecondary" >
+                                        <Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Podcast LIA
+                                            Comunicación, interacción y colaboración con su comunidad educativa: alumnos, maestros y padres de familia.  
 										</Typography>
-										<Typography color="textSecondary" >
+                                        <Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Colectivo LIA
+											Grupos de Trabajo personalizados  y colaboración
 										</Typography>
-										<Typography color="textSecondary" >
+                                        <Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso full a mundo LIA
+											Recursos Digitales
 										</Typography>
-										<Typography color="textSecondary" >
+                                        <Typography color="textSecondary" >
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Dashboard / info mensual y acceso a sus papás. 
+											Actividades LIA para sus maestros y docentes
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Panel de control del colegio 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Acceso a mundo LIA (videojuegos y actividades alumnos) 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Tablero de información  de sus alumnos y maestross
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Experiencias LIA del mes / incluidas. 
+											Participación en  Experiencias LIA para sus alumnos maestros y padres.
 										</Typography>
 
 										
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											CURSOS:
+                                            LEARNING LIA:
+										</Typography>
+										<Typography color="textSecondary">
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Curso de educación digital para el total de sus maestros registrados  y 3 Cursos a elegir para formacion de todos sus maestros cada mes.   
+										</Typography>
+
+                                        <Typography color="textSecondary" >
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Cursos / por sesion / Tema en Learning Lia:
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
-											{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											PAGO UNICO / por sesión: Acceso al curso(s)  ilimitadas número de veces x 1 mes. 
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											PAGO UNICO / por sesión: en caso de sesiones con costo, acceso a precio preferencial de miembro LIA. 
 										</Typography>
+
 
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-										   Membresía Comunidad + Cursos :
+                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
 										</Typography>
-										<Typography color="textSecondary" >
-											{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											Todo lo mensual comunidad
+                                        <Typography color="textSecondary" >
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                        Participación sin limite de sus maestros al total de cursos lecciones y experiencias de la comunidad. Participación del total de sus alumnos en los eventos de Experiencia LIA en la comunidad. 
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											Experiencias LIA: Retos / Challenges cursos en learning Lia / sesiones colaborativas y todos los cursos papás y alumnos membresía lia. 
-										</Typography>
-
 										
+
 									</div>
 								</CardContent>
 
@@ -290,7 +337,7 @@ function PricingPapas(props) {
 												color="inherit"
 												className="text-32 mx-4 font-light leading-none"
 											>
-												2,500 
+												2,500 m.n.
 											</Typography>
 										</div>
 										{/* <Typography color="inherit" className="mx-4">
@@ -299,19 +346,99 @@ function PricingPapas(props) {
 									</div>
 
 									<div className="flex flex-col p-32">
+                                    <Typography color="textSecondary" className="mb-16">
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Acceso a COMUNIDAD:
+										</Typography>
+										<Typography color="textSecondary">
+										    <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            ACCESO A toda su comunidad educativa. 
+										</Typography>
+										<Typography color="textSecondary" >
+											<Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon>
+											De 20 hasta 500 alumnos el total de sus maestros y padres (preescolar, primaria y secundaria) 
+										</Typography>
+										<Typography color="textSecondary" >
+											{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Acceso personalizado a
+										</Typography>
+										<Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Su grupo escolar. 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Comunicación, interacción y colaboración con su comunidad educativa: alumnos, maestros y padres de familia.  
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Grupos de Trabajo personalizados  y colaboración
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Recursos Digitales
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Actividades LIA para sus maestros y docentes
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Panel de control del colegio 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Acceso a mundo LIA (videojuegos y actividades alumnos) 
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Tablero de información  de sus alumnos y maestros
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Participación en  Experiencias LIA para sus alumnos maestros y padres.
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Panel de control Anual / Escolar
+										</Typography>
+                                        <Typography color="textSecondary" >
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Participación incluida en Premios LIA (y la posibilidad de presentar proyecto para nominación como colegio Lider Innovador en Aprendizaje) 
+										</Typography>
+                                        <Typography color="textSecondary" className="mb-16">
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Todos los Eventos de Experiencia LIA de Comunidad incluidos para sus  alumnos,  maestros y padres. 
+										</Typography>
+										
 										<Typography color="textSecondary" className="mb-16">
 										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-											Acceso a COMUNIDAD:
+                                            LEARNING LIA:
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
-											COMUNIDAD + Learning LIA
-											Adicional a membresía mensual: TODAS las Experiencias LIA del año incluidas y cursos para alumnos:
-											Educacion Digital (ciudadania digital) sin limite.
-											Principios de programación
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Todos los cursos de Membresía Lia para alumnos, Maestros, padres y líderes educativos  sin límites.   
+										</Typography>
+
+                                        <Typography color="textSecondary" className="mb-16">
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Cursos / por sesion / Tema en Learning Lia:
 										</Typography>
 										<Typography color="textSecondary" className="mb-16">
-											Todo lo anual de Comunidad +Learning lia alumnos: alumnos + intercambios /  sesiones colaborativas. +Votar y participar Premios LIA.
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Acceso exclusivo a masterclass de expertos internacionales e invitados especiales.   
 										</Typography>
+
+
+										<Typography color="textSecondary" className="mb-16">
+										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
+										</Typography>
+                                        <Typography color="textSecondary" >
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                        Todos las Experiencias LIA de comunidad / todos los  cursos de  Membresia LIA, para sus alumnos maestros y padres invitacion preferencial y preventa  a eventos restringidos, masterclass  antes de salir a la venta, eventos viajes, campamentos intercambios etc. precios Membresia LIA.
+										</Typography>
+										
 									</div>
 								</CardContent>
 
@@ -327,6 +454,8 @@ function PricingPapas(props) {
 									</Typography> */}
 								</div>
 							</Card>
+
+
 						</div>
 					</FuseAnimateGroup>
 					{/* <div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
@@ -374,4 +503,4 @@ function PricingPapas(props) {
 	);
 }
 
-export default PricingPapas;
+export default PricingEscuelas;
