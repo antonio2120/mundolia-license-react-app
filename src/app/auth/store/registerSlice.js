@@ -35,7 +35,8 @@ export const membershipPayment = ({ parentName, parentSurname, parentEmail, pare
 				title: title,
 				description: description,
 				unit_price: unit_price
-			}
+			},
+			id_licenses_type:1
 		}).then(response => {
 			console.log("dispatch resp::",response);
 			window.location.href = response.init_point;
