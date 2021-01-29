@@ -22,6 +22,33 @@ export const submitRegister = ({ displayName, password, email, username }) => as
 		});
 };
 
+export const membershipPayment = ({ parentName, parentSurname, parentEmail, parentPhone, title, description, unit_price}) => async dispatch => {
+	return jwtService
+		.handlePayment({
+			payer:{
+				name: parentName,
+				surname: parentSurname,
+				email: parentEmail,
+				phone: parentPhone
+			},
+			item:{
+				title: title,
+				description: description,
+				unit_price: unit_price
+			}
+		}).then(response => {
+			console.log("dispatch resp::",response);
+			window.location.href = response.init_point;
+			// dispatch()
+			return 1;
+		})
+		.catch(error => {
+			console.log("dispatch err::",error);
+			// dispatch()
+			return null;
+		})
+};
+
 export const registerWithFirebase = model => async dispatch => {
 	if (!firebaseService.auth) {
 		console.warn("Firebase Service didn't initialize, check your configuration");

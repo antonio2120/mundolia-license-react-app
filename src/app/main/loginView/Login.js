@@ -84,7 +84,7 @@ function Login() {
 			<div  className={clsx(classes.divHeader)}>
 				<Grid container>
 					<Grid item xs={8}>
-						<img  src="assets/images/logos/clublia.png" className={clsx(classes.headerImg)} alt="clublia"/>
+						<img onClick={()=>window.location.href = '/home'} src="assets/images/logos/clublia.png" className={clsx(classes.headerImg)} alt="clublia"/>
 					</Grid>
 					<Grid item xs={4} className={clsx(classes.gridHeader)}>
 						<Button onClick={()=>console.log("login button")} className={clsx(classes.loginButton,"normal-case")}>

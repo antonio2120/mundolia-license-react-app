@@ -32,7 +32,7 @@ function TeacherRegisterTab(props) {
 	}
 
 	function handleSubmit(model) {
-		dispatch(submitRegister(model));
+		// dispatch(submitRegister(model));
 	}
 
 	return (

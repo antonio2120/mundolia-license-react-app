@@ -1,10 +1,7 @@
 import { authRoles } from 'app/auth';
-import Register from './Register';
-import Pricing from './PricingApp';
-import Invoice from './Invoice';
+import LandingPage from './LandingPage';
 
-
-const RegisterConfig = {
+const LandingPageConfig = {
 	settings: {
 		layout: {
 			config: {
@@ -29,18 +26,10 @@ const RegisterConfig = {
 	auth: authRoles.onlyGuest,
 	routes: [
 		{
-			path: '/register',
-			component: Register
-		},
-		{
-			path: '/pricing',
-			component: Pricing
-		},
-		{
-			path: '/invoice',
-			component: Invoice
+			path: '/home',
+			component: LandingPage
 		}
 	]
 };
 
-export default RegisterConfig;
+export default LandingPageConfig;

@@ -4,6 +4,7 @@ import authRoleExamplesConfigs from 'app/main/auth/authRoleExamplesConfigs';
 import CallbackConfig from 'app/main/callback/CallbackConfig';
 import DocumentationConfig from 'app/main/documentation/DocumentationConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
+import LandingPageConfig from 'app/main/landingPage/LandingPageConfig';
 import LoginPhpFoxConfig from 'app/main/loginPhpFox/LoginPhpFoxConfig';
 import LoginLiaConfig from 'app/main/loginLia/LoginLiaConfig';
 import LoginMundoLiaConfig from 'app/main/loginMundoLia/LoginMundoLiaConfig';
@@ -30,6 +31,7 @@ const routeConfigs = [
 	DocumentationConfig,
 	LogoutConfig,
 	LoginConfig,
+	LandingPageConfig,
 	LoginPhpFoxConfig,
 	LoginLiaConfig,
 	LoginMundoLiaConfig,
