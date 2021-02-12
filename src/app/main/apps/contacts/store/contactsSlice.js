@@ -82,11 +82,11 @@ export const removeContact = createAsyncThunk(
 		try {
 			await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid).then(response => {
 				const data = response.data.data;
-				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(showMessage({message: response.data.data.message, variant: 'success'}));
 				dispatch(getContacts());
 				return data;
 			}).catch(error => {
-				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+				dispatch(showMessage({message: error.response.data.message, variant: 'error'}));
 			});
 		}catch (e){
 			console.log(e);
