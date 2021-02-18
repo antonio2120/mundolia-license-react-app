@@ -12,7 +12,6 @@ export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', 
 	const response = await axios.get(process.env.REACT_APP_API+'/usuarios',{
 		params:filterContacts
 	});
-	console.log(response)
 	const data = await response.data.data;
 	return { data, routeParams };
 });

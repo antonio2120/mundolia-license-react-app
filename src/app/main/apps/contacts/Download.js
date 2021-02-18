@@ -25,7 +25,8 @@ class Download extends React.Component {
     render() {
         const dataset = Object.values(this.props.items);
         if(this.props.items) {
-            dataset.forEach(item => console.log(item));
+            // dataset.forEach(
+            //     item => console.log(item));
             return (
                 <ExcelFile element={<Icon>cloud_download</Icon>}>
                     <ExcelSheet data={dataset} name="Usuarios">

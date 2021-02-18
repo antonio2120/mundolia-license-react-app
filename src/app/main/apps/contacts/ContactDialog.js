@@ -30,6 +30,7 @@ import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import {showMessage} from "../../../store/fuse/messageSlice";
+import { SignalCellularNull } from '@material-ui/icons';
 
 const defaultFormState = {
 	uuid : '',
@@ -53,6 +54,9 @@ function ContactDialog(props) {
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const groupList = useSelector(({ contactsApp }) => contactsApp.groups.data);
+	const tutor = useSelector(({ contactsApp }) => contactsApp.parents.data);
+	// const parents = useSelector(({ contactsApp }) => contactsApp.parents.data.tutor);
+	// console.log(students);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
@@ -412,6 +416,46 @@ function ContactDialog(props) {
 							</SelectFormsy>:
 							<CircularProgress color="secondary"/>
 						}
+							{form.role_id === 10 ?
+								<SelectFormsy
+									id="childrens_id"
+									name="childrens_id"
+									value={form.childrens_id[0]}
+									onChange={handleChange}
+									label="Hijo"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									required={contactDialog.type === 'editGroup' ? false : true}
+								>
+									{tutor.students.map((row) => (
+										<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+									))}
+								</SelectFormsy>
+
+								
+								:
+								null
+							}
+							{form.role_id === 5 ?
+
+								<SelectFormsy
+									id="tutor_id"
+									name="tutor_id"
+									value={form.tutor_id}
+									onChange={handleChange}
+									label="Tutor"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									required={contactDialog.type === 'editGroup' ? false : true}
+								>
+									{tutor.tutor.map((row) => (
+										<MenuItem key={'tutor_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+									))}
+								</SelectFormsy>
+								: null}
+
 
 					</>
 					)
