@@ -21,7 +21,7 @@ export const submitCreateContact = ( userdata ) => async dispatch => {
 			email: userdata.email,
 			grade: userdata.grade,
 			password: userdata.password,
-			childrens_id: [userdata.childrens_id],
+			childrens_id: userdata.childrens_id,
 			tutor_id: userdata.tutor_id
 		})
 		.then(user => {
@@ -44,7 +44,7 @@ export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch =
 			email: userdata.email,
 			grade: userdata.grade,
 			password: userdata.password,
-			childrens_id: [userdata.childrens_id],
+			childrens_id: userdata.childrens_id,
 			tutor_id: userdata.tutor_id
 		})
 		.then(user => {

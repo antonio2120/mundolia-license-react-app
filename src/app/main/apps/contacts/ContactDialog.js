@@ -29,6 +29,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import {
+    FuseChipSelectFormsy
+} from '@fuse/core/formsy';
 import {showMessage} from "../../../store/fuse/messageSlice";
 import { SignalCellularNull } from '@material-ui/icons';
 
@@ -417,52 +420,49 @@ function ContactDialog(props) {
 							<CircularProgress color="secondary"/>
 						}
 							{form.role_id === 10 ?
-								(
-									<>
-										{
-											form.childrens_id.length == 0 ?
+								
 
-												<SelectFormsy
+												// <SelectFormsy
+												// 	id="childrens_id"
+												// 	name="childrens_id"
+												// 	value={form.childrens_id[0]}
+												// 	onChange={handleChange}
+												// 	label="Hijo"
+												// 	fullWidth
+												// 	variant="outlined"
+												// 	className="mb-24 MuiInputBase-fullWidth"
+												// 	required={contactDialog.type === 'editGroup' ? false : true}
+												// >
+												// 	{tutor.students.map((row) => (
+												// 		<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+												// 	))}
+												// </SelectFormsy>
+												<FuseChipSelectFormsy
 													id="childrens_id"
 													name="childrens_id"
-													value={form.childrens_id[0]}
-													onChange={handleChange}
-													label="Hijo"
+													value={form.childrens_id}
+													className="mb-24 MuiInputBase-fullWidth"
+													placeholder="Hijo(s)"
 													fullWidth
 													variant="outlined"
-													className="mb-24 MuiInputBase-fullWidth"
-													required={contactDialog.type === 'editGroup' ? false : true}
-												>
-													{tutor.students.map((row) => (
-														<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
-													))}
-												</SelectFormsy>
-
-												:
-												form.childrens_id.map((row) => (
-													<SelectFormsy
-														id="childrens_id"
-														name="childrens_id"
-														value={row}
-														onChange={handleChange}
-														label="Hijo"
-														fullWidth
-														variant="outlined"
-														className="mb-24 MuiInputBase-fullWidth"
-														// required={contactDialog.type === 'editGroup' ? false : true}
-													>
-														{tutor.students.map((row) => (
-															<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
-														))}
-													</SelectFormsy>
-												))
-										}
-									</>
-								)
+													textFieldProps={{
+														label: 'Hijo(s)',
+														InputLabelProps: {
+															shrink: true
+														},
+														variant: 'standard'
+													}}
+													onChange={handleChange}
+													options={tutor.students.map(item => ({
+														value: item.id,
+														label: item.name + ' ' + item.last_name
+													}))}
+													isMulti
+												/>
 								:
 								null
 							}
-							{form.role_id === 5 ?
+							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 ?
 
 								<SelectFormsy
 									id="tutor_id"
