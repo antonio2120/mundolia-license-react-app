@@ -42,7 +42,8 @@ const defaultFormState = {
 	email : '',
 	grade: '',
 	active: '',
-	password :''
+	password :'',
+	childrens: 1,
 };
 
 function ContactDialog(props) {
@@ -55,8 +56,7 @@ function ContactDialog(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const groupList = useSelector(({ contactsApp }) => contactsApp.groups.data);
 	const tutor = useSelector(({ contactsApp }) => contactsApp.parents.data);
-	// const parents = useSelector(({ contactsApp }) => contactsApp.parents.data.tutor);
-	// console.log(students);
+	
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
@@ -417,23 +417,48 @@ function ContactDialog(props) {
 							<CircularProgress color="secondary"/>
 						}
 							{form.role_id === 10 ?
-								<SelectFormsy
-									id="childrens_id"
-									name="childrens_id"
-									value={form.childrens_id[0]}
-									onChange={handleChange}
-									label="Hijo"
-									fullWidth
-									variant="outlined"
-									className="mb-24 MuiInputBase-fullWidth"
-									required={contactDialog.type === 'editGroup' ? false : true}
-								>
-									{tutor.students.map((row) => (
-										<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
-									))}
-								</SelectFormsy>
+								(
+									<>
+										{
+											form.childrens_id.length == 0 ?
 
-								
+												<SelectFormsy
+													id="childrens_id"
+													name="childrens_id"
+													value={form.childrens_id[0]}
+													onChange={handleChange}
+													label="Hijo"
+													fullWidth
+													variant="outlined"
+													className="mb-24 MuiInputBase-fullWidth"
+													required={contactDialog.type === 'editGroup' ? false : true}
+												>
+													{tutor.students.map((row) => (
+														<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+													))}
+												</SelectFormsy>
+
+												:
+												form.childrens_id.map((row) => (
+													<SelectFormsy
+														id="childrens_id"
+														name="childrens_id"
+														value={row}
+														onChange={handleChange}
+														label="Hijo"
+														fullWidth
+														variant="outlined"
+														className="mb-24 MuiInputBase-fullWidth"
+														// required={contactDialog.type === 'editGroup' ? false : true}
+													>
+														{tutor.students.map((row) => (
+															<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+														))}
+													</SelectFormsy>
+												))
+										}
+									</>
+								)
 								:
 								null
 							}
@@ -448,14 +473,14 @@ function ContactDialog(props) {
 									fullWidth
 									variant="outlined"
 									className="mb-24 MuiInputBase-fullWidth"
-									required={contactDialog.type === 'editGroup' ? false : true}
+									// required={contactDialog.type === 'editGroup' ? false : true}
 								>
+									<MenuItem value={0}>No asignado</MenuItem>
 									{tutor.tutor.map((row) => (
 										<MenuItem key={'tutor_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
 									))}
 								</SelectFormsy>
 								: null}
-
 
 					</>
 					)
