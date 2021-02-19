@@ -64,6 +64,7 @@ function Login() {
 	const classes = useStyles();
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [widthFlag, setFlag] = useState(true);
+	const [deviceMode, setDeviceMode] = useState(true);
 	const [selectedUserType, setUserType] = useState(1);
 	
 	function clickedArea(area) {
@@ -102,15 +103,24 @@ function Login() {
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,
 				'flex flex-col flex-fixed flex-auto justify-center flex-shrink-0 items-center'
 			)}
-		>
+			ref={el => {
+				if (!el) return;
+				el.getBoundingClientRect().width > 550 ? setDeviceMode(true) : setDeviceMode(false)
+				window.addEventListener('resize', function(){
+					console.log("parent width",el.getBoundingClientRect().width); // prints 200px
+					el.getBoundingClientRect().width > 550 ? setDeviceMode(true) : setDeviceMode(false)
+				});
+			}}>
 			<div className={clsx(
 				selectedUserType == 1 ? classes.image_overlay_alumnos : selectedUserType == 2 ? classes.image_overlay_maestros : selectedUserType == 3 ? classes.image_overlay_padres : classes.image_overlay_escuelas
 				)}/>
 
 			<FuseAnimate animation="transition.slideUpIn" delay={400}>
-				<div className={widthFlag ? "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-end" : "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-center mt-400"}>
+				<div className={widthFlag ? "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-end" 
+				: deviceMode ? "flex w-full max-w-350 md:max-w-3xl rounded-12 overflow-hidden justify-center mt-400"
+				: "flex w-full max-w-350 rounded-12 overflow-hidden justify-center"}>
 					<div className='flex flex-col w-full max-w-sm items-center justify-center float-md-right'>
-						<Typography fontFamily variant="h1" color="inherit" className="font-700 leading-tight justify-end">
+						<Typography fontFamily variant={deviceMode ? "h1" : "h3"} color="inherit" className="font-700 leading-tight justify-end">
 							<div className={"grobold"}>
 								{selectedUserType == 1 ? "Alumnos" : selectedUserType == 2 ? "Maestros" : selectedUserType == 3 ? "Padres" : "Escuelas"}
 							</div>
@@ -179,14 +189,7 @@ function Login() {
 			</FuseAnimate>
 			{widthFlag ?
 			<FuseAnimate animation="transition.slideUpIn" delay={400}>
-			<div className={clsx(classes.circle)} ref={el => {
-				if (!el) return;
-				let widthDiv = el.getBoundingClientRect().width
-				   window.addEventListener('resize', function(){
-					   widthDiv = el.getBoundingClientRect().width
-					   console.log("image width",widthDiv); // prints 200px
-				   });
-			}} >
+			<div className={clsx(classes.circle)}>
 				<ImageMapper
 					width={370}
 					src={require('./circle-complete2.png')}  alt="circle"
@@ -206,6 +209,7 @@ function Login() {
 			</div>
 			</FuseAnimate>
 			:
+			deviceMode ? 
 			<FuseAnimate animation="transition.slideUpIn" delay={400}>
 			
 			<div className={clsx(classes.buttons_mobile_view,'flex flex-col flex-auto justify-center flex-shrink-0 items-center')}>
@@ -260,6 +264,8 @@ function Login() {
 			</div>
 			
 			</FuseAnimate>
+			:
+			<></>
 			}
 		</div>
 		<footer className={clsx(classes.divFooter)}>

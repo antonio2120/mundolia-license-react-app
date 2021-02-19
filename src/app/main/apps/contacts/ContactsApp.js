@@ -19,6 +19,7 @@ import { getUserData } from './store/userSlice';
 import {getSchoolsData} from "./store/schoolsSlice";
 import {getRolesData} from "./store/rolesSlice";
 import {getGroupsInfo} from "./store/groupSlice";
+import {getParentsData} from "./store/parentsSlice";
 
 const useStyles = makeStyles({
 	addButton: {
@@ -48,6 +49,7 @@ function ContactsApp(props) {
 		dispatch(getSchoolsData());
 		dispatch(getRolesData());
 		dispatch(getGroupsInfo());
+		dispatch(getParentsData());
 	}, [dispatch, routeParams]);
 
 	return (

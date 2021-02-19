@@ -20,7 +20,9 @@ export const submitCreateContact = ( userdata ) => async dispatch => {
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			password: userdata.password
+			password: userdata.password,
+			childrens_id: userdata.childrens_id,
+			tutor_id: userdata.tutor_id
 		})
 		.then(user => {
 			dispatch(registerSuccess());
@@ -41,7 +43,9 @@ export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch =
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			password: userdata.password
+			password: userdata.password,
+			childrens_id: userdata.childrens_id,
+			tutor_id: userdata.tutor_id
 		})
 		.then(user => {
 			dispatch(registerSuccess());
