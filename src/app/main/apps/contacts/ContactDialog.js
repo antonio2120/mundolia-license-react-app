@@ -192,7 +192,7 @@ function ContactDialog(props) {
 					<Typography variant="subtitle1" color="inherit">
 						{contactDialog.type === 'new' && 'Nuevo Usuario'}
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
-						{contactDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
+						{contactDialog.type === 'editGroup' && 'Editar '+ formOrigin.length+' usuario(s)'}
 						{contactDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'}
 						{contactDialog.type === 'addToGroup' && 'Añadir usuarios a un grupo'}
 					</Typography>
