@@ -452,7 +452,7 @@ function ContactDialog(props) {
 								:
 								null
 							}
-							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 ?
+							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18 ?
 
 								<SelectFormsy
 									id="tutor_id"
