@@ -124,20 +124,10 @@ function ContactDialog(props) {
 			if (user.error.code == '500') {
 				setValues({...values, loading: false});
 				dispatch(showMessage({message: user.error.message, variant: 'error'}));
-			} else if (user.error && (
-				user.error.errors.name ||
-				user.error.errors.password ||
-				user.error.errors.email ||
-				user.error.errors.username ||
-				user.error.errors.last_name ||
-				user.error.errors.grado
-			)) {
-				formRef.current.updateInputsWithError({
-					...user.error.errors
-				});
+			} else if (user.error.response) {
 				disableButton();
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: user.error.message, variant: 'error'}));
+				dispatch(showMessage({message: user.error.response.data.message, variant: 'error'}));
 
 			}
 		}
