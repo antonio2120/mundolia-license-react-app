@@ -73,7 +73,6 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 	updateContact = data => {
 		return  new Promise(function(resolve, reject) {
-			try {
 				axios.put(process.env.REACT_APP_API + '/usuarios/' + data.uuid, data).then(response => {
 					if (response.status == 200) {
 						resolve(response.data.user);
@@ -81,11 +80,8 @@ class JwtService extends FuseUtils.EventEmitter {
 						reject(response.data.error);
 					}
 				}).catch(error => {
-					reject(error.response.data.message);
+					reject(error);
 				});
-			}catch (e){
-				console.log(e);
-			}
 		});
 
 	};
