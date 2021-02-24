@@ -145,14 +145,12 @@ function FuseShortcuts(props) {
 				)}
 
 				<Tooltip
-					title="Click to add/remove shortcut"
 					placement={props.variant === 'horizontal' ? 'bottom' : 'left'}
 				>
 					<IconButton
 						className="w-40 h-40 p-0"
 						aria-owns={addMenu ? 'add-menu' : null}
 						aria-haspopup="true"
-						onClick={addMenuClick}
 					>
 						<Icon className={classes.addIcon}>star</Icon>
 					</IconButton>
