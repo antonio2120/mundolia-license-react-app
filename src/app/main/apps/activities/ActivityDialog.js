@@ -26,11 +26,10 @@ import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 
 const defaultFormState = {
-	// id: '',
     name: '',
 	group_id: '',
     finishDate: '',	
-    
+    groupList: '',
 };
 
 function ActivityDialog(props) {
@@ -136,14 +135,14 @@ function ActivityDialog(props) {
 						{/* <Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} /> */}
 						{activityDialog.type === 'edit' && (
 							<Typography variant="h6" color="inherit" className="pt-8">
-								{/* {form.name} */}
+								{form.name}
 							</Typography>
 						)}
 					</div>
 			</AppBar>
 			<Formsy
 				onValidSubmit={handleSubmit}
-				// onChange={validateForm}
+				onChange={validateForm}
 				onValid={enableButton}
 				onInvalid={disableButton}
 				ref={formRef}
@@ -179,32 +178,28 @@ function ActivityDialog(props) {
 						required
 					/>
 
-						{ groups ?
+					{ groups ?
 
-							
-
-							<SelectFormsy
-							id="group_id"
-							name="group_id"
-							value={form.group_id}
-							onChange={handleChange}
-							label="Grupo"
-							fullWidth
-							variant="outlined"
-							className="mb-24 MuiInputBase-fullWidth"
-							required
-							>
-							{groups.map((row) =>(<MenuItem key={'group'+row.id} value={row.id}>{row.name}</MenuItem>))}
-							</SelectFormsy>
-
-
-
-
-
-
-							:
-							<CircularProgress color="secondary"/>
+					<SelectFormsy
+						id="group_id"
+						name="group_id"
+						width="100%"
+						value={form.group_id}
+						onChange={handleChange}
+						label="Grupo"
+						fullWidth
+						variant="outlined"
+						className="mb-24 MuiInputBase-fullWidth"
+						required
+					>
+						{groups.map((row) => (
+							<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+						))
 						}
+					</SelectFormsy>
+					:
+					<CircularProgress color="secondary" />
+					}
 
 					<TextFieldFormsy
 						fullWidth
