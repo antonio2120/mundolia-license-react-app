@@ -124,20 +124,10 @@ function ContactDialog(props) {
 			if (user.error.code == '500') {
 				setValues({...values, loading: false});
 				dispatch(showMessage({message: user.error.message, variant: 'error'}));
-			} else if (user.error && (
-				user.error.errors.name ||
-				user.error.errors.password ||
-				user.error.errors.email ||
-				user.error.errors.username ||
-				user.error.errors.last_name ||
-				user.error.errors.grado
-			)) {
-				formRef.current.updateInputsWithError({
-					...user.error.errors
-				});
+			} else if (user.error.response) {
 				disableButton();
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: user.error.message, variant: 'error'}));
+				dispatch(showMessage({message: user.error.response.data.message, variant: 'error'}));
 
 			}
 		}
@@ -202,7 +192,7 @@ function ContactDialog(props) {
 					<Typography variant="subtitle1" color="inherit">
 						{contactDialog.type === 'new' && 'Nuevo Usuario'}
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
-						{contactDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
+						{contactDialog.type === 'editGroup' && 'Editar '+ formOrigin.length+' usuario(s)'}
 						{contactDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'}
 						{contactDialog.type === 'addToGroup' && 'Añadir usuarios a un grupo'}
 					</Typography>
@@ -462,7 +452,7 @@ function ContactDialog(props) {
 								:
 								null
 							}
-							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 ?
+							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18 ?
 
 								<SelectFormsy
 									id="tutor_id"
