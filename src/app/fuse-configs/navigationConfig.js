@@ -40,7 +40,7 @@ const navigationConfig = [
 				title: 'Actividades',
 				translate: 'Actividades',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.teacher,
 				icon: 'assignment',
 				url: '/apps/actividades/all'
 			},
@@ -76,7 +76,7 @@ const navigationConfig = [
 				title: 'Comunidad',
 				translate: 'Comunidad',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.teacher,
 				icon: 'forum',
 				url: '/loginp'
 			},
