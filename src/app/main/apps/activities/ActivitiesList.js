@@ -53,6 +53,7 @@ function ActivitiesList(props) {
 	const [filteredData, setFilteredData] = useState(null);
 	const [searchText, setSearchText] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	console.log(filteredData);
 
 	useEffect(() => {
 		dispatch(getCategories());

@@ -7,7 +7,6 @@ import activities from './activitiesSlice';
 const reducer = combineReducers({
 	categories,
 	courses,
-	course,
 	activities
 });
 
