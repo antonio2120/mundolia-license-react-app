@@ -10,6 +10,8 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import ActivitiesList from './ActivitiesList'
+import { openNewActivityDialog } from './store/activitiesSlice'
+import ActivityDialog from './ActivityDialog';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -59,10 +61,12 @@ function ActivitiesApp(props) {
 					color="primary"
 					aria-label="add"
 					className={classes.addButton}
+					onClick={ev => dispatch(openNewActivityDialog())}
 				>
 					<Icon>assignment_add</Icon>
 				</Fab>
 			</FuseAnimate>
+			<ActivityDialog/>
 		</>
 	);
 }

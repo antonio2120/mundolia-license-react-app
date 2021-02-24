@@ -24,6 +24,9 @@ import { Link } from 'react-router-dom';
 import reducer from './store';
 import { getCategories, selectCategories } from './store/categoriesSlice';
 import { getCourses, selectCourses } from './store/coursesSlice';
+import { getGroups } from './store/groupSlice';
+import { getActivities } from './store/activitiesSlice';
+
 import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
@@ -58,6 +61,8 @@ function ActivitiesList(props) {
 	useEffect(() => {
 		dispatch(getCategories());
 		dispatch(getCourses());
+		dispatch(getActivities());
+		dispatch(getGroups());
 	}, [dispatch]);
 
 	useEffect(() => {

@@ -4,19 +4,104 @@ import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async () => {
-	const response = await axios.get(process.env.REACT_APP_API+'/activities',{
+    const response = await axios.get(process.env.REACT_APP_API+'/actividades',{
 	});
 	const data = await response.data;
 	return data;
 });
 
+export const submitCreateActivity = ( activityData ) => async dispatch => {
+    console.log('dataaaaaaaaaaa');
+    console.log(activityData);
+
+	return jwtService
+		.addActivity({
+	        name: activityData.name,
+            groupId: activityData.group_id,
+	        finishDate: activityData.finishDate
+		})
+		.then(activity => {
+			dispatch(registerSuccess());
+			dispatch(getActivities());
+			dispatch(registerReset());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+
+const activitiesAdapter = createEntityAdapter({});
+
+export const { selectAll: selectCourses, selectById: selectCourseById } = activitiesAdapter.getSelectors(
+	state => state.ActivitiesApp.courses
+);
+
 const activitiesSlice = createSlice({
 	name: 'activitiesApp/activities',
-	// initialState: {},
-	// reducers: {},
+    initialState: activitiesAdapter.getInitialState({
+        activityDialog : {
+            type: 'new',
+            props: {
+                open: false
+            },
+            data: null
+        },
+    }),
+    reducers: {
+        openNewActivityDialog: (state, action) => {
+            state.activityDialog = {
+                type: 'new',
+                props: {
+                    open: true
+                },
+                data: null
+            };
+        },
+        closeNewActivityDialog: (state, action) => {
+            state.activityDialog = {
+                type: 'new',
+                props: {
+                    open: false
+                },
+                data: null
+            };
+        },
+        registerSuccess: (state, action) => {
+			state.activity = {
+				success: true,
+				response: action.payload,
+			};	
+		},
+		registerError: (state, action) => {
+			state.activity = {
+				success: false,
+				error: action.payload,
+				// error: true
+			};	
+		},
+		registerReset: (state, action) => {
+			state.activity = {
+				success: false,
+				error: null,
+			};	
+		},
+    },
 	extraReducers: {
-		[getActivities.fulfilled]: (state, action) => action.payload
-	}
+        [getActivities.fulfilled]: (state, action) => {
+
+
+            const { data } = action.payload;
+			activitiesAdapter.setAll(state, data);
+        }
+    }
 });
+
+export const {
+	openNewActivityDialog,
+    closeNewActivityDialog,
+    registerError,
+    registerSuccess,
+    registerReset,
+} = activitiesSlice.actions;
 
 export default activitiesSlice.reducer;
