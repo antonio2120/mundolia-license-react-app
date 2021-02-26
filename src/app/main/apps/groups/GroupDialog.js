@@ -250,9 +250,9 @@ function GroupDialog(props) {
 							<MenuItem key={'grade6'} value={6}>6</MenuItem>
 						</SelectFormsy>
 						):null}
-
-						{ teachers ?
-
+					{teachers ?
+						<>
+						{groupDialog.type === 'new' ? (
 							<SelectFormsy
 								id="teacher"
 								name="teacher"
@@ -270,6 +270,28 @@ function GroupDialog(props) {
 								))
 								}
 							</SelectFormsy>
+							)
+						:
+						(
+							<SelectFormsy
+								id="teacher"
+								name="teacher"
+								width="100%"
+								value={form.teacher_id}
+								onChange={handleChange}
+								label="Maestro2"
+								fullWidth
+								variant="outlined"
+								className="mb-24 MuiInputBase-fullWidth"
+								required
+							>
+								{teachers.map((row) => (
+									<MenuItem key={'teacher_id' + row.id} value={row.id}>{row.teachers_name}</MenuItem>
+								))
+								}
+							</SelectFormsy>
+						)}
+						</>
 							:
 							<CircularProgress color="secondary"/>
 						}
