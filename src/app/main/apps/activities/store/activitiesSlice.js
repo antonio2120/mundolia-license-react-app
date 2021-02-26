@@ -11,14 +11,11 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 });
 
 export const submitCreateActivity = ( activityData ) => async dispatch => {
-    console.log('dataaaaaaaaaaa');
-    console.log(activityData);
-
 	return jwtService
 		.addActivity({
 	        name: activityData.name,
             groupId: activityData.group_id,
-	        finishDate: activityData.finishDate
+	        finishDate: activityData.finishDate.replace("T", " "),
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -46,6 +43,11 @@ const activitiesSlice = createSlice({
             },
             data: null
         },
+        activity: {
+			success: false,
+			response: false,
+			error: null
+		}
     }),
     reducers: {
         openNewActivityDialog: (state, action) => {

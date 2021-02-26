@@ -50,6 +50,7 @@ function ActivitiesList(props) {
 	const dispatch = useDispatch();
 	const courses = useSelector(selectCourses);
 	const categories = useSelector(selectCategories);
+	const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
 
 	const classes = useStyles(props);
 	const theme = useTheme();

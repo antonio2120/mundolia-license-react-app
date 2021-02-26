@@ -182,7 +182,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			).then(response => {
 				console.log(response);
 				
-				if (response.status == 201) {
+				if (response.status == 200) {
 					resolve(response.data);
 				} else {
 					reject(response.data.error);

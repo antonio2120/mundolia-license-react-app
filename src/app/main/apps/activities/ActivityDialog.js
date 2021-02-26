@@ -36,6 +36,7 @@ function ActivityDialog(props) {
     const dispatch = useDispatch();
 	const activityDialog = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activityDialog);
 	const groups = useSelector(({ ActivitiesApp }) => ActivitiesApp.groups.data);
+	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
@@ -83,9 +84,27 @@ function ActivityDialog(props) {
 	}, [activityDialog.props.open, initDialog]);
 
 	useEffect(() => {
-	
-		
-	}, []);
+		if (activity.error) {
+
+			if (activity.error.response.request.status == '500') {
+				setValues({...values, loading: false});
+				dispatch(showMessage({message: activity.error.data.message, variant: 'error'}));
+			} else 
+			{
+				disableButton();
+				setValues({...values, loading: false});
+				dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
+			}
+		}
+
+		if(activity.success){
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:'Operación exitosa!',variant: 'success'	}));
+
+			closeComposeDialog();
+		}
+
+	}, [activity.error,activity.success]);
     
 	function closeComposeDialog() {
         return  dispatch(closeNewActivityDialog());
