@@ -15,7 +15,7 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
 		.addActivity({
 	        name: activityData.name,
             groupId: activityData.group_id,
-	        finishDate: activityData.finishDate.replace("T", " ")+':00',
+	        finishDate: activityData.finishDate.replace("T", " "),
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
