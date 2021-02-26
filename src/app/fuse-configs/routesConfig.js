@@ -18,6 +18,7 @@ import PeriodosConfig from "../main/apps/periodos/AppConfig";
 import GroupsConfig from "../main/apps/groups/GroupsAppConfig";
 import RegisterConfig from 'app/main/register/RegisterConfig';
 import ActivitiesConfig from "../main/apps/activities/ActivitiesAppConfig";
+import HomeworksConfig from "../main/apps/homeworks/HomeworksAppConfig";
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
@@ -46,6 +47,7 @@ const routeConfigs = [
 	RedirectPageConfig,
 	RegisterConfig, 
 	ActivitiesConfig,
+	HomeworksConfig
 ];
 
 const routes = [

@@ -45,6 +45,15 @@ const navigationConfig = [
 				url: '/apps/actividades/all'
 			},
 			{
+				id: 'tareas',
+				title: 'Tareas',
+				translate: 'Tareas',
+				type: 'item',
+				'auth' : authRoles.teacher,
+				icon: 'assignment',
+				url: '/apps/tareas/all'
+			},
+			{
 				id: 'grupos',
 				title: 'Grupos',
 				translate: 'Grupos',
