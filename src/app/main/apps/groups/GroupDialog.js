@@ -274,8 +274,8 @@ function GroupDialog(props) {
 						:
 						(
 							<SelectFormsy
-								id="teacher"
-								name="teacher"
+								id="teacher_id"
+								name="teacher_id"
 								width="100%"
 								value={form.teacher_id}
 								onChange={handleChange}
@@ -286,7 +286,7 @@ function GroupDialog(props) {
 								required
 							>
 								{teachers.map((row) => (
-									<MenuItem key={'teacher_id' + row.id} value={row.id}>{row.teachers_name}</MenuItem>
+									<MenuItem key={row.id} value={row.id}>{row.teachers_name}</MenuItem>
 								))
 								}
 							</SelectFormsy>
