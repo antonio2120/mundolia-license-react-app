@@ -279,7 +279,7 @@ function GroupDialog(props) {
 								width="100%"
 								value={form.teacher_id}
 								onChange={handleChange}
-								label="Maestro2"
+								label="Maestro"
 								fullWidth
 								variant="outlined"
 								className="mb-24 MuiInputBase-fullWidth"
