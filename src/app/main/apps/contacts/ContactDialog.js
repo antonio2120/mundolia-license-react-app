@@ -29,7 +29,11 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import {
+    FuseChipSelectFormsy
+} from '@fuse/core/formsy';
 import {showMessage} from "../../../store/fuse/messageSlice";
+import { SignalCellularNull } from '@material-ui/icons';
 
 const defaultFormState = {
 	uuid : '',
@@ -41,7 +45,8 @@ const defaultFormState = {
 	email : '',
 	grade: '',
 	active: '',
-	password :''
+	password :'',
+	childrens: 1,
 };
 
 function ContactDialog(props) {
@@ -53,6 +58,8 @@ function ContactDialog(props) {
 	const roles = useSelector(({ contactsApp }) => contactsApp.roles);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const groupList = useSelector(({ contactsApp }) => contactsApp.groups.data);
+	const tutor = useSelector(({ contactsApp }) => contactsApp.parents.data);
+	
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 
@@ -117,20 +124,10 @@ function ContactDialog(props) {
 			if (user.error.code == '500') {
 				setValues({...values, loading: false});
 				dispatch(showMessage({message: user.error.message, variant: 'error'}));
-			} else if (user.error && (
-				user.error.errors.name ||
-				user.error.errors.password ||
-				user.error.errors.email ||
-				user.error.errors.username ||
-				user.error.errors.last_name ||
-				user.error.errors.grado
-			)) {
-				formRef.current.updateInputsWithError({
-					...user.error.errors
-				});
+			} else if (user.error.response) {
 				disableButton();
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: user.error.message, variant: 'error'}));
+				dispatch(showMessage({message: user.error.response.data.message, variant: 'error'}));
 
 			}
 		}
@@ -195,7 +192,7 @@ function ContactDialog(props) {
 					<Typography variant="subtitle1" color="inherit">
 						{contactDialog.type === 'new' && 'Nuevo Usuario'}
 						{contactDialog.type === 'edit' && 'Editar Usuario'}
-						{contactDialog.type === 'editGroup' && 'Editar '+ users.length+' usuario(s)'}
+						{contactDialog.type === 'editGroup' && 'Editar '+ formOrigin.length+' usuario(s)'}
 						{contactDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'}
 						{contactDialog.type === 'addToGroup' && 'Añadir usuarios a un grupo'}
 					</Typography>
@@ -412,6 +409,68 @@ function ContactDialog(props) {
 							</SelectFormsy>:
 							<CircularProgress color="secondary"/>
 						}
+							{form.role_id === 10 ?
+								
+
+												// <SelectFormsy
+												// 	id="childrens_id"
+												// 	name="childrens_id"
+												// 	value={form.childrens_id[0]}
+												// 	onChange={handleChange}
+												// 	label="Hijo"
+												// 	fullWidth
+												// 	variant="outlined"
+												// 	className="mb-24 MuiInputBase-fullWidth"
+												// 	required={contactDialog.type === 'editGroup' ? false : true}
+												// >
+												// 	{tutor.students.map((row) => (
+												// 		<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+												// 	))}
+												// </SelectFormsy>
+												<FuseChipSelectFormsy
+													id="childrens_id"
+													name="childrens_id"
+													value={form.childrens_id}
+													className="mb-24 MuiInputBase-fullWidth"
+													placeholder="Hijo(s)"
+													fullWidth
+													variant="outlined"
+													textFieldProps={{
+														label: 'Hijo(s)',
+														InputLabelProps: {
+															shrink: true
+														},
+														variant: 'standard'
+													}}
+													onChange={handleChange}
+													options={tutor.students.map(item => ({
+														value: item.id,
+														label: item.name + ' ' + item.last_name
+													}))}
+													isMulti
+												/>
+								:
+								null
+							}
+							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18 ?
+
+								<SelectFormsy
+									id="tutor_id"
+									name="tutor_id"
+									value={form.tutor_id}
+									onChange={handleChange}
+									label="Tutor"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									// required={contactDialog.type === 'editGroup' ? false : true}
+								>
+									<MenuItem value={0}>No asignado</MenuItem>
+									{tutor.tutor.map((row) => (
+										<MenuItem key={'tutor_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
+									))}
+								</SelectFormsy>
+								: null}
 
 					</>
 					)

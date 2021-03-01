@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getUserData } from './userSlice';
+import {getParentsData} from "./parentsSlice";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 import { registerError, registerSuccess } from '../../../../auth/store/registerSlice';
@@ -12,7 +13,6 @@ export const getContacts = createAsyncThunk('contactsApp/contacts/getContacts', 
 	const response = await axios.get(process.env.REACT_APP_API+'/usuarios',{
 		params:filterContacts
 	});
-	console.log(response)
 	const data = await response.data.data;
 	return { data, routeParams };
 });
@@ -82,11 +82,12 @@ export const removeContact = createAsyncThunk(
 		try {
 			await axios.delete(process.env.REACT_APP_API+'/usuarios/'+uuid).then(response => {
 				const data = response.data.data;
-				dispatch(showMessage({message: response.data.message, variant: 'success'}));
+				dispatch(showMessage({message: response.data.data.message, variant: 'success'}));
 				dispatch(getContacts());
+				dispatch(getParentsData());
 				return data;
 			}).catch(error => {
-				dispatch(showMessage({message: error.response.data.error.message, variant: 'error'}));
+				dispatch(showMessage({message: error.response.data.message, variant: 'error'}));
 			});
 		}catch (e){
 			console.log(e);

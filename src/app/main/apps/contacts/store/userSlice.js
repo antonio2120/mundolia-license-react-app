@@ -3,6 +3,7 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 import { showMessage } from 'app/store/fuse/messageSlice';
 import {getContacts} from "./contactsSlice";
+import {getParentsData} from "./parentsSlice";
 
 export const getUserData = createAsyncThunk('contactsApp/user/getUserData', async () => {
 	const response = await axios.get(process.env.REACT_APP_API+'/usuarios');
@@ -20,12 +21,15 @@ export const submitCreateContact = ( userdata ) => async dispatch => {
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			password: userdata.password
+			password: userdata.password,
+			childrens_id: userdata.childrens_id,
+			tutor_id: userdata.tutor_id
 		})
 		.then(user => {
 			dispatch(registerSuccess());
 			dispatch(getContacts());
 			dispatch(registerReset());
+			dispatch(getParentsData());
 		})
 		.catch(error => {
 			return dispatch(registerError(error));
@@ -41,12 +45,15 @@ export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch =
 			role_id: userdata.role_id,
 			email: userdata.email,
 			grade: userdata.grade,
-			password: userdata.password
+			password: userdata.password,
+			childrens_id: userdata.childrens_id,
+			tutor_id: userdata.tutor_id
 		})
 		.then(user => {
 			dispatch(registerSuccess());
 			dispatch(getContacts());
 			dispatch(registerReset());
+			dispatch(getParentsData());
 		})
 		.catch(error => {
 			return dispatch(registerError(error));
