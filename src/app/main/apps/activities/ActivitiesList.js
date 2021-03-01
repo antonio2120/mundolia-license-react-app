@@ -6,15 +6,15 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import FormControl from '@material-ui/core/FormControl';
+// import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import Select from '@material-ui/core/Select';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
@@ -25,9 +25,9 @@ import reducer from './store';
 import { getCategories, selectCategories } from './store/categoriesSlice';
 import { getCourses, selectCourses } from './store/coursesSlice';
 import { getGroups } from './store/groupSlice';
-import { getActivities } from './store/activitiesSlice';
+import { getActivities, selectActivities } from './store/activitiesSlice';
 
-import {blue} from "@material-ui/core/colors";
+// import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -50,7 +50,8 @@ function ActivitiesList(props) {
 	const dispatch = useDispatch();
 	const courses = useSelector(selectCourses);
 	const categories = useSelector(selectCategories);
-	const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
+	const activities = useSelector(selectActivities);
+	// const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
 
 	const classes = useStyles(props);
 	const theme = useTheme();
@@ -69,10 +70,10 @@ function ActivitiesList(props) {
 	useEffect(() => {
 		function getFilteredArray() {
 			if (searchText.length === 0 && selectedCategory === 'all') {
-				return courses;
+				return activities;
 			}
 
-			return _.filter(courses, item => {
+			return _.filter(activities, item => {
 				if (selectedCategory !== 'all' && item.category !== selectedCategory) {
 					return false;
 				}
@@ -80,10 +81,10 @@ function ActivitiesList(props) {
 			});
 		}
 
-		if (courses) {
+		if (activities) {
 			setFilteredData(getFilteredArray());
 		}
-	}, [courses, searchText, selectedCategory]);
+	}, [activities, searchText, selectedCategory]);
 
 	function handleSelectedCategory(event) {
 		setSelectedCategory(event.target.value);
@@ -140,15 +141,18 @@ function ActivitiesList(props) {
 								className="flex flex-wrap py-24"
 							>
 								{filteredData.map(course => {
-									const category = categories.find(_cat => _cat.value === course.category);
+									const category = activities.find(_cat => _cat.value === course.category);
 									return (
 										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.id}>
 											<Card elevation={1} className="flex flex-col h-256 rounded-8">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
 													style={{
-														background: category.color,
-														color: theme.palette.getContrastText(category.color)
+														// background: category.color,
+														// color: theme.palette.getContrastText(category.color)
+														background: "#2196f3",
+														color: theme.palette.getContrastText("#2196f3")
+														// color: "#2196f3",
 													}}
 												>
 													<Typography className="font-medium truncate" color="inherit">
@@ -166,7 +170,7 @@ function ActivitiesList(props) {
 												</div>
 												<CardContent className="flex flex-col flex-auto items-center justify-center">
 													<Typography className="text-center text-16 font-400">
-														{course.title}
+														{course.name}
 													</Typography>
 													<Typography
 														className="text-center text-13 font-600 mt-4"

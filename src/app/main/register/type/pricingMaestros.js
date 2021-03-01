@@ -352,7 +352,7 @@ function PricingMaestros(props) {
 										</Typography>
 										<Typography color="textSecondary">
 										    <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                        Acceso a todos los Grupos maestros 
+                                        Acceso a todos los Grupos maestros
 										</Typography>
 										<Typography color="textSecondary" >
 											<Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon>

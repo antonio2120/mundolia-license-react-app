@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
-import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
+// import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async () => {
     const response = await axios.get(process.env.REACT_APP_API+'/actividades',{
@@ -29,8 +29,8 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
 
 const activitiesAdapter = createEntityAdapter({});
 
-export const { selectAll: selectCourses, selectById: selectCourseById } = activitiesAdapter.getSelectors(
-	state => state.ActivitiesApp.courses
+export const { selectAll: selectActivities, selectById: selectActivityById } = activitiesAdapter.getSelectors(
+	state => state.ActivitiesApp.activities
 );
 
 const activitiesSlice = createSlice({
