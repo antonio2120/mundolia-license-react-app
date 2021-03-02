@@ -36,7 +36,7 @@ function HomeworksHeader(props) {
 					</FuseAnimate>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Typography variant="h6" className="mx-12 hidden sm:flex">
-							Grupos
+							Actividad
 						</Typography>
 					</FuseAnimate>
 				</div>

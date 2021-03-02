@@ -25,25 +25,25 @@ function HomeworksList(props) {
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: 'Nombre del Grupo',
-				accessor: 'name',
+				Header: 'Nombre del Alumno',
+				accessor: 'user_name',
 				className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Profesor',
-				accessor: 'teachers_name',
+				Header: 'Estado',
+				accessor: 'status',
 				sortable: true
 			},
 			{
-				Header: 'email',
-				accessor: 'email',
+				Header: 'Calificación',
+				accessor: 'score',
 				className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Numero del miembros',
-				accessor: 'students_count',
+				Header: 'Archivo',
+				accessor: 'file_path',
 				className: 'font-bold',
 				sortable: true
 			},
@@ -69,17 +69,7 @@ function HomeworksList(props) {
 
 
 	let res
-	if (filteredData.length === 0) {
-		res = (
-			<>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						No hay registros que mostrar!
-					</Typography>
-				</div>
-			</>
-		);
-	}else{
+	if (filteredData.length > 0) {
 		res =  (
 			<HomeworksTable
 				columns={columns}
@@ -91,6 +81,16 @@ function HomeworksList(props) {
 				}}
 			/>
 		)
+	}else{
+		res = (
+			<>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						No hay registros que mostrar!
+					</Typography>
+				</div>
+			</>
+		);
 	}
 
 	return (

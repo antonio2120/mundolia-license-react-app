@@ -194,6 +194,25 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	updateHomework = data => {
+		console.log(data);
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/tareas/'+data.id, data 
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
 			axios
