@@ -32,8 +32,22 @@ function HomeworksList(props) {
 			},
 			{
 				Header: 'Estado',
-				accessor: 'status',
-				sortable: true
+				sortable: true,
+				accessor: d => (
+					d.status == 'No entregado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#c7c7c7', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status == 'Entregado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ff9c24', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status == 'Calificado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: 'green', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status
+				)
 			},
 			{
 				Header: 'Calificación',
@@ -43,7 +57,46 @@ function HomeworksList(props) {
 			},
 			{
 				Header: 'Archivo',
-				accessor: 'file_path',
+				accessor: d => d.file_path ? d.file_path : d.url_path ? "Link del documento" : d.url_path,
+				className: 'font-bold',
+				sortable: true,
+			},
+			{
+				id: 'action',
+				width: 128,
+				sortable: false,
+				Cell: ({ row }) => (
+					<div className="flex items-center">
+						{console.log(row.original)}
+						{
+							row.original.file_path ?
+								<IconButton
+								// onClick={ev => {
+								// 	ev.stopPropagation();
+								// 	dispatch(removeContact(row.original.uuid));
+								// }}
+								>
+									<Icon>save_alt</Icon>
+								</IconButton>
+								:
+								row.original.url_path ?
+									<IconButton
+									// onClick={ev => {
+									// 	ev.stopPropagation();
+									// 	dispatch(removeContact(row.original.uuid));
+									// }}
+									>
+										<Icon>link</Icon>
+									</IconButton>
+									:
+									null
+						}
+					</div>
+				)
+			},
+			{
+				Header: 'Fecha de entrega',
+				accessor: 'finish_date',
 				className: 'font-bold',
 				sortable: true
 			},
