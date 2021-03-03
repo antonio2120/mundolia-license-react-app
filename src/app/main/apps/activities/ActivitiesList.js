@@ -187,15 +187,16 @@ function ActivitiesList(props) {
 														className="justify-start px-32"
 														color="secondary"
 													>
-														{buttonStatus(course)}
+														{/* {buttonStatus(course)} */}
+														{course.is_active == 1 ? 'Activa' : 'Completada' }
 													</Button>
 												</CardActions>
-												<LinearProgress
+												{/* <LinearProgress
 													className="w-full"
 													variant="determinate"
-													value={(course.activeStep * 100) / course.totalSteps}
+													value={{course.is_active == 1 ? "100%""  : "50%" }
 													color="secondary"
-												/>
+												/> */}
 											</Card>
 										</div>
 									);
