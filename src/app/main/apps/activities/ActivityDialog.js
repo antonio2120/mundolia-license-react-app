@@ -16,7 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import {showMessage} from "../../../store/fuse/messageSlice";
 import {
 	closeNewActivityDialog,
-	submitCreateActivity
+	submitCreateActivity,
+	closeEditActivityDialog,
+	submitUpdateActivity,
+	removeActivity
 } from './store/activitiesSlice.js';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -26,14 +29,18 @@ import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 
 const defaultFormState = {
+	id: '',
     name: '',
 	group_id: '',
-    finishDate: '',	
+    finish_date: '',	
     groupList: '',
+	theme: '',
+	instructions: '',
 };
 
 function ActivityDialog(props) {
     const dispatch = useDispatch();
+	const formOrigin = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activityDialog.data);
 	const activityDialog = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activityDialog);
 	const groups = useSelector(({ ActivitiesApp }) => ActivitiesApp.groups.data);
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
@@ -57,9 +64,9 @@ function ActivityDialog(props) {
 		// /**
 		//  * Dialog type: 'edit'
 		//  */
-		// if ((activityDialog.type === 'edit')&& activityDialog.data) {
-		// 	setForm({ ...activityDialog.data });
-		// }
+		if ((activityDialog.type === 'edit')&& activityDialog.data) {
+			setForm({ ...activityDialog.data });
+		}
 
 
 		/**
@@ -88,7 +95,7 @@ function ActivityDialog(props) {
 
 			if (activity.error.response.request.status == '500') {
 				setValues({...values, loading: false});
-				dispatch(showMessage({message: activity.error.data.message, variant: 'error'}));
+				dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
 			} else 
 			{
 				disableButton();
@@ -107,7 +114,7 @@ function ActivityDialog(props) {
 	}, [activity.error,activity.success]);
     
 	function closeComposeDialog() {
-        return  dispatch(closeNewActivityDialog());
+		return (activityDialog.type === 'edit' )?  dispatch(closeEditActivityDialog()) : dispatch(closeNewActivityDialog());
 	}
 
 	function handleSubmit(event) {
@@ -117,15 +124,15 @@ function ActivityDialog(props) {
 		if (activityDialog.type === 'new') {
 			dispatch(submitCreateActivity(form));
 		}
-		// else 
-		// if (activityDialog.type === 'edit'){
-		// 	dispatch(submitUpdateActivity(form,formOrigin));
-		// }
+		else 
+		if (activityDialog.type === 'edit'){
+			dispatch(submitUpdateActivity(form,formOrigin));
+		}
 	}
 
 	function handleRemove() {
-		// dispatch(removeActivity(formOrigin.id));
-		// closeComposeDialog();
+		dispatch(removeActivity(formOrigin.id));
+		closeComposeDialog();
 	}
 	function enableButton() {
 		setIsFormValid(true);
@@ -219,21 +226,44 @@ function ActivityDialog(props) {
 					:
 					<CircularProgress color="secondary" />
 					}
-
 					<TextFieldFormsy
 						fullWidth
 						className="mb-16"
-						name="finishDate"
+						name="finish_date"
 						label="Fecha de entrega"
-						id="finishDate"
+						id="finish_date"
 						type="datetime-local"
-						value={form.finishDate}
+						value={form.finish_date.replace(" ", "T")}
 						onChange={handleChange}
-						defaultValue="2017-05-24T10:30"
-						className="mb-24 MuiInputBase-fullWidth"
 						InputLabelProps={{
 						shrink: true,
 						}}
+						variant="outlined"
+						required
+					/>
+					<TextFieldFormsy
+						fullWidth
+						className="mb-16"
+						type="text"
+						name="theme"
+						label="Tema"
+						id="theme"
+						value={form.theme}
+						onChange={handleChange}
+						variant="outlined"
+						required
+					/>
+					<TextFieldFormsy
+						fullWidth
+						multiline
+						rows={4}
+						className="mb-16"
+						type="text"
+						name="instructions"
+						label="Instrucciones"
+						id="instructions"
+						value={form.instructions}
+						onChange={handleChange}
 						variant="outlined"
 						required
 					/>
