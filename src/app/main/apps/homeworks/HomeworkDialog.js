@@ -130,6 +130,7 @@ function HomeworkDialog(props) {
 	}
 
 	function handleSubmit(event) {
+		console.log(event);
 		setValues({ ...values, loading: true });
 		event.preventDefault();
 
@@ -238,6 +239,83 @@ function HomeworkDialog(props) {
 						disabled
 					/>
 
+					{
+						form.file_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="file_path"
+									label="Archivo"
+									id="file_path"
+									value={form.file_path}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										)
+									}}
+									variant="outlined"
+									required
+									disabled
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+								>
+									Descargar
+								</Button>
+							</>
+							:
+							form.url_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="url_path"
+									label="Archivo"
+									id="url_path"
+									value={form.url_path}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										)
+									}}
+									variant="outlined"
+									required
+									disabled
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										navigator.clipboard.writeText(form.url_path);
+										dispatch(showMessage({message: 'Enlace copiado'}));
+									}}
+								>
+									Copiar enlace
+								</Button>
+							</>
+								:
+								null
+
+					}
+
 					<TextFieldFormsy
 						type='number'
 						step="0.1"
@@ -270,25 +348,6 @@ function HomeworkDialog(props) {
 					/>
 
 				</DialogContent>
-				 {homeworkDialog.type === 'new' ? (
-					<DialogActions className="justify-between p-8">
-						<div className="px-16">
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={handleSubmit}
-								type="submit"
-								disabled={( values.loading || !isFormValid)}
-							>
-								Agregar
-							</Button>
-						</div>
-					</DialogActions>
-                     
-                
-                ) 
-                : null
-            }
                 
                 { homeworkDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">

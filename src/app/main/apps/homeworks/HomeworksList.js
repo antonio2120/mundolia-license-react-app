@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import HomeworksTable from './HomeworksTable';
 import { openEditHomeworkDialog, removeItem, toggleStarredItem, selectHomeworks } from './store/homeworkSlice';
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 // import ItemsSidebarContent from "./ItemsSidebarContent";
 // import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
@@ -81,10 +82,11 @@ function HomeworksList(props) {
 								:
 								row.original.url_path ?
 									<IconButton
-									// onClick={ev => {
-									// 	ev.stopPropagation();
-									// 	dispatch(removeContact(row.original.uuid));
-									// }}
+									onClick={ev => {
+										ev.stopPropagation();
+										navigator.clipboard.writeText(row.original.url_path);
+										dispatch(showMessage({message: 'Enlace copiado'}));
+									}}
 									>
 										<Icon>link</Icon>
 									</IconButton>
