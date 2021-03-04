@@ -145,47 +145,48 @@ class LicenciasPage extends Component {
 		let i =0;
 		let iAll =0;
 		res.map((row) => {
-			valid = this.validReacord(row);
-			if (valid === 'valid') {
-				result[i] = {
-					num:iAll,
-					tipo_usuario: row.tipo_usuario.toUpperCase().trim(),
-					nombre: row.nombre.toUpperCase().trim(),
-					username: '',
-					segundo_nombre: row.segundo_nombre ? row.segundo_nombre.toUpperCase().trim() : row.segundo_nombre,
-					apellido_paterno: row.apellido_paterno.toUpperCase().trim(),
-					apellido_materno: row.apellido_materno ? row.apellido_materno.toUpperCase().trim() : row.apellido_materno,
-					email: row.email.trim(),
-					seccion: row.seccion.toUpperCase().trim(),
-					grado: row.grado.toUpperCase().trim(),
-					school_id: null,
-					nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor? row.nombre_padre_madre_o_tutor.toUpperCase().trim() : row.nombre_padre_madre_o_tutor,
-					mail_padre: row.mail_padre? row.mail_padre.toUpperCase().trim() : row.mail_padre,
-					result: <Icon className="text-32">check_circle</Icon>
+			if(row.tipo_usuario !== null){
+				valid = this.validReacord(row);
+				if (valid === 'valid') {
+					result[i] = {
+						num:iAll,
+						tipo_usuario: row.tipo_usuario.toUpperCase().trim(),
+						nombre: row.nombre.toUpperCase().trim(),
+						username: '',
+						segundo_nombre: row.segundo_nombre ? row.segundo_nombre.toUpperCase().trim() : row.segundo_nombre,
+						apellido_paterno: row.apellido_paterno.toUpperCase().trim(),
+						apellido_materno: row.apellido_materno ? row.apellido_materno.toUpperCase().trim() : row.apellido_materno,
+						email: row.email.trim(),
+						seccion: row.seccion.toUpperCase().trim(),
+						grado: row.grado.toUpperCase().trim(),
+						school_id: null,
+						nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor? row.nombre_padre_madre_o_tutor.toUpperCase().trim() : row.nombre_padre_madre_o_tutor,
+						mail_padre: row.mail_padre? row.mail_padre.toUpperCase().trim() : row.mail_padre,
+						result: <Icon className="text-32">check_circle</Icon>
+					}
+					resultAll[iAll] = result[i];
+					++i;
+					++iAll;
+				}else{
+					resultAll[iAll] = {
+						num:iAll,
+						tipo_usuario: row.tipo_usuario,
+						nombre: row.nombre,
+						username: '',
+						segundo_nombre: row.segundo_nombre,
+						apellido_paterno: row.apellido_paterno,
+						apellido_materno: row.apellido_materno,
+						email: row.email,
+						seccion: row.seccion,
+						grado: row.grado,
+						school_id: null,
+						nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor,
+						mail_padre: row.mail_padre,
+						result: valid
+					}
+					++iAll;
 				}
-				resultAll[iAll] = result[i];
-				++i;
-				++iAll;
-			}else{
-				resultAll[iAll] = {
-					num:iAll,
-					tipo_usuario: row.tipo_usuario,
-					nombre: row.nombre,
-					username: '',
-					segundo_nombre: row.segundo_nombre,
-					apellido_paterno: row.apellido_paterno,
-					apellido_materno: row.apellido_materno,
-					email: row.email,
-					seccion: row.seccion,
-					grado: row.grado,
-					school_id: null,
-					nombre_padre_madre_o_tutor: row.nombre_padre_madre_o_tutor,
-					mail_padre: row.mail_padre,
-					result: valid
-				}
-				++iAll;
 			}
-
 		});
 		this.setState({recordsOK: result, recordsAll: resultAll, file: true, activeStep: 3, loading: false});
 

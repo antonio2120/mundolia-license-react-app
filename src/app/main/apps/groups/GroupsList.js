@@ -31,6 +31,11 @@ function GroupsList(props) {
 				sortable: true
 			},
 			{
+				Header: 'Escuela',
+				accessor: 'school_id',
+				sortable: true
+			},
+			{
 				Header: 'Profesor',
 				accessor: 'teachers_name',
 				sortable: true
