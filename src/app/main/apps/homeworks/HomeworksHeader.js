@@ -32,11 +32,11 @@ function HomeworksHeader(props) {
 
 				<div className="flex items-center">
 					<FuseAnimate animation="transition.expandIn" delay={300}>
-						<Icon className="text-32">groups</Icon>
+						<Icon className="text-32">assignment</Icon>
 					</FuseAnimate>
 					<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 						<Typography variant="h6" className="mx-12 hidden sm:flex">
-							Actividad
+							{props.name}
 						</Typography>
 					</FuseAnimate>
 				</div>

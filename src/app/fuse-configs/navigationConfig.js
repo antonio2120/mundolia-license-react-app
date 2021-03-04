@@ -76,7 +76,7 @@ const navigationConfig = [
 				title: 'Comunidad',
 				translate: 'Comunidad',
 				type: 'item',
-				'auth' : authRoles.teacher,
+				'auth' : authRoles.alumno,
 				icon: 'forum',
 				url: '/loginp'
 			},

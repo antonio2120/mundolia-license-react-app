@@ -185,7 +185,7 @@ function ActivitiesList(props) {
 												<Divider />
 												<CardActions className="justify-center">
 													<Button
-														to={`/apps/tareas/${course.id}`}
+														to={`/apps/tareas/${course.id}/${course.name}`}
 														component={Link}
 														className="justify-start px-32"
 														color="secondary"
