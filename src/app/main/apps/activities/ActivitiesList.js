@@ -26,7 +26,7 @@ import { getCategories, selectCategories } from './store/categoriesSlice';
 import { getCourses, selectCourses } from './store/coursesSlice';
 import { getGroups } from './store/groupSlice';
 import { getActivities, selectActivities } from './store/activitiesSlice';
-
+import { openEditActivityDialog } from './store/activitiesSlice'
 // import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 function ActivitiesList(props) {
 	const dispatch = useDispatch();
-	const courses = useSelector(selectCourses);
+	// const courses = useSelector(selectCourses);
 	const categories = useSelector(selectCategories);
 	const activities = useSelector(selectActivities);
 	// const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
@@ -58,11 +58,10 @@ function ActivitiesList(props) {
 	const [filteredData, setFilteredData] = useState(null);
 	const [searchText, setSearchText] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
-	console.log(filteredData);
 
 	useEffect(() => {
 		dispatch(getCategories());
-		dispatch(getCourses());
+		// dispatch(getCourses());
 		dispatch(getActivities());
 		dispatch(getGroups());
 	}, [dispatch]);
@@ -146,7 +145,7 @@ function ActivitiesList(props) {
 										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.id}>
 											<Card elevation={1} className="flex flex-col h-256 rounded-8">
 												<div
-													className="flex flex-shrink-0 items-center justify-between px-24 h-64"
+													className="flex flex-shrink-0 items-center justify-between px-24 h-84"
 													style={{
 														// background: category.color,
 														// color: theme.palette.getContrastText(category.color)
@@ -155,28 +154,32 @@ function ActivitiesList(props) {
 														// color: "#2196f3",
 													}}
 												>
-													<Typography className="font-medium truncate" color="inherit">
-														{category.label}
-													</Typography>
-													<div className="flex items-center justify-center opacity-75">
-														<Icon className="text-20 mx-8" color="inherit">
-															access_time
-														</Icon>
-														<div className="text-16 whitespace-no-wrap">
-															{course.length}
-															min
-														</div>
+													<div className="flex-direction: column, items-center ">
+														<Typography className="text-xl font-semibold truncate py-1" color="inherit">
+															{course.name}
+														</Typography>
+														<Typography className="font-medium truncate" color="inherit">
+															{course.group_name}
+														</Typography>
+														<Typography className="font-medium truncate" color="inherit">
+															{course.teachers_name}
+														</Typography>
 													</div>
-												</div>
-												<CardContent className="flex flex-col flex-auto items-center justify-center">
-													<Typography className="text-center text-16 font-400">
-														{course.name}
-													</Typography>
+													<div className="flex items-center justify-center opacity-75">
+														<div className="text-16 whitespace-no-wrap">
+															{course.finish_date.substring(0,10)}
+														</div>
+														{/* <Icon className="text-20 mx-8" color="inherit">
+															access_time
+														</Icon> */}
+													</div>
+												</div>		
+												<CardContent className=" flex-col flex-auto items-center justify-center">
 													<Typography
 														className="text-center text-13 font-600 mt-4"
 														color="textSecondary"
 													>
-														{course.updated}
+														{course.instructions ? course.instructions : 'Sin Instrucciones'}
 													</Typography>
 												</CardContent>
 												<Divider />
@@ -188,7 +191,16 @@ function ActivitiesList(props) {
 														color="secondary"
 													>
 														{/* {buttonStatus(course)} */}
-														{course.is_active == 1 ? 'Activa' : 'Completada' }
+														Ver
+													</Button>
+													<Button
+														onClick={ev => dispatch(openEditActivityDialog(course))}
+														component={Link}
+														className="justify-start px-32"
+														color="secondary"
+													>
+														{/* {buttonStatus(course)} */}
+														Editar
 													</Button>
 												</CardActions>
 												{/* <LinearProgress
