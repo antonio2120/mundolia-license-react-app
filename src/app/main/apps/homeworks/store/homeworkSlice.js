@@ -62,6 +62,44 @@ export const removeHomework = createAsyncThunk('homeworksApp/homeworks/removeHom
 		}
 	}
 );
+// export const downloadHomework = ( filename ) => async dispatch => {
+// 	return jwtService
+// 		.updateHomework({
+// 			id: homeworkOrigin.id,
+// 			status: 'Calificado',
+// 			score: homeworkdata.score,
+// 		})
+// 		.then(response => {
+// 			dispatch(registerSuccess());
+// 			dispatch(getHomeworks({ 'id': response.data.activity_id}));
+// 			dispatch(registerReset());
+// 		})
+// 		.catch(error => {
+// 			return dispatch(registerError(error));
+// 		});
+// };
+
+export const downloadHomework = ( filename ) => async dispatch => {
+	
+	axios({
+		url: process.env.REACT_APP_API+'/download-file',
+		method: 'POST',
+		responseType: 'blob', // important
+		data: {
+			filename:filename
+		}
+	})
+	.then( response => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'Tarea'); //or any other extension
+		document.body.appendChild(link);
+		link.click();
+	}).catch(error => {
+		dispatch(showMessage({message: "Error al descargar el archivo", variant: 'error'}));
+	})
+};
 
 const homeworksAdapter = createEntityAdapter({});
 
