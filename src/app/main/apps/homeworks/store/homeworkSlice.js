@@ -3,8 +3,8 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
-export const getHomeworks = createAsyncThunk('homeworksApp/homeworks/getHomeworks', async () => {
-	const response = await axios.get(process.env.REACT_APP_API+'/grupos',{
+export const getHomeworks = createAsyncThunk('homeworksApp/homeworks/getHomeworks', async (params) => {
+	const response = await axios.get(process.env.REACT_APP_API+'/tareas/actividad/'+params.id,{
 		// params:filterContacts
 	});
 	const data = await response.data;
@@ -34,13 +34,13 @@ export const submitCreateHomework = ( homeworkdata ) => async dispatch => {
 export const submitUpdateHomework = ( homeworkdata, homeworkOrigin ) => async dispatch => {
 	return jwtService
 		.updateHomework({
-			homeworkId: homeworkOrigin.id,
-			homeworkTitle: homeworkdata.name,
-			teacherId: homeworkdata.teacher.id,
+			id: homeworkOrigin.id,
+			status: 'Calificado',
+			score: homeworkdata.score,
 		})
-		.then(homework => {
+		.then(response => {
 			dispatch(registerSuccess());
-			dispatch(getHomeworks());
+			dispatch(getHomeworks({ 'id': response.data.activity_id}));
 			dispatch(registerReset());
 		})
 		.catch(error => {

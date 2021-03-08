@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import HomeworksTable from './HomeworksTable';
 import { openEditHomeworkDialog, removeItem, toggleStarredItem, selectHomeworks } from './store/homeworkSlice';
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 // import ItemsSidebarContent from "./ItemsSidebarContent";
 // import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
@@ -25,25 +26,79 @@ function HomeworksList(props) {
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: 'Nombre del Grupo',
-				accessor: 'name',
+				Header: 'Nombre del Alumno',
+				accessor: 'user_name',
 				className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Profesor',
-				accessor: 'teachers_name',
-				sortable: true
+				Header: 'Estado',
+				sortable: true,
+				accessor: d => (
+					d.status == 'No entregado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#c7c7c7', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status == 'Entregado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ff9c24', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status == 'Calificado' ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: 'green', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.status.toUpperCase()}</p>
+						</div>
+					: d.status
+				)
 			},
 			{
-				Header: 'email',
-				accessor: 'email',
+				Header: 'Calificación',
+				accessor: 'score',
 				className: 'font-bold',
 				sortable: true
 			},
 			{
-				Header: 'Numero del miembros',
-				accessor: 'students_count',
+				Header: 'Archivo',
+				accessor: d => d.file_path ? d.file_path : d.url_path ? "Link del documento" : d.url_path,
+				className: 'font-bold',
+				sortable: true,
+			},
+			{
+				id: 'action',
+				width: 128,
+				sortable: false,
+				Cell: ({ row }) => (
+					<div className="flex items-center">
+						{console.log(row.original)}
+						{
+							row.original.file_path ?
+								<IconButton
+								// onClick={ev => {
+								// 	ev.stopPropagation();
+								// 	dispatch(removeContact(row.original.uuid));
+								// }}
+								>
+									<Icon>save_alt</Icon>
+								</IconButton>
+								:
+								row.original.url_path ?
+									<IconButton
+									onClick={ev => {
+										ev.stopPropagation();
+										navigator.clipboard.writeText(row.original.url_path);
+										dispatch(showMessage({message: 'Enlace copiado'}));
+									}}
+									>
+										<Icon>link</Icon>
+									</IconButton>
+									:
+									null
+						}
+					</div>
+				)
+			},
+			{
+				Header: 'Fecha de entrega',
+				accessor: 'finish_date',
 				className: 'font-bold',
 				sortable: true
 			},
@@ -69,17 +124,7 @@ function HomeworksList(props) {
 
 
 	let res
-	if (filteredData.length === 0) {
-		res = (
-			<>
-				<div className="flex flex-1 items-center justify-center h-full">
-					<Typography color="textSecondary" variant="h5">
-						No hay registros que mostrar!
-					</Typography>
-				</div>
-			</>
-		);
-	}else{
+	if (filteredData.length > 0) {
 		res =  (
 			<HomeworksTable
 				columns={columns}
@@ -91,6 +136,16 @@ function HomeworksList(props) {
 				}}
 			/>
 		)
+	}else{
+		res = (
+			<>
+				<div className="flex flex-1 items-center justify-center h-full">
+					<Typography color="textSecondary" variant="h5">
+						No hay registros que mostrar!
+					</Typography>
+				</div>
+			</>
+		);
 	}
 
 	return (

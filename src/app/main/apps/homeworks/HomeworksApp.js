@@ -54,14 +54,14 @@ function HomeworksApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0'
 				}}
-				header={<HomeworksHeader pageLayout={pageLayout} />}
+				header={<HomeworksHeader name={routeParams.name} pageLayout={pageLayout} />}
 				content={<HomeworksList />}
 				// leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
+			{/* <FuseAnimate animation="transition.expandIn" delay={300}>
 				<Fab
 					color="primary"
 					aria-label="add"
@@ -69,6 +69,16 @@ function HomeworksApp(props) {
 					onClick={ev => dispatch(openNewHomeworkDialog())}
 				>
 					<Icon>homework_add</Icon>
+				</Fab>
+			</FuseAnimate> */}
+			<FuseAnimate animation="transition.expandIn" delay={300}>
+				<Fab
+					color="secondary"
+					aria-label="add"
+					className={classes.addButton}
+					onClick={env => props.history.goBack()}
+				>
+					<Icon>{'chevron_left'}</Icon>
 				</Fab>
 			</FuseAnimate>
 			<HomeworkDialog/>

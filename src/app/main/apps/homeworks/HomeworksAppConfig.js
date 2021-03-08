@@ -9,7 +9,7 @@ const HomeworksAppConfig = {
 	},
 	routes: [
 		{
-			path: '/apps/tareas/:id',
+			path: '/apps/tareas/:id/:name',
 			component: React.lazy(() => import('./HomeworksApp'))
 		},
 		{

@@ -8,7 +8,7 @@ import groups from './groupSlice';
 
 const reducer = combineReducers({
 	categories,
-	courses,
+	// courses,
 	course,
 	activities,
 	groups

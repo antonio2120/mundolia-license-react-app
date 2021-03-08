@@ -34,13 +34,8 @@ import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 
 const defaultFormState = {
 	id: '',
-    name: '',
-	teacherId: '',
-    schoolId: '',
-    grade: '',
-	uuid : '',
-	teachers_name: '',
-	avatar: 'assets/images/avatars/profile.jpg',	
+	status: '',
+	score: '',	
     
 };
 
@@ -51,8 +46,6 @@ function HomeworkDialog(props) {
 	const homework = useSelector(({ HomeworksApp }) => HomeworksApp.homework.homework);
 	const teachers = useSelector(({ HomeworksApp }) => HomeworksApp.teachers.data);
 	const { form, handleChange, setForm} = useForm(defaultFormState);
-
-	console.log(teachers);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
@@ -137,6 +130,7 @@ function HomeworkDialog(props) {
 	}
 
 	function handleSubmit(event) {
+		console.log(event);
 		setValues({ ...values, loading: true });
 		event.preventDefault();
 
@@ -176,7 +170,7 @@ function HomeworkDialog(props) {
 				<Toolbar className="flex w-full">
 					<Typography variant="subtitle1" color="inherit">
 						{homeworkDialog.type === 'new' && 'Nuevo Grupo'}
-						{homeworkDialog.type === 'edit' && 'Editar Grupo'}
+						{homeworkDialog.type === 'edit' && 'Calificar alumno'}
 						{/*{homeworkDialog.type === 'editHomework' && 'Editar '+ users.length+' usuario(s)'}
 						{homeworkDialog.type === 'massiveMessage' && 'Crear mensaje para Usuarios'} */}
 					</Typography>
@@ -199,27 +193,152 @@ function HomeworkDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					
 					<TextFieldFormsy
 						fullWidth
 						className="mb-16"
 						type="text"
-						name="name"
-						label="Nombre del Grupo"
-						id="name"
-						value={form.name}
+						name="user_name"
+						label="Nombre del Alumno"
+						id="user_name"
+						value={form.user_name}
+						onChange={handleChange}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										person_outline
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+						disabled
+					/>
+
+					<TextFieldFormsy
+						fullWidth
+						className="mb-16"
+						type="text"
+						name="status"
+						label="Estado"
+						id="status"
+						value={form.status}
+						onChange={handleChange}
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<Icon className="text-20" color="action">
+										donut_large
+									</Icon>
+								</InputAdornment>
+							)
+						}}
+						variant="outlined"
+						required
+						disabled
+					/>
+
+					{
+						form.file_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="file_path"
+									label="Archivo"
+									id="file_path"
+									value={form.file_path}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										)
+									}}
+									variant="outlined"
+									required
+									disabled
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+								>
+									Descargar
+								</Button>
+							</>
+							:
+							form.url_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="url_path"
+									label="Archivo"
+									id="url_path"
+									value={form.url_path}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										)
+									}}
+									variant="outlined"
+									required
+									disabled
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										navigator.clipboard.writeText(form.url_path);
+										dispatch(showMessage({message: 'Enlace copiado'}));
+									}}
+								>
+									Copiar enlace
+								</Button>
+							</>
+								:
+								null
+
+					}
+
+					<TextFieldFormsy
+						type='number'
+						step="0.1"
+						min='0'
+						max='10'
+						fullWidth
+						className="mb-16"
+						type="text"
+						name="score"
+						label="Calificación"
+						id="score"
+						value={form.score}
 						onChange={handleChange}
 						validations={{
-							minLength: 2
-						}}
-						validationErrors={{
-							minLength: 'Min character length is 4'
+							isNumber: function(values, value){
+								return value >= 0 && value <= 10 ? true : 'La calificación debe ser un numero entre 0 y 10'
+							}
 						}}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
 									<Icon className="text-20" color="action">
-										star
+										grade
 									</Icon>
 								</InputAdornment>
 							)
@@ -228,76 +347,7 @@ function HomeworkDialog(props) {
 						required
 					/>
 
-					{homeworkDialog.type === 'new' ? 
-						(
-						<SelectFormsy
-							id="grade"
-							name="grade"
-							width="100%"
-							value={form.grade}
-							onChange={handleChange}
-							label="Grado"
-							fullWidth
-							variant="outlined"
-							className="mb-24 MuiInputBase-fullWidth"
-							required
-						>
-							<MenuItem key={'grade1'} value={1}>1</MenuItem>
-							<MenuItem key={'grade2'} value={2}>2</MenuItem>
-							<MenuItem key={'grade3'} value={3}>3</MenuItem>
-							<MenuItem key={'grade4'} value={4}>4</MenuItem>
-							<MenuItem key={'grade5'} value={5}>5</MenuItem>
-							<MenuItem key={'grade6'} value={6}>6</MenuItem>
-						</SelectFormsy>
-						):null}
-
-						{ teachers ?
-
-							<SelectFormsy
-								id="teacher"
-								name="teacher"
-								width="100%"
-								value={form.teacher}
-								onChange={handleChange}
-								label="Maestro"
-								fullWidth
-								variant="outlined"
-								className="mb-24 MuiInputBase-fullWidth"
-								required
-							>
-								{teachers.map((row) => (
-									<MenuItem key={row.id} value={row}>{row.teachers_name}</MenuItem>
-								))
-								}
-							</SelectFormsy>
-							:
-							<CircularProgress color="secondary"/>
-						}
-				
-
-		
-					{values.loading && <LinearProgress />}
-
 				</DialogContent>
-				 {homeworkDialog.type === 'new' ? (
-					<DialogActions className="justify-between p-8">
-						<div className="px-16">
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={handleSubmit}
-								type="submit"
-								disabled={( values.loading || !isFormValid)}
-							>
-								Agregar
-							</Button>
-						</div>
-					</DialogActions>
-                     
-                
-                ) 
-                : null
-            }
                 
                 { homeworkDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
@@ -309,14 +359,14 @@ function HomeworkDialog(props) {
 								onClick={handleSubmit}
 								disabled={(values.loading || !isFormValid)}
 							>
-								Guardar
+								Calificar
 							</Button>
 						</div>
-							<IconButton 
+							{/* <IconButton 
 							onClick={handleRemove} 
 							disabled={(values.loading)}>
 								<Icon>delete</Icon>
-							</IconButton>
+							</IconButton> */}
 					</DialogActions> 
 				)
 				: null
