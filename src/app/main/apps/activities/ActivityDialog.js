@@ -36,6 +36,7 @@ const defaultFormState = {
     groupList: '',
 	theme: '',
 	instructions: '',
+	file_path: ''
 };
 
 function ActivityDialog(props) {
@@ -46,6 +47,12 @@ function ActivityDialog(props) {
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
+	///Getting date time
+	var today = new Date();
+	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2)
+	+ 'T' + ('0'+( today.getHours() + 1)).slice(-2) + ':' + ('0'+( today.getMinutes() + 1)).slice(-2);
+
+	console.log(form);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
@@ -238,6 +245,10 @@ function ActivityDialog(props) {
 						InputLabelProps={{
 						shrink: true,
 						}}
+						// min={date}
+						inputProps={{
+							min: date
+						}}
 						variant="outlined"
 						required
 					/>
@@ -251,7 +262,6 @@ function ActivityDialog(props) {
 						value={form.theme}
 						onChange={handleChange}
 						variant="outlined"
-						required
 					/>
 					<TextFieldFormsy
 						fullWidth
@@ -265,7 +275,12 @@ function ActivityDialog(props) {
 						value={form.instructions}
 						onChange={handleChange}
 						variant="outlined"
-						required
+						validations={{
+							maxLength: 100
+						}}
+						validationErrors={{
+							maxLength: 'El máximo de carácteres permitidos es 100'
+						}}
 					/>
 				
 
@@ -286,12 +301,35 @@ function ActivityDialog(props) {
 								Agregar
 							</Button>
 						</div>
+
+						<input
+							// accept="image/*"
+							// className={classes.input}
+							name="file_path"
+							id="file_path"
+							value={form.file_path}
+							style={{ display: 'none' }}
+							onChange={handleChange}
+							id="raised-button-file"
+							multiple
+							type="file"
+						/>
+						<label htmlFor="raised-button-file">
+							<IconButton variant="raised"
+								component="span"
+								disabled={(values.loading)}>
+								<Icon>attachment</Icon>
+							</IconButton>
+						</label>
+
 					</DialogActions>
                      
                 
                 ) 
                 : null
             }
+
+				{/* {form.file_path.slice(12)} */}
                 
                 { activityDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
@@ -306,11 +344,34 @@ function ActivityDialog(props) {
 								Guardar
 							</Button>
 						</div>
-							<IconButton 
-							onClick={handleRemove} 
-							disabled={(values.loading)}>
-								<Icon>delete</Icon>
+
+						
+
+						<input
+							// accept="image/*"
+							// className={classes.input}
+							name="file_path"
+							id="file_path"
+							value={form.file_path}
+							style={{ display: 'none' }}
+							onChange={handleChange}
+							id="raised-button-file"
+							multiple
+							type="file"
+						/>
+						<label htmlFor="raised-button-file">
+							<IconButton variant="raised"
+								component="span"
+								disabled={(values.loading)}>
+								<Icon>attachment</Icon>
 							</IconButton>
+						</label>
+
+						<IconButton
+							onClick={handleRemove}
+							disabled={(values.loading)}>
+							<Icon>delete</Icon>
+						</IconButton>
 					</DialogActions> 
 				)
 				: null

@@ -178,7 +178,20 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	addActivity = data => {
 		return new Promise((resolve, reject) => {
-			axios.post(process.env.REACT_APP_API+'/actividades', data 
+			var formData = new FormData();
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('file_path', data.file_path);
+
+			axios.post(process.env.REACT_APP_API+'/actividades', formData,
+			 {
+				headers: {
+					// 'x-device-id': 'stuff',
+					'Content-Type': 'multipart/form-data',
+				}},
 			).then(response => {
 				console.log(response);
 				
@@ -195,9 +208,29 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 	updateActivity = data => {
 		return new Promise((resolve, reject) => {
-			console.log(data);
+			var formData = new FormData();
+			// formData.append('name',data.name,);
+			// formData.append('groupId',data.groupId);
+			// formData.append('finishDate',data.finishDate);
+			// formData.append('theme',data.theme);
+			// formData.append('instructions',data.instructions);
+			formData.append('file_path', data.file_path);
+	
+			console.log('formData');
+			console.log(formData.get("file_path"));
+			
 
-			axios.put(process.env.REACT_APP_API+'/actividades/' + data.activityId, data 
+			// const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+			axios.put(process.env.REACT_APP_API+'/actividades/' + data.activityId, formData,
+			 {
+				headers: {
+					// 'x-device-id': 'stuff',
+					'Content-Type': 'multipart/form-data',
+				}},
+				data
+			
+			
 			).then(response => {
 				console.log(response);
 				

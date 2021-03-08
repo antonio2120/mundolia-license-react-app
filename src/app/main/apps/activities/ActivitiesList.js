@@ -114,17 +114,17 @@ function ActivitiesList(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						WELCOME TO ACADEMY
+						ACTIVIDADES
 					</Typography>
 				</FuseAnimate>
-				<FuseAnimate duration={400} delay={600}>
+				{/* <FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
 							Our courses will step you through the process of building a small application, or adding a
 							new feature to an existing application.
 						</span>
 					</Typography>
-				</FuseAnimate>
+				</FuseAnimate> */}
 				<Icon className={classes.headerIcon}> school </Icon>
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
@@ -149,7 +149,7 @@ function ActivitiesList(props) {
 													style={{
 														// background: category.color,
 														// color: theme.palette.getContrastText(category.color)
-														background: "#2196f3",
+														background: (course.is_active == 1 ? '#4BB543' : '#2196f3'),
 														color: theme.palette.getContrastText("#2196f3")
 														// color: "#2196f3",
 													}}
@@ -167,19 +167,26 @@ function ActivitiesList(props) {
 													</div>
 													<div className="flex items-center justify-center opacity-75">
 														<div className="text-16 whitespace-no-wrap">
-															{course.finish_date.substring(0,10)}
+															{course.is_active == 1 ? 'Activa' : 'Completada'}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
 														</Icon> */}
 													</div>
 												</div>		
-												<CardContent className=" flex-col flex-auto items-center justify-center">
+												<CardContent className="flex flex-col flex-auto items-center justify-center">
 													<Typography
 														className="text-center text-13 font-600 mt-4"
 														color="textSecondary"
 													>
 														{course.instructions ? course.instructions : 'Sin Instrucciones'}
+													</Typography>
+
+													<Typography
+														className="text-center text-13 font-600 mt-4 fixed-bottom"
+														color="textSecondary"
+													>
+														Se entrega el: {course.finish_date}
 													</Typography>
 												</CardContent>
 												<Divider />

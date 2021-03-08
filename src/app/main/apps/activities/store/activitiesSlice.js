@@ -18,7 +18,8 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
             groupId: activityData.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
-			instructions: activityData.instructions
+			instructions: activityData.instructions,
+			file_path: activityData.file_path,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -38,7 +39,8 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin ) => asyn
             groupId: activityData.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
-			instructions: activityData.instructions
+			instructions: activityData.instructions,
+			file_path: activityData.file_path,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
