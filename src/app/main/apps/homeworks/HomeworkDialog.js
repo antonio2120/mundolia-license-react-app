@@ -23,7 +23,8 @@ import {
 	closeEditHomeworkDialog,
     addHomework,
 	closeEditContactDialog,
-	submitUpdateHomework
+	submitUpdateHomework,
+	downloadHomework
 } from './store/homeworkSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -130,6 +131,7 @@ function HomeworkDialog(props) {
 	}
 
 	function handleSubmit(event) {
+		console.log(event);
 		setValues({ ...values, loading: true });
 		event.preventDefault();
 
@@ -208,11 +210,11 @@ function HomeworkDialog(props) {
 										person_outline
 									</Icon>
 								</InputAdornment>
-							)
+							),
+							readOnly: true,
 						}}
 						variant="outlined"
 						required
-						disabled
 					/>
 
 					<TextFieldFormsy
@@ -231,12 +233,92 @@ function HomeworkDialog(props) {
 										donut_large
 									</Icon>
 								</InputAdornment>
-							)
+							),
+							readOnly: true,
 						}}
 						variant="outlined"
 						required
-						disabled
 					/>
+
+					{
+						form.file_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="file_path"
+									label="Archivo"
+									id="file_path"
+									value={form.file_path.slice(form.file_path.indexOf('_')+1)}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										),
+										readOnly: true,
+									}}
+									variant="outlined"
+									required
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+									onClick={() =>{
+										dispatch(downloadHomework(form.file_path))
+									}}
+								>
+									Descargar
+								</Button>
+							</>
+							:
+							form.url_path ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="url_path"
+									label="Archivo"
+									id="url_path"
+									value={form.url_path}
+									onChange={handleChange}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+											</Icon>
+											</InputAdornment>
+										),
+										readOnly: true,
+									}}
+									variant="outlined"
+									required
+								/>
+								<Button
+									fullWidth
+									className="mb-16"
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										navigator.clipboard.writeText(form.url_path);
+										dispatch(showMessage({message: 'Enlace copiado'}));
+									}}
+								>
+									Copiar enlace
+								</Button>
+							</>
+								:
+								null
+
+					}
 
 					<TextFieldFormsy
 						type='number'
@@ -270,25 +352,6 @@ function HomeworkDialog(props) {
 					/>
 
 				</DialogContent>
-				 {homeworkDialog.type === 'new' ? (
-					<DialogActions className="justify-between p-8">
-						<div className="px-16">
-							<Button
-								variant="contained"
-								color="primary"
-								onClick={handleSubmit}
-								type="submit"
-								disabled={( values.loading || !isFormValid)}
-							>
-								Agregar
-							</Button>
-						</div>
-					</DialogActions>
-                     
-                
-                ) 
-                : null
-            }
                 
                 { homeworkDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
