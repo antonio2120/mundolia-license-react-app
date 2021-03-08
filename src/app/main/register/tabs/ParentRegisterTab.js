@@ -25,10 +25,6 @@ function ParentRegisterTab(props) {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [count, setCount] = useState(1);
 	const classes = useStyles();
-	// const [ArrStudents, setArrStudents] = useState([]);
-	// const [newStudent, setnewStudent] = useState({
-	// 	name:"",email:"",age:"",grade:""
-	// });
 	const formRef = useRef(null);
 
 	useEffect(() => {
@@ -395,7 +391,7 @@ function ParentRegisterTab(props) {
 							<MenuItem key={'13'} value={13}>13</MenuItem>
 							<MenuItem key={'14'} value={14}>14</MenuItem>
 							<MenuItem key={'15'} value={15}>15</MenuItem>
-						</SelectFormsy>
+						</SelectFormsy> 
 
 						<SelectFormsy
 							id="level"
@@ -408,7 +404,63 @@ function ParentRegisterTab(props) {
 							<MenuItem key={'kinder'} value={"kinder"}>Kinder</MenuItem>
 							<MenuItem key={'primaria'} value={"primaria"}>Primaria</MenuItem>
 							<MenuItem key={'secundaria'} value={"secundaria"}>Secundaria</MenuItem>
-						</SelectFormsy> */}
+						</SelectFormsy>*/}
+
+						<SelectFormsy
+							id="country"
+							name="country"
+							width="100%"
+							label="País"
+							fullWidth
+							variant="outlined"
+							className="mb-24 MuiInputBase-fullWidth"
+							value={'México'}
+						>
+							<MenuItem key={'México'} value="México">México</MenuItem>
+						</SelectFormsy>
+
+						<SelectFormsy
+							id="state"
+							name="state"
+							width="100%"
+							label="Estado"
+							fullWidth
+							variant="outlined"
+							className="mb-24 MuiInputBase-fullWidth"
+						>
+							<MenuItem key={'Aguascalientes'} value="Aguascalientes">Aguascalientes</MenuItem>
+							<MenuItem key={'Baja California'} value="Baja California">Baja California</MenuItem>
+							<MenuItem key={'Baja California Sur'} value="Baja California Sur">Baja California Sur</MenuItem>
+							<MenuItem key={'Campeche'} value="Campeche">Campeche</MenuItem>
+							<MenuItem key={'Chiapas'} value="Chiapas">Chiapas</MenuItem>
+							<MenuItem key={'Chihuahua'} value="Chihuahua">Chihuahua</MenuItem>
+							<MenuItem key={'CDMX'} value="CDMX">Ciudad de México</MenuItem>
+							<MenuItem key={'Coahuila'} value="Coahuila">Coahuila</MenuItem>
+							<MenuItem key={'Colima'} value="Colima">Colima</MenuItem>
+							<MenuItem key={'Durango'} value="Durango">Durango</MenuItem>
+							<MenuItem key={'Estado de México'} value="Estado de México">Estado de México</MenuItem>
+							<MenuItem key={'Guanajuato'} value="Guanajuato">Guanajuato</MenuItem>
+							<MenuItem key={'Guerrero'} value="Guerrero">Guerrero</MenuItem>
+							<MenuItem key={'Hidalgo'} value="Hidalgo">Hidalgo</MenuItem>
+							<MenuItem key={'Jalisco'} value="Jalisco">Jalisco</MenuItem>
+							<MenuItem key={'Michoacán'} value="Michoacán">Michoacán</MenuItem>
+							<MenuItem key={'Morelos'} value="Morelos">Morelos</MenuItem>
+							<MenuItem key={'Nayarit'} value="Nayarit">Nayarit</MenuItem>
+							<MenuItem key={'Nuevo León'} value="Nuevo León">Nuevo León</MenuItem>
+							<MenuItem key={'Oaxaca'} value="Oaxaca">Oaxaca</MenuItem>
+							<MenuItem key={'Puebla'} value="Puebla">Puebla</MenuItem>
+							<MenuItem key={'Querétaro'} value="Querétaro">Querétaro</MenuItem>
+							<MenuItem key={'Quintana Roo'} value="Quintana Roo">Quintana Roo</MenuItem>
+							<MenuItem key={'San Luis Potosí'} value="San Luis Potosí">San Luis Potosí</MenuItem>
+							<MenuItem key={'Sinaloa'} value="Sinaloa">Sinaloa</MenuItem>
+							<MenuItem key={'Sonora'} value="Sonora">Sonora</MenuItem>
+							<MenuItem key={'Tabasco'} value="Tabasco">Tabasco</MenuItem>
+							<MenuItem key={'Tamaulipas'} value="Tamaulipas">Tamaulipas</MenuItem>
+							<MenuItem key={'Tlaxcala'} value="Tlaxcala">Tlaxcala</MenuItem>
+							<MenuItem key={'Veracruz'} value="Veracruz">Veracruz</MenuItem>
+							<MenuItem key={'Yucatán'} value="Yucatán">Yucatán</MenuItem>
+							<MenuItem key={'Zacatecas'} value="Zacatecas">Zacatecas</MenuItem>
+						</SelectFormsy>
 
 						<Card className="hidden md:flex justify-center p-4">
 							<CardContent className="w-full">

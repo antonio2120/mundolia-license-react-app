@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import PricingPapas from './type/PricingPapas'
-import PricingMaestros from './type/PricingMaestros'
+import PricingMaestros from './type/pricingMaestros'
 import PricingEscuelas from './type/PricingEscuelas'
 import Button from '@material-ui/core/Button';
 import reducer from './store';
@@ -31,18 +31,6 @@ function PricingApp(props) {
           <Typography>{children}</Typography>
           </Box>
       )}
-
-          <div className="p-24 w-full max-w-2xl mx-auto">
-              <div className="text-center my-128 mx-24">
-                  <Typography className="text-20 mb-8">¿Tienes alguna duda?</Typography>
-                  <Typography className="text-16" color="textSecondary">
-                      Ponte en contacto con nosotros.
-				  </Typography>
-                  <Button variant="contained" color="primary" className="m-24">
-                      Contáctanos
-				  </Button>
-              </div>
-          </div>
       </div>
   );
 }
@@ -92,7 +80,7 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Alumnos" {...a11yProps(0)} />
+          <Tab label="Padres" {...a11yProps(0)} />
           <Tab label="Maestros" {...a11yProps(1)} />
           <Tab label="Escuelas" {...a11yProps(2)} />
         </Tabs>

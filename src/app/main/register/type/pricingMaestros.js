@@ -24,9 +24,30 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.error.main,
 		color: theme.palette.getContrastText(theme.palette.error.main)
 	},
+	textTitle: {
+		color: "#e90a03",
+	},
+	priceText: {
+		fontWeight:"bold",
+		fontSize:"20px"
+	},
+	textRegistro: {
+		fontWeight:"bold",
+		fontSize:"26px"
+	},
 	price: {
-		backgroundColor: theme.palette.primary[600],
+		backgroundColor: "#e90a03",
 		color: theme.palette.getContrastText(theme.palette.primary[600])
+	},
+	backColButton: {
+		backgroundColor: "#e90a03",
+	},
+	textButton: {
+		color: "#FFF",
+		fontSize:"16px"
+	},
+	img: {
+		width:"100%"
 	}
 }));
 
@@ -49,142 +70,101 @@ function PricingMaestros(props) {
 	return (
 		<div>
 			<div className={clsx(classes.header, 'flex')}>
-				<div className="p-24 w-full max-w-2xl mx-auto">
-					<div className="text-center my-128 mx-24">
-						<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
-							<Typography variant="h2" color="inherit" className="font-light">
-								Membresía Maestros!
-							</Typography>
-						</FuseAnimate>
-
-						{/* <FuseAnimate duration={400} delay={600}>
-							<Typography
-								variant="subtitle1"
-								color="inherit"
-								className="opacity-75 mt-16 mx-auto max-w-512"
-							>
-								The most advanced customer support tools with a simple and affordable pricing. And you
-								can always try for 30 days, free!
-							</Typography>
-						</FuseAnimate> */}
-					</div>
+				<div className="w-full">
+					<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
+						<img  src="assets/images/pricing/fondo_rojo.png" className={clsx(classes.img)} alt="circle"/>
+					</FuseAnimate>
 				</div>
 			</div>
 
-			<div className="-mt-192">
-				<div className="w-full max-w-2xl mx-auto">
+			<div className="w-full -mt-192 flex-end">
+				<div className="w-full max-w-4xl mx-auto justify-end">
 					<FuseAnimateGroup
 						enter={{
 							animation: 'transition.slideUpBigIn'
 						}}
-						className="flex items-center justify-center flex-wrap"
+						className="flex flex-wrap justify-end"
 					>
 
 						{/* -----------------------------GRATIS------------------------------- */}
 
 						<div className="w-full max-w-320 sm:w-1/3 p-12">
-							<Card className="relative rounded-8">
+							<Card className="rounded-8">
 								<div className="p-32 text-center">
-									<Typography className="text-32">Registro</Typography>
-									{/* <Typography color="textSecondary" className="text-16 font-medium">
-										For small teams
-									</Typography> */}
+									<Typography className={clsx(classes.textRegistro)}>
+											Registro
+									</Typography>
+									<Typography className={clsx(classes.textTitle,"text-32")}>
+										<div className={"grobold"}>
+											INVITADO
+										</div>
+									</Typography>
 								</div>
 
-								<CardContent className="text-center p-0">
+								<CardContent className="p-0">
                                     <div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
-										<div className="flex justify-center">
-											<Typography color="inherit" className="font-medium">
-												$
-											</Typography>
-											{/* <Typography
-												color="inherit"
-												className="text-32 mx-4 font-light leading-none"
-											>
-												Sin Costo
-											</Typography> */}
-										</div>
-										<Typography color="inherit" className="mx-4">
+										<Typography color="inherit" className={clsx(classes.priceText)}>
 											Sin Costo
 										</Typography>
 									</div>
 
-									<div className="flex flex-col p-32">
-                                        <Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+									<div className="flex flex-col p-10">
+                                        <Typography className="mb-16">
                                             Acceso a COMUNIDAD:
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                        Grupos generales maestros y Recursos Digitales 
-										</Typography>
-										<Typography color="textSecondary" >
-											{/* <Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon> */}
-											- No considerados para premios LIA
-										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											    Canal LIA
+											    Recursos digitales
 										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Podcast Lia 
+											Canal LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Colectivo Lia 
+											Podcast LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Experiencias LIA abiertas 
+											Colectivo LIA 
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso de visitante a Grupos de Actividades LIA sugeridas
+											Presenciar Experiencias LIA (limitadas)
 										</Typography>
-
-										
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            LEARNING LIA:
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Grupos especializados para Maestros (limitado)
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Webinars, entrevistas y cursos abiertos para maestros.  
+											Webinars
 										</Typography>
-
-                                        <Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Cursos / por sesion / Tema en Learning Lia:
+                                        <Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Entrevistas
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Cursos Gratuitos disponibles para maestros   
+											Cursos abiertos para maestros (limitados) 
 										</Typography>
-
-
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
+										<Typography>
+											(No considerados para premios LIA) 
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Acceso gratuito a presenciar (no participar) a Experiencias LIA y eventos de comunidad LIA para maestros
-										</Typography>
-										
 
 									</div>
 								</CardContent>
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
-									<Button variant="contained" color="secondary" className="w-full"
+									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
 									onClick={ev => handleSubmit('gratis')}
 									>
-										ADQUIRIR
+										<Typography className={clsx(classes.textButton)}>
+											<div className={"grobold"}>
+												REGISTRARME
+											</div>
+										</Typography>
 									</Button>
-									{/* <Typography color="textSecondary" className="mt-16">
-										7 day free trial to start
-									</Typography> */}
 								</div>
 							</Card>
 						</div>
@@ -193,124 +173,112 @@ function PricingMaestros(props) {
 						<div className="w-full max-w-320 sm:w-1/3 p-12">
 							<Card className="relative rounded-8" raised>
 								<div className="p-32 text-center">
-									<Typography className="text-32">Mensual</Typography>
-									<Typography color="textSecondary" className="text-16 font-medium">
-										For small teams
+									<Typography className={clsx(classes.textRegistro)}>
+											Membresía
+									</Typography>
+									<Typography className={clsx(classes.textTitle,"text-32")}>
+										<div className={"grobold"}>
+											MENSUAL
+										</div>
 									</Typography>
 								</div>
 
-								<CardContent className="text-center p-0">
-									<div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
-										<div className="flex justify-center">
-											<Typography color="inherit" className="font-medium">
-												$
-											</Typography>
-											<Typography
-												color="inherit"
-												className="text-32 mx-4 font-light leading-none"
-											>
-												500 m.n.
-											</Typography>
-										</div>
-										{/* <Typography color="inherit" className="mx-4">
-											monthly per user
-										</Typography> */}
+								<CardContent className=" p-0">
+									<div className={clsx(classes.price, 'text-center flex items-end justify-center py-16 px-32')}>
+										<Typography color="inherit" className={clsx(classes.priceText)}>
+											$ 500 m.n. mensual
+										</Typography>
 									</div>
 
-
-
-									<div className="flex flex-col p-32">
-                                        <Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+									<div className="flex flex-col p-10">
+                                        <Typography className="mb-16">
                                             Acceso a COMUNIDAD:
 										</Typography>
-										<Typography color="textSecondary">
-										    <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                        Acceso a todos los Grupos maestros 
-										</Typography>
-										<Typography color="textSecondary" >
-											<Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon>
-											Recursos Digitales
-										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Actividades CL
+											Recursos digitales
 										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso (monto membresia alumnos) para MUNDO LIA Videojuegos para sus alumnos con panel de control como maestro. 
+											Actividades CL+
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Dashboard para sus  alumno 
+											Canal LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de participar para ser seleccionado como maestro Creador / innovador 
+											Podcast LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de ser nominado como maestro innovador para PREMIOS Lider Innovador en Aprendizaje 
+											Colectivo LIA
 										</Typography>
-										<Typography color="textSecondary" className="mb-16">
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de participar como Tutor, mentor Lia, , instructor Learning Lia o Autor de Learning Lia 
+											Webinars
 										</Typography>
-
-										
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            LEARNING LIA:
-										</Typography>
-										<Typography color="textSecondary">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso hasta  3 cursos al mes para maestros (a elegir)   
-										</Typography>
-
-                                        <Typography color="textSecondary" >
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Cursos / por sesion / Tema en Learning Lia:
-										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											PAGO UNICO / por sesión: Acceso pagado a 1 unico curso por unica vez.    
-										</Typography>
-
-
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
-										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
 										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Todo mensual comunidad
+                                            Entrevistas
 										</Typography>
-                                        <Typography color="textSecondary" >
-										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Participación en eventos de mes / Experiencias LIA y Master Class maestros
-										</Typography>
-                                        <Typography color="textSecondary" >
-                                        <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Participación sin limite al total de cursos lecciones y experiencias de la comunidad LIA
-										</Typography>
-										<Typography color="textSecondary" className="mb-16">
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Experiencia LIA y acceso preferente a boletos masterclass previo a la venta al público. 
+											Presenciar Experiencias LIA
 										</Typography>
-										
-
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Posibilidad de acreditación como Maestro LIA Creador
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Mundo LIA: Videojuegos completo
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Panel de control maestro
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Posibilidad de registro de sus alumnos
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Dashboard / panel de control para sus alumnos
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Premios LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Participación en eventos experiencias y todas las convocatorias LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Posibilidad de participar como Mentor LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Tres cursos mensuales
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Cursos, masterclass con costo y eventos no incluidos en membresía con 25% descuento de su precio
+										</Typography>
 									</div>
 								</CardContent>
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
-									<Button variant="contained" color="secondary" className="w-full"
-									onClick={ev => handleSubmit('anual')}
+									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
+									onClick={ev => handleSubmit('mensual')}
 									>
-										ADQUIRIR
+										<Typography className={clsx(classes.textButton)}>
+											<div className={"grobold"}>
+												QUIERO SER MIEMBRO
+											</div>
+										</Typography>
 									</Button>
-									{/* <Typography color="textSecondary" className="mt-16">
-										7 day free trial to start
-									</Typography> */}
 								</div>
 							</Card>
 						</div>
@@ -320,172 +288,123 @@ function PricingMaestros(props) {
 						<div className="w-full max-w-320 sm:w-1/3 p-12">
 							<Card className="relative rounded-8">
 								<div className="p-32 text-center">
-									<Typography className="text-32">Anual</Typography>
-									<Typography color="textSecondary" className="text-16 font-medium">
-										For big teams
+									<Typography className={clsx(classes.textRegistro)}>
+											Membresía
+									</Typography>
+									<Typography className={clsx(classes.textTitle,"text-32")}>
+										<div className={"grobold"}>
+											ANUAL
+										</div>
 									</Typography>
 								</div>
 
-								<CardContent className="text-center p-0">
-									<div className={clsx(classes.price, 'flex items-end justify-center py-16 px-32')}>
-										<div className="flex justify-center">
-											<Typography color="inherit" className="font-medium">
-												$
-											</Typography>
-
-											<Typography
-												color="inherit"
-												className="text-32 mx-4 font-light leading-none"
-											>
-												5,000 m.n.
-											</Typography>
-										</div>
-										{/* <Typography color="inherit" className="mx-4">
-											monthly per user
-										</Typography> */}
+								<CardContent className="p-0">
+									<div className={clsx(classes.price, 'text-center flex justify-center flex-col py-16 px-32')}>
+										<Typography color="inherit" className={clsx(classes.priceText)}>
+											$ 416 m.n. mensual
+										</Typography>
+										<Typography color="inherit">
+											(Pago anual $5,000 m.n.)
+										</Typography>
 									</div>
 
-									<div className="flex flex-col p-32">
-                                        <Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
+									<div className="flex flex-col p-10">
+                                        <Typography className="mb-16">
                                             Acceso a COMUNIDAD:
 										</Typography>
-										<Typography color="textSecondary">
-										    <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                        Acceso a todos los Grupos maestros
-										</Typography>
-										<Typography color="textSecondary" >
-											<Icon style={{ fontSize: 12, marginRight: 6 }}>done_outline</Icon>
-											Recursos Digitales
-										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Actividades CL
+											Recursos digitales
 										</Typography>
-										<Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso (monto membresia alumnos) para MUNDO LIA Videojuegos para sus alumnos con panel de control como maestro. 
+											Actividades CL+
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Dashboard para sus  alumno 
+											Canal LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de participar para ser seleccionado como maestro Creador / innovador 
+											Podcast LIA 
 										</Typography>
-                                        <Typography color="textSecondary" >
+                                        <Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de ser nominado como maestro innovador para PREMIOS Lider Innovador en Aprendizaje 
+											Colectivo LIA
 										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
 											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Posibilidad de participar como Tutor, mentor Lia, , instructor Learning Lia o Autor de Learning Lia 
+											Webinars
 										</Typography>
-                                        <Typography color="textSecondary" >
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Participación en el total de eventos de Experiencia LIA del año, incluidos.   
-										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Participación incluida en Premios LIA (y la posibilidad de presentar proyecto para nominación y premio como maestro Líder Innovador en Aprendizaje) 
-										</Typography>
-
-										
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            LEARNING LIA:
-										</Typography>
-										<Typography color="textSecondary">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso a todos los cursos disponibles para membresía maestros sin límite mensual y preventa preferencial en caso de cursos con costo / masterclass de expertos.  
-										</Typography>
-
-                                        <Typography color="textSecondary" >
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Cursos / por sesion / Tema en Learning Lia:
-										</Typography>
-										<Typography color="textSecondary" className="mb-16">
-											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-											Acceso exclusivo a eventos masterclass con costo: 
-                                            Preferencia / preventa y precio miembro lia. 
-										</Typography>
-
-
-										<Typography color="textSecondary" className="mb-16">
-										{/* <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon> */}
-                                            Membresía COMUNIDAD + Learning LIA + Mundo LIA:
-										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
 										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                        Todos las Experiencias LIA de comunidad / todos los  cursos de  Membresia LIA, como maestro.
+                                            Entrevistas
 										</Typography>
-                                        <Typography color="textSecondary" >
+										<Typography>
+											<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+											Presenciar Experiencias LIA
+										</Typography>
+										<Typography>
 										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                        Invitación preferencial y preventa a eventos restringidos, masterclass  antes de salir a la venta, eventos viajes, campamentos intercambios etc. 
+                                            Posibilidad de acreditación como Maestro LIA Creador
 										</Typography>
-                                        <Typography color="textSecondary" className="mb-16">
-                                        <Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
-                                            Precios Membresia LIA
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Mundo LIA: Videojuegos completo
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Panel de control maestro
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Posibilidad de registro de sus alumnos
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Dashboard / panel de control para sus alumnos
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Premios LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Participación en eventos experiencias y todas las convocatorias LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Posibilidad de participar como Mentor LIA
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Experiencia LIA con costo y eventos no incluidos en membresía con 50% descuento de su precio
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Cursos ilimitados al mes
+										</Typography>
+										<Typography>
+										<Icon style={{ fontSize: 14, marginRight: 6 }}>done_outline</Icon>
+                                            Cursos, masterclass con costo y eventos no incluidos en membresía con 50% descuento de su precio
 										</Typography>
 									</div>
 								</CardContent>
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
-									<Button variant="contained" color="secondary" className="w-full"
-									onClick={ev => handleSubmit('mensual')}
-									// onClick={ev => dispatch(RegisterPapas())}
-									>
-										ADQUIRIR
+									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
+										onClick={ev => handleSubmit('anual')}>
+										<Typography className={clsx(classes.textButton)}>
+											<div className={"grobold"}>
+												QUIERO SER MIEMBRO
+											</div>
+										</Typography>
 									</Button>
-									{/* <Typography color="textSecondary" className="mt-16">
-										90 day free trial to start
-									</Typography> */}
 								</div>
 							</Card>
-
-
 						</div>
 					</FuseAnimateGroup>
-					{/* <div className="flex flex-col items-center py-96 text-center sm:ltr:text-left sm:rtl:text-right max-w-xl mx-auto">
-						<Typography variant="h4" className="pb-32 font-light">
-							Frequently Asked Questions
-						</Typography>
-
-						<div className="flex flex-wrap w-full">
-							<div className="w-full sm:w-1/2 p-24">
-								<Typography className="text-20 mb-8">How does free trial work?</Typography>
-								<Typography className="text-16" color="textSecondary">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-									tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-								</Typography>
-							</div>
-
-							<div className="w-full sm:w-1/2 p-24">
-								<Typography className="text-20 mb-8">Can I cancel any time?</Typography>
-								<Typography className="text-16" color="textSecondary">
-									Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-									quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-								</Typography>
-							</div>
-
-							<div className="w-full sm:w-1/2 p-24">
-								<Typography className="text-20 mb-8">What happens after my trial ended?</Typography>
-								<Typography className="text-16" color="textSecondary">
-									Aliquam erat volutpat. Etiam luctus massa ex, at tempus tellus blandit quis. Sed
-									quis neque tellus. Donec maximus ipsum in malesuada hendrerit.
-								</Typography>
-							</div>
-
-							<div className="w-full sm:w-1/2 p-24">
-								<Typography className="text-20 mb-8">Can I have a discount?</Typography>
-								<Typography className="text-16" color="textSecondary">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a diam nec augue
-									tincidunt accumsan. In dignissim laoreet ipsum eu interdum.
-								</Typography>
-							</div>
-						</div>
-					</div> */}
+					
 				</div>
 			</div>
 		</div>
