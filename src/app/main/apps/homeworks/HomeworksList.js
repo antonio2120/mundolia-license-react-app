@@ -58,7 +58,7 @@ function HomeworksList(props) {
 			},
 			{
 				Header: 'Archivo',
-				accessor: d => d.file_path ? d.file_path : d.url_path ? "Link del documento" : d.url_path,
+				accessor: d => d.file_path ? d.file_path.slice(d.file_path.indexOf('_')+1) : d.url_path ? "Link del documento" : d.url_path,
 				className: 'font-bold',
 				sortable: true,
 			},
