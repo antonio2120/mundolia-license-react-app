@@ -10,7 +10,7 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 	return data;
 });
 
-export const submitCreateActivity = ( activityData ) => async dispatch => {
+export const submitCreateActivity = ( activityData, file, fileType ) => async dispatch => {
 	console.log(activityData);
 	return jwtService
 		.addActivity({
@@ -19,7 +19,8 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
-			file_path: activityData.file_path,
+			urlPath: fileType == 'url' ? activityData.url_path : '',
+			file: fileType == 'file' ? file : null,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -31,7 +32,7 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
 		});
 };
 
-export const submitUpdateActivity = ( activityData, activityDataOrigin ) => async dispatch => {
+export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fileType ) => async dispatch => {
 	return jwtService
 		.updateActivity({
             activityId:activityDataOrigin.id,
@@ -40,7 +41,9 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin ) => asyn
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
-			file_path: activityData.file_path,
+			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
+			urlPath: fileType == 'url' ? activityData.url_path : '',
+			file: fileType == 'file' ? file : null,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());

@@ -184,12 +184,13 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('finishDate',data.finishDate);
 			formData.append('theme',data.theme);
 			formData.append('instructions',data.instructions);
-			formData.append('file_path', data.file_path);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
 
 			axios.post(process.env.REACT_APP_API+'/actividades', formData,
 			 {
 				headers: {
-					// 'x-device-id': 'stuff',
+					'x-amz-acl': 'public-read',
 					'Content-Type': 'multipart/form-data',
 				}},
 			).then(response => {
@@ -209,27 +210,22 @@ class JwtService extends FuseUtils.EventEmitter {
 	updateActivity = data => {
 		return new Promise((resolve, reject) => {
 			var formData = new FormData();
-			// formData.append('name',data.name,);
-			// formData.append('groupId',data.groupId);
-			// formData.append('finishDate',data.finishDate);
-			// formData.append('theme',data.theme);
-			// formData.append('instructions',data.instructions);
-			formData.append('file_path', data.file_path);
-	
-			console.log('formData');
-			console.log(formData.get("file_path"));
-			
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
 
-			// const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-			axios.put(process.env.REACT_APP_API+'/actividades/' + data.activityId, formData,
+			axios.post(process.env.REACT_APP_API+'/actividades/' + data.activityId + '?_method=PUT', formData,
 			 {
 				headers: {
-					// 'x-device-id': 'stuff',
+					'x-amz-acl': 'public-read',
 					'Content-Type': 'multipart/form-data',
 				}},
-				data
-			
+					
 			
 			).then(response => {
 				console.log(response);

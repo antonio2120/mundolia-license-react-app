@@ -293,8 +293,8 @@ function HomeworkDialog(props) {
 										endAdornment: (
 											<InputAdornment position="end">
 												<Icon className="text-20" color="action">
-													attach_file
-											</Icon>
+													link
+												</Icon>
 											</InputAdornment>
 										),
 										readOnly: true,

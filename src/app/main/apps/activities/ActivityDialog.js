@@ -27,6 +27,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const defaultFormState = {
 	id: '',
@@ -36,7 +39,8 @@ const defaultFormState = {
     groupList: '',
 	theme: '',
 	instructions: '',
-	file_path: ''
+	file_path: '',
+	url_path: '',
 };
 
 function ActivityDialog(props) {
@@ -47,12 +51,12 @@ function ActivityDialog(props) {
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [fileType, setFileType] = useState('file');
 	///Getting date time
 	var today = new Date();
 	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2)
 	+ 'T' + ('0'+( today.getHours() + 1)).slice(-2) + ':' + ('0'+( today.getMinutes() + 1)).slice(-2);
-
-	console.log(form);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
@@ -62,7 +66,7 @@ function ActivityDialog(props) {
 	// const [showPassword, setShowPassword] = useState(false);
 	const formRef = useRef(null);
 
-
+	
 	function disableButton() {
 		setIsFormValid(false);
 	}
@@ -95,6 +99,7 @@ function ActivityDialog(props) {
 		if (activityDialog.props.open) {
 			initDialog();
 		}
+		setFileType(formOrigin ? formOrigin.url_path ? 'url' : 'file' : 'file');
 	}, [activityDialog.props.open, initDialog]);
 
 	useEffect(() => {
@@ -129,11 +134,13 @@ function ActivityDialog(props) {
 		event.preventDefault();
 
 		if (activityDialog.type === 'new') {
-			dispatch(submitCreateActivity(form));
+			dispatch(submitCreateActivity(form, selectedFile, fileType));
+			setSelectedFile(null)
 		}
 		else 
 		if (activityDialog.type === 'edit'){
-			dispatch(submitUpdateActivity(form,formOrigin));
+			dispatch(submitUpdateActivity(form, formOrigin, selectedFile, fileType));
+			setSelectedFile(null)
 		}
 	}
 
@@ -282,8 +289,72 @@ function ActivityDialog(props) {
 							maxLength: 'El máximo de carácteres permitidos es 100'
 						}}
 					/>
-				
-
+					<RadioGroup aria-label="fileType" name="fileType" value={fileType} onChange={e => setFileType(e.target.value)} className="flex md:overflow-hidden flex-row">
+						<FormControlLabel value="file" control={<Radio />} label="Subir archivo" className="mb-8"/>
+						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8"/>
+					</RadioGroup>
+					{
+						fileType == 'file' ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="file_path"
+									label="Archivo"
+									id="file_path"
+									value={formOrigin ? formOrigin.file_path ? formOrigin.file_path.slice(formOrigin.file_path.indexOf('_')+1) : '' : ''}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+												</Icon>
+											</InputAdornment>
+										),
+										readOnly: true,
+									}}
+									variant="outlined"
+								/>
+								<input
+									fullWidth
+									className="mb-16"
+									type="file"
+									name="file"
+									id="file"
+									onChange={(e) => setSelectedFile(e.target.files[0])}
+									// onChange={handleChange}
+									variant="outlined"
+								/>
+							</>
+							:
+							null
+					}
+					{
+						fileType == 'url' ?
+							<TextFieldFormsy
+								fullWidth
+								className="mb-16"
+								type="text"
+								name="url_path"
+								label="URL"
+								id="url_path"
+								value={formOrigin ? formOrigin.url_path : form.url_path}
+								onChange={handleChange}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												link
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								variant="outlined"
+							/>
+							:
+							null
+					}						
 		
 					{values.loading && <LinearProgress />}
 
@@ -302,34 +373,12 @@ function ActivityDialog(props) {
 							</Button>
 						</div>
 
-						<input
-							// accept="image/*"
-							// className={classes.input}
-							name="file_path"
-							id="file_path"
-							value={form.file_path}
-							style={{ display: 'none' }}
-							onChange={handleChange}
-							id="raised-button-file"
-							multiple
-							type="file"
-						/>
-						<label htmlFor="raised-button-file">
-							<IconButton variant="raised"
-								component="span"
-								disabled={(values.loading)}>
-								<Icon>attachment</Icon>
-							</IconButton>
-						</label>
-
 					</DialogActions>
                      
                 
                 ) 
                 : null
             }
-
-				{/* {form.file_path.slice(12)} */}
                 
                 { activityDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
@@ -344,28 +393,6 @@ function ActivityDialog(props) {
 								Guardar
 							</Button>
 						</div>
-
-						
-
-						<input
-							// accept="image/*"
-							// className={classes.input}
-							name="file_path"
-							id="file_path"
-							value={form.file_path}
-							style={{ display: 'none' }}
-							onChange={handleChange}
-							id="raised-button-file"
-							multiple
-							type="file"
-						/>
-						<label htmlFor="raised-button-file">
-							<IconButton variant="raised"
-								component="span"
-								disabled={(values.loading)}>
-								<Icon>attachment</Icon>
-							</IconButton>
-						</label>
 
 						<IconButton
 							onClick={handleRemove}
