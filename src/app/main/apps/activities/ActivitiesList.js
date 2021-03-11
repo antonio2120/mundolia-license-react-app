@@ -23,11 +23,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import reducer from './store';
 import { getCategories, selectCategories } from './store/categoriesSlice';
-import { getCourses, selectCourses } from './store/coursesSlice';
+// import { getCourses, selectCourses } from './store/coursesSlice';
 import { getGroups } from './store/groupSlice';
-import { getActivities, selectActivities } from './store/activitiesSlice';
+import { getActivities, selectActivities, downloadActivity } from './store/activitiesSlice';
 import { openEditActivityDialog } from './store/activitiesSlice'
+import { openUpdateDeliveryDialog } from './store/deliverySlice';
 // import {blue} from "@material-ui/core/colors";
+import IconButton from '@material-ui/core/IconButton';
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -52,6 +55,7 @@ function ActivitiesList(props) {
 	const categories = useSelector(selectCategories);
 	const activities = useSelector(selectActivities);
 	// const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
+	const role = useSelector(({ auth }) => auth.user.role);
 
 	const classes = useStyles(props);
 	const theme = useTheme();
@@ -62,7 +66,7 @@ function ActivitiesList(props) {
 	useEffect(() => {
 		dispatch(getCategories());
 		// dispatch(getCourses());
-		dispatch(getActivities());
+		dispatch(getActivities(role));
 		dispatch(getGroups());
 	}, [dispatch]);
 
@@ -143,7 +147,7 @@ function ActivitiesList(props) {
 									const category = activities.find(_cat => _cat.value === course.category);
 									return (
 										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.id}>
-											<Card elevation={1} className="flex flex-col h-256 rounded-8">
+											<Card elevation={1} className="flex flex-col h-500 rounded-8">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-84"
 													style={{
@@ -188,34 +192,87 @@ function ActivitiesList(props) {
 													>
 														Se entrega el: {course.finish_date}
 													</Typography>
+
+													{course.file && role == 'alumno' ?
+														<IconButton
+															onClick={ev => {
+																ev.stopPropagation();
+																dispatch(downloadActivity(course.file));
+															}}
+														>
+
+															<Typography
+																className="text-center text-13 font-600 mt-4"
+															>
+																Descargar Archivo
+															</Typography>
+
+
+															<Icon className="text-center text-13 font-600 mt-4 ml-4">save_alt</Icon>
+														</IconButton>
+														:
+														course.url && role == 'alumno' ?
+															<IconButton
+																onClick={ev => {
+																	ev.stopPropagation();
+																	navigator.clipboard.writeText(course.url_path);
+																	dispatch(showMessage({ message: 'Enlace copiado' }));
+																}}
+															>
+
+																<Typography
+																	className="text-center text-13 font-600 mt-4"
+																>
+																	Copiar Enlace
+																</Typography>
+
+																<Icon className="text-center text-13 font-600 mt-4 ml-4">link</Icon>
+															</IconButton>
+															:
+															null
+													}
 												</CardContent>
 												<Divider />
-												<CardActions className="justify-center">
-													<Button
-														to={`/apps/tareas/${course.id}/${course.name}`}
-														component={Link}
-														className="justify-start px-32"
-														color="secondary"
-													>
-														{/* {buttonStatus(course)} */}
+												{role == 'maestro' ?
+													<CardActions className="justify-center">
+														<Button
+															to={`/apps/tareas/${course.id}/${course.name}`}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
 														Ver
 													</Button>
-													<Button
-														onClick={ev => dispatch(openEditActivityDialog(course))}
-														component={Link}
-														className="justify-start px-32"
-														color="secondary"
-													>
-														{/* {buttonStatus(course)} */}
+														<Button
+															onClick={ev => dispatch(openEditActivityDialog(course))}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
 														Editar
 													</Button>
-												</CardActions>
-												{/* <LinearProgress
-													className="w-full"
-													variant="determinate"
-													value={{course.is_active == 1 ? "100%""  : "50%" }
-													color="secondary"
-												/> */}
+													</CardActions>
+													// {/* <LinearProgress
+													// 	className="w-full"
+													// 	variant="determinate"
+													// 	value={{course.is_active == 1 ? "100%""  : "50%" }
+													// 	color="secondary"
+													// /> */}
+													:
+													<CardActions className="justify-center">
+														<Button
+															onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
+														Entregar Tarea
+													</Button>
+													</CardActions>
+												}
 											</Card>
 										</div>
 									);

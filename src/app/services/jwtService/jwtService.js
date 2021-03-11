@@ -262,6 +262,33 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	updateDelivery = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+
+			axios.post(process.env.REACT_APP_API + '/tareas/' + data.id + '?_method=PUT', formData,
+				{
+					headers: {
+						'x-amz-acl': 'public-read',
+						'Content-Type': 'multipart/form-data',
+					}
+				},
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			}
+			);
+		});
+	};
+
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
 			axios
