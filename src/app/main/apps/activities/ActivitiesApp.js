@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import ActivitiesList from './ActivitiesList'
-import { openNewActivityDialog } from './store/activitiesSlice';
+import { openNewActivityDialog, getActivities } from './store/activitiesSlice';
 import ActivityDialog from './ActivityDialog';
 import DeliveryDialog from './DeliveryDialog';
 
@@ -38,8 +38,7 @@ function ActivitiesApp(props) {
 	const role = useSelector(({ auth }) => auth.user.role);
 
 	useDeepCompareEffect(() => {
-
-	
+		dispatch(getActivities(role));
 	}, [dispatch, routeParams]);
 
 	return (
@@ -58,7 +57,9 @@ function ActivitiesApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{ role == 'maestro' ?
+			{ role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ?
+				null
+				:
 				<FuseAnimate animation="transition.expandIn" delay={300}>
 					<Fab
 						color="primary"
@@ -69,8 +70,6 @@ function ActivitiesApp(props) {
 						<Icon>assignment_add</Icon>
 					</Fab>
 				</FuseAnimate>
-				:
-				null
 			}
 			<ActivityDialog/>
 			<DeliveryDialog/>

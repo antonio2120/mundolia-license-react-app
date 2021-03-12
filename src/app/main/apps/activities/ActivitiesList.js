@@ -31,6 +31,14 @@ import { openUpdateDeliveryDialog } from './store/deliverySlice';
 // import {blue} from "@material-ui/core/colors";
 import IconButton from '@material-ui/core/IconButton';
 import {showMessage} from "../../../store/fuse/messageSlice";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from "@material-ui/core/MenuItem";
+import {useDeepCompareEffect, useForm} from "../../../../@fuse/hooks";
+import ActivitySidebarContent from './ActivitySideBarContent';
+import {setActivitiesFilter} from './store/filterSlice';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -48,6 +56,10 @@ const useStyles = makeStyles(theme => ({
 		pointerEvents: 'none'
 	}
 }));
+
+const defaultFormState = {
+	group_name: '',
+};
 
 function ActivitiesList(props) {
 	const dispatch = useDispatch();
@@ -132,6 +144,9 @@ function ActivitiesList(props) {
 				<Icon className={classes.headerIcon}> school </Icon>
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+				<div className="flex flex-1 mx-auto items-end ">
+					<ActivitySidebarContent/>
+				</div>
 
 				{useMemo(
 					() =>
@@ -163,10 +178,10 @@ function ActivitiesList(props) {
 															{course.name.length > 22 ? course.name.slice(0,22)+'...' : course.name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.group_name}
+															{course.group_name.length > 22 ? course.group_name.slice(0,22)+'...' : course.group_name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.teachers_name}
+															{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
 														</Typography>
 													</div>
 													<div className="flex items-center justify-center opacity-75">

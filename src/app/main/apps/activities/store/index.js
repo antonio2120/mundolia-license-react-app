@@ -5,6 +5,7 @@ import categories from './categoriesSlice';
 import activities from './activitiesSlice'; 
 import groups from './groupSlice'; 
 import delivery from './deliverySlice';
+import filter from './filterSlice';
 
 const reducer = combineReducers({
 	categories,
@@ -12,7 +13,8 @@ const reducer = combineReducers({
 	course,
 	activities,
 	groups,
-	delivery
+	delivery,
+	filter
 });
 
 export default reducer;

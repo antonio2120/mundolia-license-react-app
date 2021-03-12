@@ -3,15 +3,21 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
-export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async (role) => {
-	if (role == 'alumno') {
+export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async ( role, { getState }) => {
+	
+	let filterContacts = getState().ActivitiesApp.filter.activity;
+	let params = filterContacts.group_id == 0 ? null : filterContacts;
+
+	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
 		const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
+			params: params
 		});
 		const data = await response.data;
 		return data;
 	}
 	else {
 		const response = await axios.get(process.env.REACT_APP_API + '/actividades', {
+			params: params
 		});
 		const data = await response.data;
 		return data;
@@ -126,7 +132,8 @@ const activitiesSlice = createSlice({
 			success: false,
 			response: false,
 			error: null
-		}
+		},
+		routeParams: {},
     }),
     reducers: {
         openNewActivityDialog: (state, action) => {
@@ -187,8 +194,9 @@ const activitiesSlice = createSlice({
     },
 	extraReducers: {
         [getActivities.fulfilled]: (state, action) => {
-            const { data } = action.payload;
+            const { data, routeParams } = action.payload;
 			activitiesAdapter.setAll(state, data);
+			state.routeParams = routeParams;
         }
     }
 });
