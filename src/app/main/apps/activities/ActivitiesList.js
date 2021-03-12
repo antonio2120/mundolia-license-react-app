@@ -160,7 +160,7 @@ function ActivitiesList(props) {
 												>
 													<div className="flex-direction: column, items-center ">
 														<Typography className="text-xl font-semibold truncate py-1" color="inherit">
-															{course.name}
+															{course.name.length > 22 ? course.name.slice(0,22)+'...' : course.name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
 															{course.group_name}
