@@ -37,8 +37,8 @@ const navigationConfig = [
 			},
 			{
 				id: 'actividades',
-				title: 'Actividades',
-				translate: 'Actividades',
+				title: 'Tareas',
+				translate: 'Tareas',
 				type: 'item',
 				'auth' : authRoles.teacher,
 				icon: 'assignment',
