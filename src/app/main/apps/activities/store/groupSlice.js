@@ -4,8 +4,7 @@ import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
 export const getGroups = createAsyncThunk('activitiesApp/groups/getGroups', async () => {
-	const response = await axios.get(process.env.REACT_APP_API+'/grupos',{
-		// params:filterContacts
+	const response = await axios.get(process.env.REACT_APP_API+'/actividades/grupos/',{
 	});
 	const data = await response.data;
 	return data;

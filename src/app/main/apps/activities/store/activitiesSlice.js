@@ -3,14 +3,34 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
-export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async () => {
-    const response = await axios.get(process.env.REACT_APP_API+'/actividades',{
-	});
-	const data = await response.data;
-	return data;
+export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async ( role, { getState }) => {
+	
+	let filterContacts = getState().ActivitiesApp.filter.activity;
+
+	let params = {
+		group_id: filterContacts.group_id == 0 ? null : filterContacts.group_id,
+		is_active: filterContacts.active ? filterContacts.active == 2 ? 0 : 1 : null,
+		orderDate: filterContacts.date,
+	};
+	
+	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
+		const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
+			params: params
+		});
+		const data = await response.data;
+		return data;
+	}
+	else {
+		const response = await axios.get(process.env.REACT_APP_API + '/actividades', {
+			params: params
+		});
+		const data = await response.data;
+		return data;
+	}
+	
 });
 
-export const submitCreateActivity = ( activityData ) => async dispatch => {
+export const submitCreateActivity = ( activityData, file, fileType ) => async dispatch => {
 	console.log(activityData);
 	return jwtService
 		.addActivity({
@@ -18,7 +38,10 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
             groupId: activityData.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
-			instructions: activityData.instructions
+			instructions: activityData.instructions,
+			is_active: activityData.is_active ? 1 : 0,
+			urlPath: fileType == 'url' ? activityData.url_path : '',
+			file: fileType == 'file' ? file : null,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -30,7 +53,7 @@ export const submitCreateActivity = ( activityData ) => async dispatch => {
 		});
 };
 
-export const submitUpdateActivity = ( activityData, activityDataOrigin ) => async dispatch => {
+export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fileType ) => async dispatch => {
 	return jwtService
 		.updateActivity({
             activityId:activityDataOrigin.id,
@@ -38,7 +61,11 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin ) => asyn
             groupId: activityData.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
-			instructions: activityData.instructions
+			instructions: activityData.instructions,
+			is_active: activityData.is_active ? 1 : 0,
+			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
+			urlPath: fileType == 'url' ? activityData.url_path : '',
+			file: fileType == 'file' ? file : null,
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -70,6 +97,28 @@ export const removeActivity = createAsyncThunk(
 	}
 );
 
+export const downloadActivity = ( filename ) => async dispatch => {
+	
+	axios({
+		url: process.env.REACT_APP_API+'/download-file',
+		method: 'POST',
+		responseType: 'blob', // important
+		data: {
+			filename:filename
+		}
+	})
+	.then( response => {
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', filename.slice(filename.indexOf('_')+1 )); //or any other extension
+		document.body.appendChild(link);
+		link.click();
+	}).catch(error => {
+		dispatch(showMessage({message: "Error al descargar el archivo", variant: 'error'}));
+	})
+};
+
 const activitiesAdapter = createEntityAdapter({});
 
 export const { selectAll: selectActivities, selectById: selectActivityById } = activitiesAdapter.getSelectors(
@@ -90,7 +139,8 @@ const activitiesSlice = createSlice({
 			success: false,
 			response: false,
 			error: null
-		}
+		},
+		routeParams: {},
     }),
     reducers: {
         openNewActivityDialog: (state, action) => {
@@ -151,10 +201,9 @@ const activitiesSlice = createSlice({
     },
 	extraReducers: {
         [getActivities.fulfilled]: (state, action) => {
-
-
-            const { data } = action.payload;
+            const { data, routeParams } = action.payload;
 			activitiesAdapter.setAll(state, data);
+			state.routeParams = routeParams;
         }
     }
 });

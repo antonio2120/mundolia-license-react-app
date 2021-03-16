@@ -23,11 +23,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import reducer from './store';
 import { getCategories, selectCategories } from './store/categoriesSlice';
-import { getCourses, selectCourses } from './store/coursesSlice';
+// import { getCourses, selectCourses } from './store/coursesSlice';
 import { getGroups } from './store/groupSlice';
-import { getActivities, selectActivities } from './store/activitiesSlice';
+import { getActivities, selectActivities, downloadActivity } from './store/activitiesSlice';
 import { openEditActivityDialog } from './store/activitiesSlice'
+import { openUpdateDeliveryDialog } from './store/deliverySlice';
 // import {blue} from "@material-ui/core/colors";
+import IconButton from '@material-ui/core/IconButton';
+import {showMessage} from "../../../store/fuse/messageSlice";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from "@material-ui/core/MenuItem";
+import {useDeepCompareEffect, useForm} from "../../../../@fuse/hooks";
+import ActivitySidebarContent from './ActivitySideBarContent';
+import {setActivitiesFilter} from './store/filterSlice';
+
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -46,12 +57,17 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+const defaultFormState = {
+	group_name: '',
+};
+
 function ActivitiesList(props) {
 	const dispatch = useDispatch();
 	// const courses = useSelector(selectCourses);
 	const categories = useSelector(selectCategories);
 	const activities = useSelector(selectActivities);
 	// const activities = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.entities);
+	const role = useSelector(({ auth }) => auth.user.role);
 
 	const classes = useStyles(props);
 	const theme = useTheme();
@@ -62,7 +78,7 @@ function ActivitiesList(props) {
 	useEffect(() => {
 		dispatch(getCategories());
 		// dispatch(getCourses());
-		dispatch(getActivities());
+		dispatch(getActivities(role));
 		dispatch(getGroups());
 	}, [dispatch]);
 
@@ -114,20 +130,23 @@ function ActivitiesList(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						WELCOME TO ACADEMY
+						ACTIVIDADES
 					</Typography>
 				</FuseAnimate>
-				<FuseAnimate duration={400} delay={600}>
+				{/* <FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
 							Our courses will step you through the process of building a small application, or adding a
 							new feature to an existing application.
 						</span>
 					</Typography>
-				</FuseAnimate>
+				</FuseAnimate> */}
 				<Icon className={classes.headerIcon}> school </Icon>
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
+				<div className="flex flex-row-reverse">
+					<ActivitySidebarContent/>
+				</div>
 
 				{useMemo(
 					() =>
@@ -143,72 +162,135 @@ function ActivitiesList(props) {
 									const category = activities.find(_cat => _cat.value === course.category);
 									return (
 										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.id}>
-											<Card elevation={1} className="flex flex-col h-256 rounded-8">
+											<Card elevation={1} className="flex flex-col h-500 rounded-8">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-84"
 													style={{
 														// background: category.color,
 														// color: theme.palette.getContrastText(category.color)
-														background: "#2196f3",
+														background: (course.is_active == 1 ? '#4BB543' : '#2196f3'),
 														color: theme.palette.getContrastText("#2196f3")
 														// color: "#2196f3",
 													}}
 												>
 													<div className="flex-direction: column, items-center ">
 														<Typography className="text-xl font-semibold truncate py-1" color="inherit">
-															{course.name}
+															{course.name.length > 22 ? course.name.slice(0,22)+'...' : course.name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.group_name}
+															{course.group_name.length > 22 ? course.group_name.slice(0,22)+'...' : course.group_name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.teachers_name}
+															{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
 														</Typography>
 													</div>
-													<div className="flex items-center justify-center opacity-75">
-														<div className="text-16 whitespace-no-wrap">
-															{course.finish_date.substring(0,10)}
+													<div className="flex-direction: column, items-center justify-center opacity-75">
+														<div className="text-16 whitespace-no-wrap text-right">
+															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
+														</div>
+														<div className="text-16 whitespace-no-wrap text-right">
+															{course.status}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
 														</Icon> */}
 													</div>
 												</div>		
-												<CardContent className=" flex-col flex-auto items-center justify-center">
+												<CardContent className="flex flex-col flex-auto items-center justify-center">
 													<Typography
 														className="text-center text-13 font-600 mt-4"
 														color="textSecondary"
 													>
 														{course.instructions ? course.instructions : 'Sin Instrucciones'}
 													</Typography>
+
+													<Typography
+														className="text-center text-13 font-600 mt-4 fixed-bottom"
+														color="textSecondary"
+													>
+														Se entrega el: {course.finish_date}
+													</Typography>
+
+													{course.file && role == 'alumno' ?
+														<IconButton
+															onClick={ev => {
+																ev.stopPropagation();
+																dispatch(downloadActivity(course.file));
+															}}
+														>
+
+															<Typography
+																className="text-center text-13 font-600 mt-4"
+															>
+																Descargar Archivo
+															</Typography>
+
+
+															<Icon className="text-center text-13 font-600 mt-4 ml-4">save_alt</Icon>
+														</IconButton>
+														:
+														course.url && role == 'alumno' ?
+															<IconButton
+																onClick={ev => {
+																	ev.stopPropagation();
+																	navigator.clipboard.writeText(course.url_path);
+																	dispatch(showMessage({ message: 'Enlace copiado' }));
+																}}
+															>
+
+																<Typography
+																	className="text-center text-13 font-600 mt-4"
+																>
+																	Copiar Enlace
+																</Typography>
+
+																<Icon className="text-center text-13 font-600 mt-4 ml-4">link</Icon>
+															</IconButton>
+															:
+															null
+													}
 												</CardContent>
 												<Divider />
-												<CardActions className="justify-center">
-													<Button
-														to={`/apps/tareas/${course.id}/${course.name}`}
-														component={Link}
-														className="justify-start px-32"
-														color="secondary"
-													>
-														{/* {buttonStatus(course)} */}
+												{role == 'maestro' ?
+													<CardActions className="justify-center">
+														<Button
+															to={`/apps/tareas/${course.id}/${course.name}`}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
 														Ver
 													</Button>
-													<Button
-														onClick={ev => dispatch(openEditActivityDialog(course))}
-														component={Link}
-														className="justify-start px-32"
-														color="secondary"
-													>
-														{/* {buttonStatus(course)} */}
+														<Button
+															onClick={ev => dispatch(openEditActivityDialog(course))}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
 														Editar
 													</Button>
-												</CardActions>
-												{/* <LinearProgress
-													className="w-full"
-													variant="determinate"
-													value={{course.is_active == 1 ? "100%""  : "50%" }
-													color="secondary"
-												/> */}
+													</CardActions>
+													// {/* <LinearProgress
+													// 	className="w-full"
+													// 	variant="determinate"
+													// 	value={{course.is_active == 1 ? "100%""  : "50%" }
+													// 	color="secondary"
+													// /> */}
+													:
+													<CardActions className="justify-center">
+														<Button
+															onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
+															component={Link}
+															className="justify-start px-32"
+															color="secondary"
+														>
+															{/* {buttonStatus(course)} */}
+														Entregar Tarea
+													</Button>
+													</CardActions>
+												}
 											</Card>
 										</div>
 									);
@@ -217,7 +299,7 @@ function ActivitiesList(props) {
 						) : (
 							<div className="flex flex-1 items-center justify-center">
 								<Typography color="textSecondary" className="text-24 my-24">
-									No courses found!
+									No se encontraron tareas!
 								</Typography>
 							</div>
 						)),

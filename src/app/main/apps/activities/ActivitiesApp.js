@@ -5,13 +5,14 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import ActivitiesList from './ActivitiesList'
-import { openNewActivityDialog } from './store/activitiesSlice'
+import { openNewActivityDialog, getActivities } from './store/activitiesSlice';
 import ActivityDialog from './ActivityDialog';
+import DeliveryDialog from './DeliveryDialog';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -34,10 +35,10 @@ function ActivitiesApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const role = useSelector(({ auth }) => auth.user.role);
 
 	useDeepCompareEffect(() => {
-
-	
+		dispatch(getActivities(role));
 	}, [dispatch, routeParams]);
 
 	return (
@@ -56,17 +57,22 @@ function ActivitiesApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={ev => dispatch(openNewActivityDialog())}
-				>
-					<Icon>assignment_add</Icon>
-				</Fab>
-			</FuseAnimate>
+			{ role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ?
+				null
+				:
+				<FuseAnimate animation="transition.expandIn" delay={300}>
+					<Fab
+						color="primary"
+						aria-label="add"
+						className={classes.addButton}
+						onClick={ev => dispatch(openNewActivityDialog())}
+					>
+						<Icon>assignment_add</Icon>
+					</Fab>
+				</FuseAnimate>
+			}
 			<ActivityDialog/>
+			<DeliveryDialog/>
 		</>
 	);
 }

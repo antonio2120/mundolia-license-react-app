@@ -1,7 +1,7 @@
 import { useForm } from '@fuse/hooks';
 import FuseUtils from '@fuse/utils/FuseUtils';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -27,6 +27,11 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from "@material-ui/core/Switch";
+import FormControl from "@material-ui/core/FormControl";
 
 const defaultFormState = {
 	id: '',
@@ -36,6 +41,9 @@ const defaultFormState = {
     groupList: '',
 	theme: '',
 	instructions: '',
+	is_active: true,
+	file_path: '',
+	url_path: '',
 };
 
 function ActivityDialog(props) {
@@ -46,6 +54,12 @@ function ActivityDialog(props) {
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [fileType, setFileType] = useState('file');
+	///Getting date time
+	var today = new Date();
+	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2)
+	+ 'T' + ('0'+( today.getHours() + 1)).slice(-2) + ':' + ('0'+( today.getMinutes() + 1)).slice(-2);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
@@ -55,7 +69,7 @@ function ActivityDialog(props) {
 	// const [showPassword, setShowPassword] = useState(false);
 	const formRef = useRef(null);
 
-
+	
 	function disableButton() {
 		setIsFormValid(false);
 	}
@@ -88,6 +102,7 @@ function ActivityDialog(props) {
 		if (activityDialog.props.open) {
 			initDialog();
 		}
+		setFileType(formOrigin ? formOrigin.url_path ? 'url' : 'file' : 'file');
 	}, [activityDialog.props.open, initDialog]);
 
 	useEffect(() => {
@@ -122,11 +137,13 @@ function ActivityDialog(props) {
 		event.preventDefault();
 
 		if (activityDialog.type === 'new') {
-			dispatch(submitCreateActivity(form));
+			dispatch(submitCreateActivity(form, selectedFile, fileType));
+			setSelectedFile(null)
 		}
 		else 
 		if (activityDialog.type === 'edit'){
-			dispatch(submitUpdateActivity(form,formOrigin));
+			dispatch(submitUpdateActivity(form, formOrigin, selectedFile, fileType));
+			setSelectedFile(null)
 		}
 	}
 
@@ -238,6 +255,10 @@ function ActivityDialog(props) {
 						InputLabelProps={{
 						shrink: true,
 						}}
+						// min={date}
+						inputProps={{
+							min: date
+						}}
 						variant="outlined"
 						required
 					/>
@@ -251,7 +272,6 @@ function ActivityDialog(props) {
 						value={form.theme}
 						onChange={handleChange}
 						variant="outlined"
-						required
 					/>
 					<TextFieldFormsy
 						fullWidth
@@ -265,10 +285,100 @@ function ActivityDialog(props) {
 						value={form.instructions}
 						onChange={handleChange}
 						variant="outlined"
-						required
+						validations={{
+							maxLength: 100
+						}}
+						validationErrors={{
+							maxLength: 'El máximo de carácteres permitidos es 100'
+						}}
 					/>
-				
-
+					<TextFieldFormsy
+						type="hidden"
+						name="is_active"
+						id="is_active"
+						value={form.is_active}
+					/>
+					<FormControl variant="outlined" >
+						<FormControlLabel
+							control={
+								<Switch checked={form.is_active}
+									name="is_active"
+									id="is_active"
+									onChange={(event, newValue) => {
+										event.target.id = 'is_active';
+										event.target.value = newValue;
+										handleChange(event);
+									}}
+								/>}
+							label="Activa"
+						/>
+					</FormControl>
+					<RadioGroup aria-label="fileType" name="fileType" value={fileType} onChange={e => setFileType(e.target.value)} className="flex md:overflow-hidden flex-row">
+						<FormControlLabel value="file" control={<Radio />} label="Subir archivo" className="mb-8"/>
+						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8"/>
+					</RadioGroup>
+					{
+						fileType == 'file' ?
+							<>
+								<TextFieldFormsy
+									fullWidth
+									className="mb-16"
+									type="text"
+									name="file_path"
+									label="Archivo"
+									id="file_path"
+									value={formOrigin ? formOrigin.file_path ? formOrigin.file_path.slice(formOrigin.file_path.indexOf('_')+1) : '' : ''}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<Icon className="text-20" color="action">
+													attach_file
+												</Icon>
+											</InputAdornment>
+										),
+										readOnly: true,
+									}}
+									variant="outlined"
+								/>
+								<input
+									fullWidth
+									className="mb-16"
+									type="file"
+									name="file"
+									id="file"
+									onChange={(e) => setSelectedFile(e.target.files[0])}
+									// onChange={handleChange}
+									variant="outlined"
+								/>
+							</>
+							:
+							null
+					}
+					{
+						fileType == 'url' ?
+							<TextFieldFormsy
+								fullWidth
+								className="mb-16"
+								type="text"
+								name="url_path"
+								label="URL"
+								id="url_path"
+								value={formOrigin ? formOrigin.url_path : form.url_path}
+								onChange={handleChange}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												link
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								variant="outlined"
+							/>
+							:
+							null
+					}						
 		
 					{values.loading && <LinearProgress />}
 
@@ -286,6 +396,7 @@ function ActivityDialog(props) {
 								Agregar
 							</Button>
 						</div>
+
 					</DialogActions>
                      
                 
@@ -306,11 +417,12 @@ function ActivityDialog(props) {
 								Guardar
 							</Button>
 						</div>
-							<IconButton 
-							onClick={handleRemove} 
+
+						<IconButton
+							onClick={handleRemove}
 							disabled={(values.loading)}>
-								<Icon>delete</Icon>
-							</IconButton>
+							<Icon>delete</Icon>
+						</IconButton>
 					</DialogActions> 
 				)
 				: null

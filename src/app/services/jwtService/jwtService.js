@@ -215,7 +215,22 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	addActivity = data => {
 		return new Promise((resolve, reject) => {
-			axios.post(process.env.REACT_APP_API+'/actividades', data 
+			var formData = new FormData();
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+
+			axios.post(process.env.REACT_APP_API+'/actividades', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
 			).then(response => {
 				console.log(response);
 				
@@ -232,9 +247,25 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 	updateActivity = data => {
 		return new Promise((resolve, reject) => {
-			console.log(data);
+			var formData = new FormData();
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
 
-			axios.put(process.env.REACT_APP_API+'/actividades/' + data.activityId, data 
+			axios.post(process.env.REACT_APP_API+'/actividades/' + data.activityId + '?_method=PUT', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
+					
+			
 			).then(response => {
 				console.log(response);
 				
@@ -267,6 +298,34 @@ class JwtService extends FuseUtils.EventEmitter {
 				console.log(error);
 				reject(error);
 			});
+		});
+	};
+
+	updateDelivery = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+			formData.append('deliveryDate', data.deliveryDate);
+
+			axios.post(process.env.REACT_APP_API + '/tareas/' + data.id + '?_method=PUT', formData,
+				{
+					headers: {
+						'x-amz-acl': 'public-read',
+						'Content-Type': 'multipart/form-data',
+					}
+				},
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			}
+			);
 		});
 	};
 

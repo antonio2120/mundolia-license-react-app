@@ -23,7 +23,8 @@ import {
 	closeEditHomeworkDialog,
     addHomework,
 	closeEditContactDialog,
-	submitUpdateHomework
+	submitUpdateHomework,
+	downloadHomework
 } from './store/homeworkSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -209,11 +210,11 @@ function HomeworkDialog(props) {
 										person_outline
 									</Icon>
 								</InputAdornment>
-							)
+							),
+							readOnly: true,
 						}}
 						variant="outlined"
 						required
-						disabled
 					/>
 
 					<TextFieldFormsy
@@ -232,11 +233,11 @@ function HomeworkDialog(props) {
 										donut_large
 									</Icon>
 								</InputAdornment>
-							)
+							),
+							readOnly: true,
 						}}
 						variant="outlined"
 						required
-						disabled
 					/>
 
 					{
@@ -249,7 +250,7 @@ function HomeworkDialog(props) {
 									name="file_path"
 									label="Archivo"
 									id="file_path"
-									value={form.file_path}
+									value={form.file_path.slice(form.file_path.indexOf('_')+1)}
 									onChange={handleChange}
 									InputProps={{
 										endAdornment: (
@@ -258,17 +259,20 @@ function HomeworkDialog(props) {
 													attach_file
 											</Icon>
 											</InputAdornment>
-										)
+										),
+										readOnly: true,
 									}}
 									variant="outlined"
 									required
-									disabled
 								/>
 								<Button
 									fullWidth
 									className="mb-16"
 									variant="contained"
 									color="primary"
+									onClick={() =>{
+										dispatch(downloadHomework(form.file_path))
+									}}
 								>
 									Descargar
 								</Button>
@@ -289,14 +293,14 @@ function HomeworkDialog(props) {
 										endAdornment: (
 											<InputAdornment position="end">
 												<Icon className="text-20" color="action">
-													attach_file
-											</Icon>
+													link
+												</Icon>
 											</InputAdornment>
-										)
+										),
+										readOnly: true,
 									}}
 									variant="outlined"
 									required
-									disabled
 								/>
 								<Button
 									fullWidth

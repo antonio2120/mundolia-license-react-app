@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import HomeworksTable from './HomeworksTable';
-import { openEditHomeworkDialog, removeItem, toggleStarredItem, selectHomeworks } from './store/homeworkSlice';
+import { openEditHomeworkDialog, removeItem, toggleStarredItem, selectHomeworks, downloadHomework } from './store/homeworkSlice';
 import {showMessage} from "../../../store/fuse/messageSlice";
 
 // import ItemsSidebarContent from "./ItemsSidebarContent";
@@ -58,7 +58,7 @@ function HomeworksList(props) {
 			},
 			{
 				Header: 'Archivo',
-				accessor: d => d.file_path ? d.file_path : d.url_path ? "Link del documento" : d.url_path,
+				accessor: d => d.file_path ? d.file_path.slice(d.file_path.indexOf('_')+1) : d.url_path ? "Link del documento" : d.url_path,
 				className: 'font-bold',
 				sortable: true,
 			},
@@ -72,10 +72,10 @@ function HomeworksList(props) {
 						{
 							row.original.file_path ?
 								<IconButton
-								// onClick={ev => {
-								// 	ev.stopPropagation();
-								// 	dispatch(removeContact(row.original.uuid));
-								// }}
+								onClick={ev => {
+									ev.stopPropagation();
+									dispatch(downloadHomework(row.original.file_path));
+								}}
 								>
 									<Icon>save_alt</Icon>
 								</IconButton>
@@ -97,8 +97,21 @@ function HomeworksList(props) {
 				)
 			},
 			{
-				Header: 'Fecha de entrega',
+				Header: 'Fecha limite',
 				accessor: 'finish_date',
+				className: 'font-bold',
+				sortable: true
+			},
+			{
+				Header: 'Fecha de entrega',
+				accessor: d => (
+					d.due ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ff4d40', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.delivery_date}</p>
+						</div>
+					:
+						d.delivery_date
+				),
 				className: 'font-bold',
 				sortable: true
 			},
