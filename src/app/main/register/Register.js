@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import Auth0RegisterTab from './tabs/Auth0RegisterTab';
 import FirebaseRegisterTab from './tabs/FirebaseRegisterTab';
 import ParentRegisterTab from './tabs/ParentRegisterTab';
+import SchoolRegisterTab from './tabs/SchoolRegisterTab';
 import TeacherRegisterTab from './tabs/TeacherRegisterTab';
 import reducer from './store';
 import Grid from '@material-ui/core/Grid';
@@ -70,7 +71,7 @@ function Register(props) {
 
 							<FuseAnimate delay={500}>
 								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Registro como usuario {type == "padre" ? "padre." : "escuela."}
+									{type == "maestro" ? "Registro como usuario maestro." : type == "padre" ? "Registro como usuario padre." : "Ponte en contacto con nosotros para crear tu usuario escuela."}
 								</Typography>
 							</FuseAnimate>
 
@@ -108,7 +109,9 @@ function Register(props) {
 								</div>
 							</FuseAnimate>
 							<div className="flex flex-col w-full items-center justify-center pb-32">
-								{type == "maestro" ? <TeacherRegisterTab /> : <ParentRegisterTab />}
+								{type == "maestro" ? <TeacherRegisterTab membership={membership}/> : 
+								type == "padre" ? <ParentRegisterTab membership={membership}/> : 
+												<SchoolRegisterTab membership={membership}/>}
 							</div>
 							<div className="flex flex-col items-center justify-center pb-32">
 								<div>

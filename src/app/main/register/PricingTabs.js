@@ -12,8 +12,11 @@ import PricingMaestros from './type/PricingMaestros'
 import PricingEscuelas from './type/PricingEscuelas'
 import Button from '@material-ui/core/Button';
 import reducer from './store';
-import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
+import { getMemberships } from './store/pricingSlice';
+import { useDeepCompareEffect } from '@fuse/hooks';
 
 function PricingApp(props) {
   const { children, value, index, ...other } = props;
@@ -31,18 +34,6 @@ function PricingApp(props) {
           <Typography>{children}</Typography>
           </Box>
       )}
-
-          <div className="p-24 w-full max-w-2xl mx-auto">
-              <div className="text-center my-128 mx-24">
-                  <Typography className="text-20 mb-8">¿Tienes alguna duda?</Typography>
-                  <Typography className="text-16" color="textSecondary">
-                      Ponte en contacto con nosotros.
-				  </Typography>
-                  <Button variant="contained" color="primary" className="m-24">
-                      Contáctanos
-				  </Button>
-              </div>
-          </div>
       </div>
   );
 }
@@ -69,9 +60,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FullWidthTabs() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+
+	useDeepCompareEffect(() => {
+		dispatch(getMemberships());
+	}, [dispatch]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,6 +76,8 @@ export default function FullWidthTabs() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+	const Memberships = useSelector(({ PricingApp }) => PricingApp.pricing.memberships.response);
 
   return (
     <div className={classes.root}>
@@ -92,7 +90,7 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Alumnos" {...a11yProps(0)} />
+          <Tab label="Padres" {...a11yProps(0)} />
           <Tab label="Maestros" {...a11yProps(1)} />
           <Tab label="Escuelas" {...a11yProps(2)} />
         </Tabs>
@@ -102,15 +100,21 @@ export default function FullWidthTabs() {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <PricingApp value={value} index={0} dir={theme.direction}>
-            <PricingPapas />
-        </PricingApp>
-        <PricingApp value={value} index={1} dir={theme.direction}>
-          <PricingMaestros/>
-        </PricingApp>
-        <PricingApp value={value} index={2} dir={theme.direction}>
-          <PricingEscuelas/>
-        </PricingApp>
+        {Memberships[0] ? 
+            <PricingApp value={value} index={0} dir={theme.direction}>
+                <PricingPapas price1={Memberships[0].price} price2={Memberships[1].price} price3={Memberships[2].price} />
+            </PricingApp>
+        :<></>}
+        {Memberships[3] ? 
+            <PricingApp value={value} index={1} dir={theme.direction}>
+              <PricingMaestros price1={Memberships[3].price} price2={Memberships[4].price} price3={Memberships[5].price} />
+            </PricingApp>
+        :<></>}
+        {Memberships[6] ? 
+            <PricingApp value={value} index={2} dir={theme.direction}>
+              <PricingEscuelas price1={Memberships[6].price} price2={Memberships[7].price} price3={Memberships[8].price} />
+            </PricingApp>
+        :<></>}
       </SwipeableViews>
     </div>
   );

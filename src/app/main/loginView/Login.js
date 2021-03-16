@@ -81,11 +81,11 @@ function Login() {
 
 	return (
 		<>
-		<header>
+		{/* <header>
 			<div  className={clsx(classes.divHeader)}>
 				<Grid container>
 					<Grid item xs={8}>
-						<img onClick={()=>window.location.href = '/home'} src="assets/images/logos/clublia.png" className={clsx(classes.headerImg)} alt="clublia"/>
+						<img src="assets/images/logos/clublia.png" className={clsx(classes.headerImg)} alt="clublia"/>
 					</Grid>
 					<Grid item xs={4} className={clsx(classes.gridHeader)}>
 						<Button onClick={()=>console.log("login button")} className={clsx(classes.loginButton,"normal-case")}>
@@ -97,7 +97,7 @@ function Login() {
 					</Grid>
 				</Grid>
 			</div>
-		</header>
+		</header> */}
 		<div
 			className={clsx(
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,

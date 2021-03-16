@@ -53,7 +53,7 @@ class FuseAuthorization extends Component {
         */
 		if (!userRole || userRole.length === 0) {
 			history.push({
-				pathname: '/home',
+				pathname: '/login',
 				state: { redirectUrl: pathname }
 			});
 		} else {
