@@ -8,9 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import clsx from 'clsx';
 import React from 'react';
-import {
-	RegisterPapas,RegisterMaestros
-} from '../store/pricingSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -54,6 +51,10 @@ const useStyles = makeStyles(theme => ({
 
 
 function PricingPapas(props) {
+	const price1 = props.price1;
+	const price2 = props.price2;
+	const price3 = props.price3;
+	
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const Membership = useSelector(({ PricingApp }) => PricingApp.pricing.RegisterScreen);
@@ -61,7 +62,8 @@ function PricingPapas(props) {
 	// const RegisterScreen = useSelector(({ PricingApp }) => PricingApp.pricing);
 	// console.log(RegisterScreen);
 
-	function handleSubmit(event) {
+	function handleSubmit(event,price) {
+		localStorage.setItem('price',price);
 		window.location.href = '/register?type=padre&membership='+event;
 
 	}
@@ -154,7 +156,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('gratis')}
+									onClick={ev => handleSubmit('gratis',price1)}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -183,7 +185,7 @@ function PricingPapas(props) {
 								<CardContent className=" p-0">
 									<div className={clsx(classes.price, 'text-center flex items-end justify-center py-16 px-32')}>
 										<Typography color="inherit" className={clsx(classes.priceText)}>
-											$ 250 m.n. mensual
+											$ {price2} m.n. mensual
 										</Typography>
 									</div>
 
@@ -224,7 +226,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('mensual')}
+									onClick={ev => handleSubmit('mensual',price2)}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -257,7 +259,7 @@ function PricingPapas(props) {
 											$ 208.33 m.n. mensual
 										</Typography>
 										<Typography color="inherit">
-											(Pago anual $2,500 m.n.)
+											(Pago anual ${price3} m.n.)
 										</Typography>
 									</div>
 
@@ -314,7 +316,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-										onClick={ev => handleSubmit('anual')}>
+										onClick={ev => handleSubmit('anual',price3)}>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
 												QUIERO SER MIEMBRO

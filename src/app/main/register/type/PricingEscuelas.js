@@ -54,9 +54,14 @@ const useStyles = makeStyles(theme => ({
 
 
 function PricingEscuelas(props) {
+	const price1 = props.price1;
+	const price2 = props.price2;
+	const price3 = props.price3;
+
 	const classes = useStyles();
 
-	function handleSubmit(event) {
+	function handleSubmit(event,price) {
+		localStorage.setItem('price',price);
 		window.location.href = '/register?type=escuela&membership='+event;
 	}
 	
@@ -148,7 +153,7 @@ function PricingEscuelas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('gratis')}
+									onClick={ev => handleSubmit('gratis',price1)}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -177,7 +182,7 @@ function PricingEscuelas(props) {
 								<CardContent className=" p-0">
 									<div className={clsx(classes.price, 'text-center flex items-end justify-center py-16 px-32')}>
 										<Typography color="inherit" className={clsx(classes.priceText)}>
-											$ 10,000 m.n. mensual
+											$ {price2} m.n. mensual
 										</Typography>
 									</div>
 
@@ -246,7 +251,7 @@ function PricingEscuelas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('mensual')}
+									onClick={ev => handleSubmit('mensual',price2)}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -279,7 +284,7 @@ function PricingEscuelas(props) {
 											$ 8,333 m.n. mensual
 										</Typography>
 										<Typography color="inherit">
-											(Pago anual $100,000 m.n.)
+											(Pago anual ${price3} m.n.)
 										</Typography>
 									</div>
 
@@ -352,7 +357,7 @@ function PricingEscuelas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-										onClick={ev => handleSubmit('anual')}>
+										onClick={ev => handleSubmit('anual',price3)}>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
 												QUIERO SER MIEMBRO

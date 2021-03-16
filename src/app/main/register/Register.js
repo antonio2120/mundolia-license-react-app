@@ -109,7 +109,9 @@ function Register(props) {
 								</div>
 							</FuseAnimate>
 							<div className="flex flex-col w-full items-center justify-center pb-32">
-								{type == "maestro" ? <TeacherRegisterTab /> : type == "padre" ? <ParentRegisterTab/> : <SchoolRegisterTab/>}
+								{type == "maestro" ? <TeacherRegisterTab membership={membership}/> : 
+								type == "padre" ? <ParentRegisterTab membership={membership}/> : 
+												<SchoolRegisterTab membership={membership}/>}
 							</div>
 							<div className="flex flex-col items-center justify-center pb-32">
 								<div>
