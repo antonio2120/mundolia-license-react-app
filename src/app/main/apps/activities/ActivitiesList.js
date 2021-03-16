@@ -144,7 +144,7 @@ function ActivitiesList(props) {
 				<Icon className={classes.headerIcon}> school </Icon>
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
-				<div className="flex flex-1 mx-auto items-end ">
+				<div className="flex flex-row-reverse">
 					<ActivitySidebarContent/>
 				</div>
 
@@ -184,9 +184,12 @@ function ActivitiesList(props) {
 															{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
 														</Typography>
 													</div>
-													<div className="flex items-center justify-center opacity-75">
-														<div className="text-16 whitespace-no-wrap">
-															{course.is_active == 1 ? 'Activa' : 'Completada'}
+													<div className="flex-direction: column, items-center justify-center opacity-75">
+														<div className="text-16 whitespace-no-wrap text-right">
+															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
+														</div>
+														<div className="text-16 whitespace-no-wrap text-right">
+															{course.status}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
@@ -296,7 +299,7 @@ function ActivitiesList(props) {
 						) : (
 							<div className="flex flex-1 items-center justify-center">
 								<Typography color="textSecondary" className="text-24 my-24">
-									No courses found!
+									No se encontraron tareas!
 								</Typography>
 							</div>
 						)),

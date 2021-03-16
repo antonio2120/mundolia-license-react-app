@@ -97,8 +97,21 @@ function HomeworksList(props) {
 				)
 			},
 			{
-				Header: 'Fecha de entrega',
+				Header: 'Fecha limite',
 				accessor: 'finish_date',
+				className: 'font-bold',
+				sortable: true
+			},
+			{
+				Header: 'Fecha de entrega',
+				accessor: d => (
+					d.due ?
+						<div className="flex items-center">
+							<p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ff4d40', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold"}}>{d.delivery_date}</p>
+						</div>
+					:
+						d.delivery_date
+				),
 				className: 'font-bold',
 				sortable: true
 			},

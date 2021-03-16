@@ -6,8 +6,13 @@ import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async ( role, { getState }) => {
 	
 	let filterContacts = getState().ActivitiesApp.filter.activity;
-	let params = filterContacts.group_id == 0 ? null : filterContacts;
 
+	let params = {
+		group_id: filterContacts.group_id == 0 ? null : filterContacts.group_id,
+		is_active: filterContacts.active ? filterContacts.active == 2 ? 0 : 1 : null,
+		orderDate: filterContacts.date,
+	};
+	
 	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
 		const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
 			params: params
@@ -34,6 +39,7 @@ export const submitCreateActivity = ( activityData, file, fileType ) => async di
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
+			is_active: activityData.is_active ? 1 : 0,
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
 		})
@@ -56,6 +62,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
+			is_active: activityData.is_active ? 1 : 0,
 			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,

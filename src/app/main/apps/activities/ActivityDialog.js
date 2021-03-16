@@ -30,6 +30,8 @@ import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from "@material-ui/core/Switch";
+import FormControl from "@material-ui/core/FormControl";
 
 const defaultFormState = {
 	id: '',
@@ -39,6 +41,7 @@ const defaultFormState = {
     groupList: '',
 	theme: '',
 	instructions: '',
+	is_active: true,
 	file_path: '',
 	url_path: '',
 };
@@ -289,6 +292,27 @@ function ActivityDialog(props) {
 							maxLength: 'El máximo de carácteres permitidos es 100'
 						}}
 					/>
+					<TextFieldFormsy
+						type="hidden"
+						name="is_active"
+						id="is_active"
+						value={form.is_active}
+					/>
+					<FormControl variant="outlined" >
+						<FormControlLabel
+							control={
+								<Switch checked={form.is_active}
+									name="is_active"
+									id="is_active"
+									onChange={(event, newValue) => {
+										event.target.id = 'is_active';
+										event.target.value = newValue;
+										handleChange(event);
+									}}
+								/>}
+							label="Activa"
+						/>
+					</FormControl>
 					<RadioGroup aria-label="fileType" name="fileType" value={fileType} onChange={e => setFileType(e.target.value)} className="flex md:overflow-hidden flex-row">
 						<FormControlLabel value="file" control={<Radio />} label="Subir archivo" className="mb-8"/>
 						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8"/>

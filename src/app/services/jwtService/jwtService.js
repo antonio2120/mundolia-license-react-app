@@ -184,6 +184,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('finishDate',data.finishDate);
 			formData.append('theme',data.theme);
 			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
 
@@ -215,6 +216,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('finishDate',data.finishDate);
 			formData.append('theme',data.theme);
 			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
 			formData.append('filePath', data.filePath);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
@@ -268,6 +270,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('filePath', data.filePath);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
+			formData.append('deliveryDate', data.deliveryDate);
 
 			axios.post(process.env.REACT_APP_API + '/tareas/' + data.id + '?_method=PUT', formData,
 				{

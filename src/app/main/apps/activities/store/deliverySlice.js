@@ -3,6 +3,9 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 
 export const submitUploadFile = ( activityData, activityDataOrigin, file, fileType ) => async dispatch => {
+	
+	const today = new Date();
+	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2) + ' ' + today.getHours() + ':' + today.getMinutes();
 
     return jwtService
 		.updateDelivery({
@@ -10,6 +13,7 @@ export const submitUploadFile = ( activityData, activityDataOrigin, file, fileTy
 			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
+			deliveryDate: date,
 		})
 		.then(delivery => {
 			dispatch(registerSuccess());
