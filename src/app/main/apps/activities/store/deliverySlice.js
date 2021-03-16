@@ -10,7 +10,7 @@ export const submitUploadFile = ( activityData, activityDataOrigin, file, fileTy
     return jwtService
 		.updateDelivery({
             id: activityDataOrigin.id,
-			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
+			filePath: fileType == 'file' ? activityDataOrigin.file_path ? activityDataOrigin.file_path : '' : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
 			deliveryDate: date,

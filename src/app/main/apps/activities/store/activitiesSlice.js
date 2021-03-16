@@ -7,10 +7,14 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 	
 	let filterContacts = getState().ActivitiesApp.filter.activity;
 
+	const today = new Date();
+	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2) + ' ' + today.getHours() + ':' + today.getMinutes();
+
 	let params = {
 		group_id: filterContacts.group_id == 0 ? null : filterContacts.group_id,
 		is_active: filterContacts.active ? filterContacts.active == 2 ? 0 : 1 : null,
 		orderDate: filterContacts.date,
+		today: date,
 	};
 	
 	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
@@ -31,7 +35,6 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 });
 
 export const submitCreateActivity = ( activityData, file, fileType ) => async dispatch => {
-	console.log(activityData);
 	return jwtService
 		.addActivity({
 	        name: activityData.name,
@@ -63,7 +66,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 			theme: activityData.theme,
 			instructions: activityData.instructions,
 			is_active: activityData.is_active ? 1 : 0,
-			filePath: fileType == 'file' ? activityDataOrigin.file_path : '',
+			filePath: fileType == 'file' ? activityDataOrigin.file_path ? activityDataOrigin.file_path : '' : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
 		})
