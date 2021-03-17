@@ -16,7 +16,6 @@ const navigationConfig = [
 		type: 'group',
 		icon: 'apps',
 		children: [
-
 			{
 				id: 'dashboard',
 				title: 'Dashboard',
@@ -24,7 +23,7 @@ const navigationConfig = [
 				type: 'item',
 				'auth' : authRoles.admin,
 				icon: 'dashboard',
-				url: '/apps/dashboards/project'
+				url: '/apps/dashboard/'
 			},
 			{
 				id: 'usuarios',
