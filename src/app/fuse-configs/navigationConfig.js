@@ -18,6 +18,15 @@ const navigationConfig = [
 		children: [
 
 			{
+				id: 'dashboard',
+				title: 'Dashboard',
+				translate: 'Dashboard',
+				type: 'item',
+				'auth' : authRoles.admin,
+				icon: 'dashboard',
+				url: '/apps/dashboards/project'
+			},
+			{
 				id: 'usuarios',
 				title: 'Usuarios',
 				translate: 'Usuarios',
