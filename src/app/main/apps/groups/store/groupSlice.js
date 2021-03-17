@@ -32,11 +32,11 @@ export const submitCreateGroup = ( groupdata ) => async dispatch => {
 };
 
 export const submitUpdateGroup = ( groupdata, groupOrigin ) => async dispatch => {
-	return jwtService
+	return jwtService	
 		.updateGroup({
 			groupId: groupOrigin.id,
 			groupTitle: groupdata.name,
-			teacherId: groupdata.teacher.id,
+			teacherId: groupdata.teacher_id,
 		})
 		.then(group => {
 			dispatch(registerSuccess());
