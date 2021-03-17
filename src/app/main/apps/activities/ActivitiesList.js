@@ -189,7 +189,7 @@ function ActivitiesList(props) {
 															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
 														</div>
 														<div className="text-16 whitespace-no-wrap text-right">
-															{course.status}
+															{course.status}{course.status == 'Calificado' ? ': ' + course.score : null}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
