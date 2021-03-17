@@ -23,11 +23,11 @@ function RedirectPage() {
 	const encodedData = btoa(data_url);
 	const url = 'http://plus.clublia.com/SSO?data='+encodedData;
 
-	if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'metropolitan' || user.data.role == 'maestro' || user.data.role == 'maestro_preescolar' || user.data.role == 'maestro_secundaria' || user.data.role == 'profesor_summit_2021' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
-		return (<Redirect to="/loginp" />)
-	}else {
+	// if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
+	// 	return (<Redirect to="/loginp" />)
+	// }else {
 		return (<Redirect to="/pages/bienvenido" />)
-	}
+	// }
 }
 
 export default RedirectPage;

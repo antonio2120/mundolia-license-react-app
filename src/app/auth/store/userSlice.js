@@ -98,14 +98,14 @@ export const setUserData = user => async (dispatch, getState) => {
 
 	dispatch(setUser(userSet));
 
-	if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'profesor_summit_2021' || user.data.role == 'metropolitan' || user.data.role == 'maestro_preescolar' || user.data.role == 'maestro_secundaria' || user.data.role == 'maestro' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
+	// if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
 
-		history.location.state = {
-			redirectUrl: 'loginp' // for example 'apps/academy'
-		};
+	// 	history.location.state = {
+	// 		redirectUrl: 'loginp' // for example 'apps/academy'
+	// 	};
 
-		//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
-	}
+	// 	//window.location.href = 'http://plus.clublia.com/SSO?data='+encodedData;
+	// }
 };
 
 export const updateUserSettings = settings => async (dispatch, getState) => {

@@ -117,10 +117,6 @@ class LicenciasPage extends Component {
 			isValid = false;
 			errors += " apellido_paterno invalido.";
 		}
-		if (!row.apellido_materno) {
-			isValid = false;
-			errors += " apellido_materno invalido.";
-		}
 		if (!row.seccion) {
 			isValid = false;
 			errors += " seccion invalido.";
@@ -159,7 +155,7 @@ class LicenciasPage extends Component {
 						username: '',
 						segundo_nombre: row.segundo_nombre ? row.segundo_nombre.toUpperCase().trim() : row.segundo_nombre,
 						apellido_paterno: row.apellido_paterno.toUpperCase().trim(),
-						apellido_materno: row.apellido_materno.toUpperCase().trim(),
+						apellido_materno: row.apellido_materno ? row.apellido_materno.toUpperCase().trim() : row.apellido_materno,
 						email: row.email.trim(),
 						seccion: row.seccion.toUpperCase().trim(),
 						grado: row.grado.toUpperCase().trim(),
