@@ -262,7 +262,7 @@ function ActivityDialog(props) {
 						variant="outlined"
 						required
 					/>
-					<TextFieldFormsy
+					{/* <TextFieldFormsy
 						fullWidth
 						className="mb-16"
 						type="text"
@@ -272,7 +272,7 @@ function ActivityDialog(props) {
 						value={form.theme}
 						onChange={handleChange}
 						variant="outlined"
-					/>
+					/> */}
 					<TextFieldFormsy
 						fullWidth
 						multiline
