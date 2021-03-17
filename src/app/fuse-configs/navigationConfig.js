@@ -36,6 +36,15 @@ const navigationConfig = [
 				url: '/licencias/'
 			},
 			{
+				id: 'actividades',
+				title: 'Tareas',
+				translate: 'Tareas',
+				type: 'item',
+				'auth' : authRoles.teacher,
+				icon: 'assignment',
+				url: '/apps/actividades/all'
+			},
+			{
 				id: 'grupos',
 				title: 'Grupos',
 				translate: 'Grupos',
@@ -67,7 +76,7 @@ const navigationConfig = [
 				title: 'Comunidad',
 				translate: 'Comunidad',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.alumno,
 				icon: 'forum',
 				url: '/loginp'
 			},

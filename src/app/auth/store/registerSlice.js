@@ -22,6 +22,77 @@ export const submitRegister = ({ displayName, password, email, username }) => as
 		});
 };
 
+export const submitRegisterParent = ({ name, lastName, password, email, username, phone, state }) => async dispatch => {
+	return jwtService
+		.userSubscription({
+			name: name,
+			last_name: lastName,
+			password: password,
+			username: username,
+			email: email,
+			phone_number: phone,
+			country:"México",
+			state: state,
+			city: state,
+			school_id: 305
+		})
+		.then(user => {
+			localStorage.setItem('id_parent', user.data.lia.id);
+			return dispatch(registerSuccess());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+
+export const submitRegisterChild = ({ name, lastName, password, email, username, tutor_id }) => async dispatch => {
+	return jwtService
+		.studentSubscription([{
+			name: name,
+			last_name: lastName,
+			password: password,
+			username: username,
+			email: email,
+			tutor_id: tutor_id,
+			school_id: 305
+		}])
+		.then(user => {
+			return dispatch(registerChildrenSuccess());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		});
+};
+
+export const membershipPayment = ({ name, lastName, email, phone, title, description, unit_price, id_licenses_type}) => async dispatch => {
+	return jwtService
+		.handlePayment({
+			payer:{
+				name: name,
+				surname: lastName,
+				email: email,
+				phone: phone
+			},
+			item:{
+				title: title,
+				description: description,
+				unit_price: unit_price
+			},
+			id_licenses_type: id_licenses_type
+
+		}).then(response => {
+			console.log("dispatch resp::",response);
+			window.location.href = response.init_point;
+			// dispatch()
+			return 1;
+		})
+		.catch(error => {
+			console.log("dispatch err::",error);
+			// dispatch()
+			return null;
+		})
+};
+
 export const registerWithFirebase = model => async dispatch => {
 	if (!firebaseService.auth) {
 		console.warn("Firebase Service didn't initialize, check your configuration");
@@ -79,6 +150,9 @@ const registerSlice = createSlice({
 		registerSuccess: (state, action) => {
 			state.success = true;
 		},
+		registerChildrenSuccess: (state, action) => {
+			state.success = true;
+		},
 		registerError: (state, action) => {
 			state.success = false;
 			state.error = action.payload;
@@ -87,6 +161,6 @@ const registerSlice = createSlice({
 	extraReducers: {}
 });
 
-export const { registerSuccess, registerError } = registerSlice.actions;
+export const { registerSuccess, registerChildrenSuccess, registerError } = registerSlice.actions;
 
 export default registerSlice.reducer;

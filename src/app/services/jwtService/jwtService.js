@@ -58,6 +58,57 @@ class JwtService extends FuseUtils.EventEmitter {
 			});
 		});
 	};
+
+	userSubscription = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/userSubscription', data).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			});
+		});
+	};
+
+	studentSubscription = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/studentSubscription', data).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			});
+		});
+	};
+
+	handlePayment = data => {
+		return new Promise((resolve,reject) => {
+			axios.post(process.env.REACT_APP_API+'/pago/membresia', data).then(response => {
+				console.log("response payment::",response);
+				if(response.status == 200){
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			});
+		});
+	};
+
+	getMemberships = () => {
+		return new Promise((resolve,reject) => {
+			axios.get(process.env.REACT_APP_API+'/membresia').then(response => {
+				if(response.status == 200){
+					console.log("response membership::",response);
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			});
+		});
+	};
+
 	addContact = data => {
 		return new Promise((resolve, reject) => {
 				axios.post(process.env.REACT_APP_API + '/usuarios', data).then(response => {
@@ -162,6 +213,121 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	addActivity = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+
+			axios.post(process.env.REACT_APP_API+'/actividades', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+	updateActivity = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('name',data.name,);
+			formData.append('groupId',data.groupId);
+			formData.append('finishDate',data.finishDate);
+			formData.append('theme',data.theme);
+			formData.append('instructions',data.instructions);
+			formData.append('is_active',data.is_active);
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+
+			axios.post(process.env.REACT_APP_API+'/actividades/' + data.activityId + '?_method=PUT', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
+					
+			
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			}
+			);
+
+		});
+	};
+
+	updateHomework = data => {
+		console.log(data);
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/tareas/'+data.id, data 
+			).then(response => {
+				console.log(response);
+				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	updateDelivery = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('filePath', data.filePath);
+			formData.append('urlPath', data.urlPath);
+			formData.append('file', data.file);
+			formData.append('deliveryDate', data.deliveryDate);
+
+			axios.post(process.env.REACT_APP_API + '/tareas/' + data.id + '?_method=PUT', formData,
+				{
+					headers: {
+						'x-amz-acl': 'public-read',
+						'Content-Type': 'multipart/form-data',
+					}
+				},
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			}
+			);
+		});
+	};
 
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
