@@ -44,13 +44,10 @@ const routeConfigs = [
 	GroupsConfig,
 	MaintenancePageConfig,
 	RedirectPageConfig,
-<<<<<<< HEAD
-	DashboardAppConfig
-=======
+	DashboardAppConfig,
 	RegisterConfig, 
 	ActivitiesConfig,
 	HomeworksConfig
->>>>>>> 4ac33f93a58f6163fc041c0fff9ad5502eb99330
 ];
 
 const routes = [
