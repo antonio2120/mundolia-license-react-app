@@ -409,7 +409,7 @@ function ContactDialog(props) {
 							</SelectFormsy>:
 							<CircularProgress color="secondary"/>
 						}
-							{form.role_id === 10 ?
+							{form.role_id === 10 && contactDialog.type !== 'editGroup' ?
 								
 
 												// <SelectFormsy
@@ -452,7 +452,7 @@ function ContactDialog(props) {
 								:
 								null
 							}
-							{form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18 ?
+							{(form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18) && contactDialog.type !== 'editGroup' ?
 
 								<SelectFormsy
 									id="tutor_id"
