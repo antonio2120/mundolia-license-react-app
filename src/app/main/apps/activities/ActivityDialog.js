@@ -282,7 +282,7 @@ function ActivityDialog(props) {
 						className="mb-16"
 						type="text"
 						name="instructions"
-						label="Instrucciones"
+						label="Notas del profesor"
 						id="instructions"
 						value={form.instructions}
 						onChange={handleChange}
