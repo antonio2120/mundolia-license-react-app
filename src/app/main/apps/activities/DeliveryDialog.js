@@ -166,7 +166,7 @@ function DeliveryUpdateDialog(props) {
 							className="mb-16"
 							type="text"
 							name="instructions"
-							label="Instruciones"
+							label="Notas del profesor"
 							id="instructions"
 							value={ formOrigin ? formOrigin.instructions : form.instructions}
 							InputProps={{
