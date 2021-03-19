@@ -15,6 +15,7 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 		is_active: filterContacts.active ? filterContacts.active == 2 ? 0 : 1 : null,
 		orderDate: filterContacts.date,
 		today: date,
+		status: filterContacts.status ? filterContacts.status : null,
 	};
 	
 	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
