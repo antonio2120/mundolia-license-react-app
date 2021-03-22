@@ -11,6 +11,8 @@ import React, { useState } from 'react';
 
 function Widget7(props) {
 	const [currentRange, setCurrentRange] = useState(props.widget.currentRange);
+	// console.log(props);
+
 
 	function handleChangeRange(ev) {
 		setCurrentRange(ev.target.value);
@@ -19,9 +21,9 @@ function Widget7(props) {
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
 			<div className="flex items-center justify-between px-16 h-64 border-b-1">
-				<Typography className="text-16">{props.widget.title}</Typography>
+				<Typography className="text-16">Tareas Recientes</Typography>
 
-				<Select
+				{/* <Select
 					native
 					value={currentRange}
 					onChange={handleChangeRange}
@@ -37,17 +39,17 @@ function Widget7(props) {
 							</option>
 						);
 					})}
-				</Select>
+				</Select> */}
 			</div>
 			<List>
-				{props.widget.schedule[currentRange].map(item => (
+				{props.widget.map(item => (
 					<ListItem key={item.id}>
-						<ListItemText primary={item.title} secondary={item.time} />
-						<ListItemSecondaryAction>
+						<ListItemText primary={item.name} secondary={item.finish_date} />
+						{/* <ListItemSecondaryAction>
 							<IconButton aria-label="more">
 								<Icon>more_vert</Icon>
 							</IconButton>
-						</ListItemSecondaryAction>
+						</ListItemSecondaryAction> */}
 					</ListItem>
 				))}
 			</List>

@@ -21,7 +21,7 @@ const navigationConfig = [
 				title: 'Dashboard',
 				translate: 'Dashboard',
 				type: 'item',
-				'auth' : authRoles.admin,
+				'auth' : authRoles.teacher,
 				icon: 'dashboard',
 				url: '/apps/dashboard/'
 			},

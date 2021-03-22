@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
 import _ from '@lodash';
 import React, { useEffect, useRef, useState } from 'react';
@@ -18,6 +19,7 @@ import reducer from './store';
 import { selectProjects, getProjects } from './store/projectsSlice';
 
 import { getWidgets, selectWidgets } from './store/widgetsSlice';
+import { getSchedule, selectSchedule } from './store/scheduleSlice';
 
 import Widget1 from './widgets/Widget1';
 import Widget10 from './widgets/Widget10';
@@ -56,6 +58,12 @@ function DashboardApp(props) {
 	const dispatch = useDispatch();
 	const widgets = useSelector(selectWidgets);
 	const projects = useSelector(selectProjects);
+	const schedule = useSelector(selectSchedule);
+	const role = useSelector(({ auth }) => auth.user.role);
+	// const schedule = useSelector(({ DashboardApp }) => DashboardApp.schedule.entities);
+
+	// console.log(schedule);
+
 
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
@@ -68,6 +76,7 @@ function DashboardApp(props) {
 	useEffect(() => {
 		dispatch(getWidgets());
 		dispatch(getProjects());
+		dispatch(getSchedule(role));
 	}, [dispatch]);
 
 	function handleChangeTab(event, value) {
@@ -123,7 +132,7 @@ function DashboardApp(props) {
 							</IconButton>
 						</Hidden>
 					</div>
-					<div className="flex items-end">
+					{/* <div className="flex items-end">
 						<div className="flex items-center">
 							<div className={clsx(classes.selectedProject, 'flex items-center h-40 px-16 text-16')}>
 								{_.find(projects, ['id', selectedProject.id]).name}
@@ -154,8 +163,8 @@ function DashboardApp(props) {
 										</MenuItem>
 									))}
 							</Menu>
-						</div>
-					</div>
+						</div> 
+					</div> */}
 				</div>
 			}
 			contentToolbar={
@@ -182,16 +191,16 @@ function DashboardApp(props) {
 								animation: 'transition.slideUpBigIn'
 							}}
 						>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
+							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
 								<Widget1 widget={widgets.widget1} />
 							</div>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
+							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
 								<Widget2 widget={widgets.widget2} />
 							</div>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
+							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
 								<Widget3 widget={widgets.widget3} />
 							</div>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
+							{/* <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
 								<Widget4 widget={widgets.widget4} />
 							</div>
 							<div className="widget flex w-full p-12">
@@ -199,10 +208,15 @@ function DashboardApp(props) {
 							</div>
 							<div className="widget flex w-full sm:w-1/2 p-12">
 								<Widget6 widget={widgets.widget6} />
+							</div> */}
+							{schedule ?
+
+							<div className="widget flex w-full sm:w-1 p-12">
+								<Widget7 widget={schedule} />
 							</div>
-							<div className="widget flex w-full sm:w-1/2 p-12">
-								<Widget7 widget={widgets.widget7} />
-							</div>
+							:
+							<CircularProgress color="secondary" />
+							}
 						</FuseAnimateGroup>
 					)}
 					{tabValue === 1 && (
