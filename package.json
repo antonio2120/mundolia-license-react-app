@@ -136,6 +136,6 @@
       "last 1 safari version"
     ]
   },
-  "buildDate": 1615944641389,
+  "buildDate": 1613177225072,
   "build": "node ./update-build.js && react-scripts build"
 }
