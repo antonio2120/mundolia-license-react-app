@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 const useStyles = makeStyles(theme => ({
 	divContainer:{flexGrow:1}
@@ -24,11 +25,12 @@ const useStyles = makeStyles(theme => ({
 
 function ChildrenRegisterTab(props) { 
 	const dispatch = useDispatch();
-    const register = useSelector(({ auth }) => auth.register);
+	const register = useSelector(({ auth }) => auth.register);
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordC, setShowPasswordC] = useState(false);
 	const [childrenCounter, setchildrenCounter] = useState(1);
+    console.log(register);
 	
 	const parentModel = props.parentModel;
 	const parentId = localStorage.getItem('id_parent');
@@ -38,15 +40,17 @@ function ChildrenRegisterTab(props) {
     console.log("childrenRegister::",parentModel);
 
     useEffect(() => {
-		if (register.error && (register.error.username || register.error.password)) {
-			formRef.current.updateInputsWithError({
-				...register.error
-			});
-			disableButton();
-		} else if(register.data) {
-			console.log("register.data",register.data);
+		if(register.errorChild.response) {
+			if (register.errorChild.response.response.status == '422') {
+				dispatch(showMessage({message:register.errorChild.response.response.data.message,variant: 'error'}));
+			}
 		}
-	}, [register.error]);
+		
+		if(register.successChild){
+			dispatch(showMessage({message:'Usuario registrado!',variant: 'success'}));
+		}
+		
+	}, [register.errorChild,register.successChild]);
 
 	function disableButton() {
 		setIsFormValid(false);
@@ -60,7 +64,11 @@ function ChildrenRegisterTab(props) {
         model.tutor_id = parentId;
         dispatch(submitRegisterChild(model));
         if(+parentModel.children === childrenCounter){
-            dispatch(membershipPayment(parentModel));
+            if(parentModel.unit_price !== 0){
+                dispatch(membershipPayment(parentModel));
+            }else{
+                // window.location.href = './login';
+            }
         }else{
             formRef.current.reset();
             setchildrenCounter(childrenCounter+1);
@@ -152,10 +160,6 @@ function ChildrenRegisterTab(props) {
 							required
 						/>
 						
-					</Grid>
-
-					<Grid item xs={6} 
-						className="flex flex-col w-full p-4">
                         <TextFieldFormsy
 							className="mb-16"
 							type="text"
@@ -180,6 +184,11 @@ function ChildrenRegisterTab(props) {
 							required
 						/>
 
+					</Grid>
+
+					<Grid item xs={6} 
+						className="flex flex-col w-full p-4">
+                        
                         <TextFieldFormsy
 							className="mb-16"
 							type="password"
@@ -235,6 +244,21 @@ function ChildrenRegisterTab(props) {
 							required
 						/>
 						
+                        <SelectFormsy
+							id="level"
+							name="level"
+							width="100%"
+							label="Alumno de: *"
+							fullWidth
+							variant="outlined"
+							className="mb-16"
+							required
+						>
+							<MenuItem key={1} value="1">preescolar</MenuItem>
+							<MenuItem key={2} value="2">primaria</MenuItem>
+							<MenuItem key={3} value="3">secundaria</MenuItem>
+						</SelectFormsy>
+
 						<Button
 							type="submit"
 							variant="contained"

@@ -5,7 +5,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitRegisterParent } from 'app/auth/store/registerSlice';
+import { submitRegisterParentTeacher } from 'app/auth/store/registerSlice';
 import { membershipPayment } from 'app/auth/store/registerSlice';
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -14,9 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ChildrenRegisterTab from './ChildrenRegisterTab';
 import clsx from 'clsx';
+import { getMemberships } from '../store/pricingSlice';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
+import { useDeepCompareEffect } from '@fuse/hooks';
+import {showMessage} from "../../../store/fuse/messageSlice";
 
 const useStyles = makeStyles(theme => ({
 	divContainer:{flexGrow:1}
@@ -24,8 +27,6 @@ const useStyles = makeStyles(theme => ({
 
 function ParentRegisterTab(props) { 
 	const membership = props.membership;
-	const price = localStorage.getItem('price');
-	// localStorage.removeItem('price');
 
 
 	const dispatch = useDispatch();
@@ -35,20 +36,28 @@ function ParentRegisterTab(props) {
 	const [showPasswordC, setShowPasswordC] = useState(false);
 	const [childrenRegister, setChildrenRegister] = useState(0);
 	const [parentModel, setparentModel] = useState("");
-	const [count, setCount] = useState(1);
 	const classes = useStyles();
 	const formRef = useRef(null);
 
 	useEffect(() => {
-		if (register.error && (register.error.username || register.error.password)) {
-			formRef.current.updateInputsWithError({
-				...register.error
-			});
-			disableButton();
-		} else if(register.data) {
-			console.log("register.data",register.data);
+		if(register.error.response) {
+			if (register.error.response.response.status == '422') {
+				dispatch(showMessage({message:register.error.response.response.data.message,variant: 'error'}));
+			}
 		}
-	}, [register.error]);
+		
+		if(register.success){
+			dispatch(showMessage({message:'Usuario registrado!',variant: 'success'}));
+			setChildrenRegister(parentModel.children);
+		}
+		
+	}, [register.error,register.success]);
+	
+	useDeepCompareEffect(() => {
+		dispatch(getMemberships());
+	}, [dispatch]);
+
+	const Memberships = useSelector(({ PricingApp }) => PricingApp.pricing.memberships.response);
 
 	function disableButton() {
 		setIsFormValid(false);
@@ -59,14 +68,14 @@ function ParentRegisterTab(props) {
 	}
 
 	function handleSubmit(model) {
+		model.role_id = 31;
 		model.title = "Membresía " + membership;
 		model.description = "Membresía "+membership+" para los servicios de ClubLIA";
-		model.unit_price = price;
+		model.unit_price = membership == "gratis" ? Memberships[0].price : (membership == "mensual" ? Memberships[1].price : Memberships[2].price);
 		model.id_licenses_type = membership == "gratis" ? 1 : (membership == "mensual" ? 2 : 3);
 		setparentModel(model);
-		dispatch(submitRegisterParent(model));
+		dispatch(submitRegisterParentTeacher(model));
 		localStorage.setItem('children', model.children);
-		setChildrenRegister(model.children);
 	}
 
 	return (
@@ -277,7 +286,7 @@ function ParentRegisterTab(props) {
 							id="state"
 							name="state"
 							width="100%"
-							label="Estado*"
+							label="Estado *"
 							fullWidth
 							variant="outlined"
 							className="mb-16"
@@ -339,11 +348,11 @@ function ParentRegisterTab(props) {
 								<Typography className="text-16">
 									<b>Membresía para padres</b> 
 								</Typography>
-								
+								{Memberships[0] ?
 								<Typography className="text-14" color="textSecondary">
-									${price}
+									${membership == "gratis" ? Memberships[0].price : (membership == "mensual" ? Memberships[1].price : Memberships[2].price)}
 								</Typography>
-
+								:<></>}
 								<Typography className="text-16">
 									{membership}
 								</Typography>
@@ -360,7 +369,7 @@ function ParentRegisterTab(props) {
 							disabled={!isFormValid}
 							value="legacy"
 							>
-							Register
+							Registrar usuario
 						</Button>
 					</Grid>
 				</Grid>

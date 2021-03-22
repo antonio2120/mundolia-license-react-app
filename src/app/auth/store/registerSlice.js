@@ -22,7 +22,7 @@ export const submitRegister = ({ displayName, password, email, username }) => as
 		});
 };
 
-export const submitRegisterParent = ({ name, lastName, password, email, username, phone, state }) => async dispatch => {
+export const submitRegisterParentTeacher = ({ name, lastName, password, email, username, phone, state, role_id, level }) => async dispatch => {
 	return jwtService
 		.userSubscription({
 			name: name,
@@ -34,7 +34,9 @@ export const submitRegisterParent = ({ name, lastName, password, email, username
 			country:"México",
 			state: state,
 			city: state,
-			school_id: 305
+			school_id: 305,
+			role_id: role_id,
+			level: level
 		})
 		.then(user => {
 			localStorage.setItem('id_parent', user.data.lia.id);
@@ -45,7 +47,7 @@ export const submitRegisterParent = ({ name, lastName, password, email, username
 		});
 };
 
-export const submitRegisterChild = ({ name, lastName, password, email, username, tutor_id }) => async dispatch => {
+export const submitRegisterChild = ({ name, lastName, password, email, username, tutor_id, level }) => async dispatch => {
 	return jwtService
 		.studentSubscription([{
 			name: name,
@@ -54,13 +56,32 @@ export const submitRegisterChild = ({ name, lastName, password, email, username,
 			username: username,
 			email: email,
 			tutor_id: tutor_id,
-			school_id: 305
+			school_id: 305,
+			level: level
 		}])
 		.then(user => {
 			return dispatch(registerChildrenSuccess());
 		})
 		.catch(error => {
-			return dispatch(registerError(error));
+			return dispatch(registerChildrenError(error));
+		});
+};
+
+export const submitRegisterSchool = ({ name, email, phone, country, city, message }) => async dispatch => {
+	return jwtService
+		.schoolSubscription({
+			name: name,
+			email: email,
+			phone: phone,
+			country: country,
+			city: city,
+			message: message
+		})
+		.then(user => {
+			return dispatch(registerSchoolSuccess());
+		})
+		.catch(error => {
+			return dispatch(registerSchoolError(error));
 		});
 };
 
@@ -137,9 +158,22 @@ export const registerWithFirebase = model => async dispatch => {
 
 const initialState = {
 	success: false,
+	successChild: false,
+	successSchool: false,
 	error: {
 		username: null,
-		password: null
+		password: null,
+		response: null
+	},
+	errorChild: {
+		username: null,
+		password: null,
+		response: null
+	},
+	errorSchool: {
+		username: null,
+		password: null,
+		response: null
 	}
 };
 
@@ -151,16 +185,36 @@ const registerSlice = createSlice({
 			state.success = true;
 		},
 		registerChildrenSuccess: (state, action) => {
-			state.success = true;
+			state.successChild = true;
+		},
+		registerSchoolSuccess: (state, action) => {
+			state.successSchool = true;
 		},
 		registerError: (state, action) => {
 			state.success = false;
-			state.error = action.payload;
+			state.error = {
+				success: false,
+				response: action.payload
+			};
+		},
+		registerChildrenError: (state, action) => {
+			state.successChild = false;
+			state.errorChild = {
+				success: false,
+				response: action.payload
+			};
+		},
+		registerSchoolError: (state, action) => {
+			state.successSchool = false;
+			state.errorSchool = {
+				success: false,
+				response: action.payload
+			};
 		}
 	},
 	extraReducers: {}
 });
 
-export const { registerSuccess, registerChildrenSuccess, registerError } = registerSlice.actions;
+export const { registerSuccess, registerChildrenSuccess, registerSchoolSuccess, registerError, registerChildrenError, registerSchoolError } = registerSlice.actions;
 
 export default registerSlice.reducer;
