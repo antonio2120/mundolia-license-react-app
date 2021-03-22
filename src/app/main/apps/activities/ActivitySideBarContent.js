@@ -48,6 +48,7 @@ const defaultFormState = {
 	group_id: 0,
 	active: 0,
 	date: 0,
+	status: 0,
 };
 
 
@@ -95,15 +96,17 @@ function ActivitySidebarContent(props) {
 							</Select>
 						</FormControl>
 					</div>
-					<div className="flex flex-shrink items-center sm:w-224">
+					{
+						role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ?
+						<div className="flex flex-shrink items-center sm:w-224">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Estado</InputLabel>
 							<Select
-								labelId="active"
-								id="active"
-								name="active"
+								labelId="status"
+								id="status"
+								name="status"
 								width="100%"
-								value={form.active}
+								value={form.status}
 								onChange={handleChange}
 								label="Estado"
 								fullWidth
@@ -111,6 +114,31 @@ function ActivitySidebarContent(props) {
 								className="mb-24 MuiInputBase-fullWidth"
 							>
 								<MenuItem key={0} value={0}>Todos</MenuItem>
+								<MenuItem key={1} value={'No entregado'}>No Entregados</MenuItem>
+								<MenuItem key={2} value={'Entregado'}>Entregados</MenuItem>
+								<MenuItem key={3} value={'Calificado'}>Calificados</MenuItem>
+							</Select>
+						</FormControl>
+					</div>
+						:
+						null
+					}
+					<div className="flex flex-shrink items-center sm:w-224">
+						<FormControl variant="outlined" className={classes.formControl}>
+							<InputLabel id="role_id">Activas/Inactivas</InputLabel>
+							<Select
+								labelId="active"
+								id="active"
+								name="active"
+								width="100%"
+								value={form.active}
+								onChange={handleChange}
+								label="Activas/Inactivas"
+								fullWidth
+								variant="outlined"
+								className="mb-24 MuiInputBase-fullWidth"
+							>
+								<MenuItem key={0} value={0}>Todas</MenuItem>
 								<MenuItem key={1} value={1}>Activas</MenuItem>
 								<MenuItem key={2} value={2}>Inactivas</MenuItem>
 							</Select>

@@ -203,10 +203,12 @@ function ActivityDialog(props) {
 						value={form.name}
 						onChange={handleChange}
 						validations={{
-							minLength: 2
+							minLength: 2,
+							maxLength: 30,
 						}}
 						validationErrors={{
-							minLength: 'Min character length is 4'
+							minLength: 'El minimo de caractere permitidos es 4',
+							maxLength: 'El máximo de caracteres permitidos es 30'
 						}}
 						InputProps={{
 							endAdornment: (
@@ -280,7 +282,7 @@ function ActivityDialog(props) {
 						className="mb-16"
 						type="text"
 						name="instructions"
-						label="Instrucciones"
+						label="Notas del profesor"
 						id="instructions"
 						value={form.instructions}
 						onChange={handleChange}

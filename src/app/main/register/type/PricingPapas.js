@@ -62,8 +62,7 @@ function PricingPapas(props) {
 	// const RegisterScreen = useSelector(({ PricingApp }) => PricingApp.pricing);
 	// console.log(RegisterScreen);
 
-	function handleSubmit(event,price) {
-		localStorage.setItem('price',price);
+	function handleSubmit(event) {
 		window.location.href = '/register?type=padre&membership='+event;
 
 	}
@@ -156,7 +155,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('gratis',price1)}
+									onClick={ev => handleSubmit('gratis')}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -226,7 +225,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-									onClick={ev => handleSubmit('mensual',price2)}
+									onClick={ev => handleSubmit('mensual')}
 									>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
@@ -256,7 +255,7 @@ function PricingPapas(props) {
 								<CardContent className="p-0">
 									<div className={clsx(classes.price, 'text-center flex justify-center flex-col py-16 px-32')}>
 										<Typography color="inherit" className={clsx(classes.priceText)}>
-											$ 208.33 m.n. mensual
+											$ {(price3/12).toFixed(2)} m.n. mensual
 										</Typography>
 										<Typography color="inherit">
 											(Pago anual ${price3} m.n.)
@@ -316,7 +315,7 @@ function PricingPapas(props) {
 
 								<div className="flex flex-col items-center justify-center pb-32 px-32">
 									<Button variant="contained" color="inherit" className={clsx(classes.backColButton,"w-full")}
-										onClick={ev => handleSubmit('anual',price3)}>
+										onClick={ev => handleSubmit('anual')}>
 										<Typography className={clsx(classes.textButton)}>
 											<div className={"grobold"}>
 												QUIERO SER MIEMBRO
