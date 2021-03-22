@@ -68,11 +68,11 @@ function LoginAcademia() {
 	console.log(userType)
 	return (
 		<div
-		className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "metropolitan" || userType == "preescolar") ? classes.root_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.root_maestros : userType === "padre" ? classes.root_padres :classes.root_escuelas,
+		className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "alumnoe0" || userType == "preescolar") ? classes.root_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.root_maestros : userType === "padre" ? classes.root_padres :classes.root_escuelas,
 			'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
 		)}
 	>
-		<div className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "metropolitan" || userType == "preescolar") ? classes.image_overlay_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.image_overlay_maestros : userType === "padre" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
+		<div className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "alumnoe0" || userType == "preescolar") ? classes.image_overlay_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.image_overlay_maestros : userType === "padre" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
 			<FuseAnimate animation="transition.expandIn">
 				<div className={clsx("flex w-full max-w-400 md:max-w-3xl rounded-12 overflow-hidden justify-center")}>
 					

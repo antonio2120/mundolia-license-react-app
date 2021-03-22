@@ -23,7 +23,7 @@ export const submitCreateContact = ( userdata ) => async dispatch => {
 			grade: userdata.grade,
 			password: userdata.password,
 			childrens_id: userdata.childrens_id,
-			tutor_id: userdata.tutor_id
+			tutor_id: userdata.tutor_id ? userdata.tutor_id.value : null
 		})
 		.then(user => {
 			dispatch(registerSuccess());
@@ -47,7 +47,7 @@ export const submitUpdateContact = ( userdata, userdataOri ) => async dispatch =
 			grade: userdata.grade,
 			password: userdata.password,
 			childrens_id: userdata.childrens_id,
-			tutor_id: userdata.tutor_id
+			tutor_id: userdata.tutor_id ? userdata.tutor_id.value : null
 		})
 		.then(user => {
 			dispatch(registerSuccess());

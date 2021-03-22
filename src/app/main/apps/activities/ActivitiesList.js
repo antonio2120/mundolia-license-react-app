@@ -130,7 +130,7 @@ function ActivitiesList(props) {
 			>
 				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
 					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						ACTIVIDADES
+						TAREAS
 					</Typography>
 				</FuseAnimate>
 				{/* <FuseAnimate duration={400} delay={600}>
@@ -189,7 +189,7 @@ function ActivitiesList(props) {
 															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
 														</div>
 														<div className="text-16 whitespace-no-wrap text-right">
-															{course.status}
+															{course.status}{course.status == 'Calificado' ? ': ' + course.score : null}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
@@ -211,7 +211,7 @@ function ActivitiesList(props) {
 														Se entrega el: {course.finish_date}
 													</Typography>
 
-													{course.file && role == 'alumno' ?
+													{course.file && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0') ?
 														<IconButton
 															onClick={ev => {
 																ev.stopPropagation();
@@ -229,11 +229,11 @@ function ActivitiesList(props) {
 															<Icon className="text-center text-13 font-600 mt-4 ml-4">save_alt</Icon>
 														</IconButton>
 														:
-														course.url && role == 'alumno' ?
+														course.url && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0') ?
 															<IconButton
 																onClick={ev => {
 																	ev.stopPropagation();
-																	navigator.clipboard.writeText(course.url_path);
+																	navigator.clipboard.writeText(course.url);
 																	dispatch(showMessage({ message: 'Enlace copiado' }));
 																}}
 															>
@@ -251,7 +251,7 @@ function ActivitiesList(props) {
 													}
 												</CardContent>
 												<Divider />
-												{role == 'maestro' ?
+												{role == 'maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'profesor_summit_2021' ?
 													<CardActions className="justify-center">
 														<Button
 															to={`/apps/tareas/${course.id}/${course.name}`}
