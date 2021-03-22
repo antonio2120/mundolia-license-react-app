@@ -34,6 +34,7 @@ import {
 } from '@fuse/core/formsy';
 import {showMessage} from "../../../store/fuse/messageSlice";
 import { SignalCellularNull } from '@material-ui/icons';
+import Select from 'react-select';
 
 const defaultFormState = {
 	uuid : '',
@@ -427,7 +428,7 @@ function ContactDialog(props) {
 												// 		<MenuItem key={'childrens_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
 												// 	))}
 												// </SelectFormsy>
-												<FuseChipSelectFormsy
+												<Select
 													id="childrens_id"
 													name="childrens_id"
 													value={form.childrens_id}
@@ -435,6 +436,7 @@ function ContactDialog(props) {
 													placeholder="Hijo(s)"
 													fullWidth
 													variant="outlined"
+													label='Hijo(s)'
 													textFieldProps={{
 														label: 'Hijo(s)',
 														InputLabelProps: {
@@ -442,7 +444,7 @@ function ContactDialog(props) {
 														},
 														variant: 'standard'
 													}}
-													onChange={handleChange}
+													onChange={e => setForm({...form, childrens_id: e})}
 													options={tutor.students.map(item => ({
 														value: item.id,
 														label: item.name + ' ' + item.last_name
@@ -454,22 +456,22 @@ function ContactDialog(props) {
 							}
 							{(form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18) && contactDialog.type !== 'editGroup' ?
 
-								<SelectFormsy
+								<Select
 									id="tutor_id"
 									name="tutor_id"
 									value={form.tutor_id}
-									onChange={handleChange}
+									onChange={e => setForm({...form, tutor_id: e})}
 									label="Tutor"
 									fullWidth
 									variant="outlined"
 									className="mb-24 MuiInputBase-fullWidth"
+									isClearable={true}
 									// required={contactDialog.type === 'editGroup' ? false : true}
-								>
-									<MenuItem value={0}>No asignado</MenuItem>
-									{tutor.tutor.map((row) => (
-										<MenuItem key={'tutor_id' + row.id} value={row.id}>{row.name} {row.last_name}</MenuItem>
-									))}
-								</SelectFormsy>
+									options={tutor.tutor.map(item => ({
+										value: item.id,
+										label: item.name + ' ' + item.last_name
+									}))}
+								/>
 								: null}
 
 					</>

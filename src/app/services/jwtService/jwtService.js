@@ -67,6 +67,8 @@ class JwtService extends FuseUtils.EventEmitter {
 				} else {
 					reject(response.data.error);
 				}
+			}).catch(error => {
+				reject(error);
 			});
 		});
 	};
@@ -79,7 +81,23 @@ class JwtService extends FuseUtils.EventEmitter {
 				} else {
 					reject(response.data.error);
 				}
-			});
+			}).catch(error => {
+				reject(error);
+			});;
+		});
+	};
+
+	schoolSubscription = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/schoolSubscription', data).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});;
 		});
 	};
 
