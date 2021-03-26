@@ -6,8 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitRegisterChild } from 'app/auth/store/registerSlice';
-import { membershipPayment } from 'app/auth/store/registerSlice';
+import { membershipPayment, registerNewChildren, submitRegisterChild } from 'app/auth/store/registerSlice';
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';
@@ -47,6 +46,17 @@ function ChildrenRegisterTab(props) {
 		}
 		
 		if(register.successChild){
+			if(+parentModel.children === childrenCounter){
+				if(parentModel.unit_price !== 0){
+					dispatch(membershipPayment(parentModel));
+				}else{
+					// window.location.href = './login';
+				}
+			}else{
+				formRef.current.reset();
+				setchildrenCounter(childrenCounter+1);
+				dispatch(registerNewChildren());
+			}
 			dispatch(showMessage({message:'Usuario registrado!',variant: 'success'}));
 		}
 		
@@ -63,16 +73,6 @@ function ChildrenRegisterTab(props) {
 	function handleSubmit(model) {
         model.tutor_id = parentId;
         dispatch(submitRegisterChild(model));
-        if(+parentModel.children === childrenCounter){
-            if(parentModel.unit_price !== 0){
-                dispatch(membershipPayment(parentModel));
-            }else{
-                // window.location.href = './login';
-            }
-        }else{
-            formRef.current.reset();
-            setchildrenCounter(childrenCounter+1);
-        } 
 	}
 
     return(

@@ -75,7 +75,6 @@ function ParentRegisterTab(props) {
 		model.id_licenses_type = membership == "gratis" ? 1 : (membership == "mensual" ? 2 : 3);
 		setparentModel(model);
 		dispatch(submitRegisterParentTeacher(model));
-		localStorage.setItem('children', model.children);
 	}
 
 	return (

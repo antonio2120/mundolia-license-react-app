@@ -22,7 +22,7 @@ export const submitRegister = ({ displayName, password, email, username }) => as
 		});
 };
 
-export const submitRegisterParentTeacher = ({ name, lastName, password, email, username, phone, state, role_id, level }) => async dispatch => {
+export const submitRegisterParentTeacher = ({ name, lastName, password, email, username, phone, state, role_id, level, unit_price, id_licenses_type }) => async dispatch => {
 	return jwtService
 		.userSubscription({
 			name: name,
@@ -36,10 +36,13 @@ export const submitRegisterParentTeacher = ({ name, lastName, password, email, u
 			city: state,
 			school_id: 305,
 			role_id: role_id,
-			level: level
+			level: level,
+			unit_price: unit_price,
+			id_licenses_type: id_licenses_type
 		})
 		.then(user => {
 			localStorage.setItem('id_parent', user.data.lia.id);
+			localStorage.setItem('id_order', user.data.order);
 			return dispatch(registerSuccess());
 		})
 		.catch(error => {
@@ -102,7 +105,6 @@ export const membershipPayment = ({ name, lastName, email, phone, title, descrip
 			id_licenses_type: id_licenses_type
 
 		}).then(response => {
-			console.log("dispatch resp::",response);
 			window.location.href = response.init_point;
 			// dispatch()
 			return 1;
@@ -187,6 +189,9 @@ const registerSlice = createSlice({
 		registerChildrenSuccess: (state, action) => {
 			state.successChild = true;
 		},
+		registerNewChildren: (state, action) => {
+			state.successChild = false;
+		},
 		registerSchoolSuccess: (state, action) => {
 			state.successSchool = true;
 		},
@@ -215,6 +220,6 @@ const registerSlice = createSlice({
 	extraReducers: {}
 });
 
-export const { registerSuccess, registerChildrenSuccess, registerSchoolSuccess, registerError, registerChildrenError, registerSchoolError } = registerSlice.actions;
+export const { registerSuccess, registerChildrenSuccess, registerNewChildren, registerSchoolSuccess, registerError, registerChildrenError, registerSchoolError } = registerSlice.actions;
 
 export default registerSlice.reducer;

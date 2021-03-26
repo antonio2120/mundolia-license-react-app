@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 function CompactInvoicePage(props) {
 	const classes = useStyles();
 	const [invoice, setInvoice] = useState(null);
+	const [invoiceData, setInvoiceData] = useState(null);
 	const formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
@@ -43,8 +44,14 @@ function CompactInvoicePage(props) {
     const search = props.location.search; // returns the URL query String
 	const params = new URLSearchParams(search); 
 	const statusPayment = params.get('status');
-	const collectionId = params.get('collection_id');
-	const orderId = params.get('merchant_order_id');
+	const orderId = localStorage.getItem('id_order');
+	const data = {
+		'payment_id' : params.get('payment_id'),
+		'merchant_order_id' : params.get('merchant_order_id'),
+		'preference_id' : params.get('preference_id'),
+		'payment_type' : params.get('payment_type'),
+		'expiry_date' : "2021-02-24 23:26"
+	}
 
     function navLogin() {
         window.location.href= "/login";
@@ -52,15 +59,24 @@ function CompactInvoicePage(props) {
 
 	useEffect(() => {
         if(statusPayment === "approved"){
+			let dataInv={};
             axios
-			.get('/api/invoices/get-invoice', {
-                params: { id: '5725a6802d' }
-			})
+			.put(process.env.REACT_APP_API+'/updateSubscription/'+orderId, data)
 			.then(res => {
-                res.data.number = collectionId;
-                res.data.orderId = orderId;
-                res.data.date = Moment(new Date()).format('MMMM DD, yyyy');
-				setInvoice(res.data);
+                dataInv.date = Moment(new Date()).format('MMMM DD, yyyy');
+				dataInv.number = res.data.data.order.merchant_order_id;
+                dataInv.orderId = res.data.data.order.id;
+				dataInv.title = res.data.data.licenses[0].title;
+				dataInv.phone = res.data.data.order.phone_number;
+				dataInv.email = res.data.data.lia.email;
+				dataInv.name = res.data.data.lia.name + " " + res.data.data.lia.last_name;
+				dataInv.titleService = res.data.data.licenses[0].title;
+				dataInv.descriptionService = res.data.data.licenses[0].description_license_type;
+				dataInv.price = res.data.data.licenses[0].price;
+
+				setInvoice(dataInv);
+			}).catch(error => {
+				console.log(error);
 			});
         }
     }, []);
@@ -107,7 +123,7 @@ function CompactInvoicePage(props) {
 
 											<tr>
 												<td>
-													<Typography color="textSecondary">INVOICE DATE</Typography>
+													<Typography color="textSecondary">FECHA DE FACTURA</Typography>
 												</td>
 												<td className="px-16">
 													<Typography>{invoice.date}</Typography>
@@ -117,19 +133,16 @@ function CompactInvoicePage(props) {
 										</tbody>
 									</table>
 
-									<Typography color="textSecondary">{invoice.client.title}</Typography>
+									 <Typography color="textSecondary">{invoice.title}</Typography>
 
-									{invoice.client.address && (
-										<Typography color="textSecondary">{invoice.client.address}</Typography>
+									{invoice.name && (
+										<Typography color="textSecondary">{invoice.name}</Typography>
 									)}
-									{invoice.client.phone && (
-										<Typography color="textSecondary">{invoice.client.phone}</Typography>
+									{invoice.phone && (
+										<Typography color="textSecondary">{invoice.phone}</Typography>
 									)}
-									{invoice.client.email && (
-										<Typography color="textSecondary">{invoice.client.email}</Typography>
-									)}
-									{invoice.client.website && (
-										<Typography color="textSecondary">{invoice.client.website}</Typography>
+									{invoice.email && (
+										<Typography color="textSecondary">{invoice.email}</Typography>
 									)}
 								</div>
 
@@ -141,18 +154,10 @@ function CompactInvoicePage(props) {
 									<div className="px-8">
 										<Typography color="inherit">Club LIA</Typography>
 
-										{invoice.from.address && (
 											<Typography color="inherit">Tijuana</Typography>
-										)}
-										{invoice.from.phone && (
-											<Typography color="inherit">{invoice.from.phone}</Typography>
-										)}
-										{invoice.from.email && (
+											<Typography color="inherit">4494494949</Typography>
 											<Typography color="inherit">info@clublia.com</Typography>
-										)}
-										{invoice.from.website && (
 											<Typography color="inherit">www.clublia.com</Typography>
-										)}
 									</div>
 								</div>
 							</div>
@@ -161,93 +166,29 @@ function CompactInvoicePage(props) {
 								<Table className="simple">
 									<TableHead>
 										<TableRow>
-											<TableCell>SERVICE</TableCell>
-											<TableCell>UNIT</TableCell>
-											<TableCell align="right">UNIT PRICE</TableCell>
-											<TableCell align="right">QUANTITY</TableCell>
+											<TableCell>SERVICIO</TableCell>
+											<TableCell>DESCRIPCIÓN</TableCell>
+											<TableCell align="center">PRECIO UNITARIO</TableCell>
 											<TableCell align="right">TOTAL</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{invoice.services.map(service => (
-											<TableRow key={service.id}>
-												<TableCell>
-													<Typography variant="subtitle1">{service.title}</Typography>
-												</TableCell>
-												<TableCell>{service.unit}</TableCell>
-												<TableCell align="right">
-													{formatter.format(service.unitPrice)}
-												</TableCell>
-												<TableCell align="right">{service.quantity}</TableCell>
-												<TableCell align="right">{formatter.format(service.total)}</TableCell>
-											</TableRow>
-										))}
+										<TableRow>
+											<TableCell>
+												<Typography variant="subtitle1">{invoice.titleService}</Typography>
+											</TableCell>
+											<TableCell>
+												{invoice.descriptionService}
+											</TableCell>
+											<TableCell align="center">{formatter.format(invoice.price)}</TableCell>
+											<TableCell align="right">{formatter.format(invoice.price)}</TableCell>
+										</TableRow>
 									</TableBody>
 								</Table>
 
 								<Table className="simple mt-32">
 									<TableBody>
-										<TableRow>
-											<TableCell>
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													SUBTOTAL
-												</Typography>
-											</TableCell>
-											<TableCell align="right">
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													{formatter.format(invoice.subtotal)}
-												</Typography>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell>
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													TAX
-												</Typography>
-											</TableCell>
-											<TableCell align="right">
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													{formatter.format(invoice.tax)}
-												</Typography>
-											</TableCell>
-										</TableRow>
-										<TableRow>
-											<TableCell>
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													DISCOUNT
-												</Typography>
-											</TableCell>
-											<TableCell align="right">
-												<Typography
-													className="font-medium"
-													variant="subtitle1"
-													color="textSecondary"
-												>
-													{formatter.format(invoice.discount)}
-												</Typography>
-											</TableCell>
-										</TableRow>
-										<TableRow>
+									<TableRow> 
 											<TableCell>
 												<Typography className="font-light" variant="h4" color="textSecondary">
 													TOTAL
@@ -255,7 +196,7 @@ function CompactInvoicePage(props) {
 											</TableCell>
 											<TableCell align="right">
 												<Typography className="font-light" variant="h4" color="textSecondary">
-													{formatter.format(invoice.total)}
+													{formatter.format(invoice.price)}
 												</Typography>
 											</TableCell>
 										</TableRow>
@@ -265,7 +206,7 @@ function CompactInvoicePage(props) {
 
 							<div className="mt-96">
 								<Typography className="mb-24 print:mb-12" variant="body1">
-									Please pay within 15 days. Thank you for your business.
+									Please pay within 15 days.
 								</Typography>
                                 <Grid container justify="center">
                                     <Button onClick={()=>navLogin()} variant="contained" color="primary" 
