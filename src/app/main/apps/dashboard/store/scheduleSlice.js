@@ -7,15 +7,15 @@ export const getSchedule = createAsyncThunk('dashboardApp/projects/schedule', as
 
 	// console.log('siuuuuuuuuuuuuuu');
 
-	// if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
-	// 	const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
-	// 		// params: params
-	// 	});
-	// 	const data = await response.data;
-	// 	console.log(data);
-	// 	return data;
-	// }
-	// else {
+	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
+		const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
+			// params: params
+		});
+		const data = await response.data;
+		console.log(data);
+		return data;
+	}
+	else {
 		const response = await axios.get(process.env.REACT_APP_API + '/actividades', {
 			// params: params
 		});
@@ -23,7 +23,7 @@ export const getSchedule = createAsyncThunk('dashboardApp/projects/schedule', as
 		console.log(data);
 
 		return data;
-	// }
+	}
 });
 
 const scheduleAdapter = createEntityAdapter({});

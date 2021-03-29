@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
-function Widget3(props) {
+function WidgetPosts(props) {
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
 			{/* <div className="flex items-center justify-between px-4 pt-4">
@@ -13,12 +13,34 @@ function Widget3(props) {
 					<Icon>more_vert</Icon>
 				</IconButton>
 			</div> */}
-			<div className="text-center pt-28 pb-28">
-				<Typography className="text-72 leading-none text-orange">{props.widget[0].total}</Typography>
+			{props.lenght > 0 ?
+
+
+
+
+
+
+
+			< div className="text-center pt-28 pb-28">
+				{props.map((row) => (
+					<Typography className="text-72 leading-none text-orange">{props.widget[row].title}
+					</Typography>
+				))
+				}
+				{/* <Typography className="text-72 leading-none text-orange">{props.widget[0].total}
+				</Typography>
 				<Typography className="text-16" color="textSecondary">
 					{props.label}
-				</Typography>
+				</Typography> */}
 			</div>
+
+				:
+				<Typography className="text-16" color="textSecondary">
+					No hay publicaciones recientes.
+			</Typography>
+
+			}
+
 			{/* <div className="flex items-center px-16 h-52 border-t-1">
 				<Typography className="text-15 flex w-full" color="textSecondary">
 					<span className="truncate">{props.widget.data.extra.label}</span>:
@@ -29,4 +51,4 @@ function Widget3(props) {
 	);
 }
 
-export default React.memo(Widget3);
+export default React.memo(WidgetPosts);

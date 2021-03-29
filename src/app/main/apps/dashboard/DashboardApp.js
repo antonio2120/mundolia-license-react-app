@@ -20,6 +20,8 @@ import { selectProjects, getProjects } from './store/projectsSlice';
 
 import { getWidgets, selectWidgets } from './store/widgetsSlice';
 import { getSchedule, selectSchedule } from './store/scheduleSlice';
+import { getDashboardInfo, selectDashboard } from './store/dashboadSlice';
+import { getPhpfox } from './store/phpfoxSlice';
 
 import Widget1 from './widgets/Widget1';
 import Widget10 from './widgets/Widget10';
@@ -34,6 +36,9 @@ import Widget8 from './widgets/Widget8';
 import Widget9 from './widgets/Widget9';
 import WidgetNow from './widgets/WidgetNow';
 import WidgetWeather from './widgets/WidgetWeather';
+import WidgetScore from './widgets/WidgetScore';
+import WidgetPoints from './widgets/WidgetPoints';
+import WidgetPosts from './widgets/WidgetPosts';
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -60,9 +65,8 @@ function DashboardApp(props) {
 	const projects = useSelector(selectProjects);
 	const schedule = useSelector(selectSchedule);
 	const role = useSelector(({ auth }) => auth.user.role);
-	// const schedule = useSelector(({ DashboardApp }) => DashboardApp.schedule.entities);
-
-	// console.log(schedule);
+	const dashboard = useSelector(({ dashboardApp }) => dashboardApp.dashboard.data);
+	const phpfox = useSelector(({ dashboardApp }) => dashboardApp.phpfox.data);
 
 
 	const classes = useStyles(props);
@@ -77,6 +81,8 @@ function DashboardApp(props) {
 		dispatch(getWidgets());
 		dispatch(getProjects());
 		dispatch(getSchedule(role));
+		dispatch(getDashboardInfo(role));
+		dispatch(getPhpfox());
 	}, [dispatch]);
 
 	function handleChangeTab(event, value) {
@@ -191,15 +197,23 @@ function DashboardApp(props) {
 								animation: 'transition.slideUpBigIn'
 							}}
 						>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-								<Widget1 widget={widgets.widget1} />
-							</div>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-								<Widget2 widget={widgets.widget2} />
-							</div>
-							<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-								<Widget3 widget={widgets.widget3} />
-							</div>
+							{dashboard ?
+
+								<>
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
+										<Widget1  widget={dashboard.homeworks} label={"Tareas asignadas"}/>
+									</div>
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
+										<Widget2 widget={dashboard.dueWeek} label={"Próximas a vencer"} />
+									</div>
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
+										<Widget3 widget={dashboard.graded} label={"Tareas Revisadas"} />
+									</div>
+								</>
+
+								:
+								<CircularProgress color="secondary" />
+							}
 							{/* <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
 								<Widget4 widget={widgets.widget4} />
 							</div>
@@ -212,7 +226,7 @@ function DashboardApp(props) {
 							{schedule ?
 
 							<div className="widget flex w-full sm:w-1 p-12">
-								<Widget7 widget={schedule} />
+								<Widget7 widget={schedule} name={"Tareas Recientes"} />
 							</div>
 							:
 							<CircularProgress color="secondary" />
@@ -226,7 +240,19 @@ function DashboardApp(props) {
 								animation: 'transition.slideUpBigIn'
 							}}
 						>
-							<div className="widget flex w-full sm:w-1/2 p-12">
+							<div className="widget flex w-full sm:w-1 p-12">
+								<WidgetPoints widget={widgets.widget8} />
+							</div>
+							{ phpfox ?
+								<div className="widget flex w-full sm:w-1/2 p-12">
+									<WidgetPosts widget={phpfox.feed} />
+								</div>
+
+							:
+								<CircularProgress color="secondary" />
+
+							}
+							{/* <div className="widget flex w-full sm:w-1/2 p-12">
 								<Widget8 widget={widgets.widget8} />
 							</div>
 							<div className="widget flex w-full sm:w-1/2 p-12">
@@ -234,7 +260,7 @@ function DashboardApp(props) {
 							</div>
 							<div className="widget flex w-full p-12">
 								<Widget10 widget={widgets.widget10} />
-							</div>
+							</div> */}
 						</FuseAnimateGroup>
 					)}
 					{tabValue === 2 && (
@@ -261,9 +287,13 @@ function DashboardApp(props) {
 					<div className="widget w-full p-12">
 						<WidgetNow />
 					</div>
-					<div className="widget w-full p-12">
-						<WidgetWeather widget={widgets.weatherWidget} />
-					</div>
+					{dashboard ?
+						<div className="widget w-full p-12">
+							<WidgetScore widget={dashboard.score} />
+						</div>
+						:
+						<CircularProgress color="secondary" />
+					}
 				</FuseAnimateGroup>
 			}
 			ref={pageLayout}

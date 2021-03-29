@@ -11,8 +11,6 @@ import React, { useState } from 'react';
 
 function Widget7(props) {
 	const [currentRange, setCurrentRange] = useState(props.widget.currentRange);
-	// console.log(props);
-
 
 	function handleChangeRange(ev) {
 		setCurrentRange(ev.target.value);
@@ -21,7 +19,7 @@ function Widget7(props) {
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
 			<div className="flex items-center justify-between px-16 h-64 border-b-1">
-				<Typography className="text-16">Tareas Recientes</Typography>
+				<Typography className="text-16">{props.name}</Typography>
 
 				{/* <Select
 					native
