@@ -57,7 +57,7 @@ function ActivitiesApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			{ role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ?
+			{ role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ?
 				null
 				:
 				<FuseAnimate animation="transition.expandIn" delay={300}>

@@ -34,6 +34,7 @@ function TeacherRegisterTab(props) {
 		
 		if(register.successSchool){
 			dispatch(showMessage({message:'Email enviado!',variant: 'success'}));
+			formRef.current.reset();
 		}
 		
 	}, [register.errorSchool,register.successSchool]);
@@ -54,6 +55,7 @@ function TeacherRegisterTab(props) {
 	}
 
 	function handleSubmit(model) {
+		model.membership = membership;
 		dispatch(submitRegisterSchool(model));
 	}
 

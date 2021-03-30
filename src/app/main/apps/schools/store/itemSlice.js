@@ -13,7 +13,6 @@ export const getInfo = createAsyncThunk('schoolsApp/items/getInfo', async (route
 export const syncInfo = createAsyncThunk('schoolsApp/items/syncInfo', async (routeParams, { getState }) => {
 	routeParams = routeParams || getState().ItemsApp.items.routeParams;
 	const response = await axios.get(process.env.REACT_APP_API+'/lia-schools-sync');
-	console.log(response)
 	return { response, routeParams };
 });
 

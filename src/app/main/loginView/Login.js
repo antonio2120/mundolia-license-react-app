@@ -68,7 +68,6 @@ function Login() {
 	const [selectedUserType, setUserType] = useState(1);
 	
 	function clickedArea(area) {
-		console.log("area",area);
 		if(area === "alumnos") setUserType(1);
 		if(area === "maestros") setUserType(2);
 		if(area === "padres") setUserType(3);
@@ -81,7 +80,7 @@ function Login() {
 
 	return (
 		<>
-		{/* <header>
+		<header>
 			<div  className={clsx(classes.divHeader)}>
 				<Grid container>
 					<Grid item xs={8}>
@@ -97,7 +96,7 @@ function Login() {
 					</Grid>
 				</Grid>
 			</div>
-		</header> */}
+		</header>
 		<div
 			className={clsx(
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,
@@ -107,7 +106,6 @@ function Login() {
 				if (!el) return;
 				el.getBoundingClientRect().width > 550 ? setDeviceMode(true) : setDeviceMode(false)
 				window.addEventListener('resize', function(){
-					console.log("parent width",el.getBoundingClientRect().width); // prints 200px
 					el.getBoundingClientRect().width > 550 ? setDeviceMode(true) : setDeviceMode(false)
 				});
 			}}>
@@ -134,7 +132,6 @@ function Login() {
 						if (!el) return;
 						el.getBoundingClientRect().width > 400 ? setFlag(true) : setFlag(false)
    						window.addEventListener('resize', function(){
-							   console.log("div width",el.getBoundingClientRect().width); // prints 200px
 							   el.getBoundingClientRect().width > 400 ? setFlag(true) : setFlag(false)
 						   });
 					}} 

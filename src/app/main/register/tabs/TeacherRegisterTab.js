@@ -46,7 +46,11 @@ function TeacherRegisterTab(props) {
 		
 		if(register.success){
 			dispatch(showMessage({message:'Usuario registrado!',variant: 'success'}));
-			dispatch(membershipPayment(modelPayment));
+			if(modelPayment.id_licenses_type !== 4){
+				dispatch(membershipPayment(modelPayment));
+			}else{
+				window.location.href = './login';
+			}
 		}
 		
 	}, [register.error,register.success]);
@@ -69,7 +73,7 @@ function TeacherRegisterTab(props) {
 		model.role_id = 28;
 		model.title = "Membresía " + membership;
 		model.description = "Membresía "+membership+" para los servicios de ClubLIA";
-		model.unit_price = membership == "gratis" ? Memberships[3].price : (membership == "mensual" ? Memberships[4].price : Memberships[5].price);
+		model.unit_price = membership == "gratis" ? Memberships[4].price : (membership == "mensual" ? Memberships[5].price : Memberships[6].price);
 		model.id_licenses_type = membership == "gratis" ? 4 : (membership == "mensual" ? 5 : 6);
 		setModelPayment(model);
 		dispatch(submitRegisterParentTeacher(model));

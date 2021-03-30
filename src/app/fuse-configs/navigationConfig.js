@@ -27,13 +27,22 @@ const navigationConfig = [
 				url: '/apps/usuarios/all'
 			},
 			{
+				id: 'membership',
+				title: 'Renovar membresía',
+				translate: 'Membresías',
+				type: 'item',
+				'auth' : authRoles.memberships,
+				icon: 'card_membership',
+				url: '/memberships'
+			},
+			{
 				id: 'generar-licencias',
 				title: 'Importar Usuarios',
 				translate: 'Importar Usuarios',
 				type: 'item',
 				'auth' : authRoles.admin_escuela,
 				icon: 'unarchive',
-				url: '/licencias/'
+				url: '/licencias'
 			},
 			{
 				id: 'actividades',

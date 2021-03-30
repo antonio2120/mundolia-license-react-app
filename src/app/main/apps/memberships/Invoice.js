@@ -206,13 +206,13 @@ function CompactInvoicePage(props) {
 
 							<div className="mt-96">
 								<Typography className="mb-24 print:mb-12" variant="body1">
-								Esta información fue enviada a tu correo.
+									Esta información fue enviada a tu correo.
 								</Typography>
                                 <Grid container justify="center">
                                     <Button onClick={()=>navLogin()} variant="contained" color="primary" 
                                         className=" mx-auto mb-10">
                                         <Typography variant="body1">
-                                            Inicia sesión
+                                            Regresar al dashboard
                                         </Typography>
                                     </Button>
                                 </Grid>

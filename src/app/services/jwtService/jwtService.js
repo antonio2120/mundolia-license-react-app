@@ -101,10 +101,21 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	storeOrder = data => {
+		return new Promise((resolve,reject) => {
+			axios.post(process.env.REACT_APP_API+'/storeOrder', data).then(response => {
+				if(response.status == 200){
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			});
+		});
+	};
+
 	handlePayment = data => {
 		return new Promise((resolve,reject) => {
 			axios.post(process.env.REACT_APP_API+'/pago/membresia', data).then(response => {
-				console.log("response payment::",response);
 				if(response.status == 200){
 					resolve(response.data);
 				} else {
@@ -118,7 +129,6 @@ class JwtService extends FuseUtils.EventEmitter {
 		return new Promise((resolve,reject) => {
 			axios.get(process.env.REACT_APP_API+'/membresia').then(response => {
 				if(response.status == 200){
-					console.log("response membership::",response);
 					resolve(response.data);
 				} else {
 					reject(response.data.error);

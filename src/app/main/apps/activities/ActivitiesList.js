@@ -211,7 +211,7 @@ function ActivitiesList(props) {
 														Se entrega el: {course.finish_date}
 													</Typography>
 
-													{course.file && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0') ?
+													{course.file && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A') ?
 														<IconButton
 															onClick={ev => {
 																ev.stopPropagation();
@@ -229,7 +229,7 @@ function ActivitiesList(props) {
 															<Icon className="text-center text-13 font-600 mt-4 ml-4">save_alt</Icon>
 														</IconButton>
 														:
-														course.url && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0') ?
+														course.url && (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A') ?
 															<IconButton
 																onClick={ev => {
 																	ev.stopPropagation();
@@ -251,7 +251,7 @@ function ActivitiesList(props) {
 													}
 												</CardContent>
 												<Divider />
-												{role == 'maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'profesor_summit_2021' ?
+												{role == 'maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'profesor_summit_2021' || role == 'maestroe1' || role == 'maestroe2' || role == 'maestroe3' || role == 'Maestro-I' || role == 'Maestro-M' || role == 'Maestro-A' ?
 													<CardActions className="justify-center">
 														<Button
 															to={`/apps/tareas/${course.id}/${course.name}`}

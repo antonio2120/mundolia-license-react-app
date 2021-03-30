@@ -50,6 +50,20 @@ export const submitRegisterParentTeacher = ({ name, lastName, password, email, u
 		});
 };
 
+export const storeOrder = ({id_licenses_type}) => async dispatch => {
+	return jwtService
+		.storeOrder({
+			id_licenses_type: id_licenses_type
+		}).then(response => {
+			localStorage.setItem('id_order', response.data.order.id);
+			window.location.href = response.data.payment.init_point;
+			return dispatch(registerSuccess());
+		})
+		.catch(error => {
+			return dispatch(registerError(error));
+		})
+};
+
 export const submitRegisterChild = ({ name, lastName, password, email, username, tutor_id, level }) => async dispatch => {
 	return jwtService
 		.studentSubscription([{
@@ -70,7 +84,7 @@ export const submitRegisterChild = ({ name, lastName, password, email, username,
 		});
 };
 
-export const submitRegisterSchool = ({ name, email, phone, country, city, message }) => async dispatch => {
+export const submitRegisterSchool = ({ name, email, phone, country, city, message, membership }) => async dispatch => {
 	return jwtService
 		.schoolSubscription({
 			name: name,
@@ -78,7 +92,8 @@ export const submitRegisterSchool = ({ name, email, phone, country, city, messag
 			phone: phone,
 			country: country,
 			city: city,
-			message: message
+			message: message,
+			membership: membership
 		})
 		.then(user => {
 			return dispatch(registerSchoolSuccess());

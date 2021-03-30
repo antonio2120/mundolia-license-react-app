@@ -64,15 +64,15 @@ function LoginAcademia() {
 	const classes = useStyles();
 	getUrl();
 	const dispatch = useDispatch();
-	const userType = useSelector(({ auth }) => auth.user.role);
-	console.log(userType)
+	const role = useSelector(({ auth }) => auth.user.role);
+	console.log(role)
 	return (
 		<div
-		className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "alumnoe0" || userType == "preescolar") ? classes.root_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.root_maestros : userType === "padre" ? classes.root_padres :classes.root_escuelas,
+		className={clsx((role == "admin" || role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A') ? classes.root_alumnos : (role == 'maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'profesor_summit_2021' || role == 'maestroe1' || role == 'maestroe2' || role == 'maestroe3' || role == 'Maestro-I' || role == 'Maestro-M' || role == 'Maestro-A') ? classes.root_maestros : (role === "padre" || role === "Padre-I" || role === "Padre-M" || role === "Padre-A") ? classes.root_padres :classes.root_escuelas,
 			'flex flex-col flex-auto items-center justify-center flex-shrink-0 p-16 md:p-24'
 		)}
 	>
-		<div className={clsx((userType == "admin" || userType == "alumno" || userType == "alumno_secundaria" || userType == "alumnoe0" || userType == "preescolar") ? classes.image_overlay_alumnos : (userType == "maestro" || userType == "maestro_preescolar" || userType == "maestro_secundaria" || userType == "profesor_summit_2021") ? classes.image_overlay_maestros : userType === "padre" ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
+		<div className={clsx((role == "admin" || role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A') ? classes.image_overlay_alumnos : (role == 'maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'profesor_summit_2021' || role == 'maestroe1' || role == 'maestroe2' || role == 'maestroe3' || role == 'Maestro-I' || role == 'Maestro-M' || role == 'Maestro-A') ? classes.image_overlay_maestros : (role === "padre" || role === "Padre-I" || role === "Padre-M" || role === "Padre-A") ? classes.image_overlay_padres :classes.image_overlay_escuelas)}/>
 			<FuseAnimate animation="transition.expandIn">
 				<div className={clsx("flex w-full max-w-400 md:max-w-3xl rounded-12 overflow-hidden justify-center")}>
 					

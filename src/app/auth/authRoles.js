@@ -4,9 +4,10 @@
 const authRoles = {
 	admin: ['admin'],
 	admin_escuela: ['admin', 'admin_escuela','director_escuela'],
-	teacher: ['maestro_preescolar', 'maestro_secundaria', 'profesor_summit_2021', 'maestro', 'alumno', 'alumno_secundaria', 'preescolar', 'alumnoe0', 'padre'],
+	teacher: ['maestro_preescolar', 'maestro_secundaria', 'profesor_summit_2021', 'maestro', 'alumno', 'alumno_secundaria', 'preescolar', 'alumnoe0', 'padre', 'alumnoe1', 'alumnoe2', 'alumnoe3', 'maestroe1', 'maestroe2', 'maestroe3', 'Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A', 'Alumno-I', 'Alumno-M', 'Alumno-A'],
 	user: ['admin', 'admin_escuela', 'user'],
-	alumno:['admin', 'admin_escuela', 'alumno', 'alumno_secundaria', 'preescolar', 'maestro_preescolar', 'maestro_secundaria', 'maestro', 'padre', 'profesor_summit_2021', 'alumnoe0'],
+	memberships: ['Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A'],
+	alumno:['admin', 'admin_escuela', 'alumno', 'alumno_secundaria', 'preescolar', 'maestro_preescolar', 'maestro_secundaria', 'maestro', 'padre', 'profesor_summit_2021', 'alumnoe0',  'alumnoe1', 'alumnoe2', 'alumnoe3', 'maestroe1', 'maestroe2', 'maestroe3', 'Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A', 'Alumno-I', 'Alumno-M', 'Alumno-A'],
 	onlyGuest: []
 };
 

@@ -50,7 +50,6 @@ function LoginError() {
 	const [selectedUserType, setUserType] = useState(1);
 	
 	function clickedArea(area) {
-		console.log("area",area);
 		if(area === "alumnos") setUserType(1);
 		if(area === "maestros") setUserType(2);
 		if(area === "padres") setUserType(3);

@@ -18,6 +18,7 @@ import GroupsConfig from "../main/apps/groups/GroupsAppConfig";
 import RegisterConfig from 'app/main/register/RegisterConfig';
 import ActivitiesConfig from "../main/apps/activities/ActivitiesAppConfig";
 import HomeworksConfig from "../main/apps/homeworks/HomeworksAppConfig";
+import MembershipsAppConfig from "../main/apps/memberships/MembershipsAppConfig";
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
@@ -45,14 +46,15 @@ const routeConfigs = [
 	RedirectPageConfig,
 	RegisterConfig, 
 	ActivitiesConfig,
-	HomeworksConfig
+	HomeworksConfig,
+	MembershipsAppConfig
 ];
 
 const routes = [
 	// if you want to make whole app auth protected by default change defaultAuth for example:
 	// ...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin','staff','user']),
 	// The individual route configs which has auth option won't be overridden.
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'admin_escuela','alumno_secundaria','maestro_preescolar','maestro_secundaria','director_escuela', 'user', 'alumno','maestro', 'preescolar', 'padre', 'profesor_summit_2021', 'alumnoe0']),
+	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ['admin', 'admin_escuela','alumno_secundaria','maestro_preescolar','maestro_secundaria','director_escuela', 'user', 'alumno','maestro', 'preescolar', 'padre', 'profesor_summit_2021', 'alumnoe0', 'alumnoe1', 'alumnoe2', 'alumnoe3', 'maestroe1', 'maestroe2', 'maestroe3', 'Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A', 'Alumno-I', 'Alumno-M', 'Alumno-A']),
 	{
 		path: '/',
 		exact: true,

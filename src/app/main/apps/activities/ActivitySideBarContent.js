@@ -97,7 +97,7 @@ function ActivitySidebarContent(props) {
 						</FormControl>
 					</div>
 					{
-						role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ?
+						role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ?
 						<div className="flex flex-shrink items-center sm:w-224">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Estado</InputLabel>

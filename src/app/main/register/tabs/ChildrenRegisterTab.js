@@ -29,14 +29,12 @@ function ChildrenRegisterTab(props) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showPasswordC, setShowPasswordC] = useState(false);
 	const [childrenCounter, setchildrenCounter] = useState(1);
-    console.log(register);
 	
 	const parentModel = props.parentModel;
 	const parentId = localStorage.getItem('id_parent');
 
 	const classes = useStyles();
 	const formRef = useRef(null);
-    console.log("childrenRegister::",parentModel);
 
     useEffect(() => {
 		if(register.errorChild.response) {
@@ -50,7 +48,7 @@ function ChildrenRegisterTab(props) {
 				if(parentModel.unit_price !== 0){
 					dispatch(membershipPayment(parentModel));
 				}else{
-					// window.location.href = './login';
+					window.location.href = './login';
 				}
 			}else{
 				formRef.current.reset();
