@@ -16,27 +16,6 @@ function WidgetPoints(props) {
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
 			<div className="flex items-center justify-between px-4 pt-4">
-				{/* <Select
-					className="px-12"
-					native
-					value={currentRange}
-					onChange={handleChangeRange}
-					inputProps={{
-						name: 'currentRange'
-					}}
-					disableUnderline
-				>
-					{Object.entries(props.widget.ranges).map(([key, n]) => {
-						return (
-							<option key={key} value={key}>
-								{n}
-							</option>
-						);
-					})}
-				</Select>
-				<IconButton aria-label="more">
-					<Icon>more_vert</Icon>
-				</IconButton> */}
 			</div>
             
             <div className="flex items-center p-8">
@@ -45,24 +24,24 @@ function WidgetPoints(props) {
                         Current Points
                         </Typography> */}
 					<Typography className="text-15" color="textSecondary">
-						{/* {widget.footerLeft.title} */}
-                        Current Points
+                        Puntos Actuales
 					</Typography>
                     <Typography className="text-32 leading-none">
                         0
                     </Typography>
 				</div>
                 <div className="flex flex-1 flex-col items-center justify-center p-16 border-r-1">
-					{/* <Typography className="text-32 leading-none">
-                        Current Points
-                        </Typography> */}
 					<Typography className="text-15" color="textSecondary">
-						{/* {widget.footerLeft.title} */}
-                        Earned
+                        Ganados
 					</Typography>
                     <Typography className="text-15" color="textSecondary">
-						{/* {widget.footerLeft.title} */}
-                        Bought
+                        Comprados
+					</Typography>
+					<Typography className="text-15" color="textSecondary">
+                        Recibidos
+					</Typography>
+					<Typography className="text-15" color="textSecondary">
+                        Recuperados
 					</Typography>
 				</div>
                 {/* <Divider /> */}
@@ -72,7 +51,7 @@ function WidgetPoints(props) {
                         </Typography> */}
 					<Typography className="text-15" color="textSecondary">
 						{/* {widget.footerRight.title} */}
-                        Spent
+                        Gastados
 					</Typography>
                     <Typography className="text-32 leading-none">
                         0
@@ -81,7 +60,7 @@ function WidgetPoints(props) {
                 <div className="flex flex-1 flex-col items-center justify-center p-16">
 					<Typography className="text-15" color="textSecondary">
 						{/* {widget.footerRight.title} */}
-                        Sent
+                        Enviados
 					</Typography>
                     <Typography className="text-32 leading-none">
                         0
