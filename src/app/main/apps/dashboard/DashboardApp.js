@@ -39,6 +39,8 @@ import WidgetWeather from './widgets/WidgetWeather';
 import WidgetScore from './widgets/WidgetScore';
 import WidgetPoints from './widgets/WidgetPoints';
 import WidgetPosts from './widgets/WidgetPosts';
+import WidgetPodcast from './widgets/WidgetPodcast';
+import WidgetVideos from './widgets/WidgetVideos';
 
 const useStyles = makeStyles(theme => ({
 	content: {
@@ -183,9 +185,9 @@ function DashboardApp(props) {
 					scrollButtons="off"
 					className="w-full px-24"
 				>
-					<Tab className="text-14 font-600 normal-case" label="Home" />
-					<Tab className="text-14 font-600 normal-case" label="Budget Summary" />
-					<Tab className="text-14 font-600 normal-case" label="Team Members" />
+					<Tab className="text-14 font-600 normal-case" label="Tareas" />
+					<Tab className="text-14 font-600 normal-case" label="Grupos" />
+					{/* <Tab className="text-14 font-600 normal-case" label="Team Members" /> */}
 				</Tabs>
 			}
 			content={
@@ -201,7 +203,7 @@ function DashboardApp(props) {
 
 								<>
 									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-										<Widget1  widget={dashboard.homeworks} label={"Tareas asignadas"}/>
+										<Widget1 widget={dashboard.homeworks} label={"Tareas asignadas"}/>
 									</div>
 									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
 										<Widget2 widget={dashboard.dueWeek} label={"Próximas a vencer"} />
@@ -244,9 +246,19 @@ function DashboardApp(props) {
 								<WidgetPoints widget={widgets.widget8} />
 							</div>
 							{ phpfox ?
-								<div className="widget flex w-full md:w-1/2 sm:w-1">
-									<WidgetPosts widget={phpfox.feed} />
-								</div>
+								<>
+									<div className="widget flex w-full md:w-1/3 sm:w-1/2">
+										<WidgetPosts widget={phpfox.feed} />
+									</div>
+
+									<div className="widget flex w-full md:w-1/3 sm:w-1/2">
+										<WidgetPodcast widget={phpfox.podcasts} />
+									</div>
+
+									<div className="widget flex w-full md:w-1/3 sm:w-1/2">
+										<WidgetVideos widget={phpfox.videos} />
+									</div>
+								</>
 
 							:
 								<CircularProgress color="secondary" />

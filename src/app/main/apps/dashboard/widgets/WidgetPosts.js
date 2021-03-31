@@ -1,11 +1,10 @@
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
 function WidgetPosts(props) {
-	console.log(props);
 	return (
 		<>
 			{ props.widget.length > 0 ?
@@ -26,7 +25,7 @@ function WidgetPosts(props) {
 											: row.type == 'album' ? ' compartió un álbum'
 											: row.type == 'poll' ? ' creó una encuesta'
 											: row.type == 'quiz' ? ' creó un cuestionario'
-												: 'compartió'
+												: ' compartió'
 										}
 
 									</Typography>
