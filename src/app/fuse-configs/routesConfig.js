@@ -24,6 +24,7 @@ import { Redirect } from 'react-router-dom';
 import SchoolApp from "../main/apps/schools/ItemsApp";
 import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConfig";
 import RedirectPageConfig from "../main/pages/redirect/RedirectPageConfig";
+import DashboardAppConfig from '../main/apps/dashboard/DashboardAppConfig';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -44,6 +45,7 @@ const routeConfigs = [
 	GroupsConfig,
 	MaintenancePageConfig,
 	RedirectPageConfig,
+	DashboardAppConfig,
 	RegisterConfig, 
 	ActivitiesConfig,
 	HomeworksConfig,
