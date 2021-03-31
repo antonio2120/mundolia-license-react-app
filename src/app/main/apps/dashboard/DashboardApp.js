@@ -240,17 +240,16 @@ function DashboardApp(props) {
 								animation: 'transition.slideUpBigIn'
 							}}
 						>
-							<div className="widget flex w-full sm:w-1 p-12">
+							<div className="widget flex w-full sm:w-1">
 								<WidgetPoints widget={widgets.widget8} />
 							</div>
 							{ phpfox ?
-								<div className="widget flex w-full sm:w-1/2 p-12">
+								<div className="widget flex w-full md:w-1/2 sm:w-1">
 									<WidgetPosts widget={phpfox.feed} />
 								</div>
 
 							:
 								<CircularProgress color="secondary" />
-
 							}
 							{/* <div className="widget flex w-full sm:w-1/2 p-12">
 								<Widget8 widget={widgets.widget8} />
@@ -287,12 +286,12 @@ function DashboardApp(props) {
 					<div className="widget w-full p-12">
 						<WidgetNow />
 					</div>
-					{dashboard ?
+					{dashboard && dashboard.score.length > 0 ?
 						<div className="widget w-full p-12">
 							<WidgetScore widget={dashboard.score} />
 						</div>
 						:
-						<CircularProgress color="secondary" />
+						null
 					}
 				</FuseAnimateGroup>
 			}

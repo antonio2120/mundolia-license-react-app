@@ -5,49 +5,96 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
 function WidgetPosts(props) {
+	console.log(props);
 	return (
-		<Paper className="w-full rounded-8 shadow-1">
-			{/* <div className="flex items-center justify-between px-4 pt-4">
-				<Typography className="text-16 px-12">{props.widget.title}</Typography>
-				<IconButton aria-label="more">
-					<Icon>more_vert</Icon>
-				</IconButton>
-			</div> */}
-			{props.lenght > 0 ?
+		<>
+			{ props.widget.length > 0 ?
+					< div className="w-full pt-28 pb-28 m-20">
+						{props.widget.map((row) => (
+							<Paper className="w-full rounded-8 shadow-1 p-24 mb-12">
 
+								<div className="flex items-center justify-between px-4 pt-4">
+									<Typography className="text-16 leading-none text-orange justify-center ">{row.full_name}
+										{row.type == 'photo' ? ' una imagen'
+											: row.type == 'video' ? ' compartió un video'
+											: row.type == 'link' ? ' compartió un enlace'
+											: row.type == 'blog' ? ' creó un blog'
+											: row.type == 'event' ? ' creó un evento'
+											: row.type == 'forum' ? ' creó un foro'
+											: row.type == 'market' ? ' listó un nuevo producto'
+											: row.type == 'song' ? ' compartió una canción'
+											: row.type == 'album' ? ' compartió un álbum'
+											: row.type == 'poll' ? ' creó una encuesta'
+											: row.type == 'quiz' ? ' creó un cuestionario'
+												: 'compartió'
+										}
 
+									</Typography>
 
+									{row.type == 'photo' ? <Icon className="text-18 justify-between">photo</Icon>
+											: row.type == 'video' ? <Icon className="text-18 justify-between">movie</Icon>
+											: row.type == 'link' ? <Icon className="text-18 justify-between">link</Icon>
+											: row.type == 'blog' ? <Icon className="text-18 justify-between">description</Icon>
+											: row.type == 'event' ? <Icon className="text-18 justify-between">event</Icon>
+											: row.type == 'forum' ? <Icon className="text-18 justify-between">forum</Icon>
+											: row.type == 'market' ? <Icon className="text-18 justify-between">shopping_cart</Icon>
+											: row.type == 'song' ? <Icon className="text-18 justify-between">music_note</Icon>
+											: row.type == 'album' ? <Icon className="text-18 justify-between">library_music</Icon>
+											: row.type == 'poll' ? <Icon className="text-18 justify-between">poll</Icon>
+											: row.type == 'quiz' ? <Icon className="text-18 justify-between">list</Icon>
+												: <Icon className="text-18 justify-between">short_text</Icon>
+										}
+								</div>
+								<div className="flex items-center px-4 pt-4">
+									<Typography className="text-16 text-blue" >
+										{row.title}
+									</Typography>
+								</div>
+								<div className="flex items-center px-4 pt-4">
+									<Typography className="text-12" color="textSecondary pt-12">
+										{row.time_stamp}
+									</Typography>
+								</div>
 
-
-
-
-			< div className="text-center pt-28 pb-28">
-				{props.map((row) => (
-					<Typography className="text-72 leading-none text-orange">{props.widget[row].title}
-					</Typography>
-				))
-				}
-				{/* <Typography className="text-72 leading-none text-orange">{props.widget[0].total}
-				</Typography>
-				<Typography className="text-16" color="textSecondary">
-					{props.label}
-				</Typography> */}
-			</div>
-
+								<div className="flex flex-1 flex-col items-center justify-center p-16 border-t-1 px-4 pt-4">
+									{row.content ?
+										<Typography className="text-16">
+											{row.content}
+										</Typography>
+										:
+										null
+									}
+									{row.video_title ?
+										<Typography className="text-16 font-semibold pt-4">
+											{row.video_title}
+										</Typography>
+										:
+										null
+									}
+									{row.link_title ?
+										<Typography className="text-16 font-semibold pt-4">
+											{row.link_title}
+										</Typography>
+										:
+										null
+									}
+								</div>
+							</Paper>
+						))
+						}
+					</div>
 				:
-				<Typography className="text-16" color="textSecondary">
-					No hay publicaciones recientes.
-			</Typography>
-
+				<div className="w-full pt-28 pb-28 m-20">
+					<Paper className="w-full rounded-8 shadow-1 p-24 mb-12">
+						<div className="flex items-center justify-center px-4 pt-4">
+							<Typography className="text-16" color="textSecondary">
+								No hay publicaciones recientes.
+							</Typography>
+						</div>
+					</Paper>
+				</div>
 			}
-
-			{/* <div className="flex items-center px-16 h-52 border-t-1">
-				<Typography className="text-15 flex w-full" color="textSecondary">
-					<span className="truncate">{props.widget.data.extra.label}</span>:
-					<b className="px-8">{props.widget.data.extra.count}</b>
-				</Typography>
-			</div> */}
-		</Paper>
+		</>
 	);
 }
 
