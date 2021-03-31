@@ -186,7 +186,7 @@ function DashboardApp(props) {
 					className="w-full px-24"
 				>
 					<Tab className="text-14 font-600 normal-case" label="Tareas" />
-					<Tab className="text-14 font-600 normal-case" label="Grupos" />
+					<Tab className="text-14 font-600 normal-case" label="Comunidad" />
 					{/* <Tab className="text-14 font-600 normal-case" label="Team Members" /> */}
 				</Tabs>
 			}
@@ -242,11 +242,12 @@ function DashboardApp(props) {
 								animation: 'transition.slideUpBigIn'
 							}}
 						>
-							<div className="widget flex w-full sm:w-1">
-								<WidgetPoints widget={widgets.widget8} />
-							</div>
 							{ phpfox ?
 								<>
+									<div className="widget flex w-full sm:w-1">
+										<WidgetPoints widget={phpfox.points} />
+									</div>
+									
 									<div className="widget flex w-full md:w-1/3 sm:w-1/2">
 										<WidgetPosts widget={phpfox.feed} />
 									</div>

@@ -24,9 +24,9 @@ function WidgetNow() {
 		<Paper className="w-full rounded-8 shadow-1">
 			<div className="flex items-center justify-between px-4 pt-4">
 				<Typography className="text-16 px-12">{time.format('dddd, HH:mm:ss')}</Typography>
-				<IconButton aria-label="more">
+				{/* <IconButton aria-label="more">
 					<Icon>more_vert</Icon>
-				</IconButton>
+				</IconButton> */}
 			</div>
 			<div className="text-center px-24 py-32">
 				<Typography className="text-24 leading-tight" color="textSecondary">
