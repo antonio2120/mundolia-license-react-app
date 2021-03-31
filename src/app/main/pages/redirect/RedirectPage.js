@@ -26,8 +26,11 @@ function RedirectPage() {
 	// if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
 	// 	return (<Redirect to="/loginp" />)
 	// }else {
+	if (user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'preescolar') {
+		return (<Redirect to="/apps/dashboard/" />)
+	} else {
 		return (<Redirect to="/pages/bienvenido" />)
-	// }
+	}
 }
 
 export default RedirectPage;

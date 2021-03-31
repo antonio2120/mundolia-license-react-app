@@ -57,7 +57,7 @@ const navigationConfig = [
 				title: 'Tareas',
 				translate: 'Tareas',
 				type: 'item',
-				'auth' : authRoles.teacher,
+				'auth' : authRoles.activities,
 				icon: 'assignment',
 				url: '/apps/actividades/all'
 			},
