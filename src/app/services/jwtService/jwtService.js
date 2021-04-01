@@ -374,7 +374,7 @@ class JwtService extends FuseUtils.EventEmitter {
 				})
 				.catch(error => {
 					if (error.response.data.error.code==='INVALID_USER'){
-						window.location.href = '/loginerror';
+						window.location.href = '/loginerror?message='+error.response.data.error.message;
 					}
 					reject(error.response.data.error);
 				});

@@ -43,18 +43,15 @@ const useStyles = makeStyles(theme => ({
 
 
 
-function LoginError() {
+function LoginError(props) {
 	const classes = useStyles();
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [widthFlag, setFlag] = useState(true);
 	const [selectedUserType, setUserType] = useState(1);
 	
-	function clickedArea(area) {
-		if(area === "alumnos") setUserType(1);
-		if(area === "maestros") setUserType(2);
-		if(area === "padres") setUserType(3);
-		if(area === "escuelas") setUserType(4);
-	}
+    const search = props.location.search; // returns the URL query String
+	const params = new URLSearchParams(search); 
+	const messageError = params.get('message');
 
 	function handleTabChange(event, value) {
 		setSelectedTab(value);
@@ -76,8 +73,7 @@ function LoginError() {
 					<div className='flex flex-col w-full p-80 m-80'>
 						<Typography fontFamily variant="h1" color="inherit" className="font-400 leading-tight justify-center p-80 m-80" class="home-title">
 							<div className={"grobold"}>
-								Upps! Al parecer tu correo esta duplicado,
-								por favor contacta al Administrador de tu Colegio, o manda un correo a soporte@clublia.com
+								{messageError}
 							</div>
 							<Link className={"grobold"} to="/login">Regresar al Login</Link>
 
