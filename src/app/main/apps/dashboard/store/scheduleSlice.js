@@ -7,7 +7,7 @@ export const getSchedule = createAsyncThunk('dashboardApp/projects/schedule', as
 
 	// console.log('siuuuuuuuuuuuuuu');
 
-	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' ) {
+	if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ) {
 		const response = await axios.get(process.env.REACT_APP_API + '/tareas', {
 			// params: params
 		});
