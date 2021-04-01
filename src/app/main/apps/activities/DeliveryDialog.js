@@ -238,6 +238,12 @@ function DeliveryUpdateDialog(props) {
 									)
 								}}
 								variant="outlined"
+								validations={{
+									maxLength: 255
+								}}
+								validationErrors={{
+									maxLength: 'El máximo de carácteres permitidos es 255'
+								}}
 							/>
 							:
 							null

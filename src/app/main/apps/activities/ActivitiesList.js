@@ -175,10 +175,10 @@ function ActivitiesList(props) {
 												>
 													<div className="flex-direction: column, items-center ">
 														<Typography className="text-xl font-semibold truncate py-1" color="inherit">
-															{course.name.length > 22 ? course.name.slice(0,22)+'...' : course.name}
+															{course.name.length > 10 ? course.name.slice(0,10)+'...' : course.name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.group_name.length > 22 ? course.group_name.slice(0,22)+'...' : course.group_name}
+															{course.group_name.length > 18 ? course.group_name.slice(0,18)+'...' : course.group_name}
 														</Typography>
 														<Typography className="font-medium truncate" color="inherit">
 															{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
