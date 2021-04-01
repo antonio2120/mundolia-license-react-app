@@ -411,7 +411,7 @@ function ContactDialog(props) {
 							</SelectFormsy>:
 							<CircularProgress color="secondary"/>
 						}
-							{form.role_id === 10 && contactDialog.type !== 'editGroup' ?
+							{([10,31,32,33].indexOf(form.role_id) > -1) && contactDialog.type !== 'editGroup' ?
 								
 
 												// <SelectFormsy
@@ -455,7 +455,7 @@ function ContactDialog(props) {
 								:
 								null
 							}
-							{(form.role_id === 5 || form.role_id === 13 || form.role_id === 6 || form.role_id === 18) && contactDialog.type !== 'editGroup' ?
+							{([5,13,6,18,19,20,21,34,35,36].indexOf(form.role_id) > -1) && contactDialog.type !== 'editGroup' ?
 
 								<Select
 									id="tutor_id"
