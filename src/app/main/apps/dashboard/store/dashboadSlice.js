@@ -7,7 +7,7 @@ export const getDashboardInfo = createAsyncThunk('dashboardApp/dashboard/dashboa
 	const today = new Date();
 	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2) + ' ' + today.getHours() + ':' + today.getMinutes();
 	let params = {
-		today: "2021-03-23 16:3",
+		today: date,
 	};
 	
 	const response = await axios.get(process.env.REACT_APP_API+'/dashboard/panel/',{

@@ -17,7 +17,7 @@ function WidgetScore(props) {
 							Promedio
 						</Typography>
 						<Typography className="text-44 mx-8" color="textSecondary">
-							{parseFloat(row.calificacion)}
+							{parseFloat(row.calificacion).toFixed(2)}
 						</Typography>
 					</div>
 					<Divider />
