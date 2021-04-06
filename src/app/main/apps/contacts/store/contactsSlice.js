@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/too
 import axios from 'axios';
 import { getUserData } from './userSlice';
 import {getParentsData} from "./parentsSlice";
-import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 import { registerError, registerSuccess } from '../../../../auth/store/registerSlice';
 import jwtService from 'app/services/jwtService';

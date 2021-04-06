@@ -6,7 +6,7 @@ import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitRegisterParentTeacher } from 'app/auth/store/registerSlice';
-import { membershipPayment } from 'app/auth/store/registerSlice';
+// import { membershipPayment } from 'app/auth/store/registerSlice';
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from '@material-ui/core/Grid';

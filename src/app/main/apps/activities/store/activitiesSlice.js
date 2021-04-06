@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
-import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 export const getActivities = createAsyncThunk('activitiesApp/activities/getActivities', async ( role, { getState }) => {
 	

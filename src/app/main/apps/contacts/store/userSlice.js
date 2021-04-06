@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
-import { showMessage } from 'app/store/fuse/messageSlice';
 import {getContacts} from "./contactsSlice";
 import {getParentsData} from "./parentsSlice";
 

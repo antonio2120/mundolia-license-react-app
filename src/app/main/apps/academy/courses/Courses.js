@@ -6,15 +6,15 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import FormControl from '@material-ui/core/FormControl';
+// import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import Select from '@material-ui/core/Select';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import clsx from 'clsx';
@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import reducer from '../store';
 import { getCategories, selectCategories } from '../store/categoriesSlice';
 import { getCourses, selectCourses } from '../store/coursesSlice';
-import {blue} from "@material-ui/core/colors";
+// import {blue} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
 	header: {
@@ -51,8 +51,8 @@ function Courses(props) {
 	const classes = useStyles(props);
 	const theme = useTheme();
 	const [filteredData, setFilteredData] = useState(null);
-	const [searchText, setSearchText] = useState('');
-	const [selectedCategory, setSelectedCategory] = useState('all');
+	const [searchText] = useState('');
+	const [selectedCategory] = useState('all');
 
 	useEffect(() => {
 		dispatch(getCategories());
@@ -78,13 +78,13 @@ function Courses(props) {
 		}
 	}, [courses, searchText, selectedCategory]);
 
-	function handleSelectedCategory(event) {
-		setSelectedCategory(event.target.value);
-	}
+	// function handleSelectedCategory(event) {
+	// 	setSelectedCategory(event.target.value);
+	// }
 
-	function handleSearchText(event) {
-		setSearchText(event.target.value);
-	}
+	// function handleSearchText(event) {
+	// 	setSearchText(event.target.value);
+	// }
 
 	function buttonStatus(course) {
 		switch (course.activeStep) {

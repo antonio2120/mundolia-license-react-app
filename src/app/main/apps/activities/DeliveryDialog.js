@@ -90,7 +90,7 @@ function DeliveryUpdateDialog(props) {
 	useEffect(() => {
 		if (delivery.error) {
 
-			if (delivery.error.response.request.status == '500') {
+			if (delivery.error.response.request.status === '500') {
 				setValues({...values, loading: false});
 				dispatch(showMessage({message: delivery.error.response.data.message, variant: 'error'}));
 			} else 
@@ -157,7 +157,7 @@ function DeliveryUpdateDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					{ form.instructions== '' ? null
+					{ form.instructions === '' ? null
 					:
 						<TextFieldFormsy
 							fullWidth
@@ -181,7 +181,7 @@ function DeliveryUpdateDialog(props) {
 						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8"/>
 					</RadioGroup>
 					{
-						fileType == 'file' ?
+						fileType === 'file' ?
 							<>
 								<TextFieldFormsy
 									fullWidth

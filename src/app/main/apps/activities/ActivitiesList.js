@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 // import FormControl from '@material-ui/core/FormControl';
 import Icon from '@material-ui/core/Icon';
 // import InputLabel from '@material-ui/core/InputLabel';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import LinearProgress from '@material-ui/core/LinearProgress';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
 // import Select from '@material-ui/core/Select';
@@ -31,13 +31,13 @@ import { openUpdateDeliveryDialog } from './store/deliverySlice';
 // import {blue} from "@material-ui/core/colors";
 import IconButton from '@material-ui/core/IconButton';
 import {showMessage} from "../../../store/fuse/messageSlice";
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from "@material-ui/core/MenuItem";
-import {useDeepCompareEffect, useForm} from "../../../../@fuse/hooks";
+// import InputLabel from '@material-ui/core/InputLabel';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
+// import MenuItem from "@material-ui/core/MenuItem";
+// import {useDeepCompareEffect, useForm} from "../../../../@fuse/hooks";
 import ActivitySidebarContent from './ActivitySideBarContent';
-import {setActivitiesFilter} from './store/filterSlice';
+// import {setActivitiesFilter} from './store/filterSlice';
 
 
 const useStyles = makeStyles(theme => ({

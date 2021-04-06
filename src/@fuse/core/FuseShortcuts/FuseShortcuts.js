@@ -56,9 +56,9 @@ function FuseShortcuts(props) {
 		flattenNavigation();
 	}, [props.location, navigationData]);
 
-	function addMenuClick(event) {
-		setAddMenu(event.currentTarget);
-	}
+	// function addMenuClick(event) {
+	// 	setAddMenu(event.currentTarget);
+	// }
 
 	function addMenuClose() {
 		setAddMenu(null);

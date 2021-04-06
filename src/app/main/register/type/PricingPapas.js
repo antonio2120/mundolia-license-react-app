@@ -51,13 +51,13 @@ const useStyles = makeStyles(theme => ({
 
 
 function PricingPapas(props) {
-	const price1 = props.price1;
+	// const price1 = props.price1;
 	const price2 = props.price2;
 	const price3 = props.price3;
 	
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const Membership = useSelector(({ PricingApp }) => PricingApp.pricing.RegisterScreen);
+	// const Membership = useSelector(({ PricingApp }) => PricingApp.pricing.RegisterScreen);
 
 	// const RegisterScreen = useSelector(({ PricingApp }) => PricingApp.pricing);
 	// console.log(RegisterScreen);

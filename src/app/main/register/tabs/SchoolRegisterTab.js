@@ -5,7 +5,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Formsy from 'formsy-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitRegister } from 'app/auth/store/registerSlice';
+// import { submitRegister } from 'app/auth/store/registerSlice';
 import { submitRegisterSchool } from 'app/auth/store/registerSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import Card from '@material-ui/core/Card';
