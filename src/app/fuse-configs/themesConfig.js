@@ -42,9 +42,6 @@ const themesConfig = {
 			},
 			error: red
 		},
-		typography: {
-			fontFamily: 'grobold'
-		},
 		status: {
 			danger: 'orange'
 		}
@@ -69,9 +66,6 @@ const themesConfig = {
 				default: '#dff5ff'
 			},
 			error: red
-		},
-		typography: {
-			fontFamily: 'grobold'
 		},
 		status: {
 			danger: 'orange'
@@ -116,9 +110,6 @@ const themesConfig = {
 				main: fuseOrange[500],
 				dark: fuseOrange[700],
 				contrastText: '#FFFFFF'
-			},
-			typography: {
-				fontFamily: 'grobold',
 			},
 			background: {
 				paper: '#FFFFFF',
