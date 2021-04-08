@@ -13,7 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import OutlinedInput from '@material-ui/core/OutlinedInput';
 // import Select from '@material-ui/core/Select';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 // import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
@@ -38,6 +38,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {useDeepCompareEffect, useForm} from "../../../../@fuse/hooks";
 import ActivitySidebarContent from './ActivitySideBarContent';
 import {setActivitiesFilter} from './store/filterSlice';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const useStyles = makeStyles(theme => ({
@@ -60,6 +61,15 @@ const useStyles = makeStyles(theme => ({
 const defaultFormState = {
 	group_name: '',
 };
+
+const LightTooltip = withStyles((theme) => ({
+	tooltip: {
+	  backgroundColor: theme.palette.common.white,
+	  color: 'rgba(0, 0, 0, 0.87)',
+	  boxShadow: theme.shadows[1],
+	  fontSize: 16,
+	},
+  }))(Tooltip);
 
 function ActivitiesList(props) {
 	const dispatch = useDispatch();
@@ -175,15 +185,19 @@ function ActivitiesList(props) {
 													}}
 												>
 													<div className="flex-direction: column, items-center ">
-														<Typography className="text-xl font-semibold truncate py-1" color="inherit">
-															{course.name.length > 10 ? course.name.slice(0,10)+'...' : course.name}
-														</Typography>
+														<LightTooltip title={course.name} placement="top">
+															<Typography className="text-xl font-semibold truncate py-1" color="inherit">
+																{course.name.length > 10 ? course.name.slice(0, 10) + '...' : course.name}
+															</Typography>
+														</LightTooltip>
 														<Typography className="font-medium truncate" color="inherit">
 															{course.group_name.length > 18 ? course.group_name.slice(0,18)+'...' : course.group_name}
 														</Typography>
-														<Typography className="font-medium truncate" color="inherit">
-															{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
-														</Typography>
+														<LightTooltip title={course.teachers_name} placement="top">
+															<Typography className="font-medium truncate" color="inherit">
+																{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
+															</Typography>
+														</LightTooltip>
 													</div>
 													<div className="flex-direction: column, items-center justify-center opacity-75">
 														<div className="text-16 whitespace-no-wrap text-right">
@@ -191,6 +205,9 @@ function ActivitiesList(props) {
 														</div>
 														<div className="text-16 whitespace-no-wrap text-right">
 															{course.status}{course.status == 'Calificado' ? ': ' + course.score : null}
+														</div>
+														<div className="text-16 whitespace-no-wrap text-right">
+															{course.status == 'Calificado' ? course.scored_date : null}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
