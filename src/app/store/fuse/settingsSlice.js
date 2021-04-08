@@ -25,7 +25,7 @@ function getInitialSettings() {
 	return _.merge({}, defaultSettings, { layout }, FuseSettingsConfig, getParsedQuerySettings());
 }
 
-export function generateSettings(_defaultSettings, _newSettings) {
+export function generateSettings(_defaultSettings, _newSettings, role) {
 	const response = _.merge(
 		{},
 		_defaultSettings,
@@ -39,11 +39,16 @@ export function generateSettings(_defaultSettings, _newSettings) {
 	 * Making theme values failsafe
 	 */
 	Object.entries(response.theme).forEach(([key, value]) => {
-		if (value !== 'mainThemeDark' && value !== 'mainThemeLight' && !FuseThemesConfig[value]) {
+		if (role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ) {
 			response.theme[key] = 'default';
+		}else if(role=='admin' || role == 'admin_escuela'){
+			response.theme[key] = 'legacy';
+		}else if(role=='maestro' || role == 'maestro_preescolar' || role == 'maestro_secundaria' || role == 'Maestro-I' || role == 'Maestro-M' || role == 'Maestro-A'){
+			response.theme[key] = 'light1';
+		} else if(role=='padre'  || role == 'Padre-I' || role == 'Padre-M' || role == 'Padre-A'){
+			response.theme[key] = 'light2';
 		}
 	});
-
 	return response;
 }
 

@@ -125,11 +125,13 @@ function DashboardApp(props) {
 				content: classes.content
 			}}
 			header={
-				<div className="flex flex-col justify-between flex-1 px-24 pt-24">
+				<div className="flex flex-col justify-between flex-1 px-24 pt-24" style={{
+					backgroundImage: `url("assets/images/login/tablero_alumno.png")`,
+					backgroundPosition: 'center',
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat'
+				}}>
 					<div className="flex justify-between items-start">
-						<Typography className="py-0 sm:py-24" variant="h4">
-							Bienvenido a Sistema Club LIA
-						</Typography>
 						<Hidden lgUp>
 							<IconButton
 								onClick={ev => pageLayout.current.toggleRightSidebar()}

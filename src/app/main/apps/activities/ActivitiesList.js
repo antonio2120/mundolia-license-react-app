@@ -127,12 +127,13 @@ function ActivitiesList(props) {
 					classes.header,
 					'relative overflow-hidden flex flex-col flex-shrink-0 items-center justify-center text-center p-16 sm:p-24 h-200 sm:h-288'
 				)}
+				style={{
+					backgroundImage: `url("assets/images/login/tareas.png")`,
+					backgroundPosition: 'center',
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat'
+				}}
 			>
-				<FuseAnimate animation="transition.slideUpIn" duration={400} delay={100}>
-					<Typography color="inherit" className="text-24 sm:text-40 font-light">
-						TAREAS
-					</Typography>
-				</FuseAnimate>
 				{/* <FuseAnimate duration={400} delay={600}>
 					<Typography variant="subtitle1" color="inherit" className="mt-8 sm:mt-16 mx-auto max-w-512">
 						<span className="opacity-75">
