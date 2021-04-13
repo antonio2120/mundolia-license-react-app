@@ -44,6 +44,15 @@ const navigationConfig = [
 				url: '/memberships'
 			},
 			{
+				id: 'adminMembership',
+				title: 'Administrador de membresía',
+				translate: 'Admin Membresías',
+				type: 'item',
+				'auth' : authRoles.admin_escuela,
+				icon: 'payment',
+				url: '/apps/adminlicencias/1'
+			},
+			{
 				id: 'generar-licencias',
 				title: 'Importar Usuarios',
 				translate: 'Importar Usuarios',

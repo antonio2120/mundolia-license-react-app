@@ -25,6 +25,7 @@ import SchoolApp from "../main/apps/schools/ItemsApp";
 import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConfig";
 import RedirectPageConfig from "../main/pages/redirect/RedirectPageConfig";
 import DashboardAppConfig from '../main/apps/dashboard/DashboardAppConfig';
+import AdminLicenciasAppConfig from '../main/apps/adminLicencias/AdminLicenciasAppConfig';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -49,7 +50,8 @@ const routeConfigs = [
 	RegisterConfig, 
 	ActivitiesConfig,
 	HomeworksConfig,
-	MembershipsAppConfig
+	MembershipsAppConfig,
+	AdminLicenciasAppConfig
 ];
 
 const routes = [
