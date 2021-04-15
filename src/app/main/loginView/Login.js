@@ -80,7 +80,7 @@ function Login() {
 
 	return (
 		<>
-		{/* <header>
+		<header>
 			<div  className={clsx(classes.divHeader)}>
 				<Grid container>
 					<Grid item xs={8}>
@@ -96,7 +96,7 @@ function Login() {
 					</Grid>
 				</Grid>
 			</div>
-		</header> */}
+		</header>
 		<div
 			className={clsx(
 				selectedUserType == 1 ? classes.root_alumnos : selectedUserType == 2 ? classes.root_maestros : selectedUserType == 3 ? classes.root_padres : classes.root_escuelas,
