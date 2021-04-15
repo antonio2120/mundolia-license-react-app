@@ -19,11 +19,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import { getOrder } from './store/orderSlice';
-import OrderInvoice from './order/OrderInvoice';
-import OrdersStatus from './order/OrdersStatus';
+// import OrderInvoice from './order/OrderInvoice';
+// import OrdersStatus from './order/OrdersStatus';
 import { Button } from '@material-ui/core';
 import { getUserInfo, openUserInfoDialog } from './store/userInfoSlice'
 import UserInfoDialog from './UserInfoDialog';
+import { getMembershipInfo } from './store/membershipInfoSlice'
+
 
 function Marker(props) {
 	return (
@@ -38,6 +40,12 @@ function AdminLicenciasApp(props) {
 	const order = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.order);
 	const theme = useTheme();
 	const info = useSelector(({ auth }) => auth.user);
+	const userInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.data);
+	const membershipInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.membership.data);
+
+
+	// console.log(membershipInfo);
+
 	// const infoComplete = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user);
 
 
@@ -46,8 +54,9 @@ function AdminLicenciasApp(props) {
 	const [map, setMap] = useState('shipping');
 
 	useDeepCompareEffect(() => {
-		dispatch(getOrder(routeParams));
 		dispatch(getUserInfo());
+		dispatch(getMembershipInfo());
+		dispatch(getOrder(routeParams));
 	}, [dispatch, routeParams]);
 
 	function handleChangeTab(event, value) {
@@ -61,40 +70,27 @@ function AdminLicenciasApp(props) {
 				header: 'min-h-72 h-72 sm:h-136 sm:min-h-136'
 			}}
 			header={
-				order && (
+				
 					<div className="flex flex-1 w-full items-center justify-between">
 						<div className="flex flex-1 flex-col items-center sm:items-start">
-							<FuseAnimate animation="transition.slideRightIn" delay={300}>
-								<Typography
-									className="normal-case flex items-center sm:mb-12"
-									component={Link}
-									role="button"
-									to="/apps/e-commerce/orders"
-									color="inherit"
-								>
-									<Icon className="text-20">
-										{theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
-									</Icon>
-									<span className="mx-4">Orders</span>
-								</Typography>
-							</FuseAnimate>
+							
 
 							<div className="flex flex-col min-w-0 items-center sm:items-start">
 								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
 									<Typography className="text-16 sm:text-20 truncate">
-										{`Order ${order.reference}`}
+										Administrador de Membresías
 									</Typography>
 								</FuseAnimate>
 
-								<FuseAnimate animation="transition.slideLeftIn" delay={300}>
+								{/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
 									<Typography variant="caption">
 										{`From ${order.customer.firstName} ${order.customer.lastName}`}
 									</Typography>
-								</FuseAnimate>
+								</FuseAnimate> */}
 							</div>
 						</div>
 					</div>
-				)
+				
 			}
 			contentToolbar={
 				<Tabs
@@ -106,9 +102,9 @@ function AdminLicenciasApp(props) {
 					scrollButtons="auto"
 					classes={{ root: 'w-full h-64' }}
 				>
-					<Tab className="h-64 normal-case" label="Order Details" />
-					<Tab className="h-64 normal-case" label="Products" />
-					<Tab className="h-64 normal-case" label="Invoice" />
+					<Tab className="h-64 normal-case" label="Detalles" />
+					{/* <Tab className="h-64 normal-case" label="Products" />
+					<Tab className="h-64 normal-case" label="Invoice" /> */}
 				</Tabs>
 			}
 			content={
@@ -131,6 +127,7 @@ function AdminLicenciasApp(props) {
 												<thead>
 													<tr>
 														<th>Nombre</th>
+														<th>Apellido</th>
 														<th>Email</th>
 														<th>Escuela</th>
 														<th>Rol</th>
@@ -144,15 +141,27 @@ function AdminLicenciasApp(props) {
 															<div className="flex items-center">
 																<Avatar src={info.data.photoURL} />
 																{/* <Avatar src={order.customer.avatar} /> */}
+																{userInfo ? 
 																<Typography className="truncate mx-8">
-																	{info.data.displayName}
+																	{userInfo.name}
 																</Typography>
+																:null
+																}
 															</div>
 														</td>
 														<td>
+															{userInfo ?
 															<Typography className="truncate">
-																{info.data.email}
+																{userInfo.last_name}
 															</Typography>
+															:null}
+														</td>
+														<td>
+															{userInfo ?
+															<Typography className="truncate">
+																{userInfo.email}
+															</Typography>
+															:null}
 														</td>
 														<td>
 															<Typography className="truncate">
@@ -164,7 +173,7 @@ function AdminLicenciasApp(props) {
 														</td>
 														<th>
 															<Button 
-																onClick={ev => dispatch(openUserInfoDialog(info.data))}
+																onClick={ev => dispatch(openUserInfoDialog(userInfo))}
 																component={Link}
 																className="justify-start px-32"
 																color="secondary">
@@ -177,8 +186,82 @@ function AdminLicenciasApp(props) {
 												</tbody>
 											</table>
 										</div>
+										</div>
 
-										<Accordion
+
+										{ userInfo && userInfo.childrens_id ? 
+											<Accordion
+											elevation={1}
+											expanded={map === 'hijos'}
+											onChange={() => setMap(map !== 'hijos' ? 'hijos' : false)}
+										>
+											<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+											<Icon color="action">child_care</Icon>
+											<Typography className="h2 mx-16" color="textSecondary">
+												Hijos
+											</Typography>
+											</AccordionSummary>
+											<AccordionDetails className="flex flex-col md:flex-row">
+
+
+
+												<div className="table-responsive mb-48 w-full">
+													<table className="simple">
+														<thead>
+															<tr>
+																<th>Nombre</th>
+																<th>Apellido</th>
+																<th>Email</th>																<th></th>
+															</tr>
+														</thead>
+														{userInfo.childrens_id.map((ch) => (
+															<tbody>
+																<tr>
+																	<td>
+																		<div className="flex items-center">
+																			{/* <Avatar src={info.data.photoURL} /> */}
+																			{/* <Avatar src={order.customer.avatar} /> */}
+																			<Typography className="truncate mx-8">
+																				{ch.name}
+																			</Typography>
+																		</div>
+																	</td>
+																	<td>
+																		<Typography className="truncate">
+																			{ch.last_name}
+																		</Typography>
+																	</td>
+																	<td>
+																		<Typography className="truncate">
+																			{ch.email}
+																		</Typography>
+																	</td>
+																	<th>
+																		<Button
+																			onClick={ev => dispatch(openUserInfoDialog(ch))}
+																			component={Link}
+																			className="justify-start px-32"
+																			color="secondary">
+																			Edit
+																		</Button>
+																	</th>
+																</tr>
+															</tbody>
+														))}
+													</table>
+												</div>
+										
+											</AccordionDetails>
+										</Accordion>
+
+											:
+											null
+										}
+
+
+
+
+										{/* <Accordion
 											elevation={1}
 											expanded={map === 'shipping'}
 											onChange={() => setMap(map !== 'shipping' ? 'shipping' : false)}
@@ -224,8 +307,7 @@ function AdminLicenciasApp(props) {
 													</GoogleMap>
 												</div>
 											</AccordionDetails>
-										</Accordion>
-									</div>
+										</Accordion> */}
 								</div>
 
 								<div className="pb-48">
@@ -241,24 +323,41 @@ function AdminLicenciasApp(props) {
 											<thead>
 												<tr>
 													<th>Status</th>
-													<th>Updated On</th>
+													<th>Fecha</th>
 												</tr>
 											</thead>
 											<tbody>
-												{order.status.map(status => (
-													<tr key={status.id}>
-														<td>
-															<OrdersStatus name={status.name} />
-														</td>
-														<td>{status.date}</td>
-													</tr>
-												))}
+
+												{membershipInfo ?
+													<>
+														<tr>
+															<td>
+																<div className="inline text-12 p-4 rounded truncate bg-blue-700 text-white">
+																	{membershipInfo.licenses_type}
+																</div>
+															</td>
+															<td>{membershipInfo.created_at.slice(0,10)}</td>
+														</tr>
+
+														<tr>
+															<td>
+																<div className="inline text-12 p-4 rounded truncate bg-red text-white">
+																	Expira
+																</div>
+																
+															</td>
+															<td>{membershipInfo.expiry_date.slice(0,10)}</td>
+														</tr>
+													</>
+													:
+													null
+												}
 											</tbody>
 										</table>
 									</div>
 								</div>
 
-								<div className="pb-48">
+								{/* <div className="pb-48">
 									<div className="pb-16 flex items-center">
 										<Icon color="action">attach_money</Icon>
 										<Typography className="h2 mx-16" color="textSecondary">
@@ -338,13 +437,13 @@ function AdminLicenciasApp(props) {
 											</tbody>
 										</table>
 									</div>
-								</div>
-								<UserInfoDialog />
+								</div> */}
+								<UserInfoDialog />	
 							</div>
 
 						)}
 						{/* Products */}
-						{tabValue === 1 && (
+						{/* {tabValue === 1 && (
 							<div className="table-responsive">
 								<table className="simple">
 									<thead>
@@ -387,9 +486,9 @@ function AdminLicenciasApp(props) {
 									</tbody>
 								</table>
 							</div>
-						)}
+						)} */}
 						{/* Invoice */}
-						{tabValue === 2 && <OrderInvoice order={order} />}
+						{/* {tabValue === 2 && <OrderInvoice order={order} />} */}
 						
 					</div>
 				)

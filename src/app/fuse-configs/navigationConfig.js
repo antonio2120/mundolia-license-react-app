@@ -48,7 +48,7 @@ const navigationConfig = [
 				title: 'Administrador de membresía',
 				translate: 'Admin Membresías',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.adminLicencias,
 				icon: 'payment',
 				url: '/apps/adminlicencias/1'
 			},

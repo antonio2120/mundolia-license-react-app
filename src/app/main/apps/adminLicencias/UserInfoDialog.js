@@ -35,15 +35,16 @@ const defaultFormState = {
     displayName: '',
 	email: '',
     role: '',	
-    group_name: '',
+	password :'',
 };
 
 function UserInfoDialog(props) {
     const dispatch = useDispatch();
-	const formOrigin = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.UserInfoDialog.data);
     const UserInfoDialog = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.UserInfoDialog);
 	// const uuid = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.entities );
-	// console.log(uuid);
+	// const formOrigin = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.data[0]);
+	// console.log(formOrigin);
+	const userInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.userInfo);
 
 	const { form, handleChange ,setForm} = useForm(defaultFormState);
 	const [selectedFile, setSelectedFile] = useState(null);
@@ -51,14 +52,13 @@ function UserInfoDialog(props) {
 	///Getting date time
 
 	const [values, setValues] = React.useState({
-		// showPassword: false,
+		showPassword: false,
 		loading : false
 	});
 	const [isFormValid, setIsFormValid] = useState(false);
-	// const [showPassword, setShowPassword] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 	const formRef = useRef(null);
 
-	
 	function disableButton() {
 		setIsFormValid(false);
 	}
@@ -72,16 +72,6 @@ function UserInfoDialog(props) {
 		}
 
 
-		/**
-		 * Dialog type: 'new'
-		 */
-		if (UserInfoDialog.type === 'new') {
-			setForm({
-				...defaultFormState,
-				...UserInfoDialog.data,
-				id: FuseUtils.generateGUID()
-			});
-		}
 	}, [UserInfoDialog.data, UserInfoDialog.type, setForm]);
 
 	useEffect(() => {
@@ -94,29 +84,28 @@ function UserInfoDialog(props) {
 	}, [UserInfoDialog.props.open, initDialog]);
 
 	useEffect(() => {
-		// if (activity.error) {
+		if (userInfo.error) {
 
-		// 	if (activity.error.response.request.status == '500') {
-		// 		setValues({...values, loading: false});
-		// 		// dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
-		// 	} else 
-		// 	{
-		// 		disableButton();
-		// 		setValues({...values, loading: false});
-		// 		// dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
-		// 	}
-		// }
+			if (userInfo.error.response.request.status == '500') {
+				setValues({...values, loading: false});
+				// dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
+			} else 
+			{
+				disableButton();
+				setValues({...values, loading: false});
+				dispatch(showMessage({message: userInfo.error.response.data.message, variant: 'error'}));
+			}
+		}
 
-		// if(activity.success){
-		// 	setValues({ ...values, loading: false });
-		// 	dispatch(showMessage({message:'Operación exitosa!',variant: 'success'	}));
+		if(userInfo.success){
+			setValues({ ...values, loading: false });
+			dispatch(showMessage({message:'Operación exitosa!', variant: 'success'	}));
+			dispatch(showMessage({message:'Usuario actualizado correctamente.', variant: 'success' }));
 
-		// 	closeComposeDialog();
-		// }
+			closeComposeDialog();
+		}
 
-	// }, [activity.error,activity.success]);
-	}, []);
-
+	}, [userInfo.error,userInfo.success]);
     
 	function closeComposeDialog() {
 		return (UserInfoDialog.type === 'edit' )?  dispatch(closeUserInfoDialog()) : null ;
@@ -125,7 +114,10 @@ function UserInfoDialog(props) {
 	function handleSubmit(event) {
 		setValues({ ...values, loading: true });
 		event.preventDefault();
-
+		form.uuid = UserInfoDialog.data.uuid; 
+		form.role_id = UserInfoDialog.data.role_id; 
+		form.school_id = UserInfoDialog.data.school_id; 
+		form.grade = UserInfoDialog.data.grade; 
 		
 			dispatch(submitUpdateUserInfo(form));
 			setSelectedFile(null)
@@ -162,7 +154,7 @@ function UserInfoDialog(props) {
 					<div className="flex flex-col items-center justify-center pb-24">
 						{/* <Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} /> */}
 						<Typography variant="h6" color="inherit" className="pt-8">
-							{form.displayName}
+							{form.name}
 						</Typography>
 					</div>
 			</AppBar>
@@ -180,10 +172,10 @@ function UserInfoDialog(props) {
 						fullWidth
 						className="mb-16"
 						type="text"
-						name="displayName"
+						name="name"
 						label="Nombre"
-						id="displayName"
-						value={form.displayName}
+						id="name"
+						value={form.name}
 						onChange={handleChange}
 						validations={{
 							minLength: 2,
@@ -205,6 +197,31 @@ function UserInfoDialog(props) {
 						variant="outlined"
 						required
 					/>
+					<TextFieldFormsy
+								className="mb-16"
+								type="text"
+								name="last_name"
+								value={form.last_name}
+								label="Apellido(s)"
+								validations={{
+									minLength: 4
+								}}
+								validationErrors={{
+									minLength: 'El mínimo de caracteres es 4'
+								}}
+								fullWidth
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<Icon className="text-20" color="action">
+												person
+											</Icon>
+										</InputAdornment>
+									)
+								}}
+								variant="outlined"
+								required
+							/>
 
 					<TextFieldFormsy
 						className="mb-16"
@@ -229,6 +246,36 @@ function UserInfoDialog(props) {
 						required
 						fullWidth
 					/>
+
+					<TextFieldFormsy
+							className="mb-16"
+							type="password"
+							name="password"
+							id="password"
+							label="Password"
+							validations={{
+								minLength: 3
+							}}
+							validationErrors={{
+								minLength: 'Min character length is 3'
+							}}
+							InputProps={{
+								className: 'pr-2',
+								type: showPassword ? 'text' : 'password',
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton onClick={() => setShowPassword(!showPassword)}>
+											<Icon className="text-20" color="action">
+												{showPassword ? 'visibility' : 'visibility_off'}
+											</Icon>
+										</IconButton>
+									</InputAdornment>
+								)
+							}}
+
+							variant="outlined"
+							fullWidth
+						/>
 
 
 				{values.loading && <LinearProgress />}

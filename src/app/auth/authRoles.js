@@ -10,7 +10,8 @@ const authRoles = {
 	dashboard:['alumno', 'alumno_secundaria', 'preescolar', 'alumnoe0', 'alumnoe1', 'alumnoe2',	'alumnoe3', 'Alumno-I', 'Alumno-M', 'Alumno-A'],
 	memberships: ['Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A'],
 	activities:['alumno', 'alumno_secundaria', 'preescolar', 'maestro_preescolar', 'maestro_secundaria', 'maestro', 'profesor_summit_2021', 'alumnoe0', 'alumnoe1', 'alumnoe2',	'alumnoe3',	'maestroe1', 'maestroe2', 'maestroe3', 'Maestro-I',	'Maestro-M', 'Maestro-A', 'Alumno-I', 'Alumno-M', 'Alumno-A'],
-	onlyGuest: []
+	onlyGuest: [],
+	adminLicencias: ['Maestro-I',	'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A']
 };
 
 export default authRoles;
