@@ -2,6 +2,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +14,7 @@ import axios from 'axios';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
+import {showMessage} from "../../store/fuse/messageSlice";
 import Grid from '@material-ui/core/Grid';
 import Moment from 'moment';
 
@@ -34,8 +36,9 @@ const useStyles = makeStyles(theme => ({
 
 function CompactInvoicePage(props) {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 	const [invoice, setInvoice] = useState(null);
-	const [invoiceData, setInvoiceData] = useState(null);
+	const [invoiceData, setInvoiceData] = useState(false);
 	const formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
@@ -43,23 +46,33 @@ function CompactInvoicePage(props) {
     });
     const search = props.location.search; // returns the URL query String
 	const params = new URLSearchParams(search); 
-	// const statusPayment = params.get('status');
 	// const orderId = localStorage.getItem('id_order');
-	// const data = {
-	// 	'payment_id' : params.get('payment_id'),
-	// 	'merchant_order_id' : params.get('merchant_order_id'),
-	// 	'preference_id' : params.get('preference_id'),
-	// 	'payment_type' : params.get('payment_type'),
-	// 	'expiry_date' : "2021-02-24 23:26"
-	// }
-	const preapproval_id = params.get('preapproval_id');
-	axios
-		.get(process.env.REACT_APP_API+'/getPreapproval/'+preapproval_id)
-		.then(res => {
-			console.log(res);
-		}).catch(error => {
-			console.log(error);
-		});
+	const preapproval_id ="2c93808478ce58ef0178dbad32a50c05";// params.get('preapproval_id');
+	var dataInv = [];
+	var statusPayment = "";
+	if(invoiceData === false){
+		axios
+			.get(process.env.REACT_APP_API+'/getPreapproval/'+preapproval_id)
+			.then(res => {
+				setInvoiceData(true);
+				console.log("RES",res.data.data);
+				statusPayment = res.data.data.status;
+				dataInv.date = res.data.data.date_created;
+				dataInv.number = res.data.data.id;
+                dataInv.orderId = res.data.data.application_id;
+				dataInv.title = res.data.data.reason;
+				dataInv.phone = "4494494949";
+				dataInv.email = res.data.data.payer_email;
+				dataInv.name = res.data.data.payer_first_name + ' ' + res.data.data.payer_first_name;
+				dataInv.titleService = res.data.data.reason;
+				dataInv.descriptionService = res.data.data.reason;
+				dataInv.price = res.data.data.auto_recurring.transaction_amount;
+				setInvoice(dataInv);
+			}).catch(error => {
+				dispatch(showMessage({message:"tu factura no pudo ser procesada, inicia sesión para revisarlo",variant: 'error'}));
+			});
+	}
+	
 	
 
     function navLogin() {
@@ -67,27 +80,9 @@ function CompactInvoicePage(props) {
     }
 
 	useEffect(() => {
-        // if(preapproval_id !== ""){
-		// 	let dataInv={};
-        //     axios
-		// 	.put(process.env.REACT_APP_API+'/updateSubscription/'+orderId, data)
-		// 	.then(res => {
-        //         dataInv.date = Moment(new Date()).format('MMMM DD, yyyy');
-		// 		dataInv.number = res.data.data.order.merchant_order_id;
-        //         dataInv.orderId = res.data.data.order.id;
-		// 		dataInv.title = res.data.data.licenses[0].title;
-		// 		dataInv.phone = res.data.data.order.phone_number;
-		// 		dataInv.email = res.data.data.lia.email;
-		// 		dataInv.name = res.data.data.lia.name + " " + res.data.data.lia.last_name;
-		// 		dataInv.titleService = res.data.data.licenses[0].title;
-		// 		dataInv.descriptionService = res.data.data.licenses[0].description_license_type;
-		// 		dataInv.price = res.data.data.licenses[0].price;
-
-		// 		setInvoice(dataInv);
-		// 	}).catch(error => {
-		// 		console.log(error);
-		// 	});
-        // }
+		if(statusPayment !== "authorized"){
+			setInvoice(dataInv);
+		}
     }, []);
 
 	return (
@@ -116,42 +111,42 @@ function CompactInvoicePage(props) {
 												</td>
 												<td className="pb-4 px-16">
 													<Typography className="font-light" variant="h6">
-														{invoice.number}
+														{invoice.orderId}
 													</Typography>
 												</td>
 											</tr>
 
                                             <tr>
 												<td>
-													<Typography color="textSecondary">ID DE PAGO</Typography>
+													<Typography className="font-light" color="textSecondary">ID DE PAGO</Typography>
 												</td>
 												<td className="px-16">
-													<Typography>{invoice.orderId}</Typography>
+													<Typography className="font-light">{invoice.number}</Typography>
 												</td>
 											</tr>
 
 											<tr>
 												<td>
-													<Typography color="textSecondary">FECHA DE FACTURA</Typography>
+													<Typography className="font-light" color="textSecondary">FECHA DE FACTURA</Typography>
 												</td>
 												<td className="px-16">
-													<Typography>{invoice.date}</Typography>
+													<Typography className="font-light">{invoice.date}</Typography>
 												</td>
 											</tr>
 
 										</tbody>
 									</table>
 
-									 <Typography color="textSecondary">{invoice.title}</Typography>
+									 <Typography className="font-light" color="textSecondary">{invoice.title}</Typography>
 
 									{invoice.name && (
-										<Typography color="textSecondary">{invoice.name}</Typography>
+										<Typography className="font-light" color="textSecondary">{invoice.name}</Typography>
 									)}
 									{invoice.phone && (
-										<Typography color="textSecondary">{invoice.phone}</Typography>
+										<Typography className="font-light" color="textSecondary">{invoice.phone}</Typography>
 									)}
 									{invoice.email && (
-										<Typography color="textSecondary">{invoice.email}</Typography>
+										<Typography className="font-light" color="textSecondary">{invoice.email}</Typography>
 									)}
 								</div>
 
@@ -161,12 +156,12 @@ function CompactInvoicePage(props) {
 									<div className={clsx(classes.divider, 'w-px mx-8 h-96 opacity-50')} />
 
 									<div className="px-8">
-										<Typography color="inherit">Club LIA</Typography>
+										<Typography className="font-light" color="inherit">Club LIA</Typography>
 
-											<Typography color="inherit">Tijuana</Typography>
-											<Typography color="inherit">4494494949</Typography>
-											<Typography color="inherit">info@clublia.com</Typography>
-											<Typography color="inherit">www.clublia.com</Typography>
+											<Typography className="font-light" color="inherit">Tijuana</Typography>
+											<Typography className="font-light" color="inherit">4494494949</Typography>
+											<Typography className="font-light" color="inherit">info@clublia.com</Typography>
+											<Typography className="font-light" color="inherit">www.clublia.com</Typography>
 									</div>
 								</div>
 							</div>
@@ -184,7 +179,7 @@ function CompactInvoicePage(props) {
 									<TableBody>
 										<TableRow>
 											<TableCell>
-												<Typography variant="subtitle1">{invoice.titleService}</Typography>
+												<Typography className="font-light" variant="subtitle1">{invoice.titleService}</Typography>
 											</TableCell>
 											<TableCell>
 												{invoice.descriptionService}
