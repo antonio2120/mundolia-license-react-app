@@ -46,6 +46,7 @@ function ChildrenRegisterTab(props) {
 		if(register.successChild){
 			if(+parentModel.children === childrenCounter){
 				if(parentModel.unit_price !== 0){
+					parentModel.quantity = childrenCounter;
 					dispatch(membershipPayment(parentModel));
 				}else{
 					window.location.href = './login';

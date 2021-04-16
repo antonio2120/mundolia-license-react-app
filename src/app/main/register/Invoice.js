@@ -46,13 +46,15 @@ function CompactInvoicePage(props) {
     });
     const search = props.location.search; // returns the URL query String
 	const params = new URLSearchParams(search); 
-	// const orderId = localStorage.getItem('id_order');
-	const preapproval_id ="2c93808478ce58ef0178dbad32a50c05";// params.get('preapproval_id');
+	const orderId = localStorage.getItem('id_order');
+	const preapproval_id = params.get('preapproval_id');
 	var dataInv = [];
 	var statusPayment = "";
 	if(invoiceData === false){
 		axios
-			.get(process.env.REACT_APP_API+'/getPreapproval/'+preapproval_id)
+			.post(process.env.REACT_APP_API+'/getPreapproval/'+preapproval_id,{
+				'order_id': orderId
+			})
 			.then(res => {
 				setInvoiceData(true);
 				console.log("RES",res.data.data);
@@ -61,7 +63,6 @@ function CompactInvoicePage(props) {
 				dataInv.number = res.data.data.id;
                 dataInv.orderId = res.data.data.application_id;
 				dataInv.title = res.data.data.reason;
-				dataInv.phone = "4494494949";
 				dataInv.email = res.data.data.payer_email;
 				dataInv.name = res.data.data.payer_first_name + ' ' + res.data.data.payer_first_name;
 				dataInv.titleService = res.data.data.reason;
@@ -118,35 +119,32 @@ function CompactInvoicePage(props) {
 
                                             <tr>
 												<td>
-													<Typography className="font-light" color="textSecondary">ID DE PAGO</Typography>
+													<Typography className="font-light" variant="body2" color="textSecondary">ID DE PAGO</Typography>
 												</td>
 												<td className="px-16">
-													<Typography className="font-light">{invoice.number}</Typography>
+													<Typography className="font-light" variant="body2">{invoice.number}</Typography>
 												</td>
 											</tr>
 
 											<tr>
 												<td>
-													<Typography className="font-light" color="textSecondary">FECHA DE FACTURA</Typography>
+													<Typography className="font-light" variant="body2" color="textSecondary">FECHA DE FACTURA</Typography>
 												</td>
 												<td className="px-16">
-													<Typography className="font-light">{invoice.date}</Typography>
+													<Typography className="font-light" variant="body2">{invoice.date}</Typography>
 												</td>
 											</tr>
 
 										</tbody>
 									</table>
 
-									 <Typography className="font-light" color="textSecondary">{invoice.title}</Typography>
+									 <Typography className="font-light" variant="body2" color="textSecondary">{invoice.title}</Typography>
 
 									{invoice.name && (
-										<Typography className="font-light" color="textSecondary">{invoice.name}</Typography>
-									)}
-									{invoice.phone && (
-										<Typography className="font-light" color="textSecondary">{invoice.phone}</Typography>
+										<Typography className="font-light" variant="body2" color="textSecondary">{invoice.name}</Typography>
 									)}
 									{invoice.email && (
-										<Typography className="font-light" color="textSecondary">{invoice.email}</Typography>
+										<Typography className="font-light" variant="body2" color="textSecondary">{invoice.email}</Typography>
 									)}
 								</div>
 
@@ -156,12 +154,12 @@ function CompactInvoicePage(props) {
 									<div className={clsx(classes.divider, 'w-px mx-8 h-96 opacity-50')} />
 
 									<div className="px-8">
-										<Typography className="font-light" color="inherit">Club LIA</Typography>
+										<Typography className="font-light" variant="body2" color="inherit">Club LIA</Typography>
 
-											<Typography className="font-light" color="inherit">Tijuana</Typography>
-											<Typography className="font-light" color="inherit">4494494949</Typography>
-											<Typography className="font-light" color="inherit">info@clublia.com</Typography>
-											<Typography className="font-light" color="inherit">www.clublia.com</Typography>
+											<Typography className="font-light" variant="body2" color="inherit">Tijuana</Typography>
+											<Typography className="font-light" variant="body2" color="inherit">4494494949</Typography>
+											<Typography className="font-light" variant="body2" color="inherit">info@clublia.com</Typography>
+											<Typography className="font-light" variant="body2" color="inherit">www.clublia.com</Typography>
 									</div>
 								</div>
 							</div>
