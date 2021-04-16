@@ -41,6 +41,8 @@ function TeacherRegisterTab(props) {
 		if(register.error.response) {
 			if (register.error.response.response.status == '422') {
 				dispatch(showMessage({message:register.error.response.response.data.message,variant: 'error'}));
+			}else if(register.error.response.response.status == '400') {
+				dispatch(showMessage({message:register.error.response.response.data.message,variant: 'error'}));
 			}
 		}
 		
@@ -75,6 +77,7 @@ function TeacherRegisterTab(props) {
 		model.description = "Membresía "+membership+" para los servicios de ClubLIA";
 		model.unit_price = membership == "gratis" ? Memberships[3].price : (membership == "mensual" ? Memberships[4].price : Memberships[5].price);
 		model.id_licenses_type = membership == "gratis" ? 4 : (membership == "mensual" ? 5 : 6);
+		model.quantity = 1;
 		setModelPayment(model);
 		dispatch(submitRegisterParentTeacher(model));
 	}

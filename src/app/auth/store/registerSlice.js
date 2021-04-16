@@ -103,7 +103,7 @@ export const submitRegisterSchool = ({ name, email, phone, country, city, messag
 		});
 };
 
-export const membershipPayment = ({ name, lastName, email, phone, title, description, unit_price, id_licenses_type}) => async dispatch => {
+export const membershipPayment = ({ name, lastName, email, phone, title, description, unit_price, id_licenses_type, quantity}) => async dispatch => {
 	return jwtService
 		.handlePayment({
 			payer:{
@@ -117,9 +117,11 @@ export const membershipPayment = ({ name, lastName, email, phone, title, descrip
 				description: description,
 				unit_price: unit_price
 			},
-			id_licenses_type: id_licenses_type
+			id_licenses_type: id_licenses_type,
+			quantity: quantity
 
 		}).then(response => {
+			console.log(response);
 			window.location.href = response.init_point;
 			// dispatch()
 			return 1;

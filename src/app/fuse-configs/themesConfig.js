@@ -125,19 +125,19 @@ const themesConfig = {
 		palette: {
 			type: 'light',
 			primary: {
-				light: '#D9C8CE',
-				main: '#80485B',
-				dark: '#50212F'
+				light: fuseDark[100],
+				main: fuseDark[500],
+				dark: fuseDark[900]
 			},
 			secondary: {
-				light: '#FFE3BF',
-				main: '#FFB049',
-				dark: '#FF8619',
+				light: skyBlue[100],
+				main: skyBlue[500],
+				dark: skyBlue[900],
 				contrastText: '#252525'
 			},
 			background: {
-				paper: '#FFF0DF',
-				default: '#FAFAFE'
+				paper: '#FFFFFF',
+				default: '#f6f7f9'
 			},
 			error: red
 		},

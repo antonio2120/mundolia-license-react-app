@@ -47,6 +47,8 @@ export function generateSettings(_defaultSettings, _newSettings, role) {
 			response.theme[key] = 'light1';
 		} else if(role=='padre'  || role == 'Padre-I' || role == 'Padre-M' || role == 'Padre-A'){
 			response.theme[key] = 'light2';
+		}else{
+			response.theme[key] = 'light3';
 		}
 	});
 	return response;
