@@ -64,6 +64,7 @@ function FuseLayout(props) {
 	const dispatch = useDispatch();
 	const settings = useSelector(({ fuse }) => fuse.settings.current);
 	const defaultSettings = useSelector(({ fuse }) => fuse.settings.defaults);
+	const role = useSelector(({ auth }) => auth.user.role);
 
 	const appContext = useContext(AppContext);
 	const { routes } = appContext;
@@ -86,7 +87,7 @@ function FuseLayout(props) {
 
 			const routeSettings = matched.route.settings;
 
-			_newSettings = generateSettings(defaultSettings, routeSettings);
+			_newSettings = generateSettings(defaultSettings, routeSettings, role);
 		} else if (!_.isEqual(newSettings.current, defaultSettings)) {
 			/**
 			 * Reset to default settings on the new path

@@ -32,11 +32,16 @@ export const submitCreateHomework = ( homeworkdata ) => async dispatch => {
 };
 
 export const submitUpdateHomework = ( homeworkdata, homeworkOrigin ) => async dispatch => {
+
+	const today = new Date();
+	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2) + ' ' + today.getHours() + ':' + ('0'+( today.getMinutes() + 1)).slice(-2);
+
 	return jwtService
 		.updateHomework({
 			id: homeworkOrigin.id,
 			status: 'Calificado',
 			score: homeworkdata.score,
+			scoredDate: date,
 		})
 		.then(response => {
 			dispatch(registerSuccess());

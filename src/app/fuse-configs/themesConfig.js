@@ -1,19 +1,25 @@
-import { fuseDark, skyBlue } from '@fuse/colors';
-import { lightBlue, red } from '@material-ui/core/colors';
+import { fuseDark, skyBlue, fusePurple, fuseBlue, fuseRed, fuseOrange} from '@fuse/colors';
+import { lightBlue, red, purple } from '@material-ui/core/colors';
 
 const themesConfig = {
 	default: {
 		palette: {
 			type: 'light',
-			primary: fuseDark,
+			primary: {
+				light: fusePurple[400],
+				main: fusePurple[500],
+				dark: fusePurple[700],
+				contrastText: '#FFFFFF'
+			},
 			secondary: {
-				light: skyBlue[100],
-				main: skyBlue[500],
-				dark: skyBlue[900]
+				light: fusePurple[400],
+				main: fusePurple[500],
+				dark: fusePurple[700],
+				contrastText: '#FFFFFF'
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#f6f7f9'
+				default: '#eee7f3'
 			},
 			error: red
 		},
@@ -23,12 +29,12 @@ const themesConfig = {
 	},
 	defaultDark: {
 		palette: {
-			type: 'dark',
-			primary: fuseDark,
+			type: 'ligth',
+			primary: fuseBlue,
 			secondary: {
-				light: skyBlue[100],
-				main: skyBlue[500],
-				dark: skyBlue[900]
+				light: fuseBlue[100],
+				main: fuseBlue[500],
+				dark: fuseBlue[900]
 			},
 			background: {
 				paper: '#1E2125',
@@ -43,15 +49,21 @@ const themesConfig = {
 	legacy: {
 		palette: {
 			type: 'light',
-			primary: fuseDark,
+			primary: {
+				light: fuseBlue[400],
+				main: fuseBlue[500],
+				dark: fuseBlue[700],
+				contrastText: '#FFFFFF'
+			},
 			secondary: {
-				light: lightBlue[400],
-				main: lightBlue[600],
-				dark: lightBlue[700]
+				light: fuseBlue[400],
+				main: fuseBlue[500],
+				dark: fuseBlue[700],
+				contrastText: '#FFFFFF'
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F7F7F7'
+				default: '#dff5ff'
 			},
 			error: red
 		},
@@ -63,19 +75,20 @@ const themesConfig = {
 		palette: {
 			type: 'light',
 			primary: {
-				light: '#b3d1d1',
-				main: '#006565',
-				dark: '#003737'
+				light: fuseRed[400],
+				main: fuseRed[700],
+				dark: fuseRed[700],
+				contrastText: '#FFFFFF'
 			},
 			secondary: {
-				light: '#ffecc0',
-				main: '#FFBE2C',
-				dark: '#ff9910',
-				contrastText: '#272727'
+				light: fuseRed[400],
+				main: fuseRed[700],
+				dark: fuseRed[700],
+				contrastText: '#FFFFFF'
 			},
 			background: {
 				paper: '#FFFFFF',
-				default: '#F0F7F7'
+				default: '#fae4e4'
 			},
 			error: red
 		},
@@ -87,20 +100,20 @@ const themesConfig = {
 		palette: {
 			type: 'light',
 			primary: {
-				light: '#fdf3da',
-				main: '#f8d683',
-				dark: '#f3bc53',
-				contrastText: '#252525'
+				light: fuseOrange[400],
+				main: fuseOrange[700],
+				dark: fuseOrange[700],
+				contrastText: '#FFFFFF'
 			},
 			secondary: {
-				light: '#FADCB3',
-				main: '#F3B25F',
-				dark: '#ec9339',
-				contrastText: '#252525'
+				light: fuseOrange[400],
+				main: fuseOrange[500],
+				dark: fuseOrange[700],
+				contrastText: '#FFFFFF'
 			},
 			background: {
-				paper: '#FAFBFD',
-				default: '#FFFFFF'
+				paper: '#FFFFFF',
+				default: '#fef3e2'
 			},
 			error: red
 		},
@@ -332,14 +345,14 @@ const themesConfig = {
 		palette: {
 			type: 'light',
 			primary: {
-				light: '#FFFAF6',
-				main: '#FFEDE2',
-				dark: '#FFE0CF'
+				light: '#40c4ff',
+				main: '#20bbff',
+				dark: '#00b1ff'
 			},
 			secondary: {
-				light: '#DBD8F7',
-				main: '#887CE3',
-				dark: '#584CD0',
+				light: '#60ceff',
+				main: '#60ceff',
+				dark: '#60ceff',
 				contrastText: '#FFFFFF'
 			},
 			background: {

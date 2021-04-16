@@ -52,7 +52,8 @@ export const mustHaveThemeOptions = {
 	typography: {
 		htmlFontSize: 10,
 		body1: {
-			fontSize: '1.4rem'
+			fontSize: '1.4rem',
+			fontFamily: 'grobold'
 		},
 		body2: {
 			fontSize: '1.4rem'

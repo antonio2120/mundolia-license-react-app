@@ -103,6 +103,12 @@ function HomeworksList(props) {
 				sortable: true
 			},
 			{
+				Header: 'Fecha de calificado',
+				accessor: 'scored_date',
+				className: 'font-bold',
+				sortable: true
+			},
+			{
 				Header: 'Fecha de entrega',
 				accessor: d => (
 					d.due ?
