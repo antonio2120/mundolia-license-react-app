@@ -127,7 +127,8 @@ const themesConfig = {
 			primary: {
 				light: fuseDark[100],
 				main: fuseDark[500],
-				dark: fuseDark[900]
+				dark: fuseDark[900],
+				contrastText: '#FFFFFF'
 			},
 			secondary: {
 				light: skyBlue[100],

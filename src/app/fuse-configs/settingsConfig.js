@@ -7,7 +7,7 @@ const settingsConfig = {
 	animations: true,
 	direction: 'ltr', // rtl, ltr
 	theme: {
-		main: 'default',
+		main: 'light3',
 		navbar: 'mainThemeDark',
 		toolbar: 'mainThemeLight',
 		footer: 'mainThemeDark'
