@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const useStyles = makeStyles(theme => ({
 	header: {
 		height: 600,
-		background: `linear-gradient(to left, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+		background: `linear-gradient(to left, ${theme.palette.primary.light} 0%, ${theme.palette.primary.light} 100%)`,
 		color: theme.palette.primary.contrastText
 	},
 	badge: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	price: {
 		backgroundColor: "#F49C17",
-		color: theme.palette.getContrastText(theme.palette.primary[600])
+		color: theme.palette.getContrastText(theme.palette.primary.dark)
 	},
 	backColButton: {
 		backgroundColor: "#F49C17",

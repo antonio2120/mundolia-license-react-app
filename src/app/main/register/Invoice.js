@@ -43,42 +43,51 @@ function CompactInvoicePage(props) {
     });
     const search = props.location.search; // returns the URL query String
 	const params = new URLSearchParams(search); 
-	const statusPayment = params.get('status');
-	const orderId = localStorage.getItem('id_order');
-	const data = {
-		'payment_id' : params.get('payment_id'),
-		'merchant_order_id' : params.get('merchant_order_id'),
-		'preference_id' : params.get('preference_id'),
-		'payment_type' : params.get('payment_type'),
-		'expiry_date' : "2021-02-24 23:26"
-	}
+	// const statusPayment = params.get('status');
+	// const orderId = localStorage.getItem('id_order');
+	// const data = {
+	// 	'payment_id' : params.get('payment_id'),
+	// 	'merchant_order_id' : params.get('merchant_order_id'),
+	// 	'preference_id' : params.get('preference_id'),
+	// 	'payment_type' : params.get('payment_type'),
+	// 	'expiry_date' : "2021-02-24 23:26"
+	// }
+	const preapproval_id = params.get('preapproval_id');
+	axios
+		.get(process.env.REACT_APP_API+'/getPreapproval/'+preapproval_id)
+		.then(res => {
+			console.log(res);
+		}).catch(error => {
+			console.log(error);
+		});
+	
 
     function navLogin() {
         window.location.href= "/login";
     }
 
 	useEffect(() => {
-        if(statusPayment === "approved"){
-			let dataInv={};
-            axios
-			.put(process.env.REACT_APP_API+'/updateSubscription/'+orderId, data)
-			.then(res => {
-                dataInv.date = Moment(new Date()).format('MMMM DD, yyyy');
-				dataInv.number = res.data.data.order.merchant_order_id;
-                dataInv.orderId = res.data.data.order.id;
-				dataInv.title = res.data.data.licenses[0].title;
-				dataInv.phone = res.data.data.order.phone_number;
-				dataInv.email = res.data.data.lia.email;
-				dataInv.name = res.data.data.lia.name + " " + res.data.data.lia.last_name;
-				dataInv.titleService = res.data.data.licenses[0].title;
-				dataInv.descriptionService = res.data.data.licenses[0].description_license_type;
-				dataInv.price = res.data.data.licenses[0].price;
+        // if(preapproval_id !== ""){
+		// 	let dataInv={};
+        //     axios
+		// 	.put(process.env.REACT_APP_API+'/updateSubscription/'+orderId, data)
+		// 	.then(res => {
+        //         dataInv.date = Moment(new Date()).format('MMMM DD, yyyy');
+		// 		dataInv.number = res.data.data.order.merchant_order_id;
+        //         dataInv.orderId = res.data.data.order.id;
+		// 		dataInv.title = res.data.data.licenses[0].title;
+		// 		dataInv.phone = res.data.data.order.phone_number;
+		// 		dataInv.email = res.data.data.lia.email;
+		// 		dataInv.name = res.data.data.lia.name + " " + res.data.data.lia.last_name;
+		// 		dataInv.titleService = res.data.data.licenses[0].title;
+		// 		dataInv.descriptionService = res.data.data.licenses[0].description_license_type;
+		// 		dataInv.price = res.data.data.licenses[0].price;
 
-				setInvoice(dataInv);
-			}).catch(error => {
-				console.log(error);
-			});
-        }
+		// 		setInvoice(dataInv);
+		// 	}).catch(error => {
+		// 		console.log(error);
+		// 	});
+        // }
     }, []);
 
 	return (
