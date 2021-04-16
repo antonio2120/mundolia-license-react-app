@@ -35,15 +35,6 @@ const navigationConfig = [
 				url: '/apps/usuarios/all'
 			},
 			{
-				id: 'membership',
-				title: 'Renovar membresía',
-				translate: 'Membresías',
-				type: 'item',
-				'auth' : authRoles.memberships,
-				icon: 'card_membership',
-				url: '/memberships'
-			},
-			{
 				id: 'adminMembership',
 				title: 'Administrador de membresía',
 				translate: 'Admin Membresías',
