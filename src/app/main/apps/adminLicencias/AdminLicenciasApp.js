@@ -117,7 +117,7 @@ function AdminLicenciasApp(props) {
 									<div className="pb-16 flex items-center">
 										<Icon color="action">account_circle</Icon>
 										<Typography className="h2 mx-16" color="textSecondary">
-											Customer
+											Cuenta
 										</Typography>
 									</div>
 
@@ -314,7 +314,7 @@ function AdminLicenciasApp(props) {
 									<div className="pb-16 flex items-center">
 										<Icon color="action">access_time</Icon>
 										<Typography className="h2 mx-16" color="textSecondary">
-											Order Status
+											Membresía
 										</Typography>
 									</div>
 

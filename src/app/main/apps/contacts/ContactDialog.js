@@ -369,7 +369,7 @@ function ContactDialog(props) {
 							fullWidth
 							variant="outlined"
 							className="mb-24 MuiInputBase-fullWidth"
-							required
+							// required
 						>
 							<MenuItem key={'grade1'} value={1}>1</MenuItem>
 							<MenuItem key={'grade2'} value={2}>2</MenuItem>
