@@ -4,7 +4,7 @@ import axios from 'axios';
 // import { showMessage } from 'app/store/fuse/messageSlice';
 
 export const getMembershipInfo = createAsyncThunk('adminLicenciasApp/membeshipInfo/getMembeshipInfo', async () => {
-	const response = await axios.get(process.env.REACT_APP_API+'/lista/membresia/',{
+	const response = await axios.get(process.env.REACT_APP_API+'/lista/membresia',{
 	});
 	const data = await response.data;
 	// console.log(data);

@@ -10,7 +10,7 @@ export const getDashboardInfo = createAsyncThunk('dashboardApp/dashboard/dashboa
 		today: date,
 	};
 	
-	const response = await axios.get(process.env.REACT_APP_API+'/dashboard/panel/',{
+	const response = await axios.get(process.env.REACT_APP_API+'/dashboard/panel',{
 		params: params
 	});
 	const data = await response.data;

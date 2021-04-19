@@ -4,7 +4,7 @@ import axios from 'axios';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 export const getUserInfo = createAsyncThunk('adminLicenciasApp/userInfo/getUserInfo', async () => {
-	const response = await axios.get(process.env.REACT_APP_API+'/cuenta/',{
+	const response = await axios.get(process.env.REACT_APP_API+'/cuenta',{
 	});
 	const data = await response.data;
 	console.log(data);
