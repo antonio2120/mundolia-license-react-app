@@ -11,14 +11,49 @@ export const getMembershipInfo = createAsyncThunk('adminLicenciasApp/membeshipIn
 	return data;
 });
 
+const MembershipInfoAdapter = createEntityAdapter({});
 
 const membershipInfoSlice = createSlice({
 	name: 'adminLicenciasApp/membeshipInfo',
-	initialState: {},
-	reducers: {},
+	initialState: MembershipInfoAdapter.getInitialState({
+        RenewLicenseDialog: {
+			type: 'new',
+			props: {
+				open: false
+			},
+			data: null
+		},
+    }),
+	reducers: {
+        openRenewLicenseDialog: (state, action) => {
+			state.RenewLicenseDialog = {
+				type: 'edit',
+				props: {
+					open: true
+				},
+				data: action.payload
+			};
+		},
+		closeRenewLicenseDialog: (state) => {
+			state.RenewLicenseDialog = {
+				type: 'edit',
+				props: {
+					open: false
+				},
+				data: null
+			};
+		},
+    },
 	extraReducers: {
-		[getMembershipInfo.fulfilled]: (state, action) => action.payload
+		[getMembershipInfo.fulfilled]: (state, action) => ({
+			...state,
+			...action.payload
+		})
 	}
 });
+export const {
+    openRenewLicenseDialog,
+    closeRenewLicenseDialog
+} = membershipInfoSlice.actions
 
 export default membershipInfoSlice.reducer;

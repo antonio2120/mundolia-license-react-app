@@ -24,7 +24,9 @@ import { getOrder } from './store/orderSlice';
 import { Button } from '@material-ui/core';
 import { getUserInfo, openUserInfoDialog } from './store/userInfoSlice'
 import UserInfoDialog from './UserInfoDialog';
-import { getMembershipInfo } from './store/membershipInfoSlice'
+import { getMembershipInfo, openRenewLicenseDialog } from './store/membershipInfoSlice'
+import RenewLicenseDialog from './RenewLicenseDialog'
+import { getMembershipType } from './store/typeMembershipSlice'
 
 
 function Marker(props) {
@@ -42,9 +44,10 @@ function AdminLicenciasApp(props) {
 	const info = useSelector(({ auth }) => auth.user);
 	const userInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.data);
 	const membershipInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.membership.data);
+	// const membershipType = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.typeMembership.entities);
 
 
-	// console.log(membershipInfo);
+	// console.log(membershipType);
 
 	// const infoComplete = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user);
 
@@ -56,6 +59,7 @@ function AdminLicenciasApp(props) {
 	useDeepCompareEffect(() => {
 		dispatch(getUserInfo());
 		dispatch(getMembershipInfo());
+		dispatch(getMembershipType());
 		dispatch(getOrder(routeParams));
 	}, [dispatch, routeParams]);
 
@@ -348,6 +352,13 @@ function AdminLicenciasApp(props) {
 															</td>
 															<td>{membershipInfo.expiry_date.slice(0,10)}</td>
 														</tr>
+														<Button 
+																onClick={ev => dispatch(openRenewLicenseDialog(membershipInfo))}
+																component={Link}
+																className="justify-start px-32"
+																color="secondary">
+																Renovar
+															</Button>
 													</>
 													:
 													null
@@ -439,6 +450,7 @@ function AdminLicenciasApp(props) {
 									</div>
 								</div> */}
 								<UserInfoDialog />	
+								<RenewLicenseDialog />
 							</div>
 
 						)}
