@@ -74,6 +74,16 @@ function ContactsList(props) {
 				sortable: true
 			},
 			{
+				Header: 'Último login',
+				accessor: 'community_last_login',
+				sortable: true
+			},
+			{
+				Header: 'Miembro desde',
+				accessor: 'member_since',
+				sortable: true
+			},
+			{
 				id: 'action',
 				width: 128,
 				sortable: false,

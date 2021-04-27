@@ -37,6 +37,10 @@ class Download extends React.Component {
                         <ExcelColumn label="Username" value="username"/>
                         <ExcelColumn label="Rol" value="role_name"/>
                         <ExcelColumn label="Email" value="email"/>
+                        <ExcelColumn label="Último login" value="community_last_login"/>
+                        <ExcelColumn label="Miembro desde" value="member_since"/>
+                        <ExcelColumn label="Tipo de Licencia" value="license_type"/>
+                        <ExcelColumn label="Fecha de expiración" value="expiration_date"/>
                     </ExcelSheet>
                 </ExcelFile>
             );
