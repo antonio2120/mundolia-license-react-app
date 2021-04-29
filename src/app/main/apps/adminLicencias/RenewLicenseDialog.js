@@ -228,11 +228,6 @@ function RenewLicenseDialog(props) {
 									
 								))
 								}
-
-						
-
-
-
 								<SelectFormsy
 									id="id_licenses_type"
 									name="id_licenses_type"

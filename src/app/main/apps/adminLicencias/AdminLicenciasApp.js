@@ -168,7 +168,7 @@ function AdminLicenciasApp(props) {
 															:null}
 														</td>
 														<td>
-															<Typography className="truncate">
+															<Typography variant="subtitle1" className="truncate">
 																{info.data.school_name}
 															</Typography>
 														</td>
