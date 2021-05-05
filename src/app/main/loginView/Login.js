@@ -90,7 +90,7 @@ function Login() {
 						<Button onClick={()=>console.log("login button")} className={clsx(classes.loginButton,"normal-case")}>
 							<Typography>Log In</Typography>
 						</Button>
-						<Button onClick={()=>window.location.href = '/pricing'} className={clsx(classes.signupButton,"normal-case m-6")}>
+						<Button onClick={()=>window.location.href = '/membresias'} className={clsx(classes.signupButton,"normal-case m-6")}>
 							<Typography>Sign Up</Typography>
 						</Button>
 					</Grid>
