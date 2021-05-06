@@ -33,7 +33,7 @@ const RegisterConfig = {
 			component: Register
 		},
 		{
-			path: '/pricing',
+			path: '/membresias',
 			component: Pricing
 		},
 		{

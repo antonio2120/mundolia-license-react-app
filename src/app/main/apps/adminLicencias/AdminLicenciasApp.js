@@ -43,12 +43,6 @@ function AdminLicenciasApp(props) {
 	const userInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user.data);
 	const membershipInfo = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.membership.data);
 
-
-	// console.log(membershipInfo);
-
-	// const infoComplete = useSelector(({ adminLicenciasApp }) => adminLicenciasApp.user);
-
-
 	const routeParams = useParams();
 	const [tabValue, setTabValue] = useState(0);
 	const [map, setMap] = useState('shipping');
@@ -328,7 +322,7 @@ function AdminLicenciasApp(props) {
 											</thead>
 											<tbody>
 
-												{membershipInfo ?
+												{membershipInfo && membershipInfo.status == 'approved' ?
 													<>
 														<tr>
 															<td>
@@ -350,7 +344,16 @@ function AdminLicenciasApp(props) {
 														</tr>
 													</>
 													:
-													null
+													<>
+														<tr>
+															<td>
+																<div className="inline text-12 p-4 rounded truncate bg-blue-700 text-white">
+																	Membresía de invitado
+																</div>
+															</td>
+															<td>{membershipInfo ? membershipInfo.created_at.slice(0,10) : userInfo ? userInfo.member_since.slice(0,10) : ""}</td>
+														</tr>
+													</>
 												}
 											</tbody>
 										</table>
