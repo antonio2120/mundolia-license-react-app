@@ -11,7 +11,9 @@ const authRoles = {
 	memberships: ['Escuela-I', 'Escuela-M', 'Escuela-A', 'Maestro-I', 'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A'],
 	activities:['alumno', 'alumno_secundaria', 'preescolar', 'maestro_preescolar', 'maestro_secundaria', 'maestro', 'profesor_summit_2021', 'alumnoe0', 'alumnoe1', 'alumnoe2',	'alumnoe3',	'maestroe1', 'maestroe2', 'maestroe3', 'Maestro-I',	'Maestro-M', 'Maestro-A', 'Alumno-I', 'Alumno-M', 'Alumno-A'],
 	onlyGuest: [],
-	adminLicencias: ['Maestro-I',	'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A']
+	adminLicencias: ['Maestro-I',	'Maestro-M', 'Maestro-A', 'Padre-I', 'Padre-M', 'Padre-A'],
+	grupos: ['admin', 'admin_escuela','director_escuela', 'Escuela-I', 'Escuela-M', 'Escuela-A', 'maestroe1', 'maestroe2', 'maestroe3', 'Maestro-I',	'Maestro-M', 'Maestro-A'],
+
 };
 
 export default authRoles;

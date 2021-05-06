@@ -66,7 +66,7 @@ const navigationConfig = [
 				title: 'Grupos',
 				translate: 'Grupos',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.grupos,
 				icon: 'groups',
 				url: '/apps/grupos/all'
 			},
