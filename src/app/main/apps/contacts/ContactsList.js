@@ -75,7 +75,7 @@ function ContactsList(props) {
 			},
 			{
 				Header: 'Último login',
-				accessor: 'community_last_login',
+				accessor: 'last_login',
 				sortable: true
 			},
 			{
