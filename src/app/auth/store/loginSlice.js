@@ -9,6 +9,7 @@ export const submitLogin = ({ username, password }) => async dispatch => {
 		.signInWithEmailAndPassword(username, password)
 		.then(user => {
 			dispatch(setUserData(user));
+			dispatch(rolCookie(user.data.role));
 			return dispatch(loginSuccess());
 		})
 		.catch(error => {
@@ -30,6 +31,21 @@ export const submitLogin = ({ username, password }) => async dispatch => {
 			return dispatch(loginError(response));
 		});
 };
+
+const rolCookie = async (role) => {
+	if(['alumno', 'alumno_secundaria', 'preescolar', 'alumnoe0', 'alumnoe1', 'alumnoe2', 'alumnoe3', 'Alumno-I', 'Alumno-M', 'Alumno-A'].includes(role)){
+		document.cookie = "role=1"
+	}
+	if(['maestro_preescolar', 'maestro_secundaria', 'profesor_summit_2021', 'maestro','maestroe1', 'maestroe2', 'maestroe3', 'Maestro-I', 'Maestro-M', 'Maestro-A'].includes(role)){
+		document.cookie = "role=2"
+	}
+	if(['padre', 'Padre-I', 'Padre-M', 'Padre-A'].includes(role)){
+		document.cookie = "role=3"
+	}
+	if(['admin', 'admin_escuela','director_escuela', 'Escuela-I', 'Escuela-M', 'Escuela-A'].includes(role)){
+		document.cookie = "role=4"
+	}
+}
 
 export const submitLoginWithFireBase = ({ username, password }) => async dispatch => {
 	if (!firebaseService.auth) {
