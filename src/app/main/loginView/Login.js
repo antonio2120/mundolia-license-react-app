@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Auth0LoginTab from './tabs/Auth0LoginTab';
 import FirebaseLoginTab from './tabs/FirebaseLoginTab';
@@ -57,9 +57,6 @@ const useStyles = makeStyles(theme => ({
 	signupButton:{backgroundColor:"#D9AB0C",color:"white"},
 }));
 
-
-
-
 function Login() {
 	const classes = useStyles();
 	const [selectedTab, setSelectedTab] = useState(0);
@@ -76,7 +73,18 @@ function Login() {
 
 	function handleTabChange(event, value) {
 		setSelectedTab(value);
-	}
+	}	
+	
+	useEffect(() => {
+		let cookieValue = document.cookie
+			.split('; ')
+			.find(row => row.startsWith('role='))
+			.split('=')[1];
+		if(cookieValue == "1") setUserType(1);
+		if(cookieValue == "2") setUserType(2);
+		if(cookieValue == "3") setUserType(3);
+		if(cookieValue == "4") setUserType(4);
+	},[]);
 
 	return (
 		<>
