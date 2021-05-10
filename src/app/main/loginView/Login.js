@@ -76,14 +76,16 @@ function Login() {
 	}	
 	
 	useEffect(() => {
-		let cookieValue = document.cookie
-			.split('; ')
-			.find(row => row.startsWith('role='))
-			.split('=')[1];
-		if(cookieValue == "1") setUserType(1);
-		if(cookieValue == "2") setUserType(2);
-		if(cookieValue == "3") setUserType(3);
-		if(cookieValue == "4") setUserType(4);
+		if(document.cookie){
+			let cookieValue = document.cookie
+				.split('; ')
+				.find(row => row.startsWith('role='))
+				.split('=')[1];
+			if(cookieValue == "1") setUserType(1);
+			if(cookieValue == "2") setUserType(2);
+			if(cookieValue == "3") setUserType(3);
+			if(cookieValue == "4") setUserType(4);
+		}
 	},[]);
 
 	return (
