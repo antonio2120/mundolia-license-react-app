@@ -76,7 +76,7 @@ function ActivitySidebarContent(props) {
 					<div className="flex flex-1 items-center justify-between p-1 sm:p-1">
 						
 
-					<div className="flex flex-shrink items-center sm:w-224">
+					<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Fecha</InputLabel>
 							<Select
@@ -98,7 +98,7 @@ function ActivitySidebarContent(props) {
 					</div>
 					{
 						role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ?
-						<div className="flex flex-shrink items-center sm:w-224">
+						<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Estado</InputLabel>
 							<Select
@@ -123,9 +123,9 @@ function ActivitySidebarContent(props) {
 						:
 						null
 					}
-					<div className="flex flex-shrink items-center sm:w-224">
+					<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 						<FormControl variant="outlined" className={classes.formControl}>
-							<InputLabel id="role_id">Activas/Inactivas</InputLabel>
+							<InputLabel id="role_id">Vigencia</InputLabel>
 							<Select
 								labelId="active"
 								id="active"
@@ -133,7 +133,7 @@ function ActivitySidebarContent(props) {
 								width="100%"
 								value={form.active}
 								onChange={handleChange}
-								label="Activas/Inactivas"
+								label="Vigencia"
 								fullWidth
 								variant="outlined"
 								className="mb-24 MuiInputBase-fullWidth"
@@ -146,7 +146,7 @@ function ActivitySidebarContent(props) {
 					</div>
 				
 						{groups ?
-							<div className="flex flex-shrink items-center sm:w-224">
+							<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 							<FormControl variant="outlined" className={classes.formControl}>
 								<InputLabel id="role_id">Grupo</InputLabel>
 								<Select

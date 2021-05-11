@@ -131,7 +131,10 @@ function DashboardApp(props) {
 					backgroundSize: 'cover',
 					backgroundRepeat: 'no-repeat'
 				}}>
-					<div className="flex justify-between items-start">
+					<div className="flex justify-between items-end">
+						<Typography className="py-0 sm:py-24" variant="h4">
+							
+						</Typography>
 						<Hidden lgUp>
 							<IconButton
 								onClick={ev => pageLayout.current.toggleRightSidebar()}

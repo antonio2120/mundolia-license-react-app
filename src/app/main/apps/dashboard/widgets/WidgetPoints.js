@@ -16,58 +16,62 @@ function WidgetPoints(props) {
 
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
-			<div className="flex items-center justify-between px-4 pt-4">
+
+			<div className="flex flex-row flex-wrap p-8">
+
+				<div className="flex w-full md:w-1/2 p-8 min-h-420 h-420 sm:border-b-1 md:border-b-0">
+					<div className="flex flex-1 flex-col items-center justify-center p-16">
+						<Typography className="text-15" color="textSecondary">
+							Puntos Actuales
+					</Typography>
+						<Typography className="text-32 leading-none text-blue font-semibold">
+							{props.widget.current}
+						</Typography>
+					</div>
+					<div className="flex flex-1 flex-col p-16 md:border-r-1">
+
+						<div className="flex justify-between px-4 pt-4 pl-4">
+							<Typography className="text-15 leading-none justify-center" color="textSecondary">Ganados</Typography>
+							<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{props.widget.total_earned}</Typography>
+						</div>
+
+						<div className="flex items-center justify-between px-4 pt-4">
+							<Typography className="text-15 leading-none justify-center" color="textSecondary">Comprados</Typography>
+							<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{props.widget.total_bought}</Typography>
+						</div>
+
+						<div className="flex items-center justify-between px-4 pt-4">
+							<Typography className="text-15 leading-none justify-center" color="textSecondary">Recibidos</Typography>
+							<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{props.widget.total_received}</Typography>
+						</div>
+
+						<div className="flex items-center justify-between px-4 pt-4">
+							<Typography className="text-15 leading-none justify-center" color="textSecondary">Recuperados</Typography>
+							<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{props.widget.total_retrieved}</Typography>
+						</div>
+					</div>
+				</div>
+
+				<div className="flex w-full md:w-1/2 p-8 min-h-420 h-420">
+					<div className="flex flex-1 flex-col items-center justify-center p-16">
+						<Typography className="text-15" color="textSecondary">
+							Gastados
+					</Typography>
+						<Typography className="text-32 leading-none text-red font-semibold">
+							{props.widget.total_spent}
+						</Typography>
+					</div>
+					<div className="flex flex-1 flex-col items-center justify-center p-16">
+						<Typography className="text-15" color="textSecondary">
+							Enviados
+					</Typography>
+						<Typography className="text-32 leading-none text-red font-semibold">
+							{props.widget.total_sent}
+						</Typography>
+					</div>
+				</div>
 			</div>
-            
-            <div className="flex items-center p-8">
-				<div className="flex flex-1 flex-col items-center justify-center p-16">
-					<Typography className="text-15" color="textSecondary">
-                        Puntos Actuales
-					</Typography>
-					<Typography className="text-32 leading-none text-blue font-semibold">
-						{props.widget.current}
-					</Typography>
-				</div>
-                <div className="flex flex-1 flex-col p-16 border-r-1">
 
-					<div className="flex justify-between px-4 pt-4 pl-4">
-						<Typography className="text-15 leading-none justify-center" color="textSecondary">Ganados</Typography>
-						<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{ props.widget.total_earned }</Typography>
-					</div>
-
-					<div className="flex items-center justify-between px-4 pt-4">
-						<Typography className="text-15 leading-none justify-center" color="textSecondary">Comprados</Typography>
-						<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{ props.widget.total_bought }</Typography>
-					</div>
-
-					<div className="flex items-center justify-between px-4 pt-4">
-						<Typography className="text-15 leading-none justify-center" color="textSecondary">Recibidos</Typography>
-						<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{ props.widget.total_received }</Typography>
-					</div>
-
-					<div className="flex items-center justify-between px-4 pt-4">
-						<Typography className="text-15 leading-none justify-center" color="textSecondary">Recuperados</Typography>
-						<Typography className="text-15 justify-between pl-10 font-semibold" color="textSecondary">{ props.widget.total_retrieved }</Typography>
-					</div>
-				</div>
-                {/* <Divider /> */}
-				<div className="flex flex-1 flex-col items-center justify-center p-16">
-					<Typography className="text-15" color="textSecondary">
-                        Gastados
-					</Typography>
-					<Typography className="text-32 leading-none text-red font-semibold">
-						{ props.widget.total_spent }
-					</Typography>
-				</div>
-                <div className="flex flex-1 flex-col items-center justify-center p-16">
-					<Typography className="text-15" color="textSecondary">
-                        Enviados
-					</Typography>
-					<Typography className="text-32 leading-none text-red font-semibold">
-						{ props.widget.total_sent }
-					</Typography>
-				</div>
-			</div>
 		</Paper>
 	);
 }
