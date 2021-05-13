@@ -76,7 +76,7 @@ function Login() {
 	}	
 	
 	useEffect(() => {
-		if(document.cookie){
+		if(document.cookie && document.cookie.indexOf('role=') >= 0){
 			let cookieValue = document.cookie
 				.split('; ')
 				.find(row => row.startsWith('role='))
