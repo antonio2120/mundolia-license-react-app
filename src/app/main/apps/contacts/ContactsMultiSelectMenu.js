@@ -6,12 +6,17 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {setContactsUnstarred, setContactsStarred, removeContacts, openEditContactGroupDialog, openMassiveMessageGroupDialog, openAddToGroupDialog } from './store/contactsSlice';
 
 function ContactsMultiSelectMenu(props) {
 	const dispatch = useDispatch();
 	const { selectedContactIds } = props;
+	const role = useSelector(({ auth }) => auth.user.role);
+	var limited = false;
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+		limited = true;
+	}
 
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -51,28 +56,34 @@ function ContactsMultiSelectMenu(props) {
 					{/*	</ListItemIcon>*/}
 					{/*	<ListItemText primary="Remover" />*/}
 					{/*</MenuItem>*/}
-					<MenuItem
-						onClick={() => {
-							dispatch(openEditContactGroupDialog(selectedContactIds));
-							closeSelectedContactsMenu();
-						}}
-					>
-						<ListItemIcon className="min-w-40">
-							<Icon>edit</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Editar" />
-					</MenuItem>
-					<MenuItem
-						onClick={() => {
-							dispatch(openMassiveMessageGroupDialog(selectedContactIds));
-							closeSelectedContactsMenu();
-						}}
-					>
-						<ListItemIcon className="min-w-40">
-							<Icon>email</Icon>
-						</ListItemIcon>
-						<ListItemText primary="Crear mensaje" />
-					</MenuItem>
+					{!limited ?
+						<>
+							<MenuItem
+								onClick={() => {
+									dispatch(openEditContactGroupDialog(selectedContactIds));
+									closeSelectedContactsMenu();
+								}}
+							>
+								<ListItemIcon className="min-w-40">
+									<Icon>edit</Icon>
+								</ListItemIcon>
+								<ListItemText primary="Editar" />
+							</MenuItem>
+							<MenuItem
+								onClick={() => {
+									dispatch(openMassiveMessageGroupDialog(selectedContactIds));
+									closeSelectedContactsMenu();
+								}}
+							>
+								<ListItemIcon className="min-w-40">
+									<Icon>email</Icon>
+								</ListItemIcon>
+								<ListItemText primary="Crear mensaje" />
+							</MenuItem>
+						</>
+						:
+						null
+					}
 					<MenuItem
 						onClick={() => {
 							dispatch(openAddToGroupDialog(selectedContactIds));

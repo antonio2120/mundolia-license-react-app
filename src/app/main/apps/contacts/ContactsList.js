@@ -16,6 +16,11 @@ function ContactsList(props) {
 	const contacts = useSelector(selectContacts);
 	const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
+	const role = useSelector(({ auth }) => auth.user.role);
+	var limited = false;
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+		limited = true;
+	}
 
 	const [filteredData, setFilteredData] = useState(null);
 
@@ -89,15 +94,18 @@ function ContactsList(props) {
 				sortable: false,
 				Cell: ({ row }) => (
 					<div className="flex items-center">
-
-						<IconButton
-							onClick={ev => {
-								ev.stopPropagation();
-								dispatch(removeContact(row.original.uuid));
-							}}
-						>
-							<Icon>delete</Icon>
-						</IconButton>
+						{!limited ?
+							<IconButton
+								onClick={ev => {
+									ev.stopPropagation();
+									dispatch(removeContact(row.original.uuid));
+								}}
+							>
+								<Icon>delete</Icon>
+							</IconButton>
+							:
+							null
+						}
 					</div>
 				)
 			}
@@ -133,17 +141,34 @@ let res
 			</>
 		);
 	}else{
-		res =  (
-			<ContactsTable
-				columns={columns}
-				data={filteredData}
-				onRowClick={(ev, row) => {
-					if (row) {
-						dispatch(openEditContactDialog(row.original));
+		if (!limited){
+			res =  (
+			
+				<ContactsTable
+					columns={columns}
+					data={filteredData}
+					onRowClick={!limited ? (ev, row, limited) => {
+						if (row) {
+							dispatch(openEditContactDialog(row.original));
+						}
+					
 					}
-				}}
-			/>
-		)
+					:null
+				}
+				/>
+			)
+
+		}else{
+			res =  (
+			
+				<ContactsTable
+					columns={columns}
+					data={filteredData}
+				/>
+			)
+
+		}
+		
 	}
 
 	return (

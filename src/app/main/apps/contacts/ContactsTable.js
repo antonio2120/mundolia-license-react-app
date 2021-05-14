@@ -12,6 +12,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
 import ContactsTablePaginationActions from './ContactsTablePaginationActions';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref) => {
 	const defaultRef = React.useRef();
@@ -29,6 +31,13 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
 });
 
 const EnhancedTable = ({ columns, data, onRowClick }) => {
+	const role = useSelector(({ auth }) => auth.user.role);
+	var limited = false;
+
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+		limited = true;
+	}
+
 	const {
 		getTableProps,
 		headerGroups,
@@ -123,7 +132,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
 							return (
 								<TableRow
 									{...row.getRowProps()}
-									onClick={ev => onRowClick(ev, row)}
+									onClick={!limited? ev => onRowClick(ev, row):null}
 									className="truncate cursor-pointer"
 								>
 									{row.cells.map(cell => {
