@@ -5,7 +5,7 @@ import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import ContactDialog from './ContactDialog';
@@ -42,6 +42,13 @@ function ContactsApp(props) {
 	const classes = useStyles(props);
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
+	const role = useSelector(({ auth }) => auth.user.role);
+	
+	var limited = false;
+
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+		limited = true;
+	}
 
 	useDeepCompareEffect(() => {
 		dispatch(getContacts(routeParams));
@@ -70,27 +77,33 @@ function ContactsApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
+			{!limited ?
+				<>
+					<FuseAnimate animation="transition.expandIn" delay={300}>
 
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.exportButton}
-					//onClick={downloadContacts}
-				>
-					<Download />
-				</Fab>
-			</FuseAnimate>
-			<FuseAnimate animation="transition.expandIn" delay={300}>
-				<Fab
-					color="primary"
-					aria-label="add"
-					className={classes.addButton}
-					onClick={ev => dispatch(openNewContactDialog())}
-				>
-					<Icon>person_add</Icon>
-				</Fab>
-			</FuseAnimate>
+						<Fab
+							color="primary"
+							aria-label="add"
+							className={classes.exportButton}
+						//onClick={downloadContacts}
+						>
+							<Download />
+						</Fab>
+					</FuseAnimate>
+
+					<FuseAnimate animation="transition.expandIn" delay={300}>
+						<Fab
+							color="primary"
+							aria-label="add"
+							className={classes.addButton}
+							onClick={ev => dispatch(openNewContactDialog())}
+						>
+							<Icon>person_add</Icon>
+						</Fab>
+					</FuseAnimate>
+				</>
+				: null
+			}
 			<ContactDialog /> 
 		</>
 	);

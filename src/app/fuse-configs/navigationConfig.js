@@ -30,7 +30,7 @@ const navigationConfig = [
 				title: 'Usuarios',
 				translate: 'Usuarios',
 				type: 'item',
-				'auth' : authRoles.admin_escuela,
+				'auth' : authRoles.usuarios,
 				icon: 'account_box',
 				url: '/apps/usuarios/all'
 			},

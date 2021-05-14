@@ -57,6 +57,12 @@ function ContactsSidebarContent(props) {
 	const [inputValue, setInputValue] = React.useState('');
 	const [value, setValue] = React.useState('');
 	const classes = useStyles(props);
+	const role = useSelector(({ auth }) => auth.user.role);
+	var limited = false;
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+		limited = true;
+	}
+
 	dispatch(setContactsFilter(form));
 	useDeepCompareEffect(() => {
 		dispatch(getContacts());
@@ -79,6 +85,7 @@ function ContactsSidebarContent(props) {
 						<div className="flex flex-shrink items-center w-full" >
 						{schools.length > 0 &&
 							<FormControl variant="outlined" className={classes.formControl}>
+								{!limited ? 
 								<Autocomplete
 									id="school_id"
 									name="school_id"
@@ -99,8 +106,10 @@ function ContactsSidebarContent(props) {
 									style={{ width: '100%' }}
 									renderInput={(params) => <TextField {...params} label="Escuela" name="school_id" variant="outlined" fullWidth/>}
 									className="mb-24 MuiInputBase-fullWidth w-full"
-								/>
+								/>:null
+								}
 							</FormControl>
+
 						}
 						</div>
 						<div className="flex flex-shrink items-center sm:w-224">
