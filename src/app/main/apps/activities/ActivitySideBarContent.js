@@ -73,10 +73,10 @@ function ActivitySidebarContent(props) {
     return (
         <div className="p-0 lg:p-24 lg:ltr:pr-4 lg:rtl:pl-4">
 			<FuseAnimate animation="transition.slideLeftIn" delay={200}>
-					<div className="flex flex-1 items-center justify-between p-1 sm:p-1">
+					<div className="flex flex-col sm:flex sm:flex-row justify-between p-1 sm:p-1">
 						
 
-					<div className="flex flex-shrink items-center md:w-200 sm:w-180">
+					<div className="flex flex w-full sm:w-1/2">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Fecha</InputLabel>
 							<Select
@@ -95,10 +95,8 @@ function ActivitySidebarContent(props) {
 								<MenuItem key={1} value={1}>Antiguas</MenuItem>
 							</Select>
 						</FormControl>
-					</div>
 					{
 						role == 'alumno' || role == 'alumno_secundaria' ||  role == 'preescolar' || role == 'alumnoe0' || role == 'alumnoe1' || role == 'alumnoe2' || role == 'alumnoe3' || role == 'Alumno-I' || role == 'Alumno-M' || role == 'Alumno-A' ?
-						<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Estado</InputLabel>
 							<Select
@@ -119,11 +117,11 @@ function ActivitySidebarContent(props) {
 								<MenuItem key={3} value={'Calificado'}>Calificados</MenuItem>
 							</Select>
 						</FormControl>
-					</div>
 						:
 						null
 					}
-					<div className="flex flex-shrink items-center md:w-200 sm:w-180">
+					</div>
+					<div className="flex flex w-full sm:w-1/2">
 						<FormControl variant="outlined" className={classes.formControl}>
 							<InputLabel id="role_id">Vigencia</InputLabel>
 							<Select
@@ -143,10 +141,8 @@ function ActivitySidebarContent(props) {
 								<MenuItem key={2} value={2}>Inactivas</MenuItem>
 							</Select>
 						</FormControl>
-					</div>
 				
 						{groups ?
-							<div className="flex flex-shrink items-center md:w-200 sm:w-180">
 							<FormControl variant="outlined" className={classes.formControl}>
 								<InputLabel id="role_id">Grupo</InputLabel>
 								<Select
@@ -168,10 +164,10 @@ function ActivitySidebarContent(props) {
 									}
 								</Select>
 							</FormControl>
-							</div>
 						:
 						<CircularProgress color="secondary" />
 						}
+						</div>
 					</div>
 			</FuseAnimate>
 		</div>

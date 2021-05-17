@@ -155,7 +155,7 @@ function ActivitiesList(props) {
 				<Icon className={classes.headerIcon}> school </Icon>
 			</div>
 			<div className="flex flex-col flex-1 max-w-2xl w-full mx-auto px-8 sm:px-16 py-24">
-				<div className="flex flex-row-reverse">
+				<div className=" flex-row-reverse">
 					<ActivitySidebarContent/>
 				</div>
 
