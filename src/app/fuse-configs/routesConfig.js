@@ -26,6 +26,7 @@ import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConf
 import RedirectPageConfig from "../main/pages/redirect/RedirectPageConfig";
 import DashboardAppConfig from '../main/apps/dashboard/DashboardAppConfig';
 import AdminLicenciasAppConfig from '../main/apps/adminLicencias/AdminLicenciasAppConfig';
+import EventsCalendarAppConfig from '../main/apps/eventsCalendar/EventsCalendarAppConfig';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -51,7 +52,8 @@ const routeConfigs = [
 	ActivitiesConfig,
 	HomeworksConfig,
 	MembershipsAppConfig,
-	AdminLicenciasAppConfig
+	AdminLicenciasAppConfig,
+	EventsCalendarAppConfig
 ];
 
 const routes = [
