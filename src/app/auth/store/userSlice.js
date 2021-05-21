@@ -89,7 +89,7 @@ export const setUserData = user => async (dispatch, getState) => {
 		data: {
 			displayName: user.data.displayName,
 			email: user.data.email,
-			photoURL: 'assets/images/avatars/user.jpg',
+			photoURL: 'assets/images/avatars/profile.jpg',
 			settings: { ...fuseDefaultSettings }
 		}
 	});

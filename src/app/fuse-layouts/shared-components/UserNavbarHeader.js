@@ -4,7 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { openAvatarLayout } from 'app/store/fuse/avatarSlice';
+import {openNewGroupDialog} from "../../main/apps/groups/store/groupSlice";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -38,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function UserNavbarHeader(props) {
+	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
 
 	const classes = useStyles();
@@ -64,6 +67,7 @@ function UserNavbarHeader(props) {
 						? user.data.photoURL
 						: 'assets/images/avatars/profile.jpg'
 				}
+				onClick={ev => dispatch(openAvatarLayout())}
 			/>
 		</AppBar>
 	);

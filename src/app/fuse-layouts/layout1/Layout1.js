@@ -14,6 +14,8 @@ import LeftSideLayout1 from './components/LeftSideLayout1';
 import NavbarWrapperLayout1 from './components/NavbarWrapperLayout1';
 import RightSideLayout1 from './components/RightSideLayout1';
 import ToolbarLayout1 from './components/ToolbarLayout1';
+import AvatarLayout from "./components/AvatarLayout";
+import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -143,7 +145,9 @@ function Layout1(props) {
 
 					{config.rightSidePanel.display && <RightSideLayout1 />}
 
-					<FuseMessage />
+					<FuseMessage/>
+					<AvatarLayout />
+
 				</div>
 			);
 		}
@@ -196,6 +200,8 @@ function Layout1(props) {
 					{config.rightSidePanel.display && <RightSideLayout1 />}
 
 					<FuseMessage />
+				    <AvatarLayout />
+
 				</div>
 			);
 		}
