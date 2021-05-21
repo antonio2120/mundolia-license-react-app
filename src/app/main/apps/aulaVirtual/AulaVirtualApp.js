@@ -9,10 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
-import ActivitiesList from './ActivitiesList'
-import { openNewActivityDialog, getActivities } from './store/activitiesSlice';
-import ActivityDialog from './ActivityDialog';
-import DeliveryDialog from './DeliveryDialog';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
 	addButton: {
@@ -29,7 +26,7 @@ const useStyles = makeStyles({
 	}
 });
 
-function ActivitiesApp(props) {
+function AulaVirtualApp(props) {
 	const dispatch = useDispatch();
 
 	const classes = useStyles(props);
@@ -43,6 +40,10 @@ function ActivitiesApp(props) {
 			const options = {
 			 roomName: 'clubLiaMeeting1',
 			 height: 400,
+             userInfo: {
+                email: 'jorgeadelgadod@gmail.com',
+                displayName: 'Raul Doe'
+            },
 			 interfaceConfigOverwrite: {
 			  filmStripOnly: false,
 			  SHOW_JITSI_WATERMARK: false,
@@ -63,7 +64,6 @@ function ActivitiesApp(props) {
 	}
 
 	useDeepCompareEffect(() => {
-		dispatch(getActivities(role));
 	}, [dispatch, routeParams]);
 
 	return (
@@ -77,7 +77,7 @@ function ActivitiesApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0'
 				}}
-				content={ <ActivitiesList />}
+				content={ <Typography>Hola</Typography>}
 				sidebarInner
 				ref={pageLayout}
 				innerScroll
@@ -96,9 +96,7 @@ function ActivitiesApp(props) {
 					</Fab>
 				</FuseAnimate>
 			}
-			<ActivityDialog/>
-			<DeliveryDialog/>
 		</>
 	);
 }
-export default withReducer('ActivitiesApp', reducer)(ActivitiesApp);
+export default withReducer('AulaVirtualApp', reducer)(AulaVirtualApp);
