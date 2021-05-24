@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
+import EventsCalendarContent from './EventsCalendarContent'
 
 function EventsCalendarApp(props) {
 
@@ -29,9 +30,7 @@ function EventsCalendarApp(props) {
 				}}
 				// header={<GroupsHeader pageLayout={pageLayout} />}
 				content={
-                    <div>
-                        Hola mundo
-                    </div>
+                    <EventsCalendarContent/>
                 }
 				// leftSidebarContent={<ContactsSidebarContent />}
 				sidebarInner
