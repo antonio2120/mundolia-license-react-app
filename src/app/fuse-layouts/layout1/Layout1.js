@@ -14,6 +14,7 @@ import LeftSideLayout1 from './components/LeftSideLayout1';
 import NavbarWrapperLayout1 from './components/NavbarWrapperLayout1';
 import RightSideLayout1 from './components/RightSideLayout1';
 import ToolbarLayout1 from './components/ToolbarLayout1';
+import PreescolarLayout from './Preescolar/PreescolarLayout';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -82,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 
 function Layout1(props) {
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
-
+	const role = useSelector(({ auth }) => auth.user.role);
 	const appContext = useContext(AppContext);
 	const classes = useStyles(props);
 	const { routes } = appContext;
@@ -150,6 +151,7 @@ function Layout1(props) {
 		case 'content':
 		default: {
 			return (
+				 role != 'preescolar' ?
 				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
@@ -197,6 +199,20 @@ function Layout1(props) {
 
 					<FuseMessage />
 				</div>
+				:
+					<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}
+						style={{
+							backgroundImage: `url("assets/images/preescolar/pantalla12.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat'
+						}}
+					>
+
+					
+					<PreescolarLayout />
+					</div>
+			
 			);
 		}
 	}
