@@ -353,6 +353,65 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	addFileClassroom = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('file', data.file);
+			formData.append('meetingId', data.meetingId);
+
+			axios.post(process.env.REACT_APP_API+'/aulaVirtual/upload', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	returnFileClassroom = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getFiles/'+data.idMeeting,
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	returnMeetingId = () => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getMeetId',
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
 			axios

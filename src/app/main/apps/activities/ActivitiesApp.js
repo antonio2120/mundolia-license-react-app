@@ -37,31 +37,6 @@ function ActivitiesApp(props) {
 	const routeParams = useParams();
 	const role = useSelector(({ auth }) => auth.user.role);
 
-	function createJitsiMeet(){
-		try {
-			const domain = 'meet.jit.si';
-			const options = {
-			 roomName: 'clubLiaMeeting1',
-			 height: 400,
-			 interfaceConfigOverwrite: {
-			  filmStripOnly: false,
-			  SHOW_JITSI_WATERMARK: false,
-			 },
-			 configOverwrite: {
-			  disableSimulcast: false,
-			 },
-			};
-		 
-			const api = new window.JitsiMeetExternalAPI(domain, options);
-			api.addEventListener('videoConferenceJoined', () => {
-			 console.log('Local User Joined');
-			 api.executeCommand('displayName', 'MyName');
-			});
-		   } catch (error) {
-			console.error('Failed to load Jitsi API', error);
-		   }
-	}
-
 	useDeepCompareEffect(() => {
 		dispatch(getActivities(role));
 	}, [dispatch, routeParams]);
@@ -90,9 +65,9 @@ function ActivitiesApp(props) {
 						color="primary"
 						aria-label="add"
 						className={classes.addButton}
-						onClick={() => createJitsiMeet()}
+						onClick={ev => dispatch(openNewActivityDialog())}
 					>
-						<Icon>meeting_room</Icon>
+						<Icon>assignment_add</Icon>
 					</Fab>
 				</FuseAnimate>
 			}
