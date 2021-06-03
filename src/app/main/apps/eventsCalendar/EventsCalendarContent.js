@@ -15,9 +15,8 @@ function EventsCalendarContent(props) {
 
 	let calendars = [
 		{calendarId: "cr7v50c3mikurhfr73oqa3qcbk@group.calendar.google.com"},
-		{calendarId: "rg4m0k607609r2jmdr97sjvjus@group.calendar.google.com", color: "rgb(63, 191, 63)"}, //accepts hex and rgb strings (doesn't work with color names)
-		{calendarId: "62llaglq7i0b3jkp3t402rfosg@group.calendar.google.com", color: "rgb(10, 191, 63)"}, //accepts hex and rgb strings (doesn't work with color names)
-		{calendarId: "vk8dl7jod7qq9s44paa48eqq20@group.calendar.google.com", color: "rgb(10, 91, 63)"} //accepts hex and rgb strings (doesn't work with color names)		
+		{calendarId: "62llaglq7i0b3jkp3t402rfosg@group.calendar.google.com", color: "rgb(63, 191, 63)"}, //accepts hex and rgb strings (doesn't work with color names)
+		{calendarId: "vk8dl7jod7qq9s44paa48eqq20@group.calendar.google.com", color: "rgb(205, 92, 92)"} //accepts hex and rgb strings (doesn't work with color names)		
 	];
 
 	let styles = {
@@ -47,4 +46,4 @@ function EventsCalendarContent(props) {
 		</>
 	);
 }
-export default withReducer('EventsCalendarContent', reducer)(EventsCalendarContent);
+export default EventsCalendarContent;

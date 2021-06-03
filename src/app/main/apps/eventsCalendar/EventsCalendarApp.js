@@ -1,11 +1,12 @@
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import withReducer from 'app/store/withReducer';
-import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
-import EventsCalendarContent from './EventsCalendarContent'
+import EventsCalendarContent from './EventsCalendarContent';
+import { getToken } from './store/calendarSlice';
+import EventsCalendarTokenDialog from './EventsCalendarTokenDialog';
 
 function EventsCalendarApp(props) {
 
@@ -13,8 +14,8 @@ function EventsCalendarApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 
-	useDeepCompareEffect(() => {
-        	
+	useEffect(() => {
+		dispatch(getToken());
 	}, [dispatch, routeParams]);
 
 	return (
@@ -37,6 +38,7 @@ function EventsCalendarApp(props) {
 				ref={pageLayout}
 				innerScroll
 			/>
+			<EventsCalendarTokenDialog/>
 		</>
 	);
 }
