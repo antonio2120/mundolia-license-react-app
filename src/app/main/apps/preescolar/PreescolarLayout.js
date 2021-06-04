@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Preescolar.css';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	// header: {
@@ -53,14 +54,24 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 	},
 	button: {
+		// flexDirection: 'column',
+		// display: 'flex',
+		// flexWrap: 'wrap',
+		// flex: 1,
+		// alignItems: 'center',
 		// main styles,
 		// "&:focus": {
 		// 	width:"120%"
 		// },
 		"&:hover": {
-			transform: "scale(1.2)"
+			transform: "scale(1.2)",
+			// opacity: "0%",
 			// width:"120%"
 		}
+	},
+	buttonScore: {
+		// height:"120px"
+
 	},
 	img: {
 		animationName: "floating",
@@ -89,7 +100,13 @@ function PreescolarLayout(props) {
 	
 
 	return (
-        <div>
+        <div className="flex flex-1" 
+		style={{
+		backgroundImage: `url("assets/images/preescolar/pantalla12.png")`,
+			backgroundPosition: 'center',
+			backgroundSize: 'cover',
+			backgroundRepeat: 'no-repeat'
+		}}>
 
             <FuseAnimateGroup
                 className="flex flex-wrap p-64"
@@ -100,52 +117,115 @@ function PreescolarLayout(props) {
 
 
 				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
-					<button
+					<Button
 						className={clsx(classes.button)}
 						style={{
-							// backgroundImage: `url("assets/images/preescolar/explorer.png")`,
+							backgroundColor: 'transparent',
 						}}
-						// onClick={() => onSelect(id)}
+						to={`/apps/sections/mistareas`}
+						component={Link}
 						type="button"
 					>
 						<img src="assets/images/preescolar/explorer.png" />
+					</Button>
+					<Button
+						style={{
+							backgroundColor: 'transparent',
+						}}
+						to={`/apps/sections/mistareas`}
+						component={Link}
+						// className="justify-start px-32"
+						color="secondary"
+					>
 						<Typography className={clsx(classes.Text)}>
 							Mis tareas
-					</Typography>
-					</button>
+						</Typography>
+					</Button>
 				</div>
 
 
 
 				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
-					<button
+					<Button
 						className={clsx(classes.button)}
 						style={{
-							// backgroundImage: `url("assets/images/preescolar/explorer.png")`,
+							backgroundColor: 'transparent',
 						}}
-						// onClick={() => onSelect(id)}
+						// to={``}
+						component={Link}
 						type="button"
 					>
 						<img className="logo-icon" src="assets/images/preescolar/comunicacion.png" alt="logo" />
+					</Button>
+					<Button
+						style={{
+							backgroundColor: 'transparent',
+						}}
+						// to={``}
+						component={Link}
+						type="button"
+					>
 						<Typography className={clsx(classes.Text)}>
-							Mi Mundo Lia
-					</Typography>
-					</button>
+						Mi Mundo Lia
+						</Typography>
+					</Button>
 				</div>
 				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
-					<button
+					<Button
 						className={clsx(classes.button)}
 						style={{
-							// backgroundImage: `url("assets/images/preescolar/explorer.png")`,
+							backgroundColor: 'transparent',
 						}}
-						// onClick={() => onSelect(id)}
+						// to={``}
+						component={Link}
 						type="button"
 					>
 						<img src="assets/images/preescolar/artes.png" alt="logo" />
+					</Button>
+					<Button
+						style={{
+							backgroundColor: 'transparent',
+						}}
+						// to={``}
+						component={Link}
+						type="button"
+					>
 						<Typography className={clsx(classes.Text)}>
 							Mis Clases
-					</Typography>
-					</button>
+						</Typography>
+					</Button>
+				</div>
+
+				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+				<Button
+						justifyContent="center"
+						className={clsx(classes.button)}
+						// className="flex items-center justify-between px-16 h-64 border-b-1"
+						style={{
+							backgroundColor: 'transparent',
+							backgroundImage: `url("assets/images/preescolar/ButtonLIA.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'contain',
+							backgroundRepeat: 'no-repeat',
+							height: "100%",
+							// maxHeight: '100%',
+							// maxWidth: '100%',
+
+						}}
+						// to={``}
+						component={Link}
+						type="button"
+					> 						
+					{/* <img className="logo-icon" src="assets/images/preescolar/ButtonLIA.png" alt="logo" > */}
+
+						<Typography className={clsx(classes.Text)}>
+							Mi Score
+						</Typography>
+						{/* </img> */}
+						{/* <img src="assets/images/preescolar/ButtonLIA.png" /> */}
+						
+					</Button>
+					
 				</div>
 
 
