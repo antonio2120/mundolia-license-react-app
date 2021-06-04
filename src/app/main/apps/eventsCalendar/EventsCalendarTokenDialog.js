@@ -30,6 +30,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 function EventsCalendarTokenDialog(props) {
 
     const dispatch = useDispatch();
+    const user = useSelector(({ auth }) => auth.user);
     const token = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.token);
     const calendarDialog = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.calendarDialog);
 
@@ -87,7 +88,7 @@ function EventsCalendarTokenDialog(props) {
 								variant="contained"
 								color="primary"
 								type="submit"
-                                onClick={() => window.location.href = process.env.REACT_APP_API+'/login/google/redirect'}
+                                onClick={() => window.location.href = process.env.REACT_APP_API+'/login/google/redirect/'+user.uuid}
 							>
 								Aceptar
 							</Button>
