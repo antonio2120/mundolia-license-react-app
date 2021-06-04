@@ -16,6 +16,9 @@ import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
 import {showMessage} from "../../../store/fuse/messageSlice";
 import clsx from 'clsx';
+import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Formsy from "formsy-react";
 
 
 const useStyles = makeStyles({
@@ -50,7 +53,10 @@ const useStyles = makeStyles({
         width: '100%',
         height: '100%',
     },
-    divFiles: {}
+    fileNameStyle: {
+        color:"#000",
+        textShadow:"-2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;"
+    }
 });
 
 function AulaVirtualApp(props) {
@@ -60,7 +66,7 @@ function AulaVirtualApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const [openMeeting, setOpenMeeting] = useState(false);
-	const [meetingId, setMeetingId] = useState("ClubLIAMeet-502-raul");
+	const [meetingId, setMeetingId] = useState("");
 
 	const user = useSelector(({ auth }) => auth.user.data);
 	const role = user.role;
@@ -68,6 +74,7 @@ function AulaVirtualApp(props) {
 	const meetingIdVal = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.meetingAula);
 
     useEffect(() => {
+        console.log("meetingIdVal.success",meetingIdVal.success);
         if(meetingIdVal.success){
             setMeetingId(meetingIdVal.response.meeting_id);
 			// dispatch(showMessage({message:'get data',variant: 'success'}));
@@ -112,6 +119,18 @@ function AulaVirtualApp(props) {
         dispatch(submitFileClassroom(file, meetingId));
         dispatch(getFileClassroom(meetingId));
     }
+    
+    function disableButton() {
+		// setIsFormValid(false);
+	}
+
+	function enableButton() {
+		// setIsFormValid(true);
+	}
+
+    function handleSubmit(model){
+
+    }
 
 	return (
 		<>
@@ -131,7 +150,7 @@ function AulaVirtualApp(props) {
                                 <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
                             </Grid>
                             <Grid item xs={3} className={classes.rightContainerStyle}>
-                                <div className={clsx(classes.divFiles,'flex flex-col')}>    
+                                <div className={clsx('flex flex-col justify-center')}>    
                                 {openMeeting !== false && aula.response &&
                                 <>
                                 {aula.response.map(file => {
@@ -144,11 +163,11 @@ function AulaVirtualApp(props) {
                                                 }}>
 
                                                 <Typography
-                                                    className="text-center text-13 font-600 mt-4">
+                                                    className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
                                                     {file.slice(file.indexOf('_')+1)}
                                                 </Typography>
 
-                                                <Icon className="text-center text-13 font-600 mt-4 ml-4">save_alt</Icon>
+                                                <Icon className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4 ml-4")}>save_alt</Icon>
                                             </IconButton>  
                                         </>
                                     )})} 
@@ -162,6 +181,39 @@ function AulaVirtualApp(props) {
                                         onChange={(e) => uploadFile(e.target.files[0])}
                                         variant="outlined"
                                     /> 
+                                    {/* <Typography
+                                        className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
+                                        o
+                                    </Typography>
+                                    <Formsy
+                                        onValidSubmit={handleSubmit}
+                                        onValid={enableButton}
+                                        onInvalid={disableButton}
+                                        ref={pageLayout}
+                                        className="flex flex-col justify-center w-full"
+                                    >
+                                        <TextFieldFormsy
+                                            className="mb-16"
+                                            type="text"
+                                            name="url"
+                                            label="Ingresa una url válida"
+                                            validations="isUrl"
+                                            validationErrors={{
+                                                isUrl: 'No es una url válida'
+                                            }}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <Icon className="text-20" color="action">
+                                                            link
+                                                        </Icon>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            variant="outlined"
+                                            required
+                                        />
+                                    </Formsy> */}
                                 </>
                                 } 
                                 </div>
@@ -171,6 +223,7 @@ function AulaVirtualApp(props) {
                         {openMeeting === false &&
                         <FuseAnimate animation="transition.expandIn" delay={300}>
                             <Fab
+                                disabled={!meetingIdVal.success}
                                 color="primary"
                                 aria-label="add"
                                 className={classes.addButton}
