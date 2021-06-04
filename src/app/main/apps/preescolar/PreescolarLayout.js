@@ -122,7 +122,7 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						to={`/apps/sections/mistareas`}
+						to={`/apps/actividades`}
 						component={Link}
 						type="button"
 					>
@@ -132,7 +132,7 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						to={`/apps/sections/mistareas`}
+						to={`/apps/actividades`}
 						component={Link}
 						// className="justify-start px-32"
 						color="secondary"
@@ -151,7 +151,7 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						// to={``}
+						to={`/loginp`}
 						component={Link}
 						type="button"
 					>
@@ -161,7 +161,7 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						// to={``}
+						to={`/loginp`}
 						component={Link}
 						type="button"
 					>
@@ -212,7 +212,7 @@ function PreescolarLayout(props) {
 							// maxWidth: '100%',
 
 						}}
-						// to={``}
+						to={`/apps/dashboard`}
 						component={Link}
 						type="button"
 					> 						
