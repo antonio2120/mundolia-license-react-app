@@ -14,8 +14,8 @@ export const submitFileClassroom = ( file, meetingId ) => async dispatch => {
 			meetingId: meetingId
 		})
 		.then(response => {
-            console.log(response);
-			dispatch(aulaSuccess());
+            console.log("responseSubmit::",response);
+			dispatch(getFileClassroom(meetingId));
 		})
 		.catch(error => {
 			return dispatch(aulaError(error));

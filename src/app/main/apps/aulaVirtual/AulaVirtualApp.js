@@ -11,6 +11,7 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import {submitFileClassroom,getFileClassroom,getMeetingId,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
@@ -54,8 +55,8 @@ const useStyles = makeStyles({
         height: '100%',
     },
     fileNameStyle: {
-        color:"#000",
-        textShadow:"-2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;"
+        color:"#FFF",
+        textShadow:"-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"
     }
 });
 
@@ -77,6 +78,8 @@ function AulaVirtualApp(props) {
         console.log("meetingIdVal.success",meetingIdVal.success);
         if(meetingIdVal.success){
             setMeetingId(meetingIdVal.response.meeting_id);
+            setOpenMeeting('pending');
+            createJitsiMeet();
 			// dispatch(showMessage({message:'get data',variant: 'success'}));
 		}
     }, [aula.error,aula.success]);
@@ -84,7 +87,7 @@ function AulaVirtualApp(props) {
 	useDeepCompareEffect(() => {
         dispatch(getMeetingId());
     }, [dispatch, routeParams]);
-    
+
 	function createJitsiMeet(){
         try {
             dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
@@ -116,8 +119,7 @@ function AulaVirtualApp(props) {
 	}
 
     function uploadFile(file){
-        dispatch(submitFileClassroom(file, meetingId));
-        dispatch(getFileClassroom(meetingId));
+        dispatch(submitFileClassroom(file, meetingIdVal.response.meeting_id));
     }
     
     function disableButton() {
@@ -156,19 +158,19 @@ function AulaVirtualApp(props) {
                                 {aula.response.map(file => {
                                     return(
                                         <>
-                                            <IconButton
-                                                onClick={ev => {
-                                                    ev.stopPropagation();
-                                                    dispatch(downloadFile(file.replace('public','')));
-                                                }}>
+                                            <p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, marginTop: 5, backgroundColor: '#c7c7c7', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold", textAlign:"center"}}>    
+                                                <Button className='flex flex-col justify-center'
+                                                    onClick={ev => {
+                                                        ev.stopPropagation();
+                                                        dispatch(downloadFile(file.replace('public','')));}}>
+                                                    <Typography
+                                                        className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
+                                                        {file.slice(file.indexOf('_')+1)}
+                                                    </Typography>
 
-                                                <Typography
-                                                    className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
-                                                    {file.slice(file.indexOf('_')+1)}
-                                                </Typography>
-
-                                                <Icon className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4 ml-4")}>save_alt</Icon>
-                                            </IconButton>  
+                                                    <Icon className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4 ml-4")}>save_alt</Icon>
+                                                </Button>
+                                            </p>
                                         </>
                                     )})} 
                                     <input
@@ -220,17 +222,7 @@ function AulaVirtualApp(props) {
                             </Grid>
                         </Grid>
                          
-                        {openMeeting === false &&
-                        <FuseAnimate animation="transition.expandIn" delay={300}>
-                            <Fab
-                                disabled={!meetingIdVal.success}
-                                color="primary"
-                                aria-label="add"
-                                className={classes.addButton}
-                                onClick={() => {setOpenMeeting('pending');createJitsiMeet()}}>
-                                <Icon>meeting_room</Icon>
-                            </Fab>
-                        </FuseAnimate>}
+                        
                     </div>
                 }
 				sidebarInner
