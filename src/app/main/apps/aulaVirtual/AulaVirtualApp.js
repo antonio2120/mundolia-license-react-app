@@ -67,7 +67,6 @@ function AulaVirtualApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const [openMeeting, setOpenMeeting] = useState(false);
-	const [meetingId, setMeetingId] = useState("");
 
 	const user = useSelector(({ auth }) => auth.user.data);
 	const role = user.role;
@@ -77,12 +76,12 @@ function AulaVirtualApp(props) {
     useEffect(() => {
         console.log("meetingIdVal.success",meetingIdVal.success);
         if(meetingIdVal.success){
-            setMeetingId(meetingIdVal.response.meeting_id);
-            setOpenMeeting('pending');
             createJitsiMeet();
+            dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
+            setOpenMeeting(true);
 			// dispatch(showMessage({message:'get data',variant: 'success'}));
 		}
-    }, [aula.error,aula.success]);
+    }, [meetingIdVal.success,meetingIdVal.error]);
 
 	useDeepCompareEffect(() => {
         dispatch(getMeetingId());
@@ -90,7 +89,6 @@ function AulaVirtualApp(props) {
 
 	function createJitsiMeet(){
         try {
-            dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
 			const domain = 'meet.jit.si';
 			const options = {
 			 roomName: meetingIdVal.response.meeting_id,
@@ -110,7 +108,6 @@ function AulaVirtualApp(props) {
 		 
 			const api = new window.JitsiMeetExternalAPI(domain, options);
 			api.addEventListener('videoConferenceJoined', () => {
-             setOpenMeeting(true);
 			//  api.executeCommand('displayName', user.username);
 			});
 		   } catch (error) {
