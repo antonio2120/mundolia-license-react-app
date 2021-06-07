@@ -443,6 +443,21 @@ class JwtService extends FuseUtils.EventEmitter {
 		return true;
 	};
 
+	setProfileImage = data => {
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/avatar/'+data.uuid, data
+			).then(response => {
+				if (response.status === 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	};
+
 	getAccessToken = () => {
 		return window.localStorage.getItem('jwt_access_token');
 	};

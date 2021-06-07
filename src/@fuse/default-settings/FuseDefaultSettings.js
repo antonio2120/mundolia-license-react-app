@@ -39,7 +39,7 @@ export function getParsedQuerySettings() {
  */
 export const defaultThemeOptions = {
 	typography: {
-		fontFamily: ['Muli', 'Roboto', '"Helvetica"', 'Arial', 'sans-serif'].join(','),
+		fontFamily: 'LapsusPro',
 		fontWeightLight: 300,
 		fontWeightRegular: 400,
 		fontWeightMedium: 600,
@@ -52,11 +52,11 @@ export const mustHaveThemeOptions = {
 	typography: {
 		htmlFontSize: 10,
 		body1: {
-			fontSize: '1.4rem',
-			fontFamily: 'grobold'
+			fontSize: '1.8rem',
+			fontFamily: 'LapsusPro'
 		},
 		body2: {
-			fontSize: '1.4rem'
+			fontSize: '1.6rem'
 		}
 	}
 };

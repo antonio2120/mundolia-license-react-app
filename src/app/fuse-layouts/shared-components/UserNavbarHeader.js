@@ -42,6 +42,10 @@ const useStyles = makeStyles(theme => ({
 function UserNavbarHeader(props) {
 	const dispatch = useDispatch();
 	const user = useSelector(({ auth }) => auth.user);
+	const role = useSelector(({ auth }) => auth.user.role);
+
+
+	console.log(user);
 
 	const classes = useStyles();
 
@@ -59,16 +63,28 @@ function UserNavbarHeader(props) {
 			<Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
 				{user.data.email}
 			</Typography>
-			<Avatar
-				className={clsx(classes.avatar, 'avatar')}
-				alt="user photo"
-				src={
-					user.data.photoURL && user.data.photoURL !== ''
-						? user.data.photoURL
-						: 'assets/images/avatars/profile.jpg'
-				}
-				onClick={ev => dispatch(openAvatarLayout())}
-			/>
+			{role === 'alumno' || role === 'alumno_secundaria' || role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A' ?
+				<Avatar
+					className={clsx(classes.avatar, 'avatar')}
+					alt="user photo"
+					src={
+						user.data.photoURL && user.data.photoURL !== ''
+							? user.data.photoURL
+							: 'assets/images/avatars/profile.jpg'
+					}
+					onClick={ev => dispatch(openAvatarLayout())}
+				/>
+				:
+				<Avatar
+					className={clsx(classes.avatar, 'avatar')}
+					alt="user photo"
+					src={
+						user.data.photoURL && user.data.photoURL !== ''
+							? user.data.photoURL
+							: 'assets/images/avatars/profile.jpg'
+					}
+				/>
+			}
 		</AppBar>
 	);
 }
