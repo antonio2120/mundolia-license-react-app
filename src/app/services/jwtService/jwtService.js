@@ -353,6 +353,116 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	addFileClassroom = data => {
+		return new Promise((resolve, reject) => {
+			var formData = new FormData();
+			formData.append('file', data.file);
+			formData.append('meetingId', data.meetingId);
+
+			axios.post(process.env.REACT_APP_API+'/aulaVirtual/upload', formData,
+			 {
+				headers: {
+					'x-amz-acl': 'public-read',
+					'Content-Type': 'multipart/form-data',
+				}},
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	returnFileClassroom = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getFiles/'+data.idMeeting,
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	addCustomSubject = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/materias', data 
+			).then(response => {
+				console.log(response);				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	updateCustomSubject = data => {
+		console.log(data);
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/materias/'+data.id, data 
+			).then(response => {	
+				console.log(response);	
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	};
+
+	returnMeetingId = data => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getMeetId/'+data.groupId,
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	returnTeacherGroups = () => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/grupos',
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
 	signInWithEmailAndPassword = (username, password) => {
 		return new Promise((resolve, reject) => {
 			axios

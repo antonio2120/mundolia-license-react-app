@@ -80,6 +80,15 @@ const navigationConfig = [
 				url: '/apps/grupos/all'
 			},
 			{
+				id: 'aula-virtual',
+				title: 'Aula Virtual',
+				translate: 'Aula Virtual',
+				type: 'item',
+				'auth' : authRoles.teacher,
+				icon: 'meeting_room',
+				url: '/apps/aula'
+			},
+			{
 				id: 'schools-component',
 				title: 'Escuelas',
 				translate: 'Escuelas',
