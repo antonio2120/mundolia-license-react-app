@@ -22,9 +22,9 @@ const useStyles = makeStyles({
 		bottom: 12,
 		zIndex: 99
 	},
-	exportButton: {
+	backButton: {
 		position: 'absolute',
-		right: 80,
+		left: 12,
 		bottom: 12,
 		zIndex: 99
 	}
@@ -75,7 +75,7 @@ function HomeworksApp(props) {
 				<Fab
 					color="secondary"
 					aria-label="add"
-					className={classes.addButton}
+					className={classes.backButton}
 					onClick={env => props.history.goBack()}
 				>
 					<Icon>{'chevron_left'}</Icon>
