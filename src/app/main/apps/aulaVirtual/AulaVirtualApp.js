@@ -12,7 +12,7 @@ import reducer from './store';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import {submitFileClassroom,getFileClassroom,getMeetingId,downloadFile} from './store/aulaSlice.js';
+import {submitFileClassroom,getFileClassroom,getMeetingId,getGroups,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
 import {showMessage} from "../../../store/fuse/messageSlice";
@@ -57,6 +57,18 @@ const useStyles = makeStyles({
     fileNameStyle: {
         color:"#FFF",
         textShadow:"-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"
+    },
+	groupButton:{
+        backgroundColor:"#4883C0",
+        color:"white",
+        marginLeft:"5%"
+    },
+	groupTitle:{
+        color:"white",
+        margin:"5%"
+    },
+    groupDivButtons:{
+        width:"100%"
     }
 });
 
@@ -67,52 +79,63 @@ function AulaVirtualApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const [openMeeting, setOpenMeeting] = useState(false);
+	const [openGroups, setOpenGroups] = useState(false);
+	const [valueGroups, setValueGroups] = useState("");
 
 	const user = useSelector(({ auth }) => auth.user.data);
 	const role = user.role;
 	const aula = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.filesAula);
 	const meetingIdVal = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.meetingAula);
+	const groupsTeacher = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.groups);
 
     useEffect(() => {
-        console.log("meetingIdVal.success",meetingIdVal.success);
         if(meetingIdVal.success){
+            setOpenGroups(false);
             createJitsiMeet();
             dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
             setOpenMeeting(true);
-			// dispatch(showMessage({message:'get data',variant: 'success'}));
 		}
-    }, [meetingIdVal.success,meetingIdVal.error]);
+    }, [meetingIdVal]);
+     
+    useEffect(() => {
+        if(groupsTeacher.success){
+            setOpenGroups(true);
+            setValueGroups(groupsTeacher.response);
+        }
+    }, [groupsTeacher.success,groupsTeacher.error]);
 
 	useDeepCompareEffect(() => {
-        dispatch(getMeetingId());
+        setOpenMeeting(false);
+        dispatch(getGroups());
     }, [dispatch, routeParams]);
 
 	function createJitsiMeet(){
         try {
-			const domain = 'meet.jit.si';
-			const options = {
-			 roomName: meetingIdVal.response.meeting_id,
-             parentNode: document.getElementById('jitsi-container'),
-             userInfo: {
+            const domain = 'meet.jit.si';
+            const options = {
+            roomName: meetingIdVal.response.meeting_id,
+            parentNode: document.getElementById('jitsi-container'),
+            userInfo: {
                 email: user.email,
                 displayName: user.username
             },
-			 interfaceConfigOverwrite: {
-			  filmStripOnly: false,
-			  SHOW_JITSI_WATERMARK: false,
-			 },
-			 configOverwrite: {
-			  disableSimulcast: false,
-			 },
-			};
-		 
-			const api = new window.JitsiMeetExternalAPI(domain, options);
-			api.addEventListener('videoConferenceJoined', () => {
-			//  api.executeCommand('displayName', user.username);
-			});
-		   } catch (error) {
-			console.error('Failed to load Jitsi API', error);
-		   }
+            interfaceConfigOverwrite: {
+            filmStripOnly: false,
+            SHOW_JITSI_WATERMARK: false,
+            },
+            configOverwrite: {
+            disableSimulcast: false,
+            },
+            };
+        
+            const api = new window.JitsiMeetExternalAPI(domain, options);
+            api.addEventListener('videoConferenceJoined', () => {
+            //  api.executeCommand('displayName', user.username);
+            });
+        
+        } catch (error) {
+        console.error('Failed to load Jitsi API', error);
+        }
 	}
 
     function uploadFile(file){
@@ -131,6 +154,11 @@ function AulaVirtualApp(props) {
 
     }
 
+    function onClickGroup(id){
+        setOpenGroups(false);
+        dispatch(getMeetingId(id));
+    }
+
 	return (
 		<>
 
@@ -146,7 +174,26 @@ function AulaVirtualApp(props) {
                     <div className={classes.imgBackgroundStyle}>
                         <Grid container direction="row" className={classes.containerStyle}>
                             <Grid item xs={9} className={classes.containerStyle}>
-                                <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                {openGroups ? 
+                                    <>
+                                    <Typography fontFamily variant="h3" color="inherit" className={clsx(classes.groupTitle)}>
+                                        <div className={clsx(classes.fileNameStyle)}>
+                                            ¿A qué grupo impartirás clase?
+                                        </div>
+                                    </Typography>
+                                    <div className={clsx(classes.groupDivButtons)}>
+                                        {valueGroups.map(group => {
+                                            return(
+                                                    <Button onClick={()=>onClickGroup(group.id)} className={clsx(classes.groupButton,"normal-case")}>
+                                                        <Typography>{group.name}</Typography>
+                                                    </Button>
+                                            );
+                                        })}
+                                    </div>
+                                    </>
+                                :
+                                    <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                }
                             </Grid>
                             <Grid item xs={3} className={classes.rightContainerStyle}>
                                 <div className={clsx('flex flex-col justify-center')}>    
