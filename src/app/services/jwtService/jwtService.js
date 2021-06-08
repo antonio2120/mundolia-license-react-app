@@ -395,6 +395,40 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	addCustomSubject = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/materias', data 
+			).then(response => {
+				console.log(response);				
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
+	updateCustomSubject = data => {
+		console.log(data);
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/materias/'+data.id, data 
+			).then(response => {	
+				console.log(response);	
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	};
+
 	returnMeetingId = data => {
 		return new Promise((resolve, reject) => {
 
