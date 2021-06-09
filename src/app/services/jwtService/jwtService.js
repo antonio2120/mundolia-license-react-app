@@ -446,6 +446,23 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	returnMeetingIdStudent = () => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getMeetIdStudent',
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
 	returnTeacherGroups = () => {
 		return new Promise((resolve, reject) => {
 

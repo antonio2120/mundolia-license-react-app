@@ -75,7 +75,7 @@ const navigationConfig = [
 				title: 'Aula Virtual',
 				translate: 'Aula Virtual',
 				type: 'item',
-				'auth' : authRoles.teacher,
+				'auth' : authRoles.aulaVirtual,
 				icon: 'meeting_room',
 				url: '/apps/aula'
 			},

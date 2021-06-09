@@ -12,7 +12,7 @@ import reducer from './store';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import {submitFileClassroom,getFileClassroom,getMeetingId,getGroups,downloadFile} from './store/aulaSlice.js';
+import {submitFileClassroom,getFileClassroom,getMeetingId,getMeetingIdStudent,getGroups,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
 import {showMessage} from "../../../store/fuse/messageSlice";
@@ -90,6 +90,7 @@ function AulaVirtualApp(props) {
 
     useEffect(() => {
         if(meetingIdVal.success){
+            console.log("meetingIdVal.success",meetingIdVal.success);
             setOpenGroups(false);
             createJitsiMeet();
             dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
@@ -106,7 +107,15 @@ function AulaVirtualApp(props) {
 
 	useDeepCompareEffect(() => {
         setOpenMeeting(false);
-        dispatch(getGroups());
+        if(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A'){
+            dispatch(getGroups());
+        }else if(role === 'alumno' || role === 'alumno_secundaria' ||  role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A'){
+            setOpenMeeting(true);
+            if(!meetingIdVal.success){
+                setOpenGroups(false);
+                dispatch(getMeetingIdStudent());
+            }
+        }
     }, [dispatch, routeParams]);
 
 	function createJitsiMeet(){
@@ -140,18 +149,6 @@ function AulaVirtualApp(props) {
 
     function uploadFile(file){
         dispatch(submitFileClassroom(file, meetingIdVal.response.meeting_id));
-    }
-    
-    function disableButton() {
-		// setIsFormValid(false);
-	}
-
-	function enableButton() {
-		// setIsFormValid(true);
-	}
-
-    function handleSubmit(model){
-
     }
 
     function onClickGroup(id){
@@ -216,50 +213,18 @@ function AulaVirtualApp(props) {
                                                 </Button>
                                             </p>
                                         </>
-                                    )})} 
-                                    <input
-                                        fullWidth
-                                        style={{alignSelf:"center",marginTop:"10%"}}
-                                        className="mb-16"
-                                        type="file"
-                                        name="file"
-                                        id="file"
-                                        onChange={(e) => uploadFile(e.target.files[0])}
-                                        variant="outlined"
-                                    /> 
-                                    {/* <Typography
-                                        className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
-                                        o
-                                    </Typography>
-                                    <Formsy
-                                        onValidSubmit={handleSubmit}
-                                        onValid={enableButton}
-                                        onInvalid={disableButton}
-                                        ref={pageLayout}
-                                        className="flex flex-col justify-center w-full"
-                                    >
-                                        <TextFieldFormsy
-                                            className="mb-16"
-                                            type="text"
-                                            name="url"
-                                            label="Ingresa una url válida"
-                                            validations="isUrl"
-                                            validationErrors={{
-                                                isUrl: 'No es una url válida'
-                                            }}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <Icon className="text-20" color="action">
-                                                            link
-                                                        </Icon>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                            variant="outlined"
-                                            required
-                                        />
-                                    </Formsy> */}
+                                    )})
+                                } 
+                                {(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A') &&
+                                <input
+                                    style={{alignSelf:"center",marginTop:"10%"}}
+                                    className="mb-16"
+                                    type="file"
+                                    name="file"
+                                    id="file"
+                                    onChange={(e) => uploadFile(e.target.files[0])}
+                                    variant="outlined"
+                                /> }
                                 </>
                                 } 
                                 </div>
