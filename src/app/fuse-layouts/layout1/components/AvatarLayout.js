@@ -4,14 +4,16 @@ import React, {useCallback, useEffect, useState} from 'react';
 import '../../../../styles/index.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AutoRotatingCarousel, Slide} from "material-auto-rotating-carousel";
-import {closeAvatarLayout, getAvatars} from "../../../store/fuse/avatarSlice";
+import {closeAvatarLayout, getAvatars, submitUpdateAvatar} from "../../../store/fuse/avatarSlice";
 import {useForm} from "../../../../@fuse/hooks";
 import FuseUtils from "../../../../@fuse/utils";
-import {updateUserData} from "../../../auth/store/userSlice";
+import {setUser, updateUserData} from "../../../auth/store/userSlice";
+import {submitCreateGroup, submitUpdateGroup} from "../../../main/apps/groups/store/groupSlice";
 
 const defaultFormState = {
-    id: '',
-    name: '',
+    customName: '',
+    avatarId: '',
+    avatarPath:'',
 };
 
 function AvatarLayout(props) {
@@ -20,23 +22,20 @@ function AvatarLayout(props) {
     const avatarLayout = useSelector(({fuse}) => fuse.avatar.avatarLayout);
     const avatarData = useSelector(({fuse}) => fuse.avatar.entities);
     const avatar = Object.entries(avatarData).map(([key, value]) => ({key, value}))
-    console.log('Avatar: ', avatar);
     const {form, handleChange, setForm} = useForm(defaultFormState);
     let [color, setBackground] = useState([fuseBlue[500]]);
     let [secondColor, secondBackground] = useState([fuseBlue[700]]);
+    let [image, setImage] = useState();
     let imageProfile = user.data.photoURL;
 
-
-    console.log(user.data.photoURL);
     const initDialog = useCallback(() => {
-        setForm({
-            ...defaultFormState,
-            id: FuseUtils.generateGUID()
-        });
-    }, [setForm]);
+        dispatch(setUser(user))
+    }, [avatarData.entities,setForm]);
 
-    function setColor(key) {
-        console.log(key);
+
+    function setColor(key, id) {
+
+        console.log(key, id)
         if (key === 0) {
             setBackground(fuseBlue[400])
             secondBackground(fuseBlue[700])
@@ -71,7 +70,6 @@ function AvatarLayout(props) {
         }
     }
 
-
     useEffect(() => {
         /**
          * After Dialog Open
@@ -84,6 +82,12 @@ function AvatarLayout(props) {
     useEffect(() => {
     }, []);
 
+    function handleSubmit() {
+
+        dispatch(submitUpdateAvatar())
+        dispatch(closeAvatarLayout());
+    }
+
     return (
         <div className={'lia-avatar'}>
             {avatar ?
@@ -93,14 +97,15 @@ function AvatarLayout(props) {
                     autoplay={false}
                     {...avatarLayout.props}
                     onClose={ev => dispatch(closeAvatarLayout())}
-                    onStart={ev => dispatch(closeAvatarLayout())}
+                    onStart={handleSubmit}
                     onChange={ev => setColor(ev)}
                 >
                     {avatar.map((row) => (
                         <Slide
-                            key={row.value.id}
-                            id={row.value.name}
-                            value={form.id}
+                            key={form.avatarId}
+                            name="avatar"
+                            id="avatar"
+                            value={form.avatarId}
                             media={
                                 <img
                                     src={row.value.path} alt="avatar0"

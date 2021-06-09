@@ -4,8 +4,9 @@ import {getActivities} from "../../main/apps/activities/store/activitiesSlice";
 import {getGroups} from "../../main/apps/activities/store/groupSlice";
 import jwtService from "../../services/jwtService";
 import {registerError, registerReset, registerSuccess} from "../../main/apps/groups/store/groupSlice";
-import {setUser} from "../../auth/store/userSlice";
+import {setUser, updateUserData} from "../../auth/store/userSlice";
 import {getHomeworks} from "../../main/apps/homeworks/store/homeworkSlice";
+import _ from "../../../@lodash";
 
 export const getAvatars = createAsyncThunk('avatarApp/avatar/getAvatars', async (type) =>{
     const response = await axios.get(process.env.REACT_APP_API + '/avatar', {
@@ -14,16 +15,30 @@ export const getAvatars = createAsyncThunk('avatarApp/avatar/getAvatars', async 
     return data;
 });
 
-export const submitUpdateAvatar = ( avatarData ) => async dispatch => {
+export const submitUpdateAvatar = () => async (dispatch, getState) => {
+    const avatarData = {
+        id: 16,
+        avatarId: 8,
+        customName: "Cuco",
+        path: "assets/images/avatars/user.jpg"
+    }
+
+    const oldUser = getState().auth.user;
+    const user = _.merge({}, oldUser, { data: { settings } });
+
+    dispatch(updateUserData(user));
+
+    console.log(avatarData);
+
     return jwtService
         .setProfileImage({
-            avatarId: avatarData.id,
-            customName: avatarData.name,
+            id: avatarData.id,
+            avatarId: avatarData.avatarId,
+            customName: avatarData.customName,
             avatarPath: avatarData.path,
         })
         .then(response => {
             dispatch(registerSuccess());
-            dispatch(setUser());
         })
         .catch(error => {
             return dispatch(registerError(error));
@@ -61,7 +76,7 @@ const avatarSlice = createSlice({
         },
         closeAvatarLayout: (state, action) => {
             state.avatarLayout = {
-                type: 'new',
+                type: 'change',
                 props: {
                     open: false
                 },
