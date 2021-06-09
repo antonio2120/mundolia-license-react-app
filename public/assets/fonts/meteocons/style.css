@@ -10,10 +10,11 @@
 @font-face {
   font-family: 'grobold';
   src:
-    url('fonts/GROBOLD.ttf') format('truetype');
+    url('fonts/RAGER.otf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
 .grobold {
   font-family: 'grobold' !important;
 }
