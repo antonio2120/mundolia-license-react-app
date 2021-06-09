@@ -116,13 +116,13 @@ function PreescolarLayout(props) {
             >
 
 
-				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						to={`/apps/actividades`}
+						to={`/apps/sections/mistareas`}
 						component={Link}
 						type="button"
 					>
@@ -132,20 +132,20 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						to={`/apps/actividades`}
+						to={`/apps/sections/mistareas`}
 						component={Link}
 						// className="justify-start px-32"
 						color="secondary"
 					>
 						<Typography className={clsx(classes.Text)}>
-							Mis tareas
+							Mis Actividades
 						</Typography>
 					</Button>
 				</div>
 
 
 
-				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
 					<Button
 						className={clsx(classes.button)}
 						style={{
@@ -170,7 +170,7 @@ function PreescolarLayout(props) {
 						</Typography>
 					</Button>
 				</div>
-				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
 						className={clsx(classes.button)}
 						style={{
@@ -196,7 +196,7 @@ function PreescolarLayout(props) {
 					</Button>
 				</div>
 
-				<div className="avatar flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
 				<Button
 						justifyContent="center"
 						className={clsx(classes.button)}
