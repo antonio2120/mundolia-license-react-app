@@ -9,6 +9,7 @@ import { navbarCloseFolded, navbarOpenFolded, navbarCloseMobile } from 'app/stor
 import { selectNavbarTheme } from 'app/store/fuse/settingsSlice';
 
 import NavbarLayout1 from './NavbarLayout1';
+import FooterLayout1 from './FooterLayout1';
 
 const navbarWidth = 280;
 
@@ -150,6 +151,7 @@ function NavbarWrapperLayout1(props) {
 						>
 							<NavbarLayout1 className={classes.navbarContent} />
 						</div>
+					<FooterLayout1 />
 					</Hidden>
 
 					<Hidden lgUp>
