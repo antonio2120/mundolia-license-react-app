@@ -14,7 +14,7 @@
 	}
 }
 
-.avatar {
+.float {
 	animation-name: floating;
     animation-duration: 6s;
     animation-iteration-count: infinite;
@@ -26,3 +26,5 @@
     50%  { transform: translate(0, 15px); }
     100%   { transform: translate(0, -0px); }    
 }
+
+

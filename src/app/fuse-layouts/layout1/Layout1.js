@@ -84,6 +84,8 @@ const useStyles = makeStyles(theme => ({
 function Layout1(props) {
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const role = useSelector(({ auth }) => auth.user.role);
+	const grade = useSelector(({ auth }) => auth.user.grade);
+	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ; 
 	const appContext = useContext(AppContext);
 	const classes = useStyles(props);
 	const { routes } = appContext;
@@ -151,7 +153,7 @@ function Layout1(props) {
 		case 'content':
 		default: {
 			return (
-				 role != 'preescolar' ?
+				 role != 'preescolar' && escuelabaja == false ?
 				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
