@@ -44,7 +44,7 @@ function Widget2(props) {
 						component={Link}
 						style={{textTransform:'none',width:"100%"}}>
 						<ListItem key={item.id}>
-							<ListItemText primary={item.name+' - '+item.subject_id} secondary={
+							<ListItemText primary={item.name+' - '+item.custom_name} secondary={
 							<div>
 								<Typography className="text-14">{item.teachers_name}</Typography>
 								{item.score}
