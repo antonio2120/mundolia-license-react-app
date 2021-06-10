@@ -14,6 +14,7 @@ import withReducer from 'app/store/withReducer';
 import { getTareasPendientes } from '../store/tareasPendientesSlice';
 import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -201,6 +202,17 @@ function MisTareas(props) {
 									))
 								}
 							</div>
+								{entregadas ? 
+									<div className="flex flex-1 items-center justify-center h-full">
+										<Typography className={clsx(classes.TextInfo)}>
+											No hay registros que mostrar!
+										</Typography>
+									</div>
+									: 
+									<div className="flex flex-1 items-center justify-center h-full">
+										<CircularProgress color="secondary" />
+									</div>
+								}
 						</List>
 					</Paper>
 
@@ -268,6 +280,17 @@ function MisTareas(props) {
 									))
 								}
 							</div>
+							{entregadas ? 
+									<div className="flex flex-1 items-center justify-center h-full">
+										<Typography className={clsx(classes.TextInfo)}>
+											No hay registros que mostrar!
+										</Typography>
+									</div>
+									: 
+									<div className="flex flex-1 items-center justify-center h-full">
+										<CircularProgress color="secondary" />
+									</div>
+								}
 						</List>
 					</Paper>
 
