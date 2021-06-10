@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../Preescolar.css';
 import { Link, useParams } from 'react-router-dom';
@@ -14,7 +14,13 @@ import withReducer from 'app/store/withReducer';
 import { getTareasPendientes } from '../store/tareasPendientesSlice';
 import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
+import MenuItem from '@material-ui/core/MenuItem';
+import Popover from '@material-ui/core/Popover';
+import { logoutUser } from 'app/auth/store/userSlice';
+import Icon from '@material-ui/core/Icon';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -127,6 +133,16 @@ function MisTareas(props) {
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
 
+	const [userMenu, setUserMenu] = useState(null);
+
+	const userMenuClick = event => {
+		setUserMenu(event.currentTarget);
+	};
+
+	const userMenuClose = () => {
+		setUserMenu(null);
+	};
+
 	useDeepCompareEffect(() => {
 		dispatch(getTareasPendientes());
 		dispatch(getTareasEntregadas());	
@@ -181,12 +197,16 @@ function MisTareas(props) {
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
 						
-						<div className={clsx(classes.avatarContainer),"w-1/3 justify-end logo text-end items-end justify-end"} >
-						<img className={clsx(classes.userIcon)}
-							width="200"
-							position="right"
-						 	src="assets/images/preescolar/infoestudiante.png"/>
-						</div>
+						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
+							onClick={userMenuClick}>
+							<img className={clsx(classes.userIcon)}
+								style={{
+									background: "assets/images/preescolar/infoestudiante.png",
+								}}
+								width="200"
+								position="right"
+								src="assets/images/preescolar/infoestudiante.png"/>
+						</Button>
 						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
 							{/* <div> */}
 								<p className={clsx(classes.TextInfo)} 
@@ -389,6 +409,36 @@ function MisTareas(props) {
 							}
 						</List>
 					</Paper>
+
+					<Popover
+						open={Boolean(userMenu)}
+						anchorEl={userMenu}
+						onClose={userMenuClose}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'right'
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right'
+						}}
+						classes={{
+							paper: 'py-8'
+						}}
+					>
+						<MenuItem
+							onClick={() => {
+								dispatch(logoutUser());
+
+								userMenuClose();
+							}}
+						>
+							<ListItemIcon className="min-w-40">
+								<Icon>exit_to_app</Icon>
+							</ListItemIcon>
+							<ListItemText primary="Logout" />
+						</MenuItem>
+					</Popover>
 
 				</div>
 			</FuseAnimateGroup>
