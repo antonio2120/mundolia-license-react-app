@@ -56,7 +56,6 @@ function ActivityDialog(props) {
 	const subjects = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.subjects.data);
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
-	console.log(subjects);
 	const { form, handleChange, setForm } = useForm(defaultFormState);
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [fileType, setFileType] = useState('file');
@@ -229,67 +228,76 @@ function ActivityDialog(props) {
 						variant="outlined"
 						required
 					/>
+					{
+						activityDialog.type !== 'edit' ?
+							groups ?
 
-					{groups ?
-
-						<SelectFormsy
-							id="group_id"
-							name="group_id"
-							width="100%"
-							value={form.group_id}
-							onChange={handleChange}
-							label="Grupo"
-							fullWidth
-							variant="outlined"
-							className="mb-24 MuiInputBase-fullWidth"
-							required
-						>
-							{groups.map((row) => (
-								<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-							))
-							}
-						</SelectFormsy>
-						:
-						<CircularProgress color="secondary" />
-					}
-					{subjects.length ?
-
-						<SelectFormsy
-							id="subject_id"
-							name="subject_id"
-							width="100%"
-							value={form.subject_id}
-							onChange={handleChange}
-							label="Materia"
-							fullWidth
-							variant="outlined"
-							className="mb-24 MuiInputBase-fullWidth"
-							required
-						>
-							{subjects.map((row) => (
-								<MenuItem key={row.id} value={row.id}>{row.custom_name}</MenuItem>
-							))
-							}
-						</SelectFormsy>
-						:
-						form.group_id ?
-							<TextFieldFormsy
-								fullWidth
-								className="mb-16"
-								type="text"
-								name="subject_id"
-								label="Es necesario crear materias para este grupo"
-								id="subject_id"
-								value={""}
-								InputProps={{
-									readOnly: true
-								}}
-								variant="outlined"
-								required
-							/>
+								<SelectFormsy
+									id="group_id"
+									name="group_id"
+									width="100%"
+									value={form.group_id}
+									onChange={handleChange}
+									label="Grupo"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									required
+								>
+									{groups.map((row) => (
+										<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+									))
+									}
+								</SelectFormsy>
+								:
+								<CircularProgress color="secondary" />
 							:
 							null
 					}
+					{
+						activityDialog.type !== 'edit' ?
+							subjects.length ?
+
+								<SelectFormsy
+									id="subject_id"
+									name="subject_id"
+									width="100%"
+									value={form.subject_id}
+									onChange={handleChange}
+									label="Materia"
+									fullWidth
+									variant="outlined"
+									className="mb-24 MuiInputBase-fullWidth"
+									required
+								>
+									{subjects.map((row) => (
+										<MenuItem key={row.id} value={row.id}>{row.custom_name}</MenuItem>
+									))
+									}
+								</SelectFormsy>
+								:
+								form.group_id ?
+									<TextFieldFormsy
+										fullWidth
+										className="mb-16"
+										type="text"
+										name="subject_id"
+										label="Es necesario crear materias para este grupo"
+										id="subject_id"
+										value={""}
+										InputProps={{
+											readOnly: true
+										}}
+										variant="outlined"
+										required
+									/>
+									:
+									null
+
+							:
+							null
+					}
+					
 					<TextFieldFormsy
 						fullWidth
 						className="mb-16"

@@ -22,7 +22,7 @@ function Widget1(props) {
 			<List>
 				{props.widget.map(item => (
 				<Button
-					to={`/apps/actividades/all`}
+					to={`/apps/actividadesTarea/${item.id}`}
 					component={Link}
 					style={{textTransform:'none',width:"100%"}}>
 					<ListItem key={item.id}>
