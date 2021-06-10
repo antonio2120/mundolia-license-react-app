@@ -11,7 +11,8 @@ import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import {submitFileClassroom,getFileClassroom,getMeetingId,downloadFile} from './store/aulaSlice.js';
+import Button from '@material-ui/core/Button';
+import {submitFileClassroom,getFileClassroom,getMeetingId,getMeetingIdStudent,getGroups,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
 import {showMessage} from "../../../store/fuse/messageSlice";
@@ -54,8 +55,20 @@ const useStyles = makeStyles({
         height: '100%',
     },
     fileNameStyle: {
-        color:"#000",
-        textShadow:"-2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;"
+        color:"#FFF",
+        textShadow:"-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"
+    },
+	groupButton:{
+        backgroundColor:"#4883C0",
+        color:"white",
+        marginLeft:"5%"
+    },
+	groupTitle:{
+        color:"white",
+        margin:"5%"
+    },
+    groupDivButtons:{
+        width:"100%"
     }
 });
 
@@ -66,70 +79,81 @@ function AulaVirtualApp(props) {
 	const pageLayout = useRef(null);
 	const routeParams = useParams();
 	const [openMeeting, setOpenMeeting] = useState(false);
-	const [meetingId, setMeetingId] = useState("");
+	const [openGroups, setOpenGroups] = useState(false);
+	const [valueGroups, setValueGroups] = useState("");
 
 	const user = useSelector(({ auth }) => auth.user.data);
 	const role = user.role;
 	const aula = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.filesAula);
 	const meetingIdVal = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.meetingAula);
+	const groupsTeacher = useSelector(({ AulaVirtualApp }) => AulaVirtualApp.aulaVirtual.groups);
 
     useEffect(() => {
-        console.log("meetingIdVal.success",meetingIdVal.success);
         if(meetingIdVal.success){
-            setMeetingId(meetingIdVal.response.meeting_id);
-			// dispatch(showMessage({message:'get data',variant: 'success'}));
+            console.log("meetingIdVal.success",meetingIdVal.success);
+            setOpenGroups(false);
+            createJitsiMeet();
+            dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
+            setOpenMeeting(true);
 		}
-    }, [aula.error,aula.success]);
+    }, [meetingIdVal]);
+     
+    useEffect(() => {
+        if(groupsTeacher.success){
+            setOpenGroups(true);
+            setValueGroups(groupsTeacher.response);
+        }
+    }, [groupsTeacher.success,groupsTeacher.error]);
 
 	useDeepCompareEffect(() => {
-        dispatch(getMeetingId());
+        setOpenMeeting(false);
+        if(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A'){
+            dispatch(getGroups());
+        }else if(role === 'alumno' || role === 'alumno_secundaria' ||  role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A'){
+            setOpenMeeting(true);
+            if(!meetingIdVal.success){
+                setOpenGroups(false);
+                dispatch(getMeetingIdStudent());
+            }
+        }
     }, [dispatch, routeParams]);
-    
+
 	function createJitsiMeet(){
         try {
-            dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
-			const domain = 'meet.jit.si';
-			const options = {
-			 roomName: meetingIdVal.response.meeting_id,
-             parentNode: document.getElementById('jitsi-container'),
-             userInfo: {
+            const domain = 'meet.jit.si';
+            const options = {
+            roomName: meetingIdVal.response.meeting_id,
+            parentNode: document.getElementById('jitsi-container'),
+            userInfo: {
                 email: user.email,
                 displayName: user.username
             },
-			 interfaceConfigOverwrite: {
-			  filmStripOnly: false,
-			  SHOW_JITSI_WATERMARK: false,
-			 },
-			 configOverwrite: {
-			  disableSimulcast: false,
-			 },
-			};
-		 
-			const api = new window.JitsiMeetExternalAPI(domain, options);
-			api.addEventListener('videoConferenceJoined', () => {
-             setOpenMeeting(true);
-			//  api.executeCommand('displayName', user.username);
-			});
-		   } catch (error) {
-			console.error('Failed to load Jitsi API', error);
-		   }
+            interfaceConfigOverwrite: {
+            filmStripOnly: false,
+            SHOW_JITSI_WATERMARK: false,
+            },
+            configOverwrite: {
+            disableSimulcast: false,
+            },
+            };
+        
+            const api = new window.JitsiMeetExternalAPI(domain, options);
+            api.addEventListener('videoConferenceJoined', () => {
+            //  api.executeCommand('displayName', user.username);
+            });
+        
+        } catch (error) {
+        console.error('Failed to load Jitsi API', error);
+        }
 	}
 
     function uploadFile(file){
-        dispatch(submitFileClassroom(file, meetingId));
-        dispatch(getFileClassroom(meetingId));
+        dispatch(submitFileClassroom(file, meetingIdVal.response.meeting_id));
     }
-    
-    function disableButton() {
-		// setIsFormValid(false);
-	}
 
-	function enableButton() {
-		// setIsFormValid(true);
-	}
-
-    function handleSubmit(model){
-
+    function onClickGroup(id){
+        setOpenGroups(false);
+        dispatch(getMeetingId(id));
     }
 
 	return (
@@ -147,7 +171,26 @@ function AulaVirtualApp(props) {
                     <div className={classes.imgBackgroundStyle}>
                         <Grid container direction="row" className={classes.containerStyle}>
                             <Grid item xs={9} className={classes.containerStyle}>
-                                <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                {openGroups ? 
+                                    <>
+                                    <Typography fontFamily variant="h3" color="inherit" className={clsx(classes.groupTitle)}>
+                                        <div className={clsx(classes.fileNameStyle)}>
+                                            ¿A qué grupo impartirás clase?
+                                        </div>
+                                    </Typography>
+                                    <div className={clsx(classes.groupDivButtons)}>
+                                        {valueGroups.map(group => {
+                                            return(
+                                                    <Button onClick={()=>onClickGroup(group.id)} className={clsx(classes.groupButton,"normal-case")}>
+                                                        <Typography>{group.name}</Typography>
+                                                    </Button>
+                                            );
+                                        })}
+                                    </div>
+                                    </>
+                                :
+                                    <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                }
                             </Grid>
                             <Grid item xs={3} className={classes.rightContainerStyle}>
                                 <div className={clsx('flex flex-col justify-center')}>    
@@ -156,81 +199,39 @@ function AulaVirtualApp(props) {
                                 {aula.response.map(file => {
                                     return(
                                         <>
-                                            <IconButton
-                                                onClick={ev => {
-                                                    ev.stopPropagation();
-                                                    dispatch(downloadFile(file.replace('public','')));
-                                                }}>
+                                            <p style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, marginTop: 5, backgroundColor: '#c7c7c7', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold", textAlign:"center"}}>    
+                                                <Button className='flex flex-col justify-center'
+                                                    onClick={ev => {
+                                                        ev.stopPropagation();
+                                                        dispatch(downloadFile(file.replace('public','')));}}>
+                                                    <Typography
+                                                        className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
+                                                        {file.slice(file.indexOf('_')+1)}
+                                                    </Typography>
 
-                                                <Typography
-                                                    className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
-                                                    {file.slice(file.indexOf('_')+1)}
-                                                </Typography>
-
-                                                <Icon className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4 ml-4")}>save_alt</Icon>
-                                            </IconButton>  
+                                                    <Icon className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4 ml-4")}>save_alt</Icon>
+                                                </Button>
+                                            </p>
                                         </>
-                                    )})} 
-                                    <input
-                                        fullWidth
-                                        style={{alignSelf:"center",marginTop:"10%"}}
-                                        className="mb-16"
-                                        type="file"
-                                        name="file"
-                                        id="file"
-                                        onChange={(e) => uploadFile(e.target.files[0])}
-                                        variant="outlined"
-                                    /> 
-                                    {/* <Typography
-                                        className={clsx(classes.fileNameStyle,"text-center text-13 font-600 mt-4")}>
-                                        o
-                                    </Typography>
-                                    <Formsy
-                                        onValidSubmit={handleSubmit}
-                                        onValid={enableButton}
-                                        onInvalid={disableButton}
-                                        ref={pageLayout}
-                                        className="flex flex-col justify-center w-full"
-                                    >
-                                        <TextFieldFormsy
-                                            className="mb-16"
-                                            type="text"
-                                            name="url"
-                                            label="Ingresa una url válida"
-                                            validations="isUrl"
-                                            validationErrors={{
-                                                isUrl: 'No es una url válida'
-                                            }}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <Icon className="text-20" color="action">
-                                                            link
-                                                        </Icon>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                            variant="outlined"
-                                            required
-                                        />
-                                    </Formsy> */}
+                                    )})
+                                } 
+                                {(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A') &&
+                                <input
+                                    style={{alignSelf:"center",marginTop:"10%"}}
+                                    className="mb-16"
+                                    type="file"
+                                    name="file"
+                                    id="file"
+                                    onChange={(e) => uploadFile(e.target.files[0])}
+                                    variant="outlined"
+                                /> }
                                 </>
                                 } 
                                 </div>
                             </Grid>
                         </Grid>
                          
-                        {openMeeting === false &&
-                        <FuseAnimate animation="transition.expandIn" delay={300}>
-                            <Fab
-                                disabled={!meetingIdVal.success}
-                                color="primary"
-                                aria-label="add"
-                                className={classes.addButton}
-                                onClick={() => {setOpenMeeting('pending');createJitsiMeet()}}>
-                                <Icon>meeting_room</Icon>
-                            </Fab>
-                        </FuseAnimate>}
+                        
                     </div>
                 }
 				sidebarInner

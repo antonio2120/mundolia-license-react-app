@@ -14,8 +14,8 @@ export const submitFileClassroom = ( file, meetingId ) => async dispatch => {
 			meetingId: meetingId
 		})
 		.then(response => {
-            console.log(response);
-			dispatch(aulaSuccess());
+            console.log("responseSubmit::",response);
+			dispatch(getFileClassroom(meetingId));
 		})
 		.catch(error => {
 			return dispatch(aulaError(error));
@@ -35,14 +35,38 @@ export const getFileClassroom = ( idMeeting ) => async dispatch => {
 		});
 };
 
-export const getMeetingId = () => async dispatch => {
+export const getMeetingId = (groupId) => async dispatch => {
 	return jwtService
-		.returnMeetingId()
+		.returnMeetingId({
+			groupId: groupId
+		})
 		.then(response => {
 			dispatch(meetingSuccess(response.data));
 		})
 		.catch(error => {
 			return dispatch(meetingError(error));
+		});
+};
+
+export const getMeetingIdStudent = () => async dispatch => {
+	return jwtService
+		.returnMeetingIdStudent()
+		.then(response => {
+			dispatch(meetingSuccess(response.data));
+		})
+		.catch(error => {
+			return dispatch(meetingError(error));
+		});
+};
+
+export const getGroups = () => async dispatch => {
+	return jwtService
+		.returnTeacherGroups()
+		.then(response => {
+			dispatch(groupsSuccess(response.data));
+		})
+		.catch(error => {
+			return dispatch(groupsError(error));
 		});
 };
 
@@ -84,6 +108,10 @@ const aulaSlice = createSlice({
 			success:false,
             response:""
 		},
+		groups: {
+			success:false,
+            response:""
+		},
 	}),
 	reducers: {
 		aulaSuccess: (state,action) => {
@@ -95,6 +123,13 @@ const aulaSlice = createSlice({
 		},
 		meetingSuccess: (state,action) => {
 			state.meetingAula = {
+				success: true,
+				response: action.payload
+			}
+
+		},
+		groupsSuccess: (state,action) => {
+			state.groups = {
 				success: true,
 				response: action.payload
 			}
@@ -113,6 +148,13 @@ const aulaSlice = createSlice({
 			}
 
 		},
+		groupsError: (state,action) => {
+			state.groups = {
+				success: false,
+				response: action.payload
+			}
+
+		},
 		
 	}
 });
@@ -122,6 +164,8 @@ export const {
 	aulaError,
 	meetingSuccess,
 	meetingError,
+	groupsSuccess,
+	groupsError,
 } = aulaSlice.actions;
 
 
