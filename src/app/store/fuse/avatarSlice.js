@@ -18,15 +18,18 @@ export const getAvatars = createAsyncThunk('avatarApp/avatar/getAvatars', async 
 export const submitUpdateAvatar = () => async (dispatch, getState) => {
     const avatarData = {
         id: 16,
-        avatarId: 8,
+        avatarId: 2,
         customName: "Cuco",
         path: "assets/images/avatars/user.jpg"
     }
 
     const oldUser = getState().auth.user;
-    const user = _.merge({}, oldUser, { data: { settings } });
 
-    dispatch(updateUserData(user));
+    //const user = _.merge({}, oldUser, { data: { settings } });
+
+    console.log('User' + oldUser.data);
+
+    dispatch(updateUserData(oldUser));
 
     console.log(avatarData);
 

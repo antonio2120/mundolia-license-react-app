@@ -444,7 +444,6 @@ class JwtService extends FuseUtils.EventEmitter {
 	};
 
 	setProfileImage = data => {
-		console.log('Data: ' + data);
 		return new Promise((resolve, reject) => {
 			axios.put(process.env.REACT_APP_API+'/avatar/'+data.id, data
 			).then(response => {
