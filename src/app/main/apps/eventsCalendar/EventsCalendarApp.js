@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import reducer from './store';
 import EventsCalendarContent from './EventsCalendarContent';
-import { getToken } from './store/calendarSlice';
 import EventsCalendarTokenDialog from './EventsCalendarTokenDialog';
+import EventsCalendarHeader from './EventCalendarHeader';
+import { getGroups } from './store/calendarSlice';
+import { getToken } from './store/tokenSlice';
 
 function EventsCalendarApp(props) {
 
@@ -15,6 +17,7 @@ function EventsCalendarApp(props) {
 	const routeParams = useParams();
 
 	useEffect(() => {
+		dispatch(getGroups());
 		dispatch(getToken());
 	}, [dispatch, routeParams]);
 
@@ -29,7 +32,7 @@ function EventsCalendarApp(props) {
 					header: 'min-h-72 h-72 sm:h-136 sm:min-h-136',
 					wrapper: 'min-h-0'
 				}}
-				// header={<GroupsHeader pageLayout={pageLayout} />}
+				header={<EventsCalendarHeader/>}
 				content={
                     <EventsCalendarContent/>
                 }

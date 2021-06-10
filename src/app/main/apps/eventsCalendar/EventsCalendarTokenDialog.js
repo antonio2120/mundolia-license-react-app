@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import reducer from './store';
 import Calendar from "@ericz1803/react-google-calendar";
-import { openCalendarDialog, closeCalendarDialog } from './store/calendarSlice';
+import { openTokenDialog, closeTokenDialog } from './store/tokenSlice';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,7 +21,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import { Link } from 'react-router-dom';
-import { googleSigIn } from './store/calendarSlice';
+import { googleSigIn } from './store/tokenSlice';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -31,19 +31,19 @@ function EventsCalendarTokenDialog(props) {
 
     const dispatch = useDispatch();
     const user = useSelector(({ auth }) => auth.user);
-    const token = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.token);
-    const calendarDialog = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.calendarDialog);
+    const token = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.token.token);
+    const tokenDialog = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.token.tokenDialog);
 
     useEffect(() => {
 		if(token == 'Not logged'){
-            dispatch(openCalendarDialog());
+            dispatch(openTokenDialog());
         } else {
-            dispatch(closeCalendarDialog());
+            dispatch(closeTokenDialog());
         }
 	},[dispatch, token]);
 
     function closeComposeDialog() {
-		return dispatch(closeCalendarDialog());
+		return dispatch(closeTokenDialog());
 	}
 
     console.log(token);
@@ -54,7 +54,7 @@ function EventsCalendarTokenDialog(props) {
                 classes={{
                     paper: 'm-24 rounded-8'
                 }}
-                {...calendarDialog.props}
+                {...tokenDialog.props}
                 fullWidth
                 maxWidth="xs"
             >
