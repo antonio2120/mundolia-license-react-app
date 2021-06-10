@@ -12,7 +12,7 @@ import reducer from './store';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import {submitFileClassroom,getFileClassroom,getMeetingId,getMeetingIdStudent,getGroups,downloadFile} from './store/aulaSlice.js';
+import {submitFileClassroom,getFileClassroom,getMeetingId,getGroupsStudent,getGroups,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
 import FuseLoading from '@fuse/core/FuseLoading';
 import {showMessage} from "../../../store/fuse/messageSlice";
@@ -110,11 +110,7 @@ function AulaVirtualApp(props) {
         if(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A'){
             dispatch(getGroups());
         }else if(role === 'alumno' || role === 'alumno_secundaria' ||  role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A'){
-            setOpenMeeting(true);
-            if(!meetingIdVal.success){
-                setOpenGroups(false);
-                dispatch(getMeetingIdStudent());
-            }
+            dispatch(getGroupsStudent());
         }
     }, [dispatch, routeParams]);
 
@@ -174,9 +170,15 @@ function AulaVirtualApp(props) {
                                 {openGroups ? 
                                     <>
                                     <Typography fontFamily variant="h3" color="inherit" className={clsx(classes.groupTitle)}>
-                                        <div className={clsx(classes.fileNameStyle)}>
-                                            ¿A qué grupo impartirás clase?
-                                        </div>
+                                        {(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A') ?
+                                            <div className={clsx(classes.fileNameStyle)}>
+                                                    ¿A qué grupo impartirás clase?
+                                            </div>
+                                        :
+                                            <div className={clsx(classes.fileNameStyle)}>
+                                                 Selecciona un grupo para entrar a la clase
+                                            </div>
+                                        }
                                     </Typography>
                                     <div className={clsx(classes.groupDivButtons)}>
                                         {valueGroups.map(group => {
