@@ -26,7 +26,7 @@ function Widget1(props) {
 					component={Link}
 					style={{textTransform:'none',width:"100%"}}>
 					<ListItem key={item.id}>
-						<ListItemText primary={item.name+' - '+'materia'} secondary={
+						<ListItemText primary={item.name+' - '+item.subject_id} secondary={
 							<div>
 								<Typography className="text-14">{item.teachers_name}</Typography>
 								{item.finish_date.split(' ')[0].split('-')[2]+'-'+item.finish_date.split(' ')[0].split('-')[1]+' '+item.finish_date.split(' ')[1]}

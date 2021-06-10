@@ -25,8 +25,8 @@ const useStyles = makeStyles(theme => ({
         textShadow:"-1px 0 #2527A5, 0 1px #2527A5, 1px 0 #2527A5, 0 -1px #2527A5;"
 	},
 	labelScore7: {
-		color:"#AC94D5",
-        textShadow:"-1px 0 #5A07E8, 0 1px #5A07E8, 1px 0 #5A07E8, 0 -1px #5A07E8;"
+		color:"#F8D074",
+        textShadow:"-1px 0 #E0A212, 0 1px #E0A212, 1px 0 #E0A212, 0 -1px #E0A212;"
 	},
 }));
 
@@ -44,7 +44,7 @@ function Widget2(props) {
 						component={Link}
 						style={{textTransform:'none',width:"100%"}}>
 						<ListItem key={item.id}>
-							<ListItemText primary={item.name+' - '+'materia'} secondary={
+							<ListItemText primary={item.name+' - '+item.subject_id} secondary={
 							<div>
 								<Typography className="text-14">{item.teachers_name}</Typography>
 								{item.score}
@@ -54,7 +54,7 @@ function Widget2(props) {
 										item.score > "8.9".valueOf() ? classes.labelScore9 :
 										item.score > "7.9".valueOf() ? classes.labelScore8 :
 										item.score > "6.9".valueOf() ? classes.labelScore7 : null,"text-14 justify-center align-center")}>{
-										item.score == "10.00".valueOf() ? '¡Perfecto!' :
+										item.score == "10.00".valueOf() ? 'Excelente!' :
 										item.score > "8.9".valueOf() ? '¡Buen trabajo!' :
 										item.score > "7.9".valueOf() ? '¡Muy bien!' :
 										item.score > "6.9".valueOf() ? '¡Puede mejorar!' : null

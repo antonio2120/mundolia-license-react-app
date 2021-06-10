@@ -151,6 +151,7 @@ function NavbarWrapperLayout1(props) {
 						>
 							<NavbarLayout1 className={classes.navbarContent} />
 						</div>
+					<FooterLayout1 />
 					</Hidden>
 
 					<Hidden lgUp>
@@ -169,7 +170,6 @@ function NavbarWrapperLayout1(props) {
 							<NavbarLayout1 className={classes.navbarContent} />
 						</Drawer>
 					</Hidden>
-					<FooterLayout1 />
 				</div>
 			</ThemeProvider>
 
