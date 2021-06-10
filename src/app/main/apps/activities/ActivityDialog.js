@@ -13,18 +13,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {showMessage} from "../../../store/fuse/messageSlice";
+import { showMessage } from "../../../store/fuse/messageSlice";
 import {
 	closeNewActivityDialog,
 	submitCreateActivity,
 	closeEditActivityDialog,
 	submitUpdateActivity,
-	removeActivity
+	removeActivity,
+	getSubjects
 } from './store/activitiesSlice.js';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
+import { TextFieldFormsy } from "../../../../@fuse/core/formsy";
 import Formsy from "formsy-react";
 import SelectFormsy from "../../../../@fuse/core/formsy/SelectFormsy";
 import Radio from '@material-ui/core/Radio';
@@ -32,13 +33,14 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from "@material-ui/core/Switch";
 import FormControl from "@material-ui/core/FormControl";
+// import { getSubjects } from './store/subjectSlice';
 
 const defaultFormState = {
 	id: '',
-    name: '',
+	name: '',
 	group_id: '',
-    finish_date: '',	
-    groupList: '',
+	finish_date: '',
+	groupList: '',
 	theme: '',
 	instructions: '',
 	is_active: true,
@@ -47,29 +49,31 @@ const defaultFormState = {
 };
 
 function ActivityDialog(props) {
-    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const formOrigin = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activityDialog.data);
 	const activityDialog = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activityDialog);
 	const groups = useSelector(({ ActivitiesApp }) => ActivitiesApp.groups.data);
+	const subjects = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.subjects.data);
 	const activity = useSelector(({ ActivitiesApp }) => ActivitiesApp.activities.activity);
 
-	const { form, handleChange ,setForm} = useForm(defaultFormState);
+	console.log(subjects);
+	const { form, handleChange, setForm } = useForm(defaultFormState);
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [fileType, setFileType] = useState('file');
 	///Getting date time
 	var today = new Date();
-	const date = today.getFullYear() + '-' + ('0'+( today.getMonth() + 1)).slice(-2) + '-' + ('0'+( today.getDate())).slice(-2)
-	+ 'T' + ('0'+( today.getHours() + 1)).slice(-2) + ':' + ('0'+( today.getMinutes() + 1)).slice(-2);
+	const date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate())).slice(-2)
+		+ 'T' + ('0' + (today.getHours() + 1)).slice(-2) + ':' + ('0' + (today.getMinutes() + 1)).slice(-2);
 
 	const [values, setValues] = React.useState({
 		// showPassword: false,
-		loading : false
+		loading: false
 	});
 	const [isFormValid, setIsFormValid] = useState(false);
 	// const [showPassword, setShowPassword] = useState(false);
 	const formRef = useRef(null);
 
-	
+
 	function disableButton() {
 		setIsFormValid(false);
 	}
@@ -78,7 +82,7 @@ function ActivityDialog(props) {
 		// /**
 		//  * Dialog type: 'edit'
 		//  */
-		if ((activityDialog.type === 'edit')&& activityDialog.data) {
+		if ((activityDialog.type === 'edit') && activityDialog.data) {
 			setForm({ ...activityDialog.data });
 		}
 
@@ -106,30 +110,33 @@ function ActivityDialog(props) {
 	}, [activityDialog.props.open, initDialog]);
 
 	useEffect(() => {
+		dispatch(getSubjects(form.group_id || 0));
+	}, [form.group_id]);
+
+	useEffect(() => {
 		if (activity.error) {
 
 			if (activity.error.response.request.status == '500') {
-				setValues({...values, loading: false});
-				dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
-			} else 
-			{
+				setValues({ ...values, loading: false });
+				dispatch(showMessage({ message: activity.error.response.data.message, variant: 'error' }));
+			} else {
 				disableButton();
-				setValues({...values, loading: false});
-				dispatch(showMessage({message: activity.error.response.data.message, variant: 'error'}));
+				setValues({ ...values, loading: false });
+				dispatch(showMessage({ message: activity.error.response.data.message, variant: 'error' }));
 			}
 		}
 
-		if(activity.success){
+		if (activity.success) {
 			setValues({ ...values, loading: false });
-			dispatch(showMessage({message:'Operación exitosa!',variant: 'success'	}));
+			dispatch(showMessage({ message: 'Operación exitosa!', variant: 'success' }));
 
 			closeComposeDialog();
 		}
 
-	}, [activity.error,activity.success]);
-    
+	}, [activity.error, activity.success]);
+
 	function closeComposeDialog() {
-		return (activityDialog.type === 'edit' )?  dispatch(closeEditActivityDialog()) : dispatch(closeNewActivityDialog());
+		return (activityDialog.type === 'edit') ? dispatch(closeEditActivityDialog()) : dispatch(closeNewActivityDialog());
 	}
 
 	function handleSubmit(event) {
@@ -140,11 +147,11 @@ function ActivityDialog(props) {
 			dispatch(submitCreateActivity(form, selectedFile, fileType));
 			setSelectedFile(null)
 		}
-		else 
-		if (activityDialog.type === 'edit'){
-			dispatch(submitUpdateActivity(form, formOrigin, selectedFile, fileType));
-			setSelectedFile(null)
-		}
+		else
+			if (activityDialog.type === 'edit') {
+				dispatch(submitUpdateActivity(form, formOrigin, selectedFile, fileType));
+				setSelectedFile(null)
+			}
 	}
 
 	function handleRemove() {
@@ -154,7 +161,7 @@ function ActivityDialog(props) {
 	function enableButton() {
 		setIsFormValid(true);
 	}
-	function validateForm (values) {
+	function validateForm(values) {
 		setForm(values);
 	}
 	return (
@@ -174,14 +181,14 @@ function ActivityDialog(props) {
 						{activityDialog.type === 'edit' && 'Editar Actividad'}
 					</Typography>
 				</Toolbar>
-					<div className="flex flex-col items-center justify-center pb-24">
-						{/* <Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} /> */}
-						{activityDialog.type === 'edit' && (
-							<Typography variant="h6" color="inherit" className="pt-8">
-								{form.name}
-							</Typography>
-						)}
-					</div>
+				<div className="flex flex-col items-center justify-center pb-24">
+					{/* <Avatar className="w-96 h-96" alt="contact avatar" src={form.avatar} /> */}
+					{activityDialog.type === 'edit' && (
+						<Typography variant="h6" color="inherit" className="pt-8">
+							{form.name}
+						</Typography>
+					)}
+				</div>
 			</AppBar>
 			<Formsy
 				onValidSubmit={handleSubmit}
@@ -192,7 +199,7 @@ function ActivityDialog(props) {
 				className="flex flex-col md:overflow-hidden"
 			>
 				<DialogContent classes={{ root: 'p-24' }}>
-					
+
 					<TextFieldFormsy
 						fullWidth
 						className="mb-16"
@@ -223,27 +230,65 @@ function ActivityDialog(props) {
 						required
 					/>
 
-					{ groups ?
+					{groups ?
 
-					<SelectFormsy
-						id="group_id"
-						name="group_id"
-						width="100%"
-						value={form.group_id}
-						onChange={handleChange}
-						label="Grupo"
-						fullWidth
-						variant="outlined"
-						className="mb-24 MuiInputBase-fullWidth"
-						required
-					>
-						{groups.map((row) => (
-							<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-						))
-						}
-					</SelectFormsy>
-					:
-					<CircularProgress color="secondary" />
+						<SelectFormsy
+							id="group_id"
+							name="group_id"
+							width="100%"
+							value={form.group_id}
+							onChange={handleChange}
+							label="Grupo"
+							fullWidth
+							variant="outlined"
+							className="mb-24 MuiInputBase-fullWidth"
+							required
+						>
+							{groups.map((row) => (
+								<MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+							))
+							}
+						</SelectFormsy>
+						:
+						<CircularProgress color="secondary" />
+					}
+					{subjects.length ?
+
+						<SelectFormsy
+							id="subject_id"
+							name="subject_id"
+							width="100%"
+							value={form.subject_id}
+							onChange={handleChange}
+							label="Materia"
+							fullWidth
+							variant="outlined"
+							className="mb-24 MuiInputBase-fullWidth"
+							required
+						>
+							{subjects.map((row) => (
+								<MenuItem key={row.id} value={row.id}>{row.custom_name}</MenuItem>
+							))
+							}
+						</SelectFormsy>
+						:
+						form.group_id ?
+							<TextFieldFormsy
+								fullWidth
+								className="mb-16"
+								type="text"
+								name="subject_id"
+								label="Es necesario crear materias para este grupo"
+								id="subject_id"
+								value={""}
+								InputProps={{
+									readOnly: true
+								}}
+								variant="outlined"
+								required
+							/>
+							:
+							null
 					}
 					<TextFieldFormsy
 						fullWidth
@@ -255,7 +300,7 @@ function ActivityDialog(props) {
 						value={form.finish_date.replace(" ", "T")}
 						onChange={handleChange}
 						InputLabelProps={{
-						shrink: true,
+							shrink: true,
 						}}
 						// min={date}
 						inputProps={{
@@ -316,8 +361,8 @@ function ActivityDialog(props) {
 						/>
 					</FormControl>
 					<RadioGroup aria-label="fileType" name="fileType" value={fileType} onChange={e => setFileType(e.target.value)} className="flex md:overflow-hidden flex-row">
-						<FormControlLabel value="file" control={<Radio />} label="Subir archivo" className="mb-8"/>
-						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8"/>
+						<FormControlLabel value="file" control={<Radio />} label="Subir archivo" className="mb-8" />
+						<FormControlLabel value="url" control={<Radio />} label="Url del archivo" className="mb-8" />
 					</RadioGroup>
 					{
 						fileType == 'file' ?
@@ -329,7 +374,7 @@ function ActivityDialog(props) {
 									name="file_path"
 									label="Archivo"
 									id="file_path"
-									value={formOrigin ? formOrigin.file_path ? formOrigin.file_path.slice(formOrigin.file_path.indexOf('_')+1) : '' : ''}
+									value={formOrigin ? formOrigin.file_path ? formOrigin.file_path.slice(formOrigin.file_path.indexOf('_') + 1) : '' : ''}
 									InputProps={{
 										endAdornment: (
 											<InputAdornment position="end">
@@ -386,12 +431,12 @@ function ActivityDialog(props) {
 							/>
 							:
 							null
-					}						
-		
+					}
+
 					{values.loading && <LinearProgress />}
 
 				</DialogContent>
-				 {activityDialog.type === 'new' ? (
+				{activityDialog.type === 'new' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
 							<Button
@@ -399,20 +444,20 @@ function ActivityDialog(props) {
 								color="primary"
 								onClick={handleSubmit}
 								type="submit"
-								disabled={( values.loading || !isFormValid)}
+								disabled={(values.loading || !isFormValid)}
 							>
 								Agregar
 							</Button>
 						</div>
 
 					</DialogActions>
-                     
-                
-                ) 
-                : null
-            }
-                
-                { activityDialog.type === 'edit' ? (
+
+
+				)
+					: null
+				}
+
+				{activityDialog.type === 'edit' ? (
 					<DialogActions className="justify-between p-8">
 						<div className="px-16">
 							<Button
@@ -431,9 +476,9 @@ function ActivityDialog(props) {
 							disabled={(values.loading)}>
 							<Icon>delete</Icon>
 						</IconButton>
-					</DialogActions> 
+					</DialogActions>
 				)
-				: null
+					: null
 				}
 			</Formsy>
 		</Dialog>

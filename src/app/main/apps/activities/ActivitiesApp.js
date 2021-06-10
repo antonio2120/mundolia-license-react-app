@@ -10,7 +10,8 @@ import { useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import ActivitiesList from './ActivitiesList'
-import { openNewActivityDialog, getActivities } from './store/activitiesSlice';
+import { openNewActivityDialog, getActivities, getSubjects } from './store/activitiesSlice';
+// import { getSubjects } from './store/subjectSlice';
 import ActivityDialog from './ActivityDialog';
 import DeliveryDialog from './DeliveryDialog';
 
@@ -39,6 +40,7 @@ function ActivitiesApp(props) {
 
 	useDeepCompareEffect(() => {
 		dispatch(getActivities(role));
+		dispatch(getSubjects());
 	}, [dispatch, routeParams]);
 
 	return (

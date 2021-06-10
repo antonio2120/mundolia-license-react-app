@@ -252,6 +252,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('is_active',data.is_active);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
+			formData.append('subject_id', data.subject_id);
 
 			axios.post(process.env.REACT_APP_API+'/actividades', formData,
 			 {
@@ -285,6 +286,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('filePath', data.filePath);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
+			formData.append('subject_id', data.subject_id);
 
 			axios.post(process.env.REACT_APP_API+'/actividades/' + data.activityId + '?_method=PUT', formData,
 			 {
@@ -446,10 +448,10 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
-	returnMeetingIdStudent = () => {
+	returnGroupsStudent = () => {
 		return new Promise((resolve, reject) => {
 
-			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getMeetIdStudent',
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getGroupStudent',
 			).then(response => {
 				if (response.status == 200) {
 					resolve(response.data);

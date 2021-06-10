@@ -106,6 +106,15 @@ const navigationConfig = [
 				icon: 'forum',
 				url: '/loginp'
 			},
+			{
+				id: 'logout',
+				title: 'Cerrar sesión',
+				translate: 'Logout',
+				type: 'item',
+				'auth' : authRoles.alumno,
+				icon: 'exit_to_app',
+				url: '/logout'
+			},
 		]
 	}
 ];
