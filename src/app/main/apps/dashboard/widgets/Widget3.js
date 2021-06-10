@@ -1,30 +1,32 @@
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 function Widget3(props) {
 	return (
 		<Paper className="w-full rounded-8 shadow-1">
-			{/* <div className="flex items-center justify-between px-4 pt-4">
-				<Typography className="text-16 px-12">{props.widget.title}</Typography>
-				<IconButton aria-label="more">
-					<Icon>more_vert</Icon>
-				</IconButton>
-			</div> */}
-			<div className="text-center pt-28 pb-28">
-				<Typography className="text-72 leading-none text-orange">{props.widget[0].total}</Typography>
-				<Typography className="text-16" color="textSecondary">
-					{props.label}
-				</Typography>
+			<div className="flex items-center justify-between px-16 h-64 border-b-1">
+				<Typography className="text-16">{props.name}</Typography>
 			</div>
-			{/* <div className="flex items-center px-16 h-52 border-t-1">
-				<Typography className="text-15 flex w-full" color="textSecondary">
-					<span className="truncate">{props.widget.data.extra.label}</span>:
-					<b className="px-8">{props.widget.data.extra.count}</b>
-				</Typography>
-			</div> */}
+			<List>
+				{props.widget.map(item => (
+					<Button
+						to={`/apps/actividades/all`}
+						component={Link}
+						style={{textTransform:'none',width:"100%"}}>
+						<ListItem key={item.id}>
+							<ListItemText primary={item.name} />
+						</ListItem>
+					</Button>
+				))}
+			</List>
 		</Paper>
 	);
 }
