@@ -211,23 +211,28 @@ function SubjectDialog(props) {
                         ))
                         }
                     </SelectFormsy>
-                    <SelectFormsy
-                        id="group_id"
-                        name="group_id"
-                        width="100%"
-                        value={form.group_id || props.params.id}
-                        onChange={handleChange}
-                        label="Grupo"
-                        fullWidth
-                        variant="outlined"
-                        className="mb-24 MuiInputBase-fullWidth"
-                        required
-                    >
-                        {groups.map((row) => (
-                            <MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-                        ))
-                        }
-                    </SelectFormsy>
+                    {
+                        subjectDialog.type !== 'edit' ?
+                            <SelectFormsy
+                                id="group_id"
+                                name="group_id"
+                                width="100%"
+                                value={form.group_id || props.params.id}
+                                onChange={handleChange}
+                                label="Grupo"
+                                fullWidth
+                                variant="outlined"
+                                className="mb-24 MuiInputBase-fullWidth"
+                                required
+                            >
+                                {groups.map((row) => (
+                                    <MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+                                ))
+                                }
+                            </SelectFormsy>
+                            :
+                            null
+                    }
 
                 </DialogContent>
 
