@@ -217,16 +217,26 @@ function AulaVirtualApp(props) {
                                         </>
                                     )})
                                 } 
-                                {(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A') &&
-                                <input
-                                    style={{alignSelf:"center",marginTop:"10%"}}
-                                    className="mb-16"
-                                    type="file"
-                                    name="file"
-                                    id="file"
-                                    onChange={(e) => uploadFile(e.target.files[0])}
-                                    variant="outlined"
-                                /> }
+                                {(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A') ?
+                                    <input
+                                        style={{alignSelf:"center",marginTop:"10%"}}
+                                        className="mb-16"
+                                        type="file"
+                                        name="file"
+                                        id="file"
+                                        onChange={(e) => uploadFile(e.target.files[0])}
+                                        variant="outlined"
+                                    /> 
+                                :
+                                    <IconButton
+                                        onClick={() => dispatch(getFileClassroom(meetingIdVal.response.meeting_id))}
+                                        aria-label="open left sidebar"
+                                        color="primary"
+                                    >
+                                        <Typography className={clsx(classes.fileNameStyle,"text-center text-16 font-600 m-4")}>Recarga los archivos </Typography>
+                                        <Icon className={clsx(classes.fileNameStyle,"text-center text-16 font-600 mt-4")}>refresh</Icon>
+                                    </IconButton>
+                                }
                                 </>
                                 } 
                                 </div>
