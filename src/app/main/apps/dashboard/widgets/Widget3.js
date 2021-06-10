@@ -22,7 +22,11 @@ function Widget3(props) {
 						component={Link}
 						style={{textTransform:'none',width:"100%"}}>
 						<ListItem key={item.id}>
-							<ListItemText primary={item.name} />
+							<ListItemText primary={item.name+' - '+item.custom_name}secondary={
+							<div>
+								<Typography className="text-14">Maestro: {item.teachers_name}</Typography>
+							</div>
+							} />
 						</ListItem>
 					</Button>
 				))}

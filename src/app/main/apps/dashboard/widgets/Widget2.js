@@ -46,7 +46,7 @@ function Widget2(props) {
 						<ListItem key={item.id}>
 							<ListItemText primary={item.name+' - '+item.custom_name} secondary={
 							<div>
-								<Typography className="text-14">{item.teachers_name}</Typography>
+								<Typography className="text-14">Maestro: {item.teachers_name}</Typography>
 								{item.score}
 								<div className='flex justify-center align-center'>
 									<Typography className={clsx(
