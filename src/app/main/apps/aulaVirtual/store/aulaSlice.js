@@ -48,14 +48,14 @@ export const getMeetingId = (groupId) => async dispatch => {
 		});
 };
 
-export const getMeetingIdStudent = () => async dispatch => {
+export const getGroupsStudent = () => async dispatch => {
 	return jwtService
-		.returnMeetingIdStudent()
+		.returnGroupsStudent()
 		.then(response => {
-			dispatch(meetingSuccess(response.data));
+			dispatch(groupsSuccess(response.data));
 		})
 		.catch(error => {
-			return dispatch(meetingError(error));
+			return dispatch(groupsError(error));
 		});
 };
 
