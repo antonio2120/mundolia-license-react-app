@@ -70,21 +70,50 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		position: 'relative',
 		overflow: 'auto',
-		maxHeight: 380,
-		height: 380,
+		maxHeight: 390,
+		height: 390,
 		border: 1
 	},
 	containersInfo: {
 		borderRadius: 5,
 		width: '50px'
 	},
-	userIcon:{
-		maxHeight: "40%",
-		maxWidth: "40%",
-		display: 'flex',
+	right: {
+		// objectPosition: 'right',
+		// display: 'flex',
+		// flexDirection: "row-reverse"
+		// maxHeight: '40px',
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
+		alignContent: "flex-end",
+		textAlign:"right",
+		alignSelf: 'flex-end',
+		alignContent: 'flex-end',
 		flexContainer: 'justify-end',
+		paddingLeft: '70px',
+		paddingRight: '70px',
+	},
+	userIcon:{
+		// maxHeight: "50%",
+		// maxWidth: "50%",
+		display: 'flex',
+		objectFit: 'cover',
+		flexContainer: 'justify-end',
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
+		alignContent: "flex-end",
+		textAlign:"right",
+		alignSelf: 'flex-end',
+		alignContent: 'flex-end',
+		paddingLeft: '100px'
 
-	}
+	},
+	infoCardsColumn: {
+		paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',												
+		borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
+		
+
+	},
 
 }));
 
@@ -131,8 +160,8 @@ function MisTareas(props) {
 				}}
 			>
 
-				<div className="float flex w-full">
-					<div className="w-full md:w-1/2 sm:w-1/1">
+				<div className="float flex w-full flex-wrap ">
+					<div className="flex w-full md:w-1/2">
 						<Button
 							className={clsx(classes.button)}
 							style={{
@@ -150,12 +179,14 @@ function MisTareas(props) {
 					</div>
 
 
-					{/* ------------------------- User Info --------------------- */}
+					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
 						
-						<div className="w-1/3 justify-end items-right">
+						<div className={clsx(classes.right),"w-1/3 justify-end logo text-end items-end justify-end"} >
 						<img className={clsx(classes.userIcon)}
-						 src="assets/images/preescolar/infoestudiante.png"/>
+							width="200"
+							position="right"
+						 	src="assets/images/preescolar/infoestudiante.png"/>
 						</div>
 						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
 							{/* <div> */}
@@ -174,18 +205,6 @@ function MisTareas(props) {
 									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
 									{info.school_name}
 								</p>
-
-
-							{/* </div> */}
-							{/* <Typography className={clsx(classes.TextInfo)}>
-								{info.data.displayName}
-							</Typography> */}
-							{/* <Typography className={clsx(classes.TextInfo)}>
-								{info.grade}°
-							</Typography>
-							<Typography className={clsx(classes.TextInfo)}>
-								{info.school_name}°
-							</Typography> */}
 						</div>
 
 					</div>
@@ -193,7 +212,7 @@ function MisTareas(props) {
 
 				< div className="w-full pt-28 pb-28 m-20 pr-40 pl-40 items-center justify-center flex-wrap flex-row flex">
 
-					{/* -------------------------- tasks delivered ------------------------- */}
+					{/* -------------------------- tasks undelivered ------------------------- */}
 
 					<Paper
 						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
@@ -228,30 +247,45 @@ function MisTareas(props) {
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
 												<img src="assets/images/preescolar/pendientes.png"/>
 											</div>
-											<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-												style={{
-													backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-													backgroundPosition: 'center',
-													backgroundSize: 'contain',
-													backgroundRepeat: 'no-repeat',
-												}}
-											>
-												<Typography className={clsx(classes.TextInfo)}>
-													{row.name}
-												</Typography>
-											</div>
-											<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-												style={{
-													backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-													backgroundPosition: 'center',
-													backgroundSize: 'contain',
-													backgroundRepeat: 'no-repeat',
-												}}
-											>
-												<Typography className={clsx(classes.TextInfo)}>
-													{row.finish_date.slice(0, 10)}
-												</Typography>
-											</div>
+
+											{ escuelabaja ? 
+												<>
+													<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+														style={{
+															backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+															backgroundPosition: 'center',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
+														}}
+													>
+														<Typography className={clsx(classes.TextInfo)}>
+															{row.name}
+														</Typography>
+													</div>
+													<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+														style={{
+															backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+															backgroundPosition: 'center',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
+														}}
+													>
+														<Typography className={clsx(classes.TextInfo)}>
+															{row.finish_date.slice(0, 10)}
+														</Typography>
+													</div>
+												</>
+													:
+												
+												<div className=" flex w-4/5 p-4 text-center items-center justify-center">
+													<p className={clsx(classes.infoCardsColumn)} >
+														<Typography className={clsx(classes.TextInfo)}>
+														{row.name}
+													</Typography>
+													</p>
+												</div>
+											}
+
 
 										</>
 									))
@@ -269,7 +303,7 @@ function MisTareas(props) {
 						</List>
 					</Paper>
 
-					{/* -------------------------- tasks undelivered ------------------------- */}
+					{/* -------------------------- tasks delivered ------------------------- */}
 
 					<Paper
 						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
@@ -304,31 +338,43 @@ function MisTareas(props) {
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
 												<img src="assets/images/preescolar/entregado.png"/>
 											</div>
-											<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-												style={{
-													backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-													backgroundPosition: 'center',
-													backgroundSize: 'contain',
-													backgroundRepeat: 'no-repeat',
-												}}
-											>
-												<Typography className={clsx(classes.TextInfo)}>
-													{row.name}
-												</Typography>
-											</div>
-											<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-												style={{
-													backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-													backgroundPosition: 'center',
-													backgroundSize: 'contain',
-													backgroundRepeat: 'no-repeat',
-												}}
-											>
-												<Typography className={clsx(classes.TextInfo)}>
-													{row.finish_date.slice(0, 10)}
-												</Typography>
-											</div>
-
+											{ escuelabaja ?
+											<>
+												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+													style={{
+														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'contain',
+														backgroundRepeat: 'no-repeat',
+													}}
+												>
+													<Typography className={clsx(classes.TextInfo)}>
+														{row.name}
+													</Typography>
+												</div>
+												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+													style={{
+														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'contain',
+														backgroundRepeat: 'no-repeat',
+													}}
+												>
+													<Typography className={clsx(classes.TextInfo)}>
+														Lista
+													</Typography>
+												</div>
+											</>
+											:
+											<div className=" flex w-4/5 p-4 text-center items-center justify-center">
+													<p className={clsx(classes.infoCardsColumn)} >
+														<Typography className={clsx(classes.TextInfo)}>
+														{row.name}
+														</Typography>
+													</p>
+												</div>
+												
+											}
 										</>
 									))
 								}

@@ -27,4 +27,8 @@
     100%   { transform: translate(0, -0px); }    
 }
 
+.yellowGradient {
+	/* background: linear-gradient(180, '#F1AB00', '#FFE507'); */
+	background: linear-gradient(180, rgba(241, 171, 0, 1), rgba(255, 229, 7, 1)); 
+}
 
