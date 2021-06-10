@@ -78,33 +78,33 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 5,
 		width: '50px'
 	},
-	right: {
+	avatarContainer: {
 		// objectPosition: 'right',
 		// display: 'flex',
 		// flexDirection: "row-reverse"
 		// maxHeight: '40px',
-		justifyContent: "flex-end",
-		alignItems: "flex-end",
-		alignContent: "flex-end",
-		textAlign:"right",
-		alignSelf: 'flex-end',
-		alignContent: 'flex-end',
-		flexContainer: 'justify-end',
+		// justifyContent: "flex-end",
+		// alignItems: "flex-end",
+		// alignContent: "flex-end",
+		// textAlign:"right",
+		// alignSelf: 'flex-end',
+		// alignContent: 'flex-end',
+		// flexContainer: 'justify-end',
 		paddingLeft: '70px',
 		paddingRight: '70px',
 	},
 	userIcon:{
 		// maxHeight: "50%",
 		// maxWidth: "50%",
-		display: 'flex',
-		objectFit: 'cover',
-		flexContainer: 'justify-end',
-		justifyContent: "flex-end",
-		alignItems: "flex-end",
-		alignContent: "flex-end",
-		textAlign:"right",
-		alignSelf: 'flex-end',
-		alignContent: 'flex-end',
+		// display: 'flex',
+		// objectFit: 'cover',
+		// flexContainer: 'justify-end',
+		// justifyContent: "flex-end",
+		// alignItems: "flex-end",
+		// alignContent: "flex-end",
+		// textAlign:"right",
+		// alignSelf: 'flex-end',
+		// alignContent: 'flex-end',
 		paddingLeft: '100px'
 
 	},
@@ -126,7 +126,6 @@ function MisTareas(props) {
 	const entregadas = useSelector(({ MisTareasApp }) => MisTareasApp.tareasEntregadas.data);
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
-
 
 	useDeepCompareEffect(() => {
 		dispatch(getTareasPendientes());
@@ -182,7 +181,7 @@ function MisTareas(props) {
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
 						
-						<div className={clsx(classes.right),"w-1/3 justify-end logo text-end items-end justify-end"} >
+						<div className={clsx(classes.avatarContainer),"w-1/3 justify-end logo text-end items-end justify-end"} >
 						<img className={clsx(classes.userIcon)}
 							width="200"
 							position="right"
@@ -291,14 +290,14 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-							{ entregadas && entregadas.lenght > 2 ?
+							{ pendientes && pendientes.length > 0  ?
+								null 
+								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
 										No hay registros que mostrar!
 										</Typography>
-								</div>
-								:
-								null
+								</div>								
 							}
 						</List>
 					</Paper>
@@ -379,14 +378,14 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-							{ entregadas && entregadas.lenght > 2 ?
+							{entregadas && entregadas.length > 0 ?
+								null
+								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
 										No hay registros que mostrar!
 										</Typography>
 								</div>
-								:
-								null
 							}
 						</List>
 					</Paper>

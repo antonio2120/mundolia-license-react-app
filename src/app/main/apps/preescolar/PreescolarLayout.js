@@ -13,40 +13,6 @@ import './Preescolar.css';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
-	// header: {
-	// 	height: 600,
-	// 	background: `linear-gradient(to left, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-	// 	color: theme.palette.primary.contrastText
-	// },
-	// badge: {
-	// 	backgroundColor: theme.palette.error.main,
-	// 	color: theme.palette.getContrastText(theme.palette.error.main)
-	// },
-	// textTitle: {
-	// 	color: "#0071e7",
-	// },
-	// priceText: {
-	// 	fontWeight:"bold",
-	// 	fontSize:"20px"
-	// },
-	// textRegistro: {
-	// 	fontWeight:"bold",
-	// 	fontSize:"26px"
-	// },
-	// price: {
-	// 	backgroundColor: "#0071e7",
-	// 	color: theme.palette.getContrastText(theme.palette.primary[600])
-	// },
-	// backColButton: {
-	// 	backgroundColor: "#0071e7",
-	// },
-	// textButton: {
-	// 	color: "#FFF",
-	// 	fontSize:"16px"
-	// },
-	// img: {
-	// 	width:"100%"
-	// }
 	Text: {
 		fontWeight:"bold",
 		fontSize:"32px",
@@ -54,24 +20,12 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 	},
 	button: {
-		// flexDirection: 'column',
-		// display: 'flex',
-		// flexWrap: 'wrap',
-		// flex: 1,
-		// alignItems: 'center',
-		// main styles,
-		// "&:focus": {
-		// 	width:"120%"
-		// },
+
 		"&:hover": {
 			transform: "scale(1.2)",
 			// opacity: "0%",
 			// width:"120%"
 		}
-	},
-	buttonScore: {
-		// height:"120px"
-
 	},
 	img: {
 		animationName: "floating",
@@ -82,15 +36,24 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
-
 function PreescolarLayout(props) {
-
+	  
 
 	const classes = useStyles();
 	const role = useSelector(({ auth }) => auth.user.role);
 	const grade = useSelector(({ auth }) => auth.user.grade);
 	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ; 
+
+	const [values, setValues] = React.useState({
+		play: false,
+      	pause: true, 
+	});
+	// const url =  `url("assets/sounds/Mi Mundo Lia.m4a")`;
+    const audioMimundoLia = new Audio("assets/sounds/Mi Mundo Lia.mp3");
+	const audioMiScore = new Audio("assets/sounds/Mi Score.mp3");
+	const audioMisClases= new Audio("assets/sounds/Mis Clases.mp3");
+	const audioMisTareas = new Audio("assets/sounds/Mis Tareas.mp3");
+	const audioMisActividades = new Audio("assets/sounds/Mis Actividades.mp3");
 
 	function handleSubmit(event) {
 		const token = localStorage.getItem('jwt_access_token');
@@ -100,7 +63,22 @@ function PreescolarLayout(props) {
 			console.log("token_exists::no");
 		}
 	}
-	
+
+	function playMundolia() {
+		audioMimundoLia.play();
+	}
+	function playMiScore() {
+		audioMiScore.play();
+	}
+	function playMisClases() {
+		audioMisClases.play();
+	}
+	function playMisTareas() {
+		audioMisTareas.play();
+	}
+	function playMisActividades() {
+		audioMisActividades.play();
+	}
 
 	return (
         <div className="flex flex-1" 
@@ -128,6 +106,7 @@ function PreescolarLayout(props) {
 						to={`/apps/sections/mistareas`}
 						component={Link}
 						type="button"
+						// onMouseEnter={ playMisTareas }
 					>
 						<img src="assets/images/preescolar/explorer.png" />
 					</Button>
@@ -139,6 +118,7 @@ function PreescolarLayout(props) {
 						component={Link}
 						// className="justify-start px-32"
 						color="secondary"
+						onMouseEnter={ !escuelabaja ? playMisActividades : null }
 					>
 						<Typography className={clsx(classes.Text)}>
 							{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
@@ -167,6 +147,9 @@ function PreescolarLayout(props) {
 						to={`/loginp`}
 						component={Link}
 						type="button"
+						// name={mundolia}
+						// id={'mundolia'}
+						onMouseEnter={ !escuelabaja ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
 						Mi Mundo Lia
@@ -179,7 +162,6 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						// to={``}
 						component={Link}
 						type="button"
 					>
@@ -192,6 +174,7 @@ function PreescolarLayout(props) {
 						// to={``}
 						component={Link}
 						type="button"
+						onMouseEnter={ !escuelabaja ? playMisClases : null }
 					>
 						<Typography className={clsx(classes.Text)}>
 							Mis Clases
@@ -199,7 +182,7 @@ function PreescolarLayout(props) {
 					</Button>
 				</div>
 
-				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+				{/* <div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
 				<Button
 						justifyContent="center"
 						className={clsx(classes.button)}
@@ -219,20 +202,13 @@ function PreescolarLayout(props) {
 						component={Link}
 						type="button"
 					> 						
-					{/* <img className="logo-icon" src="assets/images/preescolar/ButtonLIA.png" alt="logo" > */}
 
 						<Typography className={clsx(classes.Text)}>
 							Mi Score
 						</Typography>
-						{/* </img> */}
-						{/* <img src="assets/images/preescolar/ButtonLIA.png" /> */}
-						
 					</Button>
 					
-				</div>
-
-
-
+				</div> */}
 
             </FuseAnimateGroup>
 
