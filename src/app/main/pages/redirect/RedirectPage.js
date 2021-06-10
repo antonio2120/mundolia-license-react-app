@@ -29,7 +29,7 @@ function RedirectPage() {
 	// if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
 	// 	return (<Redirect to="/loginp" />)
 	// }else {
-	if (user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'alumnoe1' || user.data.role == 'alumnoe2' || user.data.role == 'alumnoe3' || user.data.role == 'Alumno-I' || user.data.role == 'Alumno-M' || user.data.role == 'Alumno-A') {
+	if ( (user.data.role == 'alumno' && escuelabaja == false ) || user.data.role == 'alumno_secundaria' || user.data.role == 'alumnoe0' || user.data.role == 'alumnoe1' || user.data.role == 'alumnoe2' || user.data.role == 'alumnoe3' || user.data.role == 'Alumno-I' || user.data.role == 'Alumno-M' || user.data.role == 'Alumno-A') {
 		return (<Redirect to="/apps/dashboard/" />)
 	} 
 	if (user.data.role == 'preescolar' || escuelabaja ) {

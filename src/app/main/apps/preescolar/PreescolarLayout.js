@@ -88,6 +88,9 @@ function PreescolarLayout(props) {
 
 
 	const classes = useStyles();
+	const role = useSelector(({ auth }) => auth.user.role);
+	const grade = useSelector(({ auth }) => auth.user.grade);
+	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ; 
 
 	function handleSubmit(event) {
 		const token = localStorage.getItem('jwt_access_token');
@@ -138,7 +141,7 @@ function PreescolarLayout(props) {
 						color="secondary"
 					>
 						<Typography className={clsx(classes.Text)}>
-							Mis Actividades
+							{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
 						</Typography>
 					</Button>
 				</div>

@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: "20%",
 	},
 	container: {
-		marginTop: "-50px",
+		marginTop: "-40px",
 		paddingTop: "20px",
 		// height: "90px",
 		
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 		textAlign: "center", //*important
 	},
 	paperTitle: {
-		marginTop: "-50px",
+		marginTop: "-40px",
 		paddingTop: "20px",
 		height: "70px",
 		width: "280px",
@@ -74,6 +74,17 @@ const useStyles = makeStyles(theme => ({
 		height: 380,
 		border: 1
 	},
+	containersInfo: {
+		borderRadius: 5,
+		width: '50px'
+	},
+	userIcon:{
+		maxHeight: "40%",
+		maxWidth: "40%",
+		display: 'flex',
+		flexContainer: 'justify-end',
+
+	}
 
 }));
 
@@ -84,7 +95,8 @@ function MisTareas(props) {
 	const role = useSelector(({ auth }) => auth.user.role);
 	const pendientes = useSelector(({ MisTareasApp }) => MisTareasApp.tareasPendientes.data);
 	const entregadas = useSelector(({ MisTareasApp }) => MisTareasApp.tareasEntregadas.data);
-
+	const info = useSelector(({ auth }) => auth.user);
+	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
 
 
 	useDeepCompareEffect(() => {
@@ -119,24 +131,67 @@ function MisTareas(props) {
 				}}
 			>
 
-				<div className="float flex sm:w-1">
-					<Button
-						className={clsx(classes.button)}
-						style={{
-							backgroundColor: 'transparent',
-						}}
-						to={`/apps/landing`}
-						component={Link}
-						type="button"
-					>
-						<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
-						<Typography className={clsx(classes.TextTitle)}>
-							Mis Actividades
-						</Typography>
-					</Button>
+				<div className="float flex w-full">
+					<div className="w-full md:w-1/2 sm:w-1/1">
+						<Button
+							className={clsx(classes.button)}
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							to={`/apps/landing`}
+							component={Link}
+							type="button"
+						>
+							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
+							<Typography className={clsx(classes.TextTitle)}>
+								{escuelabaja ? 'Mis Tareas' : 'Mis Actividades'}
+							</Typography>
+						</Button>
+					</div>
+
+
+					{/* ------------------------- User Info --------------------- */}
+					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
+						
+						<div className="w-1/3 justify-end items-right">
+						<img className={clsx(classes.userIcon)}
+						 src="assets/images/preescolar/infoestudiante.png"/>
+						</div>
+						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
+							{/* <div> */}
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.data.displayName}
+								</p>
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.grade}°
+								</p>
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.school_name}
+								</p>
+
+
+							{/* </div> */}
+							{/* <Typography className={clsx(classes.TextInfo)}>
+								{info.data.displayName}
+							</Typography> */}
+							{/* <Typography className={clsx(classes.TextInfo)}>
+								{info.grade}°
+							</Typography>
+							<Typography className={clsx(classes.TextInfo)}>
+								{info.school_name}°
+							</Typography> */}
+						</div>
+
+					</div>
 				</div>
 
-				< div className="w-full pt-28 pb-28 m-20 pr-40 pl-40 items-center justify-center flex-wrap flex-row flex ">
+				< div className="w-full pt-28 pb-28 m-20 pr-40 pl-40 items-center justify-center flex-wrap flex-row flex">
 
 					{/* -------------------------- tasks delivered ------------------------- */}
 
@@ -202,17 +257,15 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-								{entregadas ? 
-									<div className="flex flex-1 items-center justify-center h-full">
-										<Typography className={clsx(classes.TextInfo)}>
-											No hay registros que mostrar!
+							{ entregadas && entregadas.lenght > 2 ?
+								<div className="flex flex-1 items-center justify-center h-full">
+									<Typography className={clsx(classes.TextInfo)}>
+										No hay registros que mostrar!
 										</Typography>
-									</div>
-									: 
-									<div className="flex flex-1 items-center justify-center h-full">
-										<CircularProgress color="secondary" />
-									</div>
-								}
+								</div>
+								:
+								null
+							}
 						</List>
 					</Paper>
 
@@ -280,17 +333,15 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-							{entregadas ? 
-									<div className="flex flex-1 items-center justify-center h-full">
-										<Typography className={clsx(classes.TextInfo)}>
-											No hay registros que mostrar!
+							{ entregadas && entregadas.lenght > 2 ?
+								<div className="flex flex-1 items-center justify-center h-full">
+									<Typography className={clsx(classes.TextInfo)}>
+										No hay registros que mostrar!
 										</Typography>
-									</div>
-									: 
-									<div className="flex flex-1 items-center justify-center h-full">
-										<CircularProgress color="secondary" />
-									</div>
-								}
+								</div>
+								:
+								null
+							}
 						</List>
 					</Paper>
 
