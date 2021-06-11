@@ -15,6 +15,10 @@ const ActivitiesAppConfig = {
 		{
 			path: '/apps/actividades',
 			component: () => <Redirect to="/apps/actividades/all" />
+		},
+		{
+			path: '/apps/actividadesTarea/:id',
+			component: React.lazy(() => import('./ActivitiesApp'))
 		}
 	]
 };

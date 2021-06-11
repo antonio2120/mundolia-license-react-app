@@ -85,6 +85,7 @@ function ActivitiesList(props) {
 	const [filteredData, setFilteredData] = useState(null);
 	const [searchText, setSearchText] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	const [fromDashboard, setFromDashboard] = useState(true);
 
 	useEffect(() => {
 		dispatch(getCategories());
@@ -110,6 +111,12 @@ function ActivitiesList(props) {
 		if (activities) {
 			setFilteredData(getFilteredArray());
 		}
+		if(props.params.id > 0 && activities.length && fromDashboard){
+			dispatch(openUpdateDeliveryDialog(activities.find(obj => {
+				return obj.id == props.params.id
+			})));
+			setFromDashboard(false);
+		};
 	}, [activities, searchText, selectedCategory]);
 
 	function handleSelectedCategory(event) {
@@ -205,11 +212,11 @@ function ActivitiesList(props) {
 															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
 														</div>
 														<div className="text-16 whitespace-no-wrap text-right">
-															{course.status}{course.status == 'Calificado' ? ': ' + course.score : null}
+															{course.status != 'Calificado' ? course.status : null}
 														</div>
-														<div className="text-16 whitespace-no-wrap text-right">
+														{/* <div className="text-16 whitespace-no-wrap text-right">
 															{course.status == 'Calificado' ? course.scored_date : null}
-														</div>
+														</div> */}
 														<div className="text-16 whitespace-no-wrap text-right">
 															Materia: {course.custom_name}
 														</div>
@@ -301,17 +308,24 @@ function ActivitiesList(props) {
 													// 	color="secondary"
 													// /> */}
 													:
+													course.status != 'Calificado' ?
+														<CardActions className="justify-center">
+															<Button
+																onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
+																component={Link}
+																className="justify-start px-32"
+																color="secondary"
+															>
+																{/* {buttonStatus(course)} */}
+																Entregar Tarea
+															</Button>
+														</CardActions>
+													:
 													<CardActions className="justify-center">
-														<Button
-															onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
-															component={Link}
-															className="justify-start px-32"
-															color="secondary"
-														>
-															{/* {buttonStatus(course)} */}
-														Entregar Tarea
-													</Button>
-													</CardActions>
+													<Typography className="font-medium truncate" color="inherit">
+													 {course.status}: {course.score} - {course.scored_date}
+													</Typography>
+												</CardActions>
 												}
 											</Card>
 										</div>

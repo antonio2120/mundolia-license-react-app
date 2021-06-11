@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
+import Paper from '@material-ui/core/Paper';
 import _ from '@lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,11 +43,10 @@ import WidgetPosts from './widgets/WidgetPosts';
 import WidgetPodcast from './widgets/WidgetPodcast';
 import WidgetVideos from './widgets/WidgetVideos';
 
+const windowH = window.innerHeight;
 const useStyles = makeStyles(theme => ({
 	content: {
-		'& canvas': {
-			maxHeight: '100%'
-		}
+		maxHeight:"100%"
 	},
 	selectedProject: {
 		background: theme.palette.primary.main,
@@ -58,6 +58,11 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.contrastText,
 		borderRadius: '0 8px 0 0',
 		marginLeft: 1
+	},
+	divScrollable: {
+		maxHeight:windowH-215,
+		overflow:"auto"
+		
 	}
 }));
 
@@ -163,7 +168,7 @@ function DashboardApp(props) {
 				</Tabs>
 			}
 			content={
-				<div className="p-12">
+				<div className={clsx(classes.divScrollable,"p-12")}>
 					{tabValue === 0 && (
 						<FuseAnimateGroup
 							className="flex flex-wrap"

@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../Preescolar.css';
 import { Link, useParams } from 'react-router-dom';
@@ -14,7 +14,13 @@ import withReducer from 'app/store/withReducer';
 import { getTareasPendientes } from '../store/tareasPendientesSlice';
 import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import CircularProgress from '@material-ui/core/CircularProgress';
+import MenuItem from '@material-ui/core/MenuItem';
+import Popover from '@material-ui/core/Popover';
+import { logoutUser } from 'app/auth/store/userSlice';
+import Icon from '@material-ui/core/Icon';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -24,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 	},
 	Text: {
-		fontSize: "22px",
+		fontSize: "18px",
 		color: 'white',
 		textShadow: '2px 2px 2px black',
 		text: "center",
@@ -78,33 +84,33 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: 5,
 		width: '50px'
 	},
-	right: {
+	avatarContainer: {
 		// objectPosition: 'right',
 		// display: 'flex',
 		// flexDirection: "row-reverse"
 		// maxHeight: '40px',
-		justifyContent: "flex-end",
-		alignItems: "flex-end",
-		alignContent: "flex-end",
-		textAlign:"right",
-		alignSelf: 'flex-end',
-		alignContent: 'flex-end',
-		flexContainer: 'justify-end',
+		// justifyContent: "flex-end",
+		// alignItems: "flex-end",
+		// alignContent: "flex-end",
+		// textAlign:"right",
+		// alignSelf: 'flex-end',
+		// alignContent: 'flex-end',
+		// flexContainer: 'justify-end',
 		paddingLeft: '70px',
 		paddingRight: '70px',
 	},
 	userIcon:{
 		// maxHeight: "50%",
 		// maxWidth: "50%",
-		display: 'flex',
-		objectFit: 'cover',
-		flexContainer: 'justify-end',
-		justifyContent: "flex-end",
-		alignItems: "flex-end",
-		alignContent: "flex-end",
-		textAlign:"right",
-		alignSelf: 'flex-end',
-		alignContent: 'flex-end',
+		// display: 'flex',
+		// objectFit: 'cover',
+		// flexContainer: 'justify-end',
+		// justifyContent: "flex-end",
+		// alignItems: "flex-end",
+		// alignContent: "flex-end",
+		// textAlign:"right",
+		// alignSelf: 'flex-end',
+		// alignContent: 'flex-end',
 		paddingLeft: '100px'
 
 	},
@@ -127,6 +133,15 @@ function MisTareas(props) {
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
 
+	const [userMenu, setUserMenu] = useState(null);
+
+	const userMenuClick = event => {
+		setUserMenu(event.currentTarget);
+	};
+
+	const userMenuClose = () => {
+		setUserMenu(null);
+	};
 
 	useDeepCompareEffect(() => {
 		dispatch(getTareasPendientes());
@@ -182,12 +197,16 @@ function MisTareas(props) {
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
 						
-						<div className={clsx(classes.right),"w-1/3 justify-end logo text-end items-end justify-end"} >
-						<img className={clsx(classes.userIcon)}
-							width="200"
-							position="right"
-						 	src="assets/images/preescolar/infoestudiante.png"/>
-						</div>
+						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
+							onClick={userMenuClick}>
+							<img className={clsx(classes.userIcon)}
+								style={{
+									background: "assets/images/preescolar/infoestudiante.png",
+								}}
+								width="200"
+								position="right"
+								src="assets/images/preescolar/infoestudiante.png"/>
+						</Button>
 						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
 							{/* <div> */}
 								<p className={clsx(classes.TextInfo)} 
@@ -235,8 +254,8 @@ function MisTareas(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Mis tareas Pendientes
-								</Typography>
+								{ escuelabaja ? 'Tareas Pendientes' : 'Actividades Pendientes' }
+							</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
@@ -291,14 +310,14 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-							{ entregadas && entregadas.lenght > 2 ?
+							{ pendientes && pendientes.length > 0  ?
+								null 
+								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
-										No hay registros que mostrar!
-										</Typography>
-								</div>
-								:
-								null
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
+								</div>								
 							}
 						</List>
 					</Paper>
@@ -326,8 +345,8 @@ function MisTareas(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Mis tareas Entregadas
-								</Typography>
+								{ escuelabaja ? 'Tareas Entregadas' : 'Actividades Entregadas' }
+							</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
@@ -379,17 +398,47 @@ function MisTareas(props) {
 									))
 								}
 							</div>
-							{ entregadas && entregadas.lenght > 2 ?
+							{entregadas && entregadas.length > 0 ?
+								null
+								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
-										No hay registros que mostrar!
-										</Typography>
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
 								</div>
-								:
-								null
 							}
 						</List>
 					</Paper>
+
+					<Popover
+						open={Boolean(userMenu)}
+						anchorEl={userMenu}
+						onClose={userMenuClose}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'right'
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right'
+						}}
+						classes={{
+							paper: 'py-8'
+						}}
+					>
+						<MenuItem
+							onClick={() => {
+								dispatch(logoutUser());
+
+								userMenuClose();
+							}}
+						>
+							<ListItemIcon className="min-w-40">
+								<Icon>exit_to_app</Icon>
+							</ListItemIcon>
+							<ListItemText primary="Logout" />
+						</MenuItem>
+					</Popover>
 
 				</div>
 			</FuseAnimateGroup>
