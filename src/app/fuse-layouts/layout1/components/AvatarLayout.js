@@ -25,17 +25,19 @@ function AvatarLayout(props) {
     const {form, handleChange, setForm} = useForm(defaultFormState);
     let [color, setBackground] = useState([fuseBlue[500]]);
     let [secondColor, secondBackground] = useState([fuseBlue[700]]);
-    let [image, setImage] = useState();
-    let imageProfile = user.data.photoURL;
+    let [avatarId, setAvatarId] = useState(0);
+
 
     const initDialog = useCallback(() => {
+
+        setForm({
+            id: user.data.uuid
+        });
 
     }, [avatarData.entities,setForm]);
 
 
-    function setColor(key, id) {
-
-        console.log(key, id)
+    function setColor(key) {
         if (key === 0) {
             setBackground(fuseBlue[400])
             secondBackground(fuseBlue[700])
@@ -82,10 +84,9 @@ function AvatarLayout(props) {
     useEffect(() => {
     }, []);
 
-    function handleSubmit(ev) {
-        console.log(ev)
-        //dispatch(submitUpdateAvatar())
-        //dispatch(closeAvatarLayout());
+    function handleSubmit() {
+        dispatch(submitUpdateAvatar(form,avatarId))
+        dispatch(closeAvatarLayout());
     }
 
     return (
@@ -97,12 +98,14 @@ function AvatarLayout(props) {
                     autoplay={false}
                     {...avatarLayout.props}
                     onClose={ev => dispatch(closeAvatarLayout())}
-                    onStart={ev => handleSubmit(ev)}
-                    onChange={ev => setColor(ev)}
+                    onStart={handleSubmit}
+                    onChange={ev => {
+                        setColor(ev) ; setAvatarId(ev)
+                    }}
                 >
                     {avatar.map((row) => (
                         <Slide
-                            key={form.avatarId}
+                            key={row.value.id}
                             name="avatar"
                             id="avatar"
                             value={form.avatarId}

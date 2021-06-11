@@ -15,34 +15,14 @@ export const getAvatars = createAsyncThunk('avatarApp/avatar/getAvatars', async 
     return data;
 });
 
-export const submitUpdateAvatar = () => async (dispatch, getState) => {
-    const avatarData = {
-        id: 16,
-        avatarId: 2,
-        customName: "Cuco",
-        path: "assets/images/avatars/avatarFace0.jpg"
-    }
-
-    const oldUser = getState().auth.user;
-
-    //const user = _.merge({}, oldUser, { data: { settings } });
-
-    console.log('User' + oldUser.data);
-
-    dispatch(updateUserData(oldUser));
-
-    console.log(avatarData);
-
+export const submitUpdateAvatar = (userId,avatarData) => async (dispatch, getState) => {
     return jwtService
         .setProfileImage({
-            id: avatarData.id,
-            avatarId: avatarData.avatarId,
-            customName: avatarData.customName,
-            avatarPath: avatarData.path,
+            id: userId.id,
+            avatarId: avatarData,
         })
         .then(response => {
             dispatch(registerSuccess());
-
         })
         .catch(error => {
             return dispatch(registerError(error));
