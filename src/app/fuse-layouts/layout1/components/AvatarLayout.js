@@ -29,7 +29,7 @@ function AvatarLayout(props) {
     let imageProfile = user.data.photoURL;
 
     const initDialog = useCallback(() => {
-        dispatch(setUser(user))
+
     }, [avatarData.entities,setForm]);
 
 
@@ -82,10 +82,10 @@ function AvatarLayout(props) {
     useEffect(() => {
     }, []);
 
-    function handleSubmit() {
-
-        dispatch(submitUpdateAvatar())
-        dispatch(closeAvatarLayout());
+    function handleSubmit(ev) {
+        console.log(ev)
+        //dispatch(submitUpdateAvatar())
+        //dispatch(closeAvatarLayout());
     }
 
     return (
@@ -97,7 +97,7 @@ function AvatarLayout(props) {
                     autoplay={false}
                     {...avatarLayout.props}
                     onClose={ev => dispatch(closeAvatarLayout())}
-                    onStart={handleSubmit}
+                    onStart={ev => handleSubmit(ev)}
                     onChange={ev => setColor(ev)}
                 >
                     {avatar.map((row) => (

@@ -20,7 +20,7 @@ export const submitUpdateAvatar = () => async (dispatch, getState) => {
         id: 16,
         avatarId: 2,
         customName: "Cuco",
-        path: "assets/images/avatars/user.jpg"
+        path: "assets/images/avatars/avatarFace0.jpg"
     }
 
     const oldUser = getState().auth.user;
@@ -42,6 +42,7 @@ export const submitUpdateAvatar = () => async (dispatch, getState) => {
         })
         .then(response => {
             dispatch(registerSuccess());
+
         })
         .catch(error => {
             return dispatch(registerError(error));
