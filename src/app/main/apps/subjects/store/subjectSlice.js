@@ -7,7 +7,6 @@ export const getSubjects = createAsyncThunk('subjectsApp/subjects/getSubjects', 
 	const response = await axios.get(process.env.REACT_APP_API+'/materias/grupo/'+params.id,{
 		// params:filterContacts
 	});
-	console.log(response.data);
 	const data = response.data;
 	return data;
 });
@@ -49,7 +48,7 @@ export const submitUpdateSubject = ( subjectData, subjectOrigin, group ) => asyn
 			id: subjectOrigin.id,
 			custom_name: subjectData.custom_name,
 			subject_id: subjectData.subject_id,
-			group_id: subjectData.group_id
+			group_id: subjectOrigin.group_id
 		})
 		.then(subject => {
 			dispatch(registerSuccess());
