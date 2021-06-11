@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import SchoolsMultiSelectMenu from './ItemsMultiSelectMenu';
 import GroupsTable from './GroupsTable';
 import { openEditGroupDialog, removeItem, toggleStarredItem, selectGroups } from './store/groupSlice';
+import { Link } from 'react-router-dom';
 
 // import ItemsSidebarContent from "./ItemsSidebarContent";
 // import ContactsSidebarContent from "../contacts/ContactsSidebarContent";
@@ -52,6 +53,44 @@ function GroupsList(props) {
 				className: 'font-bold',
 				sortable: true
 			},
+			{
+				Header: 'Materias',
+				id: 'subject',
+				width: 128,
+				sortable: false,
+				Cell: ({ row }) => (
+					<div className="flex items-center">
+							<IconButton
+								// onClick={ev => {
+								// 	ev.stopPropagation();
+								// 	dispatch(openEditGroupDialog(row.original));
+								// }}
+								to={`/apps/materias/${row.original.name}/${row.original.id}`}
+								component={Link}
+							>
+								<Icon>assignment</Icon>
+							</IconButton>
+					</div>
+				)
+			},
+			{
+				Header: 'Editar',
+				id: 'edit',
+				width: 128,
+				sortable: false,
+				Cell: ({ row }) => (
+					<div className="flex items-center">
+							<IconButton
+								onClick={ev => {
+									ev.stopPropagation();
+									dispatch(openEditGroupDialog(row.original));
+								}}
+							>
+								<Icon>edit</Icon>
+							</IconButton>
+					</div>
+				)
+			},
 		],
 		[dispatch]
 	);
@@ -91,7 +130,7 @@ function GroupsList(props) {
 				data={filteredData}
 				onRowClick={(ev, row) => {
 					if (row) {
-						dispatch(openEditGroupDialog(row.original));
+						// dispatch(openEditGroupDialog(row.original));
 					}
 				}}
 			/>

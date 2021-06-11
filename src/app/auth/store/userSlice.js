@@ -84,6 +84,7 @@ export const setUserData = user => async (dispatch, getState) => {
 		role: user.data.role,
 		school_id: user.data.id_school,
 		school_name: user.data.school_name,
+		grade: user.data.grade,
 		data: {
 			displayName: user.data.displayName,
 			email: user.data.email,

@@ -35,6 +35,14 @@ export const getActivities = createAsyncThunk('activitiesApp/activities/getActiv
 	
 });
 
+export const getSubjects = createAsyncThunk('activitiesApp/subjects/getSubject', async (id) => {
+	const response = await axios.get(process.env.REACT_APP_API+'/materias/grupo/'+id,{
+		// params:filterContacts
+	});
+	const data = await response.data;
+	return data;
+});
+
 export const submitCreateActivity = ( activityData, file, fileType ) => async dispatch => {
 	return jwtService
 		.addActivity({
@@ -46,6 +54,7 @@ export const submitCreateActivity = ( activityData, file, fileType ) => async di
 			is_active: activityData.is_active ? 1 : 0,
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
+			subject_id: activityData.subject_id
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -62,7 +71,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 		.updateActivity({
             activityId:activityDataOrigin.id,
 			name: activityData.name,
-            groupId: activityData.group_id,
+            groupId: activityDataOrigin.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
@@ -70,6 +79,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 			filePath: fileType == 'file' ? activityDataOrigin.file_path ? activityDataOrigin.file_path : '' : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
+			subject_id: activityDataOrigin.subject_id
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
@@ -145,6 +155,9 @@ const activitiesSlice = createSlice({
 			error: null
 		},
 		routeParams: {},
+		subjects: {
+			data: []
+		}
     }),
     reducers: {
         openNewActivityDialog: (state, action) => {
@@ -204,6 +217,7 @@ const activitiesSlice = createSlice({
 		},
     },
 	extraReducers: {
+		[getSubjects.fulfilled]: (state, action) => {state. subjects = action.payload},
         [getActivities.fulfilled]: (state, action) => {
             const { data, routeParams } = action.payload;
 			activitiesAdapter.setAll(state, data);

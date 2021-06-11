@@ -71,6 +71,15 @@ const navigationConfig = [
 				url: '/apps/grupos/all'
 			},
 			{
+				id: 'aula-virtual',
+				title: 'Aula Virtual',
+				translate: 'Aula Virtual',
+				type: 'item',
+				'auth' : authRoles.aulaVirtual,
+				icon: 'meeting_room',
+				url: '/apps/aula'
+			},
+			{
 				id: 'schools-component',
 				title: 'Escuelas',
 				translate: 'Escuelas',
@@ -96,6 +105,15 @@ const navigationConfig = [
 				'auth' : authRoles.alumno,
 				icon: 'forum',
 				url: '/loginp'
+			},
+			{
+				id: 'logout',
+				title: 'Cerrar sesión',
+				translate: 'Logout',
+				type: 'item',
+				'auth' : authRoles.alumno,
+				icon: 'exit_to_app',
+				url: '/logout'
 			},
 		]
 	}

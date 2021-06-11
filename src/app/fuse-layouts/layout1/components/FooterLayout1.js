@@ -11,9 +11,9 @@ function FooterLayout1(props) {
 
 	return (
 		<ThemeProvider theme={footerTheme}>
-			<AppBar id="fuse-footer" className="relative z-10" color="default">
+			<AppBar id="fuse-footer" className="relative z-10" color="transparent">
 				<Toolbar className="px-16 py-0 flex items-center">
-					<Typography>©2021 Club LIA | Administrador de Licencias</Typography>
+					<Typography>©2021 Club LIA  Administrador de Licencias</Typography>
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

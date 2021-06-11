@@ -17,6 +17,7 @@ import PeriodosConfig from "../main/apps/periodos/AppConfig";
 import GroupsConfig from "../main/apps/groups/GroupsAppConfig";
 import RegisterConfig from 'app/main/register/RegisterConfig';
 import ActivitiesConfig from "../main/apps/activities/ActivitiesAppConfig";
+import AulaVirtualAppConfig from "../main/apps/aulaVirtual/AulaVirtualAppConfig";
 import HomeworksConfig from "../main/apps/homeworks/HomeworksAppConfig";
 import MembershipsAppConfig from "../main/apps/memberships/MembershipsAppConfig";
 import React from 'react';
@@ -26,6 +27,7 @@ import MaintenancePageConfig from "../main/pages/maintenance/MaintenancePageConf
 import RedirectPageConfig from "../main/pages/redirect/RedirectPageConfig";
 import DashboardAppConfig from '../main/apps/dashboard/DashboardAppConfig';
 import AdminLicenciasAppConfig from '../main/apps/adminLicencias/AdminLicenciasAppConfig';
+import PreescolarConfig from '../main/apps/preescolar/PreescolarConfig';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -49,9 +51,11 @@ const routeConfigs = [
 	DashboardAppConfig,
 	RegisterConfig, 
 	ActivitiesConfig,
+	AulaVirtualAppConfig,
 	HomeworksConfig,
 	MembershipsAppConfig,
-	AdminLicenciasAppConfig
+	AdminLicenciasAppConfig, 
+	PreescolarConfig,	
 ];
 
 const routes = [
