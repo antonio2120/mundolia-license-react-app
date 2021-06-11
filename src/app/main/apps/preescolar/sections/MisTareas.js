@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 	},
 	Text: {
-		fontSize: "22px",
+		fontSize: "18px",
 		color: 'white',
 		textShadow: '2px 2px 2px black',
 		text: "center",
@@ -254,8 +254,8 @@ function MisTareas(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Mis tareas Pendientes
-								</Typography>
+								{ escuelabaja ? 'Tareas Pendientes' : 'Actividades Pendientes' }
+							</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
@@ -315,8 +315,8 @@ function MisTareas(props) {
 								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
-										No hay registros que mostrar!
-										</Typography>
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
 								</div>								
 							}
 						</List>
@@ -345,8 +345,8 @@ function MisTareas(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Mis tareas Entregadas
-								</Typography>
+								{ escuelabaja ? 'Tareas Entregadas' : 'Actividades Entregadas' }
+							</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
@@ -403,8 +403,8 @@ function MisTareas(props) {
 								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
-										No hay registros que mostrar!
-										</Typography>
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
 								</div>
 							}
 						</List>

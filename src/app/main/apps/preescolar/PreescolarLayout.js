@@ -108,7 +108,7 @@ function PreescolarLayout(props) {
 						type="button"
 						// onMouseEnter={ playMisTareas }
 					>
-						<img src="assets/images/preescolar/explorer.png" />
+						<img src="assets/images/preescolar/explorer1.png" />
 					</Button>
 					<Button
 						style={{
@@ -125,8 +125,6 @@ function PreescolarLayout(props) {
 						</Typography>
 					</Button>
 				</div>
-
-
 
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
 					<Button
@@ -164,14 +162,15 @@ function PreescolarLayout(props) {
 						}}
 						component={Link}
 						type="button"
+						to={`/apps/aula`}
 					>
-						<img src="assets/images/preescolar/artes.png" alt="logo" />
+						<img src="assets/images/preescolar/artes1.png" alt="logo" />
 					</Button>
 					<Button
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						// to={``}
+						to={`/apps/aula`}
 						component={Link}
 						type="button"
 						onMouseEnter={ !escuelabaja ? playMisClases : null }
