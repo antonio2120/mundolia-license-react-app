@@ -7,10 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Preescolar.css';
 import { Link } from 'react-router-dom';
+import { useDeepCompareEffect } from '@fuse/hooks';
+import {isMobile} from 'react-device-detect';
 
 const useStyles = makeStyles(theme => ({
 	Text: {
@@ -32,9 +34,19 @@ const useStyles = makeStyles(theme => ({
 		animationDuration: "6s",
 		animationIterationCount: "infinite",
 		animationTimingFunction: "ease-in-out",
-		}
+	},
+	listenIcon: {
+
+		fontWeight: "bold",
+		fontSize: "32px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		// paddingLeft: '6px'
+
+	}
 
 }));
+
 
 function PreescolarLayout(props) {
 	  
@@ -43,11 +55,6 @@ function PreescolarLayout(props) {
 	const role = useSelector(({ auth }) => auth.user.role);
 	const grade = useSelector(({ auth }) => auth.user.grade);
 	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ; 
-
-	const [values, setValues] = React.useState({
-		play: false,
-      	pause: true, 
-	});
 	// const url =  `url("assets/sounds/Mi Mundo Lia.m4a")`;
     const audioMimundoLia = new Audio("assets/sounds/Mi Mundo Lia.mp3");
 	const audioMiScore = new Audio("assets/sounds/Mi Score.mp3");
@@ -55,6 +62,13 @@ function PreescolarLayout(props) {
 	const audioMisTareas = new Audio("assets/sounds/Mis Tareas.mp3");
 	const audioMisActividades = new Audio("assets/sounds/Mis Actividades.mp3");
 
+	// var windowW = window.innerWidth;
+	// var device = windowW < '1170' ? true : false ; 
+
+	const [width, setWidth] = useState(window.innerWidth);
+	const [device, setDevice] = useState(false);
+
+	
 	function handleSubmit(event) {
 		const token = localStorage.getItem('jwt_access_token');
 		if(token){
@@ -80,6 +94,29 @@ function PreescolarLayout(props) {
 		audioMisActividades.play();
 	}
 
+	
+
+	useEffect(() => {
+		const updateWindowDimensions = () => {
+			const newWidth = window.innerWidth;
+			setWidth(newWidth);
+			if (newWidth < '1170' ){
+				setDevice(true);
+			}
+			else{
+				setDevice(false);
+			}
+			
+			console.log("updating Width");
+		  };
+	  
+		  window.addEventListener("resize", updateWindowDimensions);
+	  
+		  return () => window.removeEventListener("resize", updateWindowDimensions) 
+
+	}, []);
+
+
 	return (
         <div className="flex flex-1" 
 		style={{
@@ -96,7 +133,7 @@ function PreescolarLayout(props) {
                 }}
             >
 
-
+				{/* -----------------------Mis Tareas/Mis Actividades------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
 						className={clsx(classes.button)}
@@ -118,14 +155,27 @@ function PreescolarLayout(props) {
 						component={Link}
 						// className="justify-start px-32"
 						color="secondary"
-						onMouseEnter={ !escuelabaja ? playMisActividades : null }
+						onMouseEnter={ !escuelabaja && !isMobile ? playMisActividades : null }
 					>
 						<Typography className={clsx(classes.Text)}>
 							{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
 						</Typography>
 					</Button>
+					{ isMobile && !escuelabaja ?
+						<Button
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							onClick={playMisActividades}
+						>
+							<Icon className={clsx(classes.listenIcon)}>volume_up</Icon>
+						</Button>
+						:
+						null
+					}
 				</div>
 
+				{/* -----------------------Mundo Lia----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
 					<Button
 						className={clsx(classes.button)}
@@ -147,13 +197,27 @@ function PreescolarLayout(props) {
 						type="button"
 						// name={mundolia}
 						// id={'mundolia'}
-						onMouseEnter={ !escuelabaja ? playMundolia : null }
+						onMouseEnter={ !escuelabaja && !isMobile ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-						Mi Mundo Lia
+						Mi Mundo Lia {device}
 						</Typography>
 					</Button>
+					{ isMobile && !escuelabaja ?
+						<Button
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							onClick={playMundolia}
+						>
+							<Icon className={clsx(classes.listenIcon)}>volume_up</Icon>
+						</Button>
+						:
+						null
+					}
 				</div>
+
+				{/* -----------------------Mis Clases----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
 						className={clsx(classes.button)}
@@ -173,12 +237,24 @@ function PreescolarLayout(props) {
 						to={`/apps/aula`}
 						component={Link}
 						type="button"
-						onMouseEnter={ !escuelabaja ? playMisClases : null }
+						onMouseEnter={ !escuelabaja && !isMobile ? playMisClases : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-							Mis Clases
+							{ 'Mis Clases'}
 						</Typography>
 					</Button>
+					{ isMobile && !escuelabaja ?
+						<Button
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							onClick={playMisClases}
+						>
+							<Icon className={clsx(classes.listenIcon)}>volume_up</Icon>
+						</Button>
+						:
+						null
+					}
 				</div>
 
 				{/* <div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
