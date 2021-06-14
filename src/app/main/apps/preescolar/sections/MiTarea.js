@@ -13,6 +13,7 @@ import reducer from '../store';
 import withReducer from 'app/store/withReducer';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -34,6 +35,14 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 		text: "center",
 		alignSelf: "center",
+	},
+	LabelText: {
+		fontSize: "26px",
+		color: 'red',
+	},
+	LabelDue: {
+		fontSize: "55px",
+		color: 'red',
 	},
 	button: {
 
@@ -167,7 +176,7 @@ function MiTarea(props) {
 						>
 							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 							<Typography className={clsx(classes.TextTitle)}>
-								Regresar
+								Mis Tareas
 							</Typography>
 						</Button>
 					</div>
@@ -204,12 +213,11 @@ function MiTarea(props) {
 					</div>
 				</div>
 
-				< div className="w-full pt-28 pb-28 m-20 pr-40 pl-40 items-center justify-center flex-wrap flex-row flex">
-
+				<Grid container className="flex items-center justify-center flex-row pt-28 pb-28 m-20 pr-40 pl-40" spacing={0}>
+				<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20">
 					{/* -------------------------- tasks undelivered ------------------------- */}
-
 					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
 						elevation={3}
 						
 						style={{
@@ -229,16 +237,63 @@ function MiTarea(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Mis tareas
-								</Typography>
+								Materia
+							</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
-						
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 110,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
+							<div
+								className="w-full"
+								style={{
+									backgroundColor: '#FFFFFF',
+									paddingLeft: 5,
+									paddingRight: 5,
+									paddingTop: 2,
+									paddingBottom: 2,
+									borderRadius: 30,
+									textAlign: "center",
+								}}
+							>
+								<Typography className={clsx(classes.LabelText)}>
+									Ingles
+								</Typography>
+							</div>
+						</div>
 					</Paper>
+					<Paper
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+						elevation={3}
+						
+						style={{
+							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat',
+							
+						}}>
+						{/* ----------------------------Info inside card-------------------------- */}
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 300,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
+						</div>
+					</Paper>
+					</Grid>
                     {/* -------------------------- tasks delivered ------------------------- */}
-
+					<Grid item xs  className="flex items-center justify-center flex-col max-w-400  m-20">
 					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
 						elevation={3}
 						
 						style={{
@@ -258,17 +313,65 @@ function MiTarea(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Entregar
+								Vencimiento
 								</Typography>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
-						
-					</Paper>
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 110,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
 
+								<div
+									style={{
+										backgroundColor: '#FFFFFF',
+										height: 85,
+										width: 90,
+										paddingLeft: 2,
+										paddingRight: 2,
+										paddingTop: 2,
+										paddingBottom: 2,
+										borderRadius: 3,
+										textAlign: "center",
+									}}
+								>
+									<Typography className={clsx(classes.LabelDue)}>
+										13
+									</Typography>
+								</div>
+							</div>
+					</Paper>
+					<Paper
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+						elevation={3}
+						
+						style={{
+							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat',
+							
+						}}>
+						{/* ----------------------------Info inside card-------------------------- */}
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 300,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
+						</div>
+					</Paper>
+					</Grid>
 					{/* -------------------------- tasks delivered ------------------------- */}
-
+					<Grid item xs  className="flex items-center justify-center flex-col max-w-400  m-20">
 					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
 						elevation={3}
 						
 						style={{
@@ -288,14 +391,48 @@ function MiTarea(props) {
 							}}
 						>
 							<Typography className={clsx(classes.Text)}>
-								Estatus
-								</Typography>
+								Mis Tareas
+							</Typography>
+						</div>
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 110,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
+							<div>
+								
+							</div>
 						</div>
 						{/* ----------------------------Info inside card-------------------------- */}
 						
 					</Paper>
-
-				</div>
+					<Paper
+						className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+						elevation={3}
+						
+						style={{
+							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat',
+							
+						}}>
+						{/* ----------------------------Info inside card-------------------------- */}
+						<div
+							className="items-center justify-center w-full"
+							style={{
+								height: 300,
+								paddingLeft: 45,
+								paddingRight: 45,
+							}}
+						>
+						</div>
+					</Paper>
+					</Grid>
+					</Grid>
 			</FuseAnimateGroup>
 		</div>
 	);
