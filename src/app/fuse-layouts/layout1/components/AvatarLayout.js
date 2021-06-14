@@ -6,9 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AutoRotatingCarousel, Slide} from "material-auto-rotating-carousel";
 import {closeAvatarLayout, getAvatars, submitUpdateAvatar} from "../../../store/fuse/avatarSlice";
 import {useForm} from "../../../../@fuse/hooks";
-import FuseUtils from "../../../../@fuse/utils";
-import {setUser, updateUserData} from "../../../auth/store/userSlice";
-import {submitCreateGroup, submitUpdateGroup} from "../../../main/apps/groups/store/groupSlice";
 
 const defaultFormState = {
     customName: '',
