@@ -71,7 +71,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 		.updateActivity({
             activityId:activityDataOrigin.id,
 			name: activityData.name,
-            groupId: activityData.group_id,
+            groupId: activityDataOrigin.group_id,
 	        finishDate: activityData.finish_date.replace("T", " "),
 			theme: activityData.theme,
 			instructions: activityData.instructions,
@@ -79,7 +79,7 @@ export const submitUpdateActivity = ( activityData, activityDataOrigin, file, fi
 			filePath: fileType == 'file' ? activityDataOrigin.file_path ? activityDataOrigin.file_path : '' : '',
 			urlPath: fileType == 'url' ? activityData.url_path : '',
 			file: fileType == 'file' ? file : null,
-			subject_id: activityData.subject_id
+			subject_id: activityDataOrigin.subject_id
 		})
 		.then(activity => {
 			dispatch(registerSuccess());
