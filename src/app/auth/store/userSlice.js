@@ -7,6 +7,7 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import auth0Service from 'app/services/auth0Service';
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
+import {getAvatars} from "../../store/fuse/avatarSlice";
 
 export const setUserDataAuth0 = tokenData => async dispatch => {
 	const user = {
@@ -76,9 +77,6 @@ export const setUserData = user => async (dispatch, getState) => {
 	// history.location.state = {
 	// 	redirectUrl: user.redirectUrl // for example 'apps/academy'
 	// };
-
-
-
 	const userSet = _.merge({}, user, {
 		uuid: user.data.uuid,
 		uuid_:user.data.uuid_,
@@ -90,7 +88,7 @@ export const setUserData = user => async (dispatch, getState) => {
 		data: {
 			displayName: user.data.displayName,
 			email: user.data.email,
-			photoURL: 'assets/images/avatars/user.jpg',
+			photoURL: user.data.photoURL,
 			settings: { ...fuseDefaultSettings }
 		}
 	});
@@ -98,6 +96,7 @@ export const setUserData = user => async (dispatch, getState) => {
 	dispatch(setDefaultSettings(fuseDefaultSettings));
 
 	dispatch(setUser(userSet));
+	dispatch(getAvatars());
 
 	// if(user.data.role == 'alumno' || user.data.role == 'alumno_secundaria' || user.data.role == 'preescolar' || user.data.role == 'padre' ){
 

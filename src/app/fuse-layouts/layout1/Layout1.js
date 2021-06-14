@@ -14,7 +14,8 @@ import LeftSideLayout1 from './components/LeftSideLayout1';
 import NavbarWrapperLayout1 from './components/NavbarWrapperLayout1';
 import RightSideLayout1 from './components/RightSideLayout1';
 import ToolbarLayout1 from './components/ToolbarLayout1';
-// import PreescolarLayout from '../../main/apps/Preescolar/PreescolarLayout';
+import AvatarLayout from "./components/AvatarLayout";
+import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -85,7 +86,7 @@ function Layout1(props) {
 	const config = useSelector(({ fuse }) => fuse.settings.current.layout.config);
 	const role = useSelector(({ auth }) => auth.user.role);
 	const grade = useSelector(({ auth }) => auth.user.grade);
-	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ; 
+	const escuelabaja = role== 'alumno' && grade <= 3 ? true : false ;
 	const appContext = useContext(AppContext);
 	const classes = useStyles(props);
 	const { routes } = appContext;
@@ -147,6 +148,8 @@ function Layout1(props) {
 					{config.rightSidePanel.display && <RightSideLayout1 />}
 
 					<FuseMessage />
+					<AvatarLayout />
+
 				</div>
 			);
 		}
@@ -158,7 +161,7 @@ function Layout1(props) {
 					{config.leftSidePanel.display && <LeftSideLayout1 />}
 
 					<div className="flex flex-1 flex-col overflow-hidden relative">
-						{/* {config.toolbar.display && config.toolbar.position === 'above' && <ToolbarLayout1 />} */}
+						{/* {config.toolbar.display && config.toolbar.position === 'above' && <ToolbarLayout1 />}]*/}
 
 						<div className={classes.wrapper}>
 							{config.navbar.display && config.navbar.position === 'left' && <NavbarWrapperLayout1 />}
@@ -200,12 +203,13 @@ function Layout1(props) {
 					{config.rightSidePanel.display && <RightSideLayout1 />}
 
 					<FuseMessage />
+				    <AvatarLayout />
+
 				</div>
 				:
 				<div id="fuse-layout" className={clsx(classes.root, config.mode, `scroll-${config.scroll}`)}>
 
 				<div className="flex flex-1 flex-col overflow-hidden relative">
-
 
 						<div className={classes.contentWrapper}>
 							<FuseScrollbars className={classes.content} scrollToTopOnRouteChange>
@@ -227,10 +231,10 @@ function Layout1(props) {
 
 					</div>
 
-				
+
 				<FuseMessage />
 			</div>
-			
+
 			);
 		}
 	}

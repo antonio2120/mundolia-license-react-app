@@ -81,8 +81,8 @@ function ChipsPlayground(props) {
       avatarToCode = '';
       break;
     case 'img':
-      avatarToCode = 'avatar={<Avatar src="/material-ui-static/images/avatar/1.jpg" />} ';
-      avatarToPlayground = <Avatar src="/material-ui-static/images/avatar/1.jpg" />;
+      avatarToCode = 'avatar={<Avatar src="/material-ui-static/images/avatar/2.jpg" />} ';
+      avatarToPlayground = <Avatar src="/material-ui-static/images/avatar/2.jpg" />;
       break;
     case 'letter':
       avatarToCode = 'avatar={<Avatar>F</Avatar>} ';
