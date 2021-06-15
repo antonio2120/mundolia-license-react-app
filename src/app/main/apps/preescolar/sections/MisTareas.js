@@ -260,11 +260,12 @@ function MisTareas(props) {
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
 							<div className="flex flex-row flex-wrap p-8 relative overflow-hidden">
+								{console.log(pendientes)}
 								{pendientes &&
 									pendientes.map(row => (
 										<>
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<img src="assets/images/preescolar/pendientes.png"/>
+												<Link to={'/apps/sections/mitarea/'+row.id} ><img src="assets/images/preescolar/pendientes.png"/></Link>
 											</div>
 
 											{ escuelabaja ? 
@@ -355,7 +356,7 @@ function MisTareas(props) {
 									entregadas.map(row => (
 										<>
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<img src="assets/images/preescolar/entregado.png"/>
+											<Link to={'/apps/sections/mitarea/'+row.id} ><img src="assets/images/preescolar/entregado.png"/></Link>
 											</div>
 											{ escuelabaja ?
 											<>

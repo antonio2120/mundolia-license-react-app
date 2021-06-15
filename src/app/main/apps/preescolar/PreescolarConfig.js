@@ -18,7 +18,11 @@ const PreescolarConfig = {
 		{
 			path: '/apps/sections/mistareas',
 			component: React.lazy(() => import('./sections/MisTareas'))
-		}
+		},
+		{
+			path: '/apps/sections/mitarea/:id',
+			component: React.lazy(() => import('./sections/MiTarea'))
+		},
 	]
 };
 
