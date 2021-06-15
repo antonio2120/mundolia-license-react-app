@@ -246,7 +246,7 @@ function MisTareas(props) {
 									pendientes.map(row => (
 										<>
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<Link to={'/apps/sections/mitarea/'+row.activity_id} ><img src="assets/images/preescolar/pendientes.png"/></Link>
+												<Link to={'/apps/sections/mitarea/'+row.id} ><img src="assets/images/preescolar/pendientes.png"/></Link>
 											</div>
 
 											{ escuelabaja ? 
@@ -337,7 +337,7 @@ function MisTareas(props) {
 									entregadas.map(row => (
 										<>
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<img src="assets/images/preescolar/entregado.png"/>
+											<Link to={'/apps/sections/mitarea/'+row.id} ><img src="assets/images/preescolar/entregado.png"/></Link>
 											</div>
 											{ escuelabaja ?
 											<>
