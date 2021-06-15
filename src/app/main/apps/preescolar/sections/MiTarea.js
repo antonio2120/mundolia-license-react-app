@@ -502,7 +502,7 @@ function MiTarea(props) {
 															padding: 5,
 														}}
 													>
-														{homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName}
+														{fileName == '' ? homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName : fileName}
 													</Typography>
 													<DialogActions className="w-full mt-20">
 														<Button
