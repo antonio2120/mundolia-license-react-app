@@ -34,6 +34,7 @@ const defaultFormState = {
     custom_name: '',
     subject_id: '',
     group_id: '',
+    activities: 0,
 
 };
 
@@ -212,12 +213,14 @@ function SubjectDialog(props) {
                         }
                     </SelectFormsy>
                     {
-                        subjectDialog.type !== 'edit' ?
+                        form.activities ?
+                            null
+                        :
                             <SelectFormsy
                                 id="group_id"
                                 name="group_id"
                                 width="100%"
-                                value={form.group_id || props.params.id}
+                                value={form.group_id}
                                 onChange={handleChange}
                                 label="Grupo"
                                 fullWidth
@@ -230,9 +233,13 @@ function SubjectDialog(props) {
                                 ))
                                 }
                             </SelectFormsy>
-                            :
-                            null
                     }
+                    <TextFieldFormsy
+                        type="hidden"
+                        name="activities"
+                        id="activities"
+                        value={form.activities}
+                    />
 
                 </DialogContent>
 
