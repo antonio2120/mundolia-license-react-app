@@ -21,7 +21,8 @@ import {
     closeNewSubjectDialog,
     closeEditSubjectDialog,
     submitCreateSubject,
-    submitUpdateSubject
+    submitUpdateSubject,
+    registerReset
 } from './store/subjectSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -34,6 +35,7 @@ const defaultFormState = {
     custom_name: '',
     subject_id: '',
     group_id: '',
+    activities: 0,
 
 };
 
@@ -112,6 +114,7 @@ function SubjectDialog(props) {
                     }
                 }
             }
+            dispatch(registerReset());
         }
 
         if (subject.success) {
@@ -212,7 +215,9 @@ function SubjectDialog(props) {
                         }
                     </SelectFormsy>
                     {
-                        subjectDialog.type !== 'edit' ?
+                        form.activities ?
+                            null
+                        :
                             <SelectFormsy
                                 id="group_id"
                                 name="group_id"
@@ -230,9 +235,13 @@ function SubjectDialog(props) {
                                 ))
                                 }
                             </SelectFormsy>
-                            :
-                            null
                     }
+                    <TextFieldFormsy
+                        type="hidden"
+                        name="activities"
+                        id="activities"
+                        value={form.activities}
+                    />
 
                 </DialogContent>
 

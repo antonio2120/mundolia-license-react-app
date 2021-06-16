@@ -22,6 +22,11 @@ function GroupsList(props) {
 	let searchText = useSelector(({ GroupsApp }) => GroupsApp.group.searchText);
 	searchText =searchText? searchText : '';
 	const [filteredData, setFilteredData] = useState(null);
+	const role = useSelector(({ auth }) => auth.user.role);
+	var limited = false;
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A' || role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' ) {
+		limited = true;
+	}
 
 	const columns = React.useMemo(
 		() => [
@@ -53,23 +58,32 @@ function GroupsList(props) {
 				className: 'font-bold',
 				sortable: true
 			},
-			{
-				Header: 'Materias',
+			{ 
+				Header: () => (
+					limited ? 'Materias' : null
+				),
 				id: 'subject',
-				width: 128,
+				width: () => (
+					limited ? 128 : 0
+				),
 				sortable: false,
 				Cell: ({ row }) => (
 					<div className="flex items-center">
-							<IconButton
+						{
+							limited ?
+								<IconButton
 								// onClick={ev => {
-								// 	ev.stopPropagation();
-								// 	dispatch(openEditGroupDialog(row.original));
-								// }}
-								to={`/apps/materias/${row.original.name}/${row.original.id}`}
-								component={Link}
-							>
-								<Icon>assignment</Icon>
-							</IconButton>
+									// 	ev.stopPropagation();
+									// 	dispatch(openEditGroupDialog(row.original));
+									// }}
+									to={`/apps/materias/${row.original.name}/${row.original.id}`}
+									component={Link}
+									>
+									<Icon>assignment</Icon>
+								</IconButton>
+							:
+								null
+						}
 					</div>
 				)
 			},

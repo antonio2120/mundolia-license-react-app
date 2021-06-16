@@ -18,7 +18,7 @@ function ContactsList(props) {
 	const user = useSelector(({ contactsApp }) => contactsApp.user);
 	const role = useSelector(({ auth }) => auth.user.role);
 	var limited = false;
-	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A') {
+	if (role === 'Maestro-M' || role === 'Maestro-I' || role === 'Maestro-A' || role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' ) {
 		limited = true;
 	}
 

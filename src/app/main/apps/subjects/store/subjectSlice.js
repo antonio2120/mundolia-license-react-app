@@ -48,7 +48,7 @@ export const submitUpdateSubject = ( subjectData, subjectOrigin, group ) => asyn
 			id: subjectOrigin.id,
 			custom_name: subjectData.custom_name,
 			subject_id: subjectData.subject_id,
-			group_id: subjectOrigin.group_id
+			group_id: subjectData.group_id ? subjectData.group_id : subjectOrigin.group_id
 		})
 		.then(subject => {
 			dispatch(registerSuccess());
