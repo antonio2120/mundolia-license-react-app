@@ -21,7 +21,8 @@ import {
     closeNewSubjectDialog,
     closeEditSubjectDialog,
     submitCreateSubject,
-    submitUpdateSubject
+    submitUpdateSubject,
+    registerReset
 } from './store/subjectSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -113,6 +114,7 @@ function SubjectDialog(props) {
                     }
                 }
             }
+            dispatch(registerReset());
         }
 
         if (subject.success) {
@@ -220,7 +222,7 @@ function SubjectDialog(props) {
                                 id="group_id"
                                 name="group_id"
                                 width="100%"
-                                value={form.group_id}
+                                value={form.group_id || props.params.id}
                                 onChange={handleChange}
                                 label="Grupo"
                                 fullWidth
