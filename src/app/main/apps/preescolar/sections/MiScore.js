@@ -11,8 +11,8 @@ import { Link, useParams } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import reducer from '../store';
 import withReducer from 'app/store/withReducer';
-import { getTareasPendientes } from '../store/tareasPendientesSlice';
-import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
+import { getPanelInfo } from '../store/panelSlice';
+// import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -21,6 +21,8 @@ import { logoutUser } from 'app/auth/store/userSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Badge from '@material-ui/core/Badge';
+
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -42,6 +44,12 @@ const useStyles = makeStyles(theme => ({
 		textShadow: '2px 2px 2px black',
 		text: "center",
 		alignSelf: "center",
+	},
+	yellowIcons: {
+		// fontWeight: "bold",
+		fontSize: "28px",
+		color: 'yellow',
+		// textShadow: '2px 2px 2px black',
 	},
 	button: {
 
@@ -123,13 +131,14 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-function MisTareas(props) {
+function MiScore(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const routeParams = useParams();
 	const role = useSelector(({ auth }) => auth.user.role);
-	const pendientes = useSelector(({ PreescolarApp }) => PreescolarApp.tareasPendientes.data);
-	const entregadas = useSelector(({ PreescolarApp }) => PreescolarApp.tareasEntregadas.data);
+	// const pendientes = useSelector(({ MisTareasApp }) => MisTareasApp.tareasPendientes.data);
+	// const entregadas = useSelector(({ MisTareasApp }) => MisTareasApp.tareasEntregadas.data);
+
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
 
@@ -144,8 +153,8 @@ function MisTareas(props) {
 	};
 
 	useDeepCompareEffect(() => {
-		dispatch(getTareasPendientes());
-		dispatch(getTareasEntregadas());	
+		dispatch(getPanelInfo());
+		// dispatch(getTareasEntregadas());	
 	}, [dispatch, routeParams]);
 
 	function handleSubmit(event) {
@@ -188,7 +197,7 @@ function MisTareas(props) {
 						>
 							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 							<Typography className={clsx(classes.TextTitle)}>
-								{escuelabaja ? 'Mis Tareas' : 'Mis Actividades'}
+								Mi Score
 							</Typography>
 						</Button>
 					</div>
@@ -233,182 +242,34 @@ function MisTareas(props) {
 
 					{/* -------------------------- tasks undelivered ------------------------- */}
 
-					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
-						elevation={3}
-						
+					<div
+						className={clsx(classes.container), "w-full items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col"}
 						style={{
-							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-							backgroundPosition: 'center',
-							backgroundSize: 'cover',
-							backgroundRepeat: 'no-repeat',
-							
+							backgroundColor: '#783BC6',
 						}}>
+							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 
-						<div className={clsx(classes.paperTitle)}
+						{/* <div className={clsx(classes.paperTitle)}
 							style={{
 								backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
 								backgroundPosition: 'center',
 								backgroundSize: 'contain',
 								backgroundRepeat: 'no-repeat',
 							}}
-						>
-							<Typography className={clsx(classes.Text)}>
-								{ escuelabaja ? 'Tareas Pendientes' : 'Actividades Pendientes' }
+						> */}
+							<Typography className={clsx(classes.TextTitle)}>
+								Mis Tareas
 							</Typography>
-						</div>
-						{/* ----------------------------Info inside card-------------------------- */}
-						<List className={classes.scroll} >
-							<div className="flex flex-row flex-wrap p-8 relative overflow-hidden">
-								{pendientes &&
-									pendientes.map(row => (
-										<>
-											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<img src="assets/images/preescolar/pendientes.png"/>
-											</div>
-
-											{ escuelabaja ? 
-												<>
-													<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-														style={{
-															backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-															backgroundPosition: 'center',
-															backgroundSize: 'contain',
-															backgroundRepeat: 'no-repeat',
-														}}
-													>
-														<Typography className={clsx(classes.TextInfo)}>
-															{row.name}
-														</Typography>
-													</div>
-													<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-														style={{
-															backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-															backgroundPosition: 'center',
-															backgroundSize: 'contain',
-															backgroundRepeat: 'no-repeat',
-														}}
-													>
-														<Typography className={clsx(classes.TextInfo)}>
-															{row.finish_date.slice(0, 10)}
-														</Typography>
-													</div>
-												</>
-													:
-												
-												<div className=" flex w-4/5 p-4 text-center items-center justify-center">
-													<p className={clsx(classes.infoCardsColumn)} >
-														<Typography className={clsx(classes.TextInfo)}>
-														{row.name}
-													</Typography>
-													</p>
-												</div>
-											}
-
-
-										</>
-									))
-								}
-							</div>
-							{ pendientes && pendientes.length > 0  ?
-								null 
-								:
-								<div className="flex flex-1 items-center justify-center h-full">
-									<Typography className={clsx(classes.TextInfo)}>
-										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
-									</Typography>
-								</div>								
-							}
-						</List>
-					</Paper>
+						{/* </div> */}
+						<Badge badgeContent={99} color="secondary">
+							<Icon className={clsx(classes.yellowIcons)} >error_outline</Icon>
+						</Badge>
+					
+					</div>
 
 					{/* -------------------------- tasks delivered ------------------------- */}
 
-					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
-						elevation={3}
-						
-						style={{
-							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-							backgroundPosition: 'center',
-							backgroundSize: 'cover',
-							backgroundRepeat: 'no-repeat',
-							
-						}}>
-
-						<div className={clsx(classes.paperTitle)}
-							style={{
-								backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
-								backgroundPosition: 'center',
-								backgroundSize: 'contain',
-								backgroundRepeat: 'no-repeat',
-							}}
-						>
-							<Typography className={clsx(classes.Text)}>
-								{ escuelabaja ? 'Tareas Entregadas' : 'Actividades Entregadas' }
-							</Typography>
-						</div>
-						{/* ----------------------------Info inside card-------------------------- */}
-						<List className={classes.scroll} >
-							<div className="flex flex-row flex-wrap p-8 relative overflow-hidden">
-								{entregadas &&
-									entregadas.map(row => (
-										<>
-											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<img src="assets/images/preescolar/entregado.png"/>
-											</div>
-											{ escuelabaja ?
-											<>
-												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-													style={{
-														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-														backgroundPosition: 'center',
-														backgroundSize: 'contain',
-														backgroundRepeat: 'no-repeat',
-													}}
-												>
-													<Typography className={clsx(classes.TextInfo)}>
-														{row.name}
-													</Typography>
-												</div>
-												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
-													style={{
-														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
-														backgroundPosition: 'center',
-														backgroundSize: 'contain',
-														backgroundRepeat: 'no-repeat',
-													}}
-												>
-													<Typography className={clsx(classes.TextInfo)}>
-														Lista
-													</Typography>
-												</div>
-											</>
-											:
-											<div className=" flex w-4/5 p-4 text-center items-center justify-center">
-													<p className={clsx(classes.infoCardsColumn)} >
-														<Typography className={clsx(classes.TextInfo)}>
-														{row.name}
-														</Typography>
-													</p>
-												</div>
-												
-											}
-										</>
-									))
-								}
-							</div>
-							{entregadas && entregadas.length > 0 ?
-								null
-								:
-								<div className="flex flex-1 items-center justify-center h-full">
-									<Typography className={clsx(classes.TextInfo)}>
-										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
-									</Typography>
-								</div>
-							}
-						</List>
-					</Paper>
+					
 
 					<Popover
 						open={Boolean(userMenu)}
@@ -446,4 +307,4 @@ function MisTareas(props) {
 	);
 }
 
-export default withReducer('PreescolarApp', reducer)(MisTareas);
+export default withReducer('PreescolarApp', reducer)(MiScore);
