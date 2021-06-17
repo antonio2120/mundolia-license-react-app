@@ -20,7 +20,7 @@ export const getGroups = createAsyncThunk('calendarApp/calendars/getGroups', asy
 });
 
 export const getSubjects = createAsyncThunk('calendarApp/calendars/getSubjects', async (params) => {
-	const response = await axios.get(process.env.REACT_APP_API+'/materias/grupo/'+params.group_id,{
+	const response = await axios.get(process.env.REACT_APP_API+'/google/calendars/subjects/'+params.group_id,{
 		// params:filterContacts
 	});
 	console.log(response.data);
@@ -34,9 +34,10 @@ export const submitCreateCalendar = ( subjectData, group ) => async dispatch => 
 			subject_id: subjectData.subject_id
 		})
 		.then(calendar => {
+			console.log(group);
 			dispatch(registerSuccess());
-            dispatch(getCalendars(group));
-			dispatch(getSubjects(group));
+            dispatch(getCalendars({group_id: group}));
+			dispatch(getSubjects({group_id: group}));
 			dispatch(registerReset());
 		})
 		.catch(error => {
@@ -72,9 +73,13 @@ const calendarSlice = createSlice({
         subjects: {
 			success: false,
 			response: false,
-			data: null
+			data: {
+				calendars: null,
+				nonCalendars: null
+			}
 		},
 		groups: [],
+		group: 0,
     }),
 	reducers: {
         openCalendarDialog: (state, action) => {
@@ -114,6 +119,11 @@ const calendarSlice = createSlice({
 				error: null,
 			};	
 		},
+		setGroup: (state, action) => {
+			state.group = {
+				group: action.payload,
+			};
+		} 
     },
 	extraReducers: {
 		// [getCalendars.fulfilled]: (state, action) => action.payload
@@ -132,6 +142,7 @@ export const {
     registerSuccess,
 	registerError,
 	registerReset,
+	setGroup,
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

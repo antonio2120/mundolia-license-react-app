@@ -8,19 +8,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import Calendar from "@ericz1803/react-google-calendar";
 import { openCalendarDialog } from './store/calendarSlice';
 import EventsCalendarDialog from './EventsCalendarDialog';
+import EventsCalendarEventDialog from './EventCalendarEventDialog';
 import Typography from '@material-ui/core/Typography';
+import { openEventDialog } from './store/eventsSlice';
 
 const useStyles = makeStyles({
 	addCalendar: {
-		position: 'absolute',
+		position: 'fixed',
 		right: 12,
-		bottom: 12,
+		bottom: 15,
 		zIndex: 99
 	},
 	addEvent: {
-		position: 'absolute',
+		position: 'fixed',
 		right: 80,
-		bottom: 12,
+		bottom: 15,
 		zIndex: 99
 	}
 });
@@ -38,6 +40,7 @@ function EventsCalendarContent(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles(props);
 	const calendars = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.data);
+	const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data.calendars);
 
 
 	useEffect(() => {
@@ -47,7 +50,7 @@ function EventsCalendarContent(props) {
 			calendarsArray.push({ calendarId: calendars[i].calendar_id, color: calendars[i].custom_color });
 		}
 		setCalendars(calendarsArray);
-	}, [dispatch, calendars]);
+	}, [dispatch, calendars, subjects]);
 
 	let styles = {
 		//you can use object styles (no import required)
@@ -67,21 +70,61 @@ function EventsCalendarContent(props) {
 			{
 				calendarsIds.length ?
 					<div
+						className="w-full item-center p-20"
 						style={{
-							padding: "2%",
-							backgroundColor: 'white'
-						}}>
-						<Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />
-						<FuseAnimate animation="transition.expandIn" delay={300}>
-							<Fab
-								color="primary"
-								aria-label="add"
-								className={classes.addEvent}
-							// onClick={ev => dispatch(openCalendarDialog())}
-							>
-								<Icon>add_to_photos</Icon>
-							</Fab>
-						</FuseAnimate>
+							color: 'white'
+						}}
+					>
+						<Typography color="textSecondary" className="text-24">
+							Materias
+						</Typography>
+						<div
+							className="flex flex-row w-full mb-20"
+							style={{
+								padding: 10,
+								overflowX: 'auto',
+								whiteSpace: "nowrap"
+							}}
+						>
+							
+							{subjects.map((subject) => (
+								<div
+									style={{
+										margin: 5,
+										padding: 10,
+										backgroundColor: subject.custom_color,
+										borderRadius: 5,
+									}}
+								>
+									<Typography 
+										className="text-16"
+										style={{
+											color: 'white'
+										}}
+									>
+											{subject.custom_name}
+									</Typography>
+								</div>
+							))}
+						</div>
+
+						<div
+							style={{
+								padding: "2%",
+								backgroundColor: 'white'
+							}}>
+							<Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />
+							<FuseAnimate animation="transition.expandIn" delay={300}>
+								<Fab
+									color="primary"
+									aria-label="add"
+									className={classes.addEvent}
+									onClick={ev => dispatch(openEventDialog())}
+									>
+									<Icon>add_to_photos</Icon>
+								</Fab>
+							</FuseAnimate>
+						</div>
 					</div>
 					:
 					<div className="flex flex-1 items-center justify-center">
@@ -100,6 +143,7 @@ function EventsCalendarContent(props) {
 					<Icon>event</Icon>
 				</Fab>
 			</FuseAnimate>
+			<EventsCalendarEventDialog/>
 			<EventsCalendarDialog/>
 		</>
 	);

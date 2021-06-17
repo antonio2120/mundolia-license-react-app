@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCalendars, getSubjects } from './store/calendarSlice';
+import { getCalendars, getSubjects, setGroup } from './store/calendarSlice';
 
 const useStyles = makeStyles(theme => ({
 	formControl:{
@@ -36,6 +36,7 @@ function EventsCalendarHeader(props) {
 	useEffect(() => {
         dispatch(getCalendars(form));
         dispatch(getSubjects(form));
+		dispatch(setGroup(form.group_id));
 	}, [dispatch, form]);
 
 	return (

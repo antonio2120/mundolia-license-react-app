@@ -431,7 +431,22 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	addCalendar = data => {
 		return new Promise((resolve, reject) => {
-			axios.put(process.env.REACT_APP_API+'/google/calendars', data 
+			axios.post(process.env.REACT_APP_API+'/google/calendars', data 
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});
+		});
+	}
+
+	addEvent = data => {
+		return new Promise((resolve, reject) => {
+			axios.post(process.env.REACT_APP_API+'/google/calendars/events', data 
 			).then(response => {
 				if (response.status == 200) {
 					resolve(response.data);

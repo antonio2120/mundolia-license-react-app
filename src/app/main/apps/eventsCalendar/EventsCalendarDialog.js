@@ -38,7 +38,8 @@ function EventsCalendarDialog(props) {
     const user = useSelector(({ auth }) => auth.user);
     const calendarDialog = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.calendarDialog);
     const calendar = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.calendar);
-    const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data);
+    const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data.nonCalendars);
+    const group = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.group);
     const formOrigin = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.calendarDialog.data);
     const { form, handleChange, setForm } = useForm(defaultFormState);
 
@@ -102,7 +103,7 @@ function EventsCalendarDialog(props) {
         event.preventDefault();
 
         if (calendarDialog.type === 'new') {
-            dispatch(submitCreateCalendar(form, props.params));
+            dispatch(submitCreateCalendar(form, group.group));
         }
     }
 
@@ -161,7 +162,7 @@ function EventsCalendarDialog(props) {
                                 </SelectFormsy>
                                 :
                                 <DialogContentText id="alert-dialog-slide-description" className="mb-16 p-16">
-                                    Es necesario crear materias para este grupo.
+                                    No hay materias para crear calendarios.
                                 </DialogContentText>
                         }
                     </DialogContent>
