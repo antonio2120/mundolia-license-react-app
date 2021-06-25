@@ -26,7 +26,7 @@ export const getTareasEntregadas = createAsyncThunk('PreescolarApp/tareas/getTar
 });
 
 const tareasEntregadasSlice = createSlice({
-	name: 'misTareasApp/tareas',
+	name: 'PreescolarApp/tareas',
     initialState: {},
 	reducers: {},
 	extraReducers: {

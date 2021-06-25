@@ -12,7 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import reducer from '../store';
 import withReducer from 'app/store/withReducer';
 import { getPanelInfo } from '../store/panelSlice';
-// import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
+import { getTareasPendientes } from '../store/tareasPendientesSlice';
+import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,6 +23,13 @@ import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
+import { openAvatarLayout } from 'app/store/fuse/avatarSlice';
+import Avatar from '@material-ui/core/Avatar';
+
+
+
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -64,10 +72,9 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: "20%",
 	},
 	container: {
-		marginTop: "-40px",
-		paddingTop: "20px",
+		// marginTop: "-40px",
+		// paddingTop: "20px",
 		// height: "90px",
-		
 		justifyContent: "center",
 		alignItems: "center",
 		text: "center",
@@ -84,8 +91,8 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		position: 'relative',
 		overflow: 'auto',
-		maxHeight: 390,
-		height: 390,
+		maxHeight: 500,
+		height: 500,
 		border: 1
 	},
 	containersInfo: {
@@ -125,9 +132,44 @@ const useStyles = makeStyles(theme => ({
 	infoCardsColumn: {
 		paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',												
 		borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
-		
-
 	},
+	// ChannelsList: {
+	// 	marginTop: 10,
+	// 	// borderColor: '#FFFFFF',
+	// 	borderColor: '#FFFFFF',
+    // 	borderTopWidth: 3,
+    // 	borderRadius: 1,
+	// },
+	channelIcon: {
+		maxHeight: 80,
+		maxWidth: 80,
+	}, 
+	TextChannel: {
+		fontSize: "18px",
+		color: 'white',
+		// textShadow: '2px 2px 2px black',
+		text: "left",
+		alignSelf: "left",
+		textAlign: "left",
+	},
+	avatar: {
+		width: 100,
+		height: 100,
+		// position: 'absolute',
+		// top: 92,
+		// padding: 8,
+		background: theme.palette.background.default,
+		boxSizing: 'content-box',
+		// left: '50%',
+		transform: 'translateX(-50%)',
+		transition: theme.transitions.create('all', {
+			duration: theme.transitions.duration.shortest,
+			easing: theme.transitions.easing.easeInOut
+		}),
+		'& > img': {
+			borderRadius: '50%'
+		}
+	}
 
 }));
 
@@ -135,9 +177,11 @@ function MiScore(props) {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 	const routeParams = useParams();
+	const user = useSelector(({ auth }) => auth.user);
 	const role = useSelector(({ auth }) => auth.user.role);
-	// const pendientes = useSelector(({ MisTareasApp }) => MisTareasApp.tareasPendientes.data);
-	// const entregadas = useSelector(({ MisTareasApp }) => MisTareasApp.tareasEntregadas.data);
+	const pendientes = useSelector(({ PreescolarApp }) => PreescolarApp.tareasPendientes.data);
+	const entregadas = useSelector(({ PreescolarApp }) => PreescolarApp.tareasEntregadas.data);
+	const panelInfo = useSelector(({ PreescolarApp }) => PreescolarApp.panel.data);
 
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
@@ -154,7 +198,8 @@ function MiScore(props) {
 
 	useDeepCompareEffect(() => {
 		dispatch(getPanelInfo());
-		// dispatch(getTareasEntregadas());	
+		dispatch(getTareasPendientes());
+		dispatch(getTareasEntregadas());	
 	}, [dispatch, routeParams]);
 
 	function handleSubmit(event) {
@@ -169,7 +214,7 @@ function MiScore(props) {
 
 	return (
 		<div
-			className="flex-1"
+			className="flex-1 "
 			style={{
 				backgroundImage: `url("assets/images/preescolar/pantalla12.png")`,
 				backgroundPosition: 'center',
@@ -184,7 +229,7 @@ function MiScore(props) {
 				}}
 			>
 
-				<div className="float flex w-full flex-wrap ">
+				<div className="float flex w-full flex-wrap">
 					<div className="flex w-full md:w-1/2">
 						<Button
 							className={clsx(classes.button)}
@@ -238,36 +283,148 @@ function MiScore(props) {
 					</div>
 				</div>
 
-				< div className="w-full pt-28 pb-28 m-20 pr-40 pl-40 items-center justify-center flex-wrap flex-row flex">
+				< div className="w-full h-full pt-28 mt-20 items-center justify-center flex-wrap flex-row flex">
 
-					{/* -------------------------- tasks undelivered ------------------------- */}
+					{/* -------------------------- Mis Tareas Section ------------------------- */}
 
 					<div
-						className={clsx(classes.container), "w-full items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col"}
+						className={clsx(classes.container), "w-full  items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col p-12"}
 						style={{
 							backgroundColor: '#783BC6',
+							// opacity: 0.5
 						}}>
-							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
+						<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 
-						{/* <div className={clsx(classes.paperTitle)}
-							style={{
-								backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
-								backgroundPosition: 'center',
-								backgroundSize: 'contain',
-								backgroundRepeat: 'no-repeat',
-							}}
-						> */}
-							<Typography className={clsx(classes.TextTitle)}>
-								Mis Tareas
-							</Typography>
-						{/* </div> */}
-						<Badge badgeContent={99} color="secondary">
-							<Icon className={clsx(classes.yellowIcons)} >error_outline</Icon>
-						</Badge>
-					
+						<Typography className={clsx(classes.TextTitle)}>
+							Mis Tareas
+						</Typography>
+						<div className="flex  flex-wrap p-12 relative overflow-hidden flex-row w-full">
+							<div className="w-1/3 flex-col items-center justify-center flex" >
+								<Badge badgeContent={pendientes ? pendientes.length : '0'} color="secondary" showZero>
+									<Icon className={clsx(classes.yellowIcons)} >error_outline</Icon>
+								</Badge>
+								<Typography className={clsx(classes.Text)}>
+									Pendientes
+								</Typography>
+							</div>
+
+							<div className="w-1/3 flex-col items-center justify-center flex" >
+								<Badge badgeContent={entregadas ? entregadas.length : '0'} color="secondary" showZero>
+									<Icon className={clsx(classes.yellowIcons)} >check</Icon>
+								</Badge>
+								<Typography className={clsx(classes.Text)}>
+									Realizadas
+								</Typography>
+							</div>
+
+							<div className="w-1/3 flex-col items-center justify-center flex" >
+								<Badge badgeContent={panelInfo ? panelInfo.score.length : '0'} color="secondary" showZero>
+									<Icon className={clsx(classes.yellowIcons)} >star</Icon>
+								</Badge>
+								<Typography className={clsx(classes.Text)}>
+									Calificadas
+								</Typography>
+							</div>
+						</div>
+
+
+						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
+							style={{ borderTopColor: "white" }}>
+
+							<div className="w-1/6 flex-col items-center justify-center flex" >
+								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
+							</div>
+							<div className="w-5/6 flex-col flex-start justify-center flex" >
+								<Typography className={clsx(classes.TextChannel)}>
+									Canal Online Lia
+								</Typography>
+							</div>
+						</div>
+
+						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
+							style={{ borderTopColor: "white" }}>
+
+							<div className="w-1/6 flex-col items-center justify-center flex" >
+								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
+							</div>
+							<div className="w-5/6 flex-col flex-start justify-center flex" >
+								<Typography className={clsx(classes.TextChannel)}>
+									LIA U
+								</Typography>
+							</div>
+						</div>
+
+						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
+							style={{ borderTopColor: "white" }}>
+
+							<div className="w-1/6 flex-col items-center justify-center flex" >
+								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
+							</div>
+							<div className="w-5/6 flex-col flex-start justify-center flex" >
+								<Typography className={clsx(classes.TextChannel)}>
+									Clases en vivo
+								</Typography>
+							</div>
+						</div>
+
+
+
+
+
 					</div>
 
-					{/* -------------------------- tasks delivered ------------------------- */}
+					{/* -------------------------- Mis Clases Section ------------------------- */}
+
+
+					<div
+						className={clsx(classes.container), "w-full  items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col p-12"}
+						style={{
+							backgroundColor: '#5406B4',
+							// opacity: 0.5
+						}}>
+						<img className={clsx(classes.img)} src="assets/images/preescolar/artes.png" />
+
+						<Typography className={clsx(classes.TextTitle)}>
+							Mis Clases
+						</Typography>
+						
+
+
+
+
+					</div>
+					<div
+						className={clsx(classes.container), "w-full  items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col p-12 h-full"}
+						style={{
+							backgroundColor: '#783BC6',
+							// opacity: 0.5
+						}}>
+						<img className={clsx(classes.img)} src="assets/images/preescolar/comunicacion.png" />
+
+						<Typography className={clsx(classes.TextTitle)}>
+							Mi Mundo Lia
+						</Typography>
+
+						<Avatar className={clsx(classes.avatar, 'avatar')}
+							onClick={ev => dispatch(openAvatarLayout())}
+							
+								width="200"
+								position="right"
+								src={ user.data.photoURL && user.data.photoURL !== ''
+								? user.data.photoURL
+								: " assets/images/preescolar/infoestudiante.png"} >
+						</Avatar>
+						
+
+
+
+
+					</div>
+
+
+
+					
+
 
 					
 
@@ -300,6 +457,8 @@ function MiScore(props) {
 							<ListItemText primary="Logout" />
 						</MenuItem>
 					</Popover>
+
+					{/* <AvatarLayout /> */}
 
 				</div>
 			</FuseAnimateGroup>

@@ -257,7 +257,7 @@ function PreescolarLayout(props) {
 					}
 				</div>
 
-				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+				{/* <div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
 				<Button
 						justifyContent="center"
 						className={clsx(classes.button)}
@@ -283,7 +283,7 @@ function PreescolarLayout(props) {
 						</Typography>
 					</Button>
 					
-				</div>
+				</div> */}
 
             </FuseAnimateGroup>
 
