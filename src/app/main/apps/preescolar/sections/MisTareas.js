@@ -667,8 +667,8 @@ function MisTareas(props) {
 							<ListItemText primary="Logout" />
 						</MenuItem>
 					</Popover>
+					<CalendarDialog />
 				</div>
-				<CalendarDialog />
 			</FuseAnimateGroup>
 		</div>
 	);
