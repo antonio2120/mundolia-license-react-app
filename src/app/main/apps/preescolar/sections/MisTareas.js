@@ -73,10 +73,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
-
 function MisTareas(props) {
-
 
 	const classes = useStyles();
 

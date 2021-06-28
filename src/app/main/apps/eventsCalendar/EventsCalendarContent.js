@@ -42,7 +42,6 @@ function EventsCalendarContent(props) {
 	const calendars = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.data);
 	const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data.calendars);
 
-
 	useEffect(() => {
 		let calendarsArray = [];
 
@@ -86,7 +85,7 @@ function EventsCalendarContent(props) {
 								whiteSpace: "nowrap"
 							}}
 						>
-							
+
 							{subjects.map((subject) => (
 								<div
 									style={{
@@ -96,7 +95,7 @@ function EventsCalendarContent(props) {
 										borderRadius: 5,
 									}}
 								>
-									<Typography 
+									<Typography
 										className="text-16"
 										style={{
 											color: 'white'
