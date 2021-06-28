@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import withReducer from 'app/store/withReducer';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import clsx from 'clsx';
+import Paper from '@material-ui/core/Paper';
 import _ from '@lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,11 +43,10 @@ import WidgetPosts from './widgets/WidgetPosts';
 import WidgetPodcast from './widgets/WidgetPodcast';
 import WidgetVideos from './widgets/WidgetVideos';
 
+const windowH = window.innerHeight;
 const useStyles = makeStyles(theme => ({
 	content: {
-		'& canvas': {
-			maxHeight: '100%'
-		}
+		maxHeight:"100%"
 	},
 	selectedProject: {
 		background: theme.palette.primary.main,
@@ -58,6 +58,11 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.contrastText,
 		borderRadius: '0 8px 0 0',
 		marginLeft: 1
+	},
+	divScrollable: {
+		maxHeight:windowH-215,
+		overflow:"auto"
+		
 	}
 }));
 
@@ -121,7 +126,7 @@ function DashboardApp(props) {
 			classes={{
 				header: 'min-h-160 h-160',
 				toolbar: 'min-h-48 h-48',
-				rightSidebar: 'w-288',
+				rightSidebar: 'w-200',
 				content: classes.content
 			}}
 			header={
@@ -145,39 +150,6 @@ function DashboardApp(props) {
 							</IconButton>
 						</Hidden>
 					</div>
-					{/* <div className="flex items-end">
-						<div className="flex items-center">
-							<div className={clsx(classes.selectedProject, 'flex items-center h-40 px-16 text-16')}>
-								{_.find(projects, ['id', selectedProject.id]).name}
-							</div>
-							<IconButton
-								className={clsx(classes.projectMenuButton, 'h-40 w-40 p-0')}
-								aria-owns={selectedProject.menuEl ? 'project-menu' : undefined}
-								aria-haspopup="true"
-								onClick={handleOpenProjectMenu}
-							>
-								<Icon>more_horiz</Icon>
-							</IconButton>
-							<Menu
-								id="project-menu"
-								anchorEl={selectedProject.menuEl}
-								open={Boolean(selectedProject.menuEl)}
-								onClose={handleCloseProjectMenu}
-							>
-								{projects &&
-									projects.map(project => (
-										<MenuItem
-											key={project.id}
-											onClick={ev => {
-												handleChangeProject(project.id);
-											}}
-										>
-											{project.name}
-										</MenuItem>
-									))}
-							</Menu>
-						</div> 
-					</div> */}
 				</div>
 			}
 			contentToolbar={
@@ -196,7 +168,7 @@ function DashboardApp(props) {
 				</Tabs>
 			}
 			content={
-				<div className="p-12">
+				<div className={clsx(classes.divScrollable,"p-12")}>
 					{tabValue === 0 && (
 						<FuseAnimateGroup
 							className="flex flex-wrap"
@@ -207,36 +179,19 @@ function DashboardApp(props) {
 							{dashboard ?
 
 								<>
-									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-										<Widget1 widget={dashboard.homeworks} label={"Tareas asignadas"}/>
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12 h-full">
+										<Widget1 widget={dashboard.pending} name={"Tareas pendientes"}/>
 									</div>
-									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-										<Widget2 widget={dashboard.dueWeek} label={"Próximas a vencer"} />
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12 h-full">
+										<Widget2 widget={dashboard.graded} name={"Tareas calificadas"} />
 									</div>
-									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12">
-										<Widget3 widget={dashboard.graded} label={"Tareas Revisadas"} />
+									<div className="widget flex w-full sm:w-1/2 md:w-1/3 p-12 h-full">
+										<Widget3 widget={dashboard.homeworks} name={"Historial de tareas"} />
 									</div>
 								</>
 
 								:
 								<CircularProgress color="secondary" />
-							}
-							{/* <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
-								<Widget4 widget={widgets.widget4} />
-							</div>
-							<div className="widget flex w-full p-12">
-								<Widget5 widget={widgets.widget5} />
-							</div>
-							<div className="widget flex w-full sm:w-1/2 p-12">
-								<Widget6 widget={widgets.widget6} />
-							</div> */}
-							{schedule ?
-
-							<div className="widget flex w-full sm:w-1 p-12">
-								<Widget7 widget={schedule} name={"Tareas Recientes"} />
-							</div>
-							:
-							<CircularProgress color="secondary" />
 							}
 						</FuseAnimateGroup>
 					)}

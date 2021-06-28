@@ -84,7 +84,7 @@ const navigationConfig = [
 				title: 'Aula Virtual',
 				translate: 'Aula Virtual',
 				type: 'item',
-				'auth' : authRoles.teacher,
+				'auth' : authRoles.aulaVirtual,
 				icon: 'meeting_room',
 				url: '/apps/aula'
 			},
@@ -114,6 +114,15 @@ const navigationConfig = [
 				'auth' : authRoles.alumno,
 				icon: 'forum',
 				url: '/loginp'
+			},
+			{
+				id: 'logout',
+				title: 'Cerrar sesión',
+				translate: 'Logout',
+				type: 'item',
+				'auth' : authRoles.alumno,
+				icon: 'exit_to_app',
+				url: '/logout'
 			},
 		]
 	}

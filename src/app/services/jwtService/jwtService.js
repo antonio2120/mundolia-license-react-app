@@ -252,6 +252,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('is_active',data.is_active);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
+			formData.append('subject_id', data.subject_id);
 
 			axios.post(process.env.REACT_APP_API+'/actividades', formData,
 			 {
@@ -285,6 +286,7 @@ class JwtService extends FuseUtils.EventEmitter {
 			formData.append('filePath', data.filePath);
 			formData.append('urlPath', data.urlPath);
 			formData.append('file', data.file);
+			formData.append('subject_id', data.subject_id);
 
 			axios.post(process.env.REACT_APP_API+'/actividades/' + data.activityId + '?_method=PUT', formData,
 			 {
@@ -476,6 +478,23 @@ class JwtService extends FuseUtils.EventEmitter {
 		});
 	};
 
+	returnGroupsStudent = () => {
+		return new Promise((resolve, reject) => {
+
+			axios.get(process.env.REACT_APP_API+'/aulaVirtual/getGroupStudent',
+			).then(response => {
+				if (response.status == 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				console.log(error);
+				reject(error);
+			});
+		});
+	};
+
 	returnTeacherGroups = () => {
 		return new Promise((resolve, reject) => {
 
@@ -581,6 +600,21 @@ class JwtService extends FuseUtils.EventEmitter {
 		}
 
 		return true;
+	};
+
+	setProfileImage = data => {
+		return new Promise((resolve, reject) => {
+			axios.put(process.env.REACT_APP_API+'/avatar/'+data.id, data
+			).then(response => {
+				if (response.status === 200) {
+					resolve(response.data);
+				} else {
+					reject(response.data.error);
+				}
+			}).catch(error => {
+				reject(error);
+			});
+		});
 	};
 
 	getAccessToken = () => {

@@ -21,7 +21,8 @@ import {
     closeNewSubjectDialog,
     closeEditSubjectDialog,
     submitCreateSubject,
-    submitUpdateSubject
+    submitUpdateSubject,
+    registerReset
 } from './store/subjectSlice';
 import MenuItem from "@material-ui/core/MenuItem";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -34,6 +35,7 @@ const defaultFormState = {
     custom_name: '',
     subject_id: '',
     group_id: '',
+    activities: 0,
 
 };
 
@@ -112,6 +114,7 @@ function SubjectDialog(props) {
                     }
                 }
             }
+            dispatch(registerReset());
         }
 
         if (subject.success) {
@@ -211,23 +214,34 @@ function SubjectDialog(props) {
                         ))
                         }
                     </SelectFormsy>
-                    <SelectFormsy
-                        id="group_id"
-                        name="group_id"
-                        width="100%"
-                        value={form.group_id || props.params.id}
-                        onChange={handleChange}
-                        label="Grupo"
-                        fullWidth
-                        variant="outlined"
-                        className="mb-24 MuiInputBase-fullWidth"
-                        required
-                    >
-                        {groups.map((row) => (
-                            <MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
-                        ))
-                        }
-                    </SelectFormsy>
+                    {
+                        form.activities ?
+                            null
+                        :
+                            <SelectFormsy
+                                id="group_id"
+                                name="group_id"
+                                width="100%"
+                                value={form.group_id || props.params.id}
+                                onChange={handleChange}
+                                label="Grupo"
+                                fullWidth
+                                variant="outlined"
+                                className="mb-24 MuiInputBase-fullWidth"
+                                required
+                            >
+                                {groups.map((row) => (
+                                    <MenuItem key={row.id} value={row.id}>{row.name}</MenuItem>
+                                ))
+                                }
+                            </SelectFormsy>
+                    }
+                    <TextFieldFormsy
+                        type="hidden"
+                        name="activities"
+                        id="activities"
+                        value={form.activities}
+                    />
 
                 </DialogContent>
 

@@ -3,6 +3,7 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import { setUserData } from './userSlice';
+import {getAvatars} from "../../store/fuse/avatarSlice";
 
 export const submitLogin = ({ username, password }) => async dispatch => {
 	return jwtService

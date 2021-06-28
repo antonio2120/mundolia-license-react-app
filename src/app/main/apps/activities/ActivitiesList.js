@@ -26,6 +26,7 @@ import { getCategories, selectCategories } from './store/categoriesSlice';
 // import { getCourses, selectCourses } from './store/coursesSlice';
 import { getGroups } from './store/groupSlice';
 import { getActivities, selectActivities, downloadActivity } from './store/activitiesSlice';
+// import { getSubjects } from './store/subjectSlice';
 import { openEditActivityDialog } from './store/activitiesSlice'
 import { openUpdateDeliveryDialog } from './store/deliverySlice';
 // import {blue} from "@material-ui/core/colors";
@@ -84,6 +85,7 @@ function ActivitiesList(props) {
 	const [filteredData, setFilteredData] = useState(null);
 	const [searchText, setSearchText] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	const [fromDashboard, setFromDashboard] = useState(true);
 
 	useEffect(() => {
 		dispatch(getCategories());
@@ -109,6 +111,12 @@ function ActivitiesList(props) {
 		if (activities) {
 			setFilteredData(getFilteredArray());
 		}
+		if(props.params.id > 0 && activities.length && fromDashboard){
+			dispatch(openUpdateDeliveryDialog(activities.find(obj => {
+				return obj.id == props.params.id
+			})));
+			setFromDashboard(false);
+		};
 	}, [activities, searchText, selectedCategory]);
 
 	function handleSelectedCategory(event) {
@@ -172,7 +180,7 @@ function ActivitiesList(props) {
 								{filteredData.map(course => {
 									const category = activities.find(_cat => _cat.value === course.category);
 									return (
-										<div className="w-full pb-24 sm:w-1/2 lg:w-1/3 sm:p-16" key={course.id}>
+										<div className="w-full pb-24 sm:w-1 lg:w-1/2 sm:p-16" key={course.id}>
 											<Card elevation={1} className="flex flex-col h-500 rounded-8">
 												<div
 													className="flex flex-shrink-0 items-center justify-between px-24 h-84"
@@ -187,15 +195,15 @@ function ActivitiesList(props) {
 													<div className="flex-direction: column, items-center ">
 														<LightTooltip title={course.name} placement="top">
 															<Typography className="text-xl font-semibold truncate py-1" color="inherit">
-																{course.name.length > 10 ? course.name.slice(0, 10) + '...' : course.name}
+																Tarea: {course.name.length > 18 ? course.name.slice(0, 18) + '...' : course.name}
 															</Typography>
 														</LightTooltip>
 														<Typography className="font-medium truncate" color="inherit">
-															{course.group_name.length > 18 ? course.group_name.slice(0,18)+'...' : course.group_name}
+															Grupo: {course.group_name.length > 20 ? course.group_name.slice(0,20)+'...' : course.group_name}
 														</Typography>
 														<LightTooltip title={course.teachers_name} placement="top">
 															<Typography className="font-medium truncate" color="inherit">
-																{course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
+																Maestro: {course.teachers_name.length > 22 ? course.teachers_name.slice(0,22)+'...' : course.teachers_name}
 															</Typography>
 														</LightTooltip>
 													</div>
@@ -204,10 +212,13 @@ function ActivitiesList(props) {
 															{course.is_active == 1 ? 'Activa' : 'Inactiva'}
 														</div>
 														<div className="text-16 whitespace-no-wrap text-right">
-															{course.status}{course.status == 'Calificado' ? ': ' + course.score : null}
+															{course.status != 'Calificado' ? course.status : null}
 														</div>
-														<div className="text-16 whitespace-no-wrap text-right">
+														{/* <div className="text-16 whitespace-no-wrap text-right">
 															{course.status == 'Calificado' ? course.scored_date : null}
+														</div> */}
+														<div className="text-16 whitespace-no-wrap text-right">
+															Materia: {course.custom_name}
 														</div>
 														{/* <Icon className="text-20 mx-8" color="inherit">
 															access_time
@@ -297,17 +308,24 @@ function ActivitiesList(props) {
 													// 	color="secondary"
 													// /> */}
 													:
+													course.status != 'Calificado' ?
+														<CardActions className="justify-center">
+															<Button
+																onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
+																component={Link}
+																className="justify-start px-32"
+																color="secondary"
+															>
+																{/* {buttonStatus(course)} */}
+																Entregar Tarea
+															</Button>
+														</CardActions>
+													:
 													<CardActions className="justify-center">
-														<Button
-															onClick={ev => dispatch(openUpdateDeliveryDialog(course))}
-															component={Link}
-															className="justify-start px-32"
-															color="secondary"
-														>
-															{/* {buttonStatus(course)} */}
-														Entregar Tarea
-													</Button>
-													</CardActions>
+													<Typography className="font-medium truncate" color="inherit">
+													 {course.status}: {course.score} - {course.scored_date}
+													</Typography>
+												</CardActions>
 												}
 											</Card>
 										</div>
