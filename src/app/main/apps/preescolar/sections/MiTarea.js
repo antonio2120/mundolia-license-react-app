@@ -34,6 +34,14 @@ const useStyles = makeStyles(theme => ({
 		text: "center",
 		alignSelf: "center",
 	},
+	TextIcons: {
+		fontSize: "18px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		text: "center",
+		alignSelf: "center",
+		textAlign:"center"
+	},
 	TextInfo: {
 		fontSize: "16px",
 		color: 'white',
@@ -71,6 +79,9 @@ const useStyles = makeStyles(theme => ({
 		maxHeight: "20%",
 		maxWidth: "20%",
 	},
+	imgIcons: {
+		width:300,
+	},
 	container: {
 		marginTop: "-40px",
 		paddingTop: "20px",
@@ -80,6 +91,13 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 		text: "center",
 		textAlign: "center", //*important
+	},
+	containerFooter: {
+		justifyContent: "center",
+		alignItems: "center",
+		text: "center",
+		textAlign: "center", //*important
+		width:"100%"
 	},
 	paperTitle: {
 		marginTop: "-40px",
@@ -239,273 +257,87 @@ function MiTarea(props) {
 				{
 					homework ?
 
-						<Grid container className="flex items-center justify-center flex-row pt-28 pb-28 m-20 pr-40 pl-40" spacing={0}>
-							<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
-								{/* -------------------------- tasks undelivered ------------------------- */}
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-
-									<div className={clsx(classes.paperTitle)}
-										style={{
-											backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
-											backgroundPosition: 'center',
-											backgroundSize: 'contain',
-											backgroundRepeat: 'no-repeat',
-										}}
-									>
-										<Typography className={clsx(classes.Text)}>
-											Materia
-										</Typography>
-									</div>
-									{/* ----------------------------Info inside card-------------------------- */}
-									<div
-										className="flex items-center justify-center w-full"
-										style={{
-											height: 110,
-											paddingLeft: 45,
-											paddingRight: 45,
-										}}
-									>
-										<div
-											className="w-full"
-											style={{
-												backgroundColor: '#FFFFFF',
-												paddingLeft: 5,
-												paddingRight: 5,
-												paddingTop: 2,
-												paddingBottom: 2,
-												borderRadius: 30,
-												textAlign: "center",
-											}}
-										>
-											<Typography className={clsx(classes.LabelText)}>
-												{homework.custom_name}
-											</Typography>
-										</div>
-									</div>
-								</Paper>
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-									{/* ----------------------------Info inside card-------------------------- */}
-									<div
-										className="flex flex-col items-center w-full"
-										style={{
-											height: 300,
-											paddingTop: 10,
-											paddingLeft: 40,
-											paddingRight: 40,
-										}}
-									>
-										<Typography className={clsx(classes.LabelDesc)}>
-											Descripción
-										</Typography>
-
-										{
-											homework.instructions ?
-												<div
-													className="w-full"
-													style={{
-														marginTop: 20,
-														height: 200,
-														overflowY: 'scroll',
-														color: 'white',
-														backgroundColor: 'rgba(0, 0, 0, .1)',
-														padding: 10,
-														fontSize: 20,
-													}}
-												>
-													{homework.instructions}
-												</div>
-												:
-												<div className="flex items-center justify-center h-200 text-center">
-													<Typography className={clsx(classes.TextInfo)}>
-														No hay instrucciones
-													</Typography>
-												</div>
-										}
-									</div>
-								</Paper>
-							</Grid>
-							{/* -------------------------- tasks delivered ------------------------- */}
-							<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-
-									<div className={clsx(classes.paperTitle)}
-										style={{
-											backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
-											backgroundPosition: 'center',
-											backgroundSize: 'contain',
-											backgroundRepeat: 'no-repeat',
-										}}
-									>
-										<Typography className={clsx(classes.Text)}>
-											Vencimiento
-										</Typography>
-									</div>
-									{/* ----------------------------Info inside card-------------------------- */}
-									<div
-										className="flex items-center justify-center w-full"
-										style={{
-											height: 110,
-											paddingLeft: 45,
-											paddingRight: 45,
-										}}
-									>
-
-										<div
-											className="flex items-center flex-col"
-											style={{
-												backgroundColor: '#FFFFFF',
-												height: 90,
-												width: 95,
-												borderRadius: 5,
-												position: 'relative',
-											}}
-										>
-
-											<div
-												className="w-full"
-												style={{
-													backgroundColor: 'red',
-													height: 25,
-													borderTopLeftRadius: 5,
-													borderTopRightRadius: 5,
-												}}
-											>
-											</div>
-											<div
-												style={{
-													position: 'absolute',
-													width: 60,
-													height: 15,
-													border: '3px solid #999',
-													borderWidth: '0 5px',
-													background: 'transparent',
-													top: '-6px',
-												}}>
-
-											</div>
-											<Typography className={clsx(classes.LabelDue)}>
-												{new Date(homework.finish_date).getDate()}
-											</Typography>
-										</div>
-									</div>
-								</Paper>
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-									{/* ----------------------------Info inside card-------------------------- */}
-									{
-										homework.status == 'Calificado' ?
-											<div 
-												className="flex items-center justify-center text-center"
-												style={{
-													height: 300,
-												}}
-											>
-												<Typography className={clsx(classes.TextInfo)}>
-													La tarea ya fue calificada
+						<Grid container className="flex flex-row m-20" spacing={0}>
+							{/* -------------------------- grid for islands ------------------------- */}
+							<Grid item xs={1} className="flex">
+								<Grid container className="flex w-full flex-col" spacing={1}>
+									<Grid item xs={3} className="flex flex-col items-center justify-center max-w-400">
+										<Button>
+											{/* to={`/apps/aula`} component={Link} type="button"> */}
+											<div  className="flex flex-col">
+												<img className={clsx(classes.imgIcons,"flex w-full")} src="assets/images/preescolar/Mi-avatar-1.png" />
+												<Typography className={clsx(classes.TextIcons)}>
+													Mi Avatar
 												</Typography>
 											</div>
-											:
+										</Button>
+									</Grid>
+									<Grid item xs={3} className="flex flex-col items-center justify-center max-w-400">
+										<Button
+											to={`/loginp`} component={Link} type="button">
+											<div  className="flex flex-col">
+												<img className={clsx(classes.imgIcons,"flex w-full")} src="assets/images/preescolar/comunicacion-1.png" />
+												<Typography className={clsx(classes.TextIcons)}>
+													Mi Mundo Lia
+												</Typography>
+											</div>
+										</Button>
+									</Grid>
+									<Grid item xs={3} className="flex flex-col items-center justify-center max-w-400">
+										<Button
+											to={`/apps/aula`} component={Link} type="button">
+											<div  className="flex flex-col">
+												<img className={clsx(classes.imgIcons,"flex w-full")} src="assets/images/preescolar/artes-1.png" />
+												<Typography className={clsx(classes.TextIcons)}>
+													Mis Clases
+												</Typography>
+											</div>
+										</Button>
+									</Grid>
+								</Grid>
+							</Grid>
+							{/* -------------------------- grid to cards ------------------------- */}
+							<Grid item xs={11} className="flex w-full items-center flex-wrap">
+								<Grid container className="flex flex-col flex-wrap items-center pt-28 pb-28 pr-20 w-full" spacing={0}>
+									
+									<Grid item xs={12} className="flex w-full items-center">
+										<Grid container className="flex items-center w-full justify-center flex-row" spacing={0}>
+											<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
+												{/* -------------------------- tasks undelivered ------------------------- */}
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
+													elevation={3}
 
-											<div
-												className="flex flex-col items-center w-full"
-												style={{
-													height: 300,
-													paddingLeft: 45,
-													paddingRight: 45,
-												}}
-											>
-												<Formsy
-													onValidSubmit={handleSubmit}
-													// onChange={validateForm}
-													// onValid={enableButton}
-													// onInvalid={disableButton}
-													// ref={formRef}
-													className="flex flex-col w-full items-center mt-40"
-												>
-													<DialogContent className="w-full items-center">
-														<Button
-															className="w-full"
-															style={{
-																backgroundColor: '#FFFFFF',
-																paddingLeft: 5,
-																paddingRight: 5,
-																paddingTop: 2,
-																paddingBottom: 2,
-																borderRadius: 30,
-																textAlign: "center",
-															}}
-															onClick={e => fileInput.current && fileInput.current.click()}
-														>
-															<Typography className={clsx(classes.LabelText)}>
-																Adjuntar
-															</Typography>
-														</Button>
-														<input
-															type="file"
-															name="file"
-															id="file"
-															onChange={(e) => {
-																setFileName(e.target.files[0].name);
-																setSelectedFile(e.target.files[0]);
-															}}
-															// onChange={handleChange}
-															ref={fileInput}
-															hidden
-														/>
-													</DialogContent>
-													<Typography
-														className={clsx(classes.TextInfo)}
+													style={{
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+
+													<div className={clsx(classes.paperTitle)}
 														style={{
-															width: '100%',
-															overflowX: 'auto',
-															whiteSpace: 'nowrap',
-															height: 50,
-															padding: 5,
+															backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
+															backgroundPosition: 'center',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
 														}}
 													>
-														{fileName == '' ? homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName : fileName}
-													</Typography>
-													<DialogActions className="w-full mt-20">
-														<Button
+														<Typography className={clsx(classes.Text)}>
+															Materia
+														</Typography>
+													</div>
+													{/* ----------------------------Info inside card-------------------------- */}
+													<div
+														className="flex items-center justify-center w-full"
+														style={{
+															height: 110,
+															paddingLeft: 45,
+															paddingRight: 45,
+														}}
+													>
+														<div
 															className="w-full"
 															style={{
 																backgroundColor: '#FFFFFF',
@@ -516,124 +348,407 @@ function MiTarea(props) {
 																borderRadius: 30,
 																textAlign: "center",
 															}}
-															uppercase='false'
-															// onClick={handleSubmit}
-															type="submit"
-															disabled={!selectedFile}
 														>
 															<Typography className={clsx(classes.LabelText)}>
-																Enviar
+																{homework.custom_name}
 															</Typography>
-														</Button>
-													</DialogActions>
-												</Formsy>
-											</div>
-									}
+														</div>
+													</div>
+												</Paper>
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+													elevation={3}
 
-								</Paper>
-							</Grid>
-							{/* -------------------------- tasks delivered ------------------------- */}
-							<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-
-									<div className={clsx(classes.paperTitle)}
-										style={{
-											backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
-											backgroundPosition: 'center',
-											backgroundSize: 'contain',
-											backgroundRepeat: 'no-repeat',
-										}}
-									>
-										<Typography className={clsx(classes.Text)}>
-											Mis Tareas
-										</Typography>
-									</div>
-									<div
-										className="flex items-center justify-center w-full"
-										style={{
-											height: 110,
-											paddingLeft: 45,
-											paddingRight: 45,
-										}}
-									>
-										<div
-											className="w-full"
-											style={{
-												backgroundColor: '#FFFFFF',
-												paddingLeft: 5,
-												paddingRight: 5,
-												paddingTop: 2,
-												paddingBottom: 2,
-												borderRadius: 30,
-												textAlign: "center",
-											}}
-										>
-											<Typography className={clsx(classes.LabelText)}>
-												{homework.status}
-											</Typography>
-										</div>
-									</div>
-									{/* ----------------------------Info inside card-------------------------- */}
-
-								</Paper>
-								<Paper
-									className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
-									elevation={3}
-
-									style={{
-										backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
-										backgroundPosition: 'center',
-										backgroundSize: 'cover',
-										backgroundRepeat: 'no-repeat',
-
-									}}>
-									{/* ----------------------------Info inside card-------------------------- */}
-									<div
-										className="flex items-center w-full flex-col"
-										style={{
-											height: 300,
-											paddingTop: 10,
-											paddingLeft: 45,
-											paddingRight: 45,
-										}}
-									>
-										<Typography className={clsx(classes.LabelDesc)}>
-											Calificación
-										</Typography>
-										{
-											homework.status == 'Calificado' ?
-												<div
 													style={{
-														marginTop: 40,
-														backgroundColor: '#FFFFFF',
-														paddingLeft: 25,
-														paddingRight: 25,
-														borderRadius: 10,
-													}}
-												>
-													<Typography className={clsx(classes.LabelScore)}>
-														{homework.score.slice(homework.score.indexOf('.')) == '.00' ? homework.score.slice(0, homework.score.indexOf('.')) : homework.score}
-													</Typography>
-												</div>
-												:
-												<div className="flex items-center justify-center h-200 text-center">
-													<Typography className={clsx(classes.TextInfo)}>
-														No se ha calificado la tarea
-													</Typography>
-												</div>
-										}
-									</div>
-								</Paper>
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+													{/* ----------------------------Info inside card-------------------------- */}
+													<div
+														className="flex flex-col items-center w-full"
+														style={{
+															height: 300,
+															paddingTop: 10,
+															paddingLeft: 40,
+															paddingRight: 40,
+														}}
+													>
+														<Typography className={clsx(classes.LabelDesc)}>
+															Descripción
+														</Typography>
+
+														{
+															homework.instructions ?
+																<div
+																	className="w-full"
+																	style={{
+																		marginTop: 20,
+																		height: 200,
+																		overflowY: 'scroll',
+																		color: 'white',
+																		backgroundColor: 'rgba(0, 0, 0, .1)',
+																		padding: 10,
+																		fontSize: 20,
+																	}}
+																>
+																	{homework.instructions}
+																</div>
+																:
+																<div className="flex items-center justify-center h-200 text-center">
+																	<Typography className={clsx(classes.TextInfo)}>
+																		No hay instrucciones
+																	</Typography>
+																</div>
+														}
+													</div>
+												</Paper>
+											</Grid>
+											{/* -------------------------- tasks delivered ------------------------- */}
+											<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
+													elevation={3}
+
+													style={{
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+
+													<div className={clsx(classes.paperTitle)}
+														style={{
+															backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
+															backgroundPosition: 'center',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
+														}}
+													>
+														<Typography className={clsx(classes.Text)}>
+															Vencimiento
+														</Typography>
+													</div>
+													{/* ----------------------------Info inside card-------------------------- */}
+													<div
+														className="flex items-center justify-center w-full"
+														style={{
+															height: 110,
+															paddingLeft: 45,
+															paddingRight: 45,
+														}}
+													>
+
+														<div
+															className="flex items-center flex-col"
+															style={{
+																backgroundColor: '#FFFFFF',
+																height: 90,
+																width: 95,
+																borderRadius: 5,
+																position: 'relative',
+															}}
+														>
+
+															<div
+																className="w-full"
+																style={{
+																	backgroundColor: 'red',
+																	height: 25,
+																	borderTopLeftRadius: 5,
+																	borderTopRightRadius: 5,
+																}}
+															>
+															</div>
+															<div
+																style={{
+																	position: 'absolute',
+																	width: 60,
+																	height: 15,
+																	border: '3px solid #999',
+																	borderWidth: '0 5px',
+																	background: 'transparent',
+																	top: '-6px',
+																}}>
+
+															</div>
+															<Typography className={clsx(classes.LabelDue)}>
+																{new Date(homework.finish_date).getDate()}
+															</Typography>
+														</div>
+													</div>
+												</Paper>
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+													elevation={3}
+
+													style={{
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+													{/* ----------------------------Info inside card-------------------------- */}
+													{
+														homework.status == 'Calificado' ?
+															<div 
+																className="flex items-center justify-center text-center"
+																style={{
+																	height: 300,
+																}}
+															>
+																<Typography className={clsx(classes.TextInfo)}>
+																	La tarea ya fue calificada
+																</Typography>
+															</div>
+															:
+
+															<div
+																className="flex flex-col items-center w-full"
+																style={{
+																	height: 300,
+																	paddingLeft: 45,
+																	paddingRight: 45,
+																}}
+															>
+																<Formsy
+																	onValidSubmit={handleSubmit}
+																	// onChange={validateForm}
+																	// onValid={enableButton}
+																	// onInvalid={disableButton}
+																	// ref={formRef}
+																	className="flex flex-col w-full items-center mt-20"
+																>
+																	<DialogContent className="w-full items-center">
+																		<Button
+																			className="w-full"
+																			style={{
+																				backgroundColor: '#FFFFFF',
+																				paddingLeft: 5,
+																				paddingRight: 5,
+																				paddingTop: 2,
+																				paddingBottom: 2,
+																				borderRadius: 30,
+																				textAlign: "center",
+																			}}>
+																			<Typography className={clsx(classes.LabelText)}>
+																				Realizar
+																			</Typography>
+																		</Button>
+																	</DialogContent>
+																	<DialogContent className="w-full items-center">
+																		<Button
+																			className="w-full"
+																			style={{
+																				backgroundColor: '#FFFFFF',
+																				paddingLeft: 5,
+																				paddingRight: 5,
+																				paddingTop: 2,
+																				paddingBottom: 2,
+																				borderRadius: 30,
+																				textAlign: "center",
+																			}}
+																			onClick={e => fileInput.current && fileInput.current.click()}
+																		>
+																			<Typography className={clsx(classes.LabelText)}>
+																				Adjuntar
+																			</Typography>
+																		</Button>
+																		<input
+																			type="file"
+																			name="file"
+																			id="file"
+																			onChange={(e) => {
+																				setFileName(e.target.files[0].name);
+																				setSelectedFile(e.target.files[0]);
+																			}}
+																			// onChange={handleChange}
+																			ref={fileInput}
+																			hidden
+																		/>
+																	</DialogContent>
+																	<Typography
+																		className={clsx(classes.TextInfo)}
+																		style={{
+																			width: '100%',
+																			overflowX: 'auto',
+																			whiteSpace: 'nowrap',
+																			height: 50,
+																			padding: 5,
+																		}}
+																	>
+																		{fileName == '' ? homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName : fileName}
+																	</Typography>
+																	<DialogActions className="w-full mt-20">
+																		<Button
+																			className="w-full"
+																			style={{
+																				backgroundColor: '#FFFFFF',
+																				paddingLeft: 5,
+																				paddingRight: 5,
+																				paddingTop: 2,
+																				paddingBottom: 2,
+																				borderRadius: 30,
+																				textAlign: "center",
+																			}}
+																			uppercase='false'
+																			// onClick={handleSubmit}
+																			type="submit"
+																			disabled={!selectedFile}
+																		>
+																			<Typography className={clsx(classes.LabelText)}>
+																				Enviar
+																			</Typography>
+																		</Button>
+																	</DialogActions>
+																</Formsy>
+															</div>
+													}
+
+												</Paper>
+											</Grid>
+											{/* -------------------------- tasks delivered ------------------------- */}
+											<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
+													elevation={3}
+
+													style={{
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+
+													<div className={clsx(classes.paperTitle)}
+														style={{
+															backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
+															backgroundPosition: 'center',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
+														}}
+													>
+														<Typography className={clsx(classes.Text)}>
+															Mis Tareas
+														</Typography>
+													</div>
+													<div
+														className="flex items-center justify-center w-full"
+														style={{
+															height: 110,
+															paddingLeft: 45,
+															paddingRight: 45,
+														}}
+													>
+														<div
+															className="w-full"
+															style={{
+																backgroundColor: '#FFFFFF',
+																paddingLeft: 5,
+																paddingRight: 5,
+																paddingTop: 2,
+																paddingBottom: 2,
+																borderRadius: 30,
+																textAlign: "center",
+															}}
+														>
+															<Typography className={clsx(classes.LabelText)}>
+																{homework.status}
+															</Typography>
+														</div>
+													</div>
+													{/* ----------------------------Info inside card-------------------------- */}
+
+												</Paper>
+												<Paper
+													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
+													elevation={3}
+
+													style={{
+														backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'cover',
+														backgroundRepeat: 'no-repeat',
+
+													}}>
+													{/* ----------------------------Info inside card-------------------------- */}
+													<div
+														className="flex items-center w-full flex-col"
+														style={{
+															height: 300,
+															paddingTop: 10,
+															paddingLeft: 45,
+															paddingRight: 45,
+														}}
+													>
+														<Typography className={clsx(classes.LabelDesc)}>
+															Calificación
+														</Typography>
+														{
+															homework.status == 'Calificado' ?
+																<div
+																	style={{
+																		marginTop: 40,
+																		backgroundColor: '#FFFFFF',
+																		paddingLeft: 25,
+																		paddingRight: 25,
+																		borderRadius: 10,
+																	}}
+																>
+																	<Typography className={clsx(classes.LabelScore)}>
+																		{homework.score.slice(homework.score.indexOf('.')) == '.00' ? homework.score.slice(0, homework.score.indexOf('.')) : homework.score}
+																	</Typography>
+																</div>
+																:
+																<div className="flex items-center justify-center h-200 text-center">
+																	<Typography className={clsx(classes.TextInfo)}>
+																		No se ha calificado la tarea
+																	</Typography>
+																</div>
+														}
+													</div>
+												</Paper>
+											</Grid>
+										</Grid>
+									</Grid>
+
+									<Grid item xs={8} className="flex">
+										<div
+											className= "flex"
+
+											style={{
+												backgroundImage: `url("assets/images/preescolar/Back-iconos.png")`,
+												backgroundPosition: 'center',
+												backgroundSize: 'cover',
+												backgroundRepeat: 'no-repeat',
+												borderRadius:8
+
+											}}>
+											{/* ----------------------------Info inside card-------------------------- */}
+											<div
+												className="flex">
+												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/MATERIALES.png" />
+											</div>
+											<div
+												className="flex pt-40 pb-40">
+												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/HERRAMIENTAS.png" />
+											</div>
+											<div
+												className="flex">
+												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/GOOGLE.png" />
+											</div>
+											<div
+												className="flex">
+												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/CL+.png" />
+											</div>
+										</div>
+									</Grid>
+								</Grid>
 							</Grid>
 						</Grid>
 						:
