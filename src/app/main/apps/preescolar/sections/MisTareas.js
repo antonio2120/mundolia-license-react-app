@@ -309,7 +309,16 @@ function MisTareas(props) {
 									pendientes.map(row => (
 										<>
 											<div className="flex w-1/5 p-12 text-center items-center justify-center">
-												<Link to={'/apps/sections/mitarea/'+row.id} ><img src="assets/images/preescolar/pendientes.png"/></Link>
+												<Link to={'/apps/sections/mitarea/' + row.id} >
+													{row.remaining_days > 5 ?
+														<img src={"assets/images/preescolar/tiempo-tareaspendientes.png"} />
+														// tiempo-tareaspendientes.png
+														: row.remaining_days >= 1 ?
+															<img src={"assets/images/preescolar/proxima-tareaspendientes.png"} />
+															:
+															<img src={"assets/images/preescolar/pendientes.png"} />
+													}
+												</Link>
 											</div>
 
 											{ escuelabaja ? 
