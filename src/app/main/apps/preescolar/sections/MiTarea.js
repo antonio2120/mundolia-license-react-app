@@ -19,6 +19,12 @@ import Dialog from '@material-ui/core/Dialog';
 import Formsy from "formsy-react";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import MenuItem from '@material-ui/core/MenuItem';
+import Popover from '@material-ui/core/Popover';
+import { logoutUser } from 'app/auth/store/userSlice';
+import Icon from '@material-ui/core/Icon';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -172,6 +178,15 @@ function MiTarea(props) {
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role == 'alumno' && info.grade <= 3 ? true : false;
 	const homework = useSelector(({ MiTareaApp }) => MiTareaApp.miTarea.data);
+	const [userMenu, setUserMenu] = useState(null);
+
+	const userMenuClick = event => {
+		setUserMenu(event.currentTarget);
+	};
+
+	const userMenuClose = () => {
+		setUserMenu(null);
+	};
 
 	useDeepCompareEffect(() => {
 		dispatch(getMiTarea(routeParams));
@@ -220,36 +235,34 @@ function MiTarea(props) {
 
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
-
-						<div className={clsx(classes.right), "w-1/3 justify-end logo text-end items-end justify-end"} >
+						
+						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
+							onClick={userMenuClick}>
 							<img className={clsx(classes.userIcon)}
+								style={{
+									background: "assets/images/preescolar/infoestudiante.png",
+								}}
 								width="200"
 								position="right"
-								src="assets/images/preescolar/infoestudiante.png" />
-						</div>
-						<div className={clsx(classes.containersInfo), "w-2/3 flex-col"}>
+								src="assets/images/preescolar/infoestudiante.png"/>
+						</Button>
+						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
 							{/* <div> */}
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.data.displayName}
-							</p>
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.grade}°
-							</p>
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.school_name}
-							</p>
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.data.displayName}
+								</p>
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.grade}°
+								</p>
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
+									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
+									{info.school_name}
+								</p>
 						</div>
 
 					</div>
@@ -754,6 +767,35 @@ function MiTarea(props) {
 						:
 						null
 				}
+					<Popover
+						open={Boolean(userMenu)}
+						anchorEl={userMenu}
+						onClose={userMenuClose}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'right'
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right'
+						}}
+						classes={{
+							paper: 'py-8'
+						}}
+					>
+						<MenuItem
+							onClick={() => {
+								dispatch(logoutUser());
+
+								userMenuClose();
+							}}
+						>
+							<ListItemIcon className="min-w-40">
+								<Icon>exit_to_app</Icon>
+							</ListItemIcon>
+							<ListItemText primary="Logout" />
+						</MenuItem>
+					</Popover>
 			</FuseAnimateGroup>
 		</div>
 	);
