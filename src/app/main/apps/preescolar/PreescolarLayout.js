@@ -136,6 +136,7 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mis Tareas/Mis Actividades------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
@@ -148,6 +149,7 @@ function PreescolarLayout(props) {
 						<img src={ escuelabaja ? "assets/images/preescolar/explorer.png" : "assets/images/preescolar/explorer1.png"} />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
 						}}
@@ -178,6 +180,7 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mundo Lia----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
@@ -189,6 +192,7 @@ function PreescolarLayout(props) {
 						<img className="logo-icon" src="assets/images/preescolar/comunicacion.png" alt="logo" />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
 						}}
@@ -220,6 +224,7 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mis Clases----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
@@ -231,6 +236,7 @@ function PreescolarLayout(props) {
 						<img src={ escuelabaja ? "assets/images/preescolar/artes.png" : "assets/images/preescolar/artes1.png" } alt="logo" />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
 						}}
@@ -245,6 +251,7 @@ function PreescolarLayout(props) {
 					</Button>
 					{ isMobile && !escuelabaja ?
 						<Button
+						disableRipple
 							style={{
 								backgroundColor: 'transparent',
 							}}
@@ -257,8 +264,9 @@ function PreescolarLayout(props) {
 					}
 				</div>
 
-				{/* <div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
-				<Button
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+					<Button
+						disableRipple
 						justifyContent="center"
 						className={clsx(classes.button)}
 						// className="flex items-center justify-between px-16 h-64 border-b-1"
@@ -283,7 +291,7 @@ function PreescolarLayout(props) {
 						</Typography>
 					</Button>
 					
-				</div> */}
+				</div>
 
             </FuseAnimateGroup>
 
