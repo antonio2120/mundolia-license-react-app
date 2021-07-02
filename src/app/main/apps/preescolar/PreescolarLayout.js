@@ -135,32 +135,34 @@ function PreescolarLayout(props) {
 
 				{/* -----------------------Mis Tareas/Mis Actividades------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
-					<Button
+					<Link
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
 						to={`/apps/sections/mistareas`}
-						component={Link}
+						// component={Link}
 						type="button"
 						// onMouseEnter={ playMisTareas }
 					>
 						<img src={ escuelabaja ? "assets/images/preescolar/explorer.png" : "assets/images/preescolar/explorer1.png"} />
-					</Button>
-					<Button
+					</Link>
+					<Link
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3
 						}}
 						to={`/apps/sections/mistareas`}
-						component={Link}
+						// component={Link}
 						// className="justify-start px-32"
 						color="secondary"
 						onMouseEnter={ !escuelabaja && !isMobile ? playMisActividades : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-							{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
+							{ escuelabaja ? 'MIS TAREAS' : 'MIS ACTIVIDADES' }
 						</Typography>
-					</Button>
+					</Link>
 					{ isMobile && !escuelabaja ?
 						<Button
 							style={{
@@ -177,32 +179,34 @@ function PreescolarLayout(props) {
 
 				{/* -----------------------Mundo Lia----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
-					<Button
+					<Link
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
 						to={`/loginp`}
-						component={Link}
+						// component={Link}
 						type="button"
 					>
 						<img className="logo-icon" src="assets/images/preescolar/comunicacion.png" alt="logo" />
-					</Button>
-					<Button
+					</Link>
+					<Link
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3
 						}}
 						to={`/loginp`}
-						component={Link}
+						// component={Link}
 						type="button"
 						// name={mundolia}
 						// id={'mundolia'}
 						onMouseEnter={ !escuelabaja && !isMobile ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-						Mi Mundo Lia {device}
+						MI MUNDO LIA {device}
 						</Typography>
-					</Button>
+					</Link>
 					{ isMobile && !escuelabaja ?
 						<Button
 							style={{
@@ -219,30 +223,32 @@ function PreescolarLayout(props) {
 
 				{/* -----------------------Mis Clases----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
-					<Button
+					<Link
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
-						component={Link}
+						// component={Link}
 						type="button"
 						to={`/apps/aula`}
 					>
 						<img src={ escuelabaja ? "assets/images/preescolar/artes.png" : "assets/images/preescolar/artes1.png" } alt="logo" />
-					</Button>
-					<Button
+					</Link>
+					<Link
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3
 						}}
 						to={`/apps/aula`}
-						component={Link}
+						// component={Link}
 						type="button"
 						onMouseEnter={ !escuelabaja && !isMobile ? playMisClases : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-							{ 'Mis Clases'}
+							{ 'MIS CLASES'}
 						</Typography>
-					</Button>
+					</Link>
 					{ isMobile && !escuelabaja ?
 						<Button
 							style={{

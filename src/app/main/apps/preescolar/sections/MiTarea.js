@@ -22,6 +22,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import { logoutUser } from 'app/auth/store/userSlice';
+import { downloadFile } from 'app/main/apps/aulaVirtual/store/aulaSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -74,19 +75,23 @@ const useStyles = makeStyles(theme => ({
 		color: 'red',
 	},
 	button: {
-
 		"&:hover": {
-			transform: "scale(1.2)"
+			transform: "scale(1.2) translateX(50px)"
 			// width:"120%"
 		},
-		text: "center",
+		justifyContent:"left"
 	},
 	img: {
 		maxHeight: "20%",
 		maxWidth: "20%",
 	},
 	imgIcons: {
-		width:300,
+		width:"100%"
+	},
+	imgIconsFooter: {
+		width:200,
+		marginLeft:"3%",
+		marginRight:"3%"
 	},
 	container: {
 		marginTop: "-40px",
@@ -157,8 +162,6 @@ const useStyles = makeStyles(theme => ({
 	infoCardsColumn: {
 		paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',
 		borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
-
-
 	},
 
 }));
@@ -173,7 +176,7 @@ function MiTarea(props) {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [fileType, setFileType] = useState('file');
 	const fileInput = useRef(null);
-	
+	console.log("fileInput::",fileInput);
 	const role = useSelector(({ auth }) => auth.user.role);
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role == 'alumno' && info.grade <= 3 ? true : false;
@@ -256,7 +259,7 @@ function MiTarea(props) {
 								<p className={clsx(classes.TextInfo)} 
 								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
 									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.grade}°
+									{info.grade}
 								</p>
 								<p className={clsx(classes.TextInfo)} 
 								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
@@ -584,18 +587,20 @@ function MiTarea(props) {
 																			hidden
 																		/>
 																	</DialogContent>
-																	<Typography
-																		className={clsx(classes.TextInfo)}
-																		style={{
-																			width: '100%',
-																			overflowX: 'auto',
-																			whiteSpace: 'nowrap',
-																			height: 50,
-																			padding: 5,
-																		}}
-																	>
-																		{fileName == '' ? homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName : fileName}
-																	</Typography>
+																	{fileName !== '' &&
+																		<Typography
+																			className={clsx(classes.TextInfo)}
+																			style={{
+																				width: '100%',
+																				overflowX: 'auto',
+																				whiteSpace: 'nowrap',
+																				height: 50,
+																				padding: 5,
+																			}}
+																		>
+																			{fileName == '' ? homework.file_path ? homework.file_path.slice(homework.file_path.indexOf('_')+1) : fileName : fileName}
+																		</Typography>
+																	}
 																	<DialogActions className="w-full mt-20">
 																		<Button
 																			className="w-full"
@@ -625,7 +630,7 @@ function MiTarea(props) {
 												</Paper>
 											</Grid>
 											{/* -------------------------- tasks delivered ------------------------- */}
-											<Grid item xs className="flex items-center justify-center flex-col max-w-400 m-20 mb-40">
+											<Grid item xs className="flex items-center flex-col max-w-400 m-20 mb-40">
 												<Paper
 													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col mb-20"}
 													elevation={3}
@@ -647,7 +652,7 @@ function MiTarea(props) {
 														}}
 													>
 														<Typography className={clsx(classes.Text)}>
-															Mis Tareas
+															Estatus
 														</Typography>
 													</div>
 													<div
@@ -720,7 +725,7 @@ function MiTarea(props) {
 																:
 																<div className="flex items-center justify-center h-200 text-center">
 																	<Typography className={clsx(classes.TextInfo)}>
-																		No se ha calificado la tarea
+																		Esta tarea aún no tiene calificación
 																	</Typography>
 																</div>
 														}
@@ -730,7 +735,7 @@ function MiTarea(props) {
 										</Grid>
 									</Grid>
 
-									<Grid item xs={8} className="flex">
+									<Grid item xs={12} className="flex h-full">
 										<div
 											className= "flex"
 
@@ -739,63 +744,87 @@ function MiTarea(props) {
 												backgroundPosition: 'center',
 												backgroundSize: 'cover',
 												backgroundRepeat: 'no-repeat',
-												borderRadius:8
+												borderRadius:8,
+												width:"100%"
 
 											}}>
 											{/* ----------------------------Info inside card-------------------------- */}
 											<div
-												className="flex">
-												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/MATERIALES.png" />
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<Button  
+													onClick={ev => {
+                                                        ev.stopPropagation();
+                                                        homework.activityFile !== null && dispatch(downloadFile(homework.activityFile));}}>
+													<img src="assets/images/logos/word.svg" />
+												</Button>
 											</div>
 											<div
-												className="flex pt-40 pb-40">
-												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/HERRAMIENTAS.png" />
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/powerpoint.svg" />
 											</div>
 											<div
-												className="flex">
-												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/GOOGLE.png" />
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/excel.svg" />
 											</div>
 											<div
-												className="flex">
-												<img className={clsx(classes.imgIcons,"flex")} src="assets/images/preescolar/CL+.png" />
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/google-slides.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/word.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/powerpoint.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/excel.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/google-slides.svg" />
 											</div>
 										</div>
 									</Grid>
 								</Grid>
 							</Grid>
+							{/* --------------- logout --------------- */}
+							<Popover
+								open={Boolean(userMenu)}
+								anchorEl={userMenu}
+								onClose={userMenuClose}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'right'
+								}}
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right'
+								}}
+								classes={{
+									paper: 'py-8'
+								}}
+							>
+								<MenuItem
+									onClick={() => {
+										dispatch(logoutUser());
+
+										userMenuClose();
+									}}
+								>
+									<ListItemIcon className="min-w-40">
+										<Icon>exit_to_app</Icon>
+									</ListItemIcon>
+									<ListItemText primary="Logout" />
+								</MenuItem>
+							</Popover>
 						</Grid>
 						:
 						null
 				}
-					<Popover
-						open={Boolean(userMenu)}
-						anchorEl={userMenu}
-						onClose={userMenuClose}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'right'
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right'
-						}}
-						classes={{
-							paper: 'py-8'
-						}}
-					>
-						<MenuItem
-							onClick={() => {
-								dispatch(logoutUser());
-
-								userMenuClose();
-							}}
-						>
-							<ListItemIcon className="min-w-40">
-								<Icon>exit_to_app</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Logout" />
-						</MenuItem>
-					</Popover>
+					
 			</FuseAnimateGroup>
 		</div>
 	);
