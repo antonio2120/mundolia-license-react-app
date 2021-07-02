@@ -31,7 +31,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 
 
-
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
 		fontWeight: "bold",
@@ -53,11 +52,30 @@ const useStyles = makeStyles(theme => ({
 		text: "center",
 		alignSelf: "center",
 	},
+	TextLeft: {
+		fontSize: "18px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		text: "left",
+		alignSelf: "flex-start",
+		paddingLeft: 5
+	},
+	TextSubtitle:{
+		fontSize: "26px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		text: "center",
+		alignSelf: "center",
+	},
 	yellowIcons: {
 		// fontWeight: "bold",
 		fontSize: "28px",
 		color: 'yellow',
 		// textShadow: '2px 2px 2px black',
+	},
+	buildIcon:{
+		fontSize: "40px",
+		color:'white',
 	},
 	button: {
 
@@ -67,9 +85,25 @@ const useStyles = makeStyles(theme => ({
 		},
 		text: "center",
 	},
+	logoLia:{
+		maxHeight: "10%",
+		maxWidth: "10%",
+		justifyContent: "center",
+		alignItems: "center",
+		text: "center",
+		textAlign: "center", //*important
+		display: 'inline',
+		paddingLeft: 10
+
+	},
 	img: {
 		maxHeight: "20%",
 		maxWidth: "20%",
+		justifyContent: "center",
+		alignItems: "center",
+		text: "center",
+		textAlign: "center", //*important
+		display: 'inline',
 	},
 	container: {
 		// marginTop: "-40px",
@@ -79,6 +113,8 @@ const useStyles = makeStyles(theme => ({
 		alignItems: "center",
 		text: "center",
 		textAlign: "center", //*important
+		// display: 'block',
+
 	},
 	paperTitle: {
 		marginTop: "-40px",
@@ -91,9 +127,15 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 		position: 'relative',
 		overflow: 'auto',
-		maxHeight: 500,
-		height: 500,
-		border: 1
+		maxHeight: 550,
+		height: 550,
+		// maxHeight: '100%',
+		// height: '100%',
+		border: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		text: "center",
+		textAlign: "center", //*important
 	},
 	containersInfo: {
 		borderRadius: 5,
@@ -141,26 +183,26 @@ const useStyles = makeStyles(theme => ({
     // 	borderRadius: 1,
 	// },
 	channelIcon: {
-		maxHeight: 80,
-		maxWidth: 80,
+		maxHeight: 60,
+		maxWidth: 60,
 	}, 
 	TextChannel: {
 		fontSize: "18px",
 		color: 'white',
 		// textShadow: '2px 2px 2px black',
-		text: "left",
-		alignSelf: "left",
-		textAlign: "left",
+		// text: "left",
+		// alignSelf: "left",
+		// textAlign: "left",
 	},
 	avatar: {
-		width: 100,
-		height: 100,
+		width: 80,
+		height: 80,
 		// position: 'absolute',
 		// top: 92,
-		// padding: 8,
+		padding: 8,
 		background: theme.palette.background.default,
 		boxSizing: 'content-box',
-		// left: '50%',
+		left: '80%',
 		transform: 'translateX(-50%)',
 		transition: theme.transitions.create('all', {
 			duration: theme.transitions.duration.shortest,
@@ -214,7 +256,7 @@ function MiScore(props) {
 
 	return (
 		<div
-			className="flex-1 "
+			className="flex-1"
 			style={{
 				backgroundImage: `url("assets/images/preescolar/pantalla12.png")`,
 				backgroundPosition: 'center',
@@ -232,6 +274,7 @@ function MiScore(props) {
 				<div className="float flex w-full flex-wrap">
 					<div className="flex w-full md:w-1/2">
 						<Button
+							disableRipple
 							className={clsx(classes.button)}
 							style={{
 								backgroundColor: 'transparent',
@@ -252,10 +295,12 @@ function MiScore(props) {
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
 						
 						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
+							disableRipple
 							onClick={userMenuClick}>
 							<img className={clsx(classes.userIcon)}
 								style={{
 									background: "assets/images/preescolar/infoestudiante.png",
+									backgroundColor: 'transparent',
 								}}
 								width="200"
 								position="right"
@@ -283,7 +328,15 @@ function MiScore(props) {
 					</div>
 				</div>
 
-				< div className="w-full h-full pt-28 mt-20 items-center justify-center flex-wrap flex-row flex">
+
+
+
+
+
+
+
+
+				< div className="w-full h-full pt-28 items-center justify-center flex-wrap flex-row flex flex-1 h-full">
 
 					{/* -------------------------- Mis Tareas Section ------------------------- */}
 
@@ -293,132 +346,284 @@ function MiScore(props) {
 							backgroundColor: '#783BC6',
 							// opacity: 0.5
 						}}>
-						<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
+						<List className={classes.scroll} >
+							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 
-						<Typography className={clsx(classes.TextTitle)}>
-							Mis Tareas
-						</Typography>
-						<div className="flex  flex-wrap p-12 relative overflow-hidden flex-row w-full">
-							<div className="w-1/3 flex-col items-center justify-center flex" >
-								<Badge badgeContent={pendientes ? pendientes.length : '0'} color="secondary" showZero>
-									<Icon className={clsx(classes.yellowIcons)} >error_outline</Icon>
-								</Badge>
-								<Typography className={clsx(classes.Text)}>
-									Pendientes
-								</Typography>
+							<Typography className={clsx(classes.TextTitle)}>
+								Mis Tareas
+							</Typography>
+							<div className="flex  flex-wrap p-12 relative overflow-hidden flex-row w-full">
+								<div className="w-1/3 flex-col items-center justify-center flex" >
+									<Badge badgeContent={pendientes ? pendientes.length : '0'} color="secondary" showZero>
+										<Icon className={clsx(classes.yellowIcons)} >error_outline</Icon>
+									</Badge>
+									<Typography className={clsx(classes.Text)}>
+										Pendientes
+									</Typography>
+								</div>
+
+								<div className="w-1/3 flex-col items-center justify-center flex" >
+									<Badge badgeContent={entregadas ? entregadas.length : '0'} color="secondary" showZero>
+										<Icon className={clsx(classes.yellowIcons)} >check</Icon>
+									</Badge>
+									<Typography className={clsx(classes.Text)}>
+										Realizadas
+									</Typography>
+								</div>
+
+								<div className="w-1/3 flex-col items-center justify-center flex" >
+									<Badge badgeContent={panelInfo ? panelInfo.score.length : '0'} color="secondary" showZero>
+										<Icon className={clsx(classes.yellowIcons)} >star</Icon>
+									</Badge>
+									<Typography className={clsx(classes.Text)}>
+										Calificadas
+									</Typography>
+								</div>
 							</div>
 
-							<div className="w-1/3 flex-col items-center justify-center flex" >
-								<Badge badgeContent={entregadas ? entregadas.length : '0'} color="secondary" showZero>
-									<Icon className={clsx(classes.yellowIcons)} >check</Icon>
-								</Badge>
-								<Typography className={clsx(classes.Text)}>
-									Realizadas
-								</Typography>
+
+							<div className="flex flex-wrap  w-full border-t-1"
+								style={{ borderTopColor: "white" }}>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2 border-r-1" style={{ borderRightColor: "white" }}>
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clublia.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Canal Online Lia
+											</Typography>
+										</div>
+									</div>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_novedades.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Novedades
+											</Typography>
+										</div>
+									</div>
 							</div>
 
-							<div className="w-1/3 flex-col items-center justify-center flex" >
-								<Badge badgeContent={panelInfo ? panelInfo.score.length : '0'} color="secondary" showZero>
-									<Icon className={clsx(classes.yellowIcons)} >star</Icon>
-								</Badge>
-								<Typography className={clsx(classes.Text)}>
-									Calificadas
-								</Typography>
+							<div className="flex flex-wrap  w-full border-t-1"
+								style={{ borderTopColor: "white" }}>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2 border-r-1" style={{ borderRightColor: "white" }}>
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_lia-u.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												LIA U
+											</Typography>
+										</div>
+									</div>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_recursoslia.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Mis Recursos Lia
+											</Typography>
+										</div>
+									</div>
 							</div>
-						</div>
 
-
-						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
-							style={{ borderTopColor: "white" }}>
-
-							<div className="w-1/6 flex-col items-center justify-center flex" >
-								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
+							<div className="flex flex-wrap  w-full border-t-1"
+								style={{ borderTopColor: "white" }}>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2 border-r-1" style={{ borderRightColor: "white" }}>
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clases-envivo.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Clases en vivo
+											</Typography>
+										</div>
+									</div>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_mis-herramientas.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Mis Herramientas
+											</Typography>
+										</div>
+									</div>
 							</div>
-							<div className="w-5/6 flex-col flex-start justify-center flex" >
-								<Typography className={clsx(classes.TextChannel)}>
-									Canal Online Lia
-								</Typography>
+
+							<div className="flex flex-wrap  w-full border-t-1 border-b-1"
+								style={{ borderTopColor: "white", borderBottomColor: "white" }}>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2 border-r-1" style={{ borderRightColor: "white" }}>
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clases-pregrabadas.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Clases pregrabadas
+											</Typography>
+										</div>
+									</div>
+									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
+										<div className="w-1/4 flex-col items-center justify-center flex" >
+											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_herramienta.png" />
+										</div>
+										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
+											<Typography className={clsx(classes.TextChannel)}>
+												Herramientas y recursos más utilizados
+											</Typography>
+										</div>
+									</div>
 							</div>
-						</div>
-
-						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
-							style={{ borderTopColor: "white" }}>
-
-							<div className="w-1/6 flex-col items-center justify-center flex" >
-								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
-							</div>
-							<div className="w-5/6 flex-col flex-start justify-center flex" >
-								<Typography className={clsx(classes.TextChannel)}>
-									LIA U
-								</Typography>
-							</div>
-						</div>
-
-						<div className="flex flex-wrap relative overflow-hidden flex-row w-full border-t-1"
-							style={{ borderTopColor: "white" }}>
-
-							<div className="w-1/6 flex-col items-center justify-center flex" >
-								<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/explorer.png" />
-							</div>
-							<div className="w-5/6 flex-col flex-start justify-center flex" >
-								<Typography className={clsx(classes.TextChannel)}>
-									Clases en vivo
-								</Typography>
-							</div>
-						</div>
 
 
-
-
-
+						</List>
 					</div>
 
-					{/* -------------------------- Mis Clases Section ------------------------- */}
 
 
-					<div
-						className={clsx(classes.container), "w-full  items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col p-12"}
+					{/* -------------------------- Mi Mundo LIA ------------------------- */}
+
+					<div 
+						className={clsx(classes.container), "w-full flex md:w-1/3 sm:w-1/2 flex-col p-12"}
 						style={{
 							backgroundColor: '#5406B4',
 							// opacity: 0.5
 						}}>
-						<img className={clsx(classes.img)} src="assets/images/preescolar/artes.png" />
+						<List className={classes.scroll } >
+							<img className={clsx(classes.img)} src="assets/images/preescolar/comunicacion.png" />
 
-						<Typography className={clsx(classes.TextTitle)}>
-							Mis Clases
-						</Typography>
-						
+							<Typography className={clsx(classes.TextTitle)}>
+								Mi Mundo Lia
+								<img className={clsx(classes.logoLia)} src="assets/images/preescolar/logos/score_logoclublia.png" />
+							</Typography>
+
+							<div className="flex  flex-wrap p-12 relative overflow-hidden flex-row w-full ">
+								
+
+								<div className="w-1/2 flex-col items-center justify-center flex" >
+									<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_misgrupos.png" />
+									<Typography className={clsx(classes.Text)}>
+										Mis Grupos
+									</Typography>
+								</div>
+
+								<div className="w-1/2 flex-col items-center justify-center flex" >
+									<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_mi-salon.png" />
+									<Typography className={clsx(classes.Text)}>
+										Mi salon
+									</Typography>
+								</div>
+							</div>
+
+							<div className="flex  flex-wrap p-12 pb-16 relative overflow-hidden flex-row w-full border-t-1"
+								style={{ borderTopColor: "white" }}>
+								<div className="w-1/3 flex-col items-center justify-center flex" >
+									<Avatar 
+									className={clsx(classes.avatar, 'avatar')}
+									onClick={ev => dispatch(openAvatarLayout())}
+									
+										// width="600"
+										// position="right"
+										src={ user.data.photoURL && user.data.photoURL !== ''
+										? user.data.photoURL
+										: " assets/images/preescolar/infoestudiante.png"} >
+									</Avatar>
+								</div>
+								<div className="w-2/3 flex-col items-center justify-center flex" >
+									<Typography className={clsx(classes.TextSubtitle)}>
+										Mi Avatar
+									</Typography>
+									<Button variant="outlined" color="primary" style={{textTransform: 'none', paddingTop: 5}}>
+										<Typography className={clsx(classes.Text)}>
+										Herramientas
+										</Typography>
+									</Button>
+								</div>
+
+								{/* <div className="flex  flex-wrap p-12 mt-12 relative overflow-hidden flex-row w-full border-t-1 items-center justify-center"
+								style={{ borderTopColor: "white" }}>
+									<Typography className={clsx(classes.TextSubtitle)}>
+										Calendario de Eventos
+									</Typography>
+
+								</div> */}
 
 
+								<div className="flex  flex-wrap  mt-12 pt-20 pb-20 relative overflow-hidden flex-col w-full border-t-1 border-b-1 items-center justify-center"
+								style={{ borderTopColor: "white", borderBottomColor: "white" }}>
+								
+
+								<Icon className={clsx(classes.buildIcon)}>build</Icon>
+								<Typography className={clsx(classes.TextSubtitle)}>
+										Sección en construcción
+								</Typography>
+							</div>
 
 
+							</div>
+
+
+						</List>
 					</div>
-					<div
-						className={clsx(classes.container), "w-full  items-center justify-center flex md:w-1/3 sm:w-1/2 flex-col p-12 h-full"}
+
+
+					{/* -------------------------- Mis Clases Section ------------------------- */}
+
+					<div 
+						className={clsx(classes.container), "w-full flex md:w-1/3 sm:w-1/2 flex-col p-12"}
 						style={{
 							backgroundColor: '#783BC6',
 							// opacity: 0.5
 						}}>
-						<img className={clsx(classes.img)} src="assets/images/preescolar/comunicacion.png" />
+						<List className={classes.scroll } >
+							<img className={clsx(classes.img)} src="assets/images/preescolar/artes.png" />
 
-						<Typography className={clsx(classes.TextTitle)}>
-							Mi Mundo Lia
-						</Typography>
-
-						<Avatar className={clsx(classes.avatar, 'avatar')}
-							onClick={ev => dispatch(openAvatarLayout())}
-							
-								width="200"
-								position="right"
-								src={ user.data.photoURL && user.data.photoURL !== ''
-								? user.data.photoURL
-								: " assets/images/preescolar/infoestudiante.png"} >
-						</Avatar>
-						
+							<Typography className={clsx(classes.TextTitle)}>
+								Mis Clases
+							</Typography>
 
 
 
+							<div className=" flex flex-wrap flex-col w-full mb-10 mt-10 items-center justify-center">
+								<div className="border-1 flex flex-wrap flex-col p-4 w-350 items-center justify-center"
+									style={{ borderColor: "white" }}>
+									<Button variant="outlined" color="primary" className="w-full"
+									style={{ textTransform: 'none', paddingTop: 5 }}>
+										<Typography className={clsx(classes.Text)}>
+											15 de mayo del 2021
+										</Typography>
+									</Button>
+									<Button variant="outlined" color="primary" className="w-full"
+									style={{ textTransform: 'none', paddingTop: 5 }}>
+										<Typography className={clsx(classes.Text)}>
+											Entrar
+										</Typography>
+									</Button>
+								</div>
 
+							</div>
+
+
+
+
+							<div className="flex  flex-wrap pt-80 pb-80 relative overflow-hidden flex-col w-full border-t-1 border-b-1 items-center justify-center"
+								style={{ borderTopColor: "white", borderBottomColor: "white" }}>
+								
+
+								<Icon className={clsx(classes.buildIcon)}>build</Icon>
+								<Typography className={clsx(classes.TextSubtitle)}>
+										Sección en construcción
+								</Typography>
+							</div>
+
+
+
+
+
+						</List>
 					</div>
 
 

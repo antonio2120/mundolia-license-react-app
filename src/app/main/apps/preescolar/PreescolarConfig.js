@@ -20,6 +20,10 @@ const PreescolarConfig = {
 			component: React.lazy(() => import('./sections/MisTareas'))
 		},
 		{
+			path: '/apps/sections/mitarea/:id',
+			component: React.lazy(() => import('./sections/MiTarea'))
+		},
+		{
 			path: '/apps/sections/miscore',
 			component: React.lazy(() => import('./sections/MiScore'))
 		},
