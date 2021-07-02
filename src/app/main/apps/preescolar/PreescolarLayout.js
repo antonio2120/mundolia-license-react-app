@@ -290,12 +290,26 @@ function PreescolarLayout(props) {
 						to={`/apps/sections/miscore`}
 						component={Link}
 						type="button"
+						onMouseEnter={ !escuelabaja && !isMobile ? playMiScore : null }
 					> 						
 
 						<Typography className={clsx(classes.Text)}>
 							Mi Score
 						</Typography>
 					</Button>
+					{ isMobile && !escuelabaja ?
+						<Button
+						disableRipple
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							onClick={playMiScore}
+						>
+							<Icon className={clsx(classes.listenIcon)}>volume_up</Icon>
+						</Button>
+						:
+						null
+					}
 					
 				</div>
 

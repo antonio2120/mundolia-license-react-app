@@ -381,7 +381,7 @@ function MiScore(props) {
 								</div>
 							</div>
 
-
+							
 							<div className="flex flex-wrap  w-full border-t-1"
 								style={{ borderTopColor: "white" }}>
 									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2 border-r-1" style={{ borderRightColor: "white" }}>
@@ -389,19 +389,24 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clublia.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Canal Online Lia
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Canal Online Lia
+												</Typography>
+											</Link>
 										</div>
+										
 									</div>
 									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
 										<div className="w-1/4 flex-col items-center justify-center flex" >
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_novedades.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Novedades
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Novedades
+												</Typography>
+											</Link>
 										</div>
 									</div>
 							</div>
@@ -413,9 +418,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_lia-u.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												LIA U
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													LIA U
+												</Typography>
+											</Link>
 										</div>
 									</div>
 									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
@@ -423,9 +430,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_recursoslia.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Mis Recursos Lia
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Mis Recursos Lia
+												</Typography>
+											</Link>
 										</div>
 									</div>
 							</div>
@@ -437,9 +446,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clases-envivo.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Clases en vivo
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Clases en vivo
+												</Typography>
+											</Link>
 										</div>
 									</div>
 									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
@@ -447,9 +458,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_mis-herramientas.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Mis Herramientas
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Mis Herramientas
+												</Typography>
+											</Link>
 										</div>
 									</div>
 							</div>
@@ -461,9 +474,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_clases-pregrabadas.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Clases pregrabadas
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Clases pregrabadas
+												</Typography>
+											</Link>
 										</div>
 									</div>
 									<div className="flex flex-wrap relative overflow-hidden flex-row border-t-1 w-1/2">
@@ -471,9 +486,11 @@ function MiScore(props) {
 											<img className={clsx(classes.channelIcon)} src="assets/images/preescolar/logos/score_herramienta.png" />
 										</div>
 										<div className="w-3/4 flex-col items-center justify-center flex p-2" >
-											<Typography className={clsx(classes.TextChannel)}>
-												Herramientas y recursos más utilizados
-											</Typography>
+											<Link to="/loginp">
+												<Typography className={clsx(classes.TextChannel)}>
+													Herramientas y recursos más utilizados
+												</Typography>
+											</Link>
 										</div>
 									</div>
 							</div>
