@@ -22,6 +22,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import { logoutUser } from 'app/auth/store/userSlice';
+import { openAvatarLayout } from 'app/store/fuse/avatarSlice';
 import { downloadFile } from 'app/main/apps/aulaVirtual/store/aulaSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -183,6 +184,10 @@ function MiTarea(props) {
 	const homework = useSelector(({ MiTareaApp }) => MiTareaApp.miTarea.data);
 	const [userMenu, setUserMenu] = useState(null);
 
+	const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+	"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+	];
+
 	const userMenuClick = event => {
 		setUserMenu(event.currentTarget);
 	};
@@ -278,7 +283,8 @@ function MiTarea(props) {
 							<Grid item xs={1} className="flex">
 								<Grid container className="flex w-full flex-col" spacing={1}>
 									<Grid item xs={3} className="flex flex-col items-center justify-center max-w-400">
-										<Button>
+										<Button 
+										onClick={ev => dispatch(openAvatarLayout())}>
 											{/* to={`/apps/aula`} component={Link} type="button"> */}
 											<div  className="flex flex-col">
 												<img className={clsx(classes.imgIcons,"flex w-full")} src="assets/images/preescolar/Mi-avatar-1.png" />
@@ -452,7 +458,7 @@ function MiTarea(props) {
 													<div
 														className="flex items-center justify-center w-full"
 														style={{
-															height: 110,
+															height: 85,
 															paddingLeft: 45,
 															paddingRight: 45,
 														}}
@@ -496,6 +502,9 @@ function MiTarea(props) {
 															</Typography>
 														</div>
 													</div>
+													<Typography className={clsx(classes.TextInfo)}>
+														{monthNames[new Date(homework.finish_date).getMonth()]}
+													</Typography>
 												</Paper>
 												<Paper
 													className={clsx(classes.container), "rounded-8 items-center justify-center flex w-full flex-col"}
@@ -546,24 +555,7 @@ function MiTarea(props) {
 																				backgroundColor: '#FFFFFF',
 																				paddingLeft: 5,
 																				paddingRight: 5,
-																				paddingTop: 2,
-																				paddingBottom: 2,
-																				borderRadius: 30,
-																				textAlign: "center",
-																			}}>
-																			<Typography className={clsx(classes.LabelText)}>
-																				Realizar
-																			</Typography>
-																		</Button>
-																	</DialogContent>
-																	<DialogContent className="w-full items-center">
-																		<Button
-																			className="w-full"
-																			style={{
-																				backgroundColor: '#FFFFFF',
-																				paddingLeft: 5,
-																				paddingRight: 5,
-																				paddingTop: 2,
+																				paddingTop: 10,
 																				paddingBottom: 2,
 																				borderRadius: 30,
 																				textAlign: "center",
@@ -735,7 +727,7 @@ function MiTarea(props) {
 										</Grid>
 									</Grid>
 
-									<Grid item xs={12} className="flex h-full">
+									<Grid item xs={10} className="flex h-full w-full">
 										<div
 											className= "flex"
 
@@ -755,36 +747,28 @@ function MiTarea(props) {
 													onClick={ev => {
                                                         ev.stopPropagation();
                                                         homework.activityFile !== null && dispatch(downloadFile(homework.activityFile));}}>
-													<img src="assets/images/logos/word.svg" />
+													<img src="assets/images/logos/firebase.svg" />
 												</Button>
 											</div>
 											<div
 												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/powerpoint.svg" />
+												<img src="assets/images/logos/fuse.svg" />
 											</div>
 											<div
 												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/excel.svg" />
-											</div>
-											<div
-												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/google-slides.svg" />
-											</div>
-											<div
-												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/word.svg" />
-											</div>
-											<div
-												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/powerpoint.svg" />
-											</div>
-											<div
-												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
-												<img src="assets/images/logos/excel.svg" />
+												<img src="assets/images/logos/google-drive.svg" />
 											</div>
 											<div
 												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
 												<img src="assets/images/logos/google-slides.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/google-forms.svg" />
+											</div>
+											<div
+												className={clsx(classes.imgIconsFooter,"flex pt-20 pb-20")}>
+												<img src="assets/images/logos/google-meet.svg" />
 											</div>
 										</div>
 									</Grid>

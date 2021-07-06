@@ -9,8 +9,12 @@ const AulaVirtualAppConfig = {
 	},
 	routes: [
 		{
-			path: '/apps/aula',
+			path: '/apps/aula/:id',
 			component: React.lazy(() => import('./AulaVirtualApp'))
+		},
+		{
+			path: '/apps/aula',
+			component: () => <Redirect to="/apps/aula/all" />
 		}
 	]
 };
