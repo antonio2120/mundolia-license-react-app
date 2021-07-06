@@ -13,6 +13,7 @@ import './Preescolar.css';
 import { Link } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import {isMobile} from 'react-device-detect';
+import {getStudentCalendars} from "../eventsCalendar/store/calendarSlice";
 
 const useStyles = makeStyles(theme => ({
 	Text: {
@@ -49,8 +50,7 @@ const useStyles = makeStyles(theme => ({
 
 
 function PreescolarLayout(props) {
-	  
-
+	const dispatch = useDispatch();
 	const classes = useStyles();
 	const role = useSelector(({ auth }) => auth.user.role);
 	const grade = useSelector(({ auth }) => auth.user.grade);
@@ -97,6 +97,7 @@ function PreescolarLayout(props) {
 	
 
 	useEffect(() => {
+		dispatch(getStudentCalendars());
 		const updateWindowDimensions = () => {
 			const newWidth = window.innerWidth;
 			setWidth(newWidth);
@@ -226,7 +227,7 @@ function PreescolarLayout(props) {
 						}}
 						component={Link}
 						type="button"
-						to={`/apps/aula`}
+						to={`/apps/sections/calendario`}
 					>
 						<img src={ escuelabaja ? "assets/images/preescolar/artes.png" : "assets/images/preescolar/artes1.png" } alt="logo" />
 					</Button>
@@ -234,7 +235,7 @@ function PreescolarLayout(props) {
 						style={{
 							backgroundColor: 'transparent',
 						}}
-						to={`/apps/aula`}
+						to={`/apps/sections/calendario`}
 						component={Link}
 						type="button"
 						onMouseEnter={ !escuelabaja && !isMobile ? playMisClases : null }
