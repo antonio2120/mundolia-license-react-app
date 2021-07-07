@@ -202,18 +202,6 @@ function CalendarActivities(props) {
             maxHeight: '450px',
             overflow: 'auto'
         },
-        event: {
-        borderLeftWidth: '3px',
-        padding: '8px 12px',
-        margin: '10px',
-        borderLeftStyle: 'solid',
-        fontSize: '14px',
-        position: 'relative'
-        },
-        eventText:{
-            padding: '5px',
-            marginRight: '5px',
-        },
         today: {
             border: "1px solid red",
             backgroundColor: "#ffeceb",
