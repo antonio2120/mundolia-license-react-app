@@ -260,7 +260,6 @@ function MisTareas(props) {
 						{/* ----------------------------Info inside card-------------------------- */}
 						<List className={classes.scroll} >
 							<div className="flex flex-row flex-wrap p-8 relative overflow-hidden">
-								{console.log(pendientes)}
 								{pendientes &&
 									pendientes.map(row => (
 										<>

@@ -47,6 +47,7 @@ function EventsCalendarContent(props) {
 
 		for (let i in calendars) {
 			calendarsArray.push({ calendarId: calendars[i].calendar_id, color: calendars[i].custom_color });
+			console.log(calendarsArray);
 		}
 		setCalendars(calendarsArray);
 	}, [dispatch, calendars, subjects]);

@@ -13,7 +13,6 @@ import './Preescolar.css';
 import { Link } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import {isMobile} from 'react-device-detect';
-import {getStudentCalendars} from "../eventsCalendar/store/calendarSlice";
 
 const useStyles = makeStyles(theme => ({
 	Text: {
@@ -97,7 +96,6 @@ function PreescolarLayout(props) {
 	
 
 	useEffect(() => {
-		dispatch(getStudentCalendars());
 		const updateWindowDimensions = () => {
 			const newWidth = window.innerWidth;
 			setWidth(newWidth);

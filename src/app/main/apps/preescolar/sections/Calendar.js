@@ -18,6 +18,14 @@ import Calendar from "@ericz1803/react-google-calendar";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {isMobile} from "react-device-detect";
+import {getStudentCalendars, getSubjects} from '../store/subjectCalendarSlice';
+import {useDeepCompareEffect} from "../../../../../@fuse/hooks";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import {Collapse, ListItem} from "@material-ui/core";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
+import InboxIcon from "@material-ui/icons/Inbox";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -142,55 +150,58 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: '100px'
 
     },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
     infoCardsColumn: {
         paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',
         borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
-
-
     },
 
 
 }));
 
 function CalendarActivities(props) {
+
+    /*let calendarsIds = [
+     	{calendarId: "c0ehv4iqcpjhapg7io7pjimri0@group.calendar.google.com"},
+        {calendarId: "u5hkt33v643c7d51lrs6vm81s8@group.calendar.google.com", color: "#8fb4d1"}, //accepts hex and rgb strings (doesn't work with color names)
+        {calendarId: "g4vjt67kr1jsi67kmirfh9kqco@group.calendar.google.com", color: "#8fb4d1"},//accepts hex and rgb strings (doesn't work with color names)
+        {calendarId: "m4q47nj29b2nu6pu2fjklft3b4@group.calendar.google.com", color: "#000000"},//accepts hex and rgb strings (doesn't work with color names)
+    ];*/
+
     const dispatch = useDispatch();
     const classes = useStyles();
     const routeParams = useParams();
     const role = useSelector(({ auth }) => auth.user.role);
     const info = useSelector(({ auth }) => auth.user);
-    const calendars = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.data);
-    const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data.calendars);
+    const calendars = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.data);
+    const subjects = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.subjects.data);
+    const [open, setOpen] = React.useState(true);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
     const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
-    //const calendars = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.data);
-    //const subjects = useSelector(({ EventsCalendarApp }) => EventsCalendarApp.calendar.subjects.data.calendars);
+
     const [calendarsIds, setCalendars] = useState([]);
 
+    useDeepCompareEffect(() => {
+        dispatch(getStudentCalendars());
+        dispatch(getSubjects);
+    }, [dispatch, routeParams]);
 
     let styles = {
-        //you can use object styles (no import required)
         calendar: {
             borderWidth: "3px",
             display: 'grid',
             backgroundColor: '#ffffff',
             width: '100%',
             borderRadius: '30px',
-            maxHeight: '500px',
+            maxHeight: '450px',
             overflow: 'auto'
         },
-        day: {
-            borderBottom: '1px solid rgba(166, 168, 179, 0.12)',
-            borderRight: '1px solid rgba(166, 168, 179, 0.12);',
-            textAlign: 'right',
-            padding: '5px',
-            letterSpacing: '1px',
-            fontSize: '12px',
-            boxSizing: 'border-box',
-            color: '#98a0a6',
-            position: 'relative',
-            pointerEvents: 'none',
-            zIndex: '1'
-
-         },
         event: {
         borderLeftWidth: '3px',
         padding: '8px 12px',
@@ -202,13 +213,7 @@ function CalendarActivities(props) {
         eventText:{
             padding: '5px',
             marginRight: '5px',
-            whiteSpace: 'initial',
-            textAlign: 'right'
         },
-        eventCircle:{
-            display: 'none'
-        },
-        //you can also use emotion's string styles
         today: {
             border: "1px solid red",
             backgroundColor: "#ffeceb",
@@ -222,7 +227,8 @@ function CalendarActivities(props) {
             calendarsArray.push({ calendarId: calendars[i].calendar_id, color: calendars[i].custom_color });
         }
         setCalendars(calendarsArray);
-    }, [dispatch, calendars, subjects]);
+        console.log(calendarsArray);
+    }, [dispatch, calendars,subjects]);
 
     const [userMenu, setUserMenu] = useState(null);
 
@@ -242,7 +248,6 @@ function CalendarActivities(props) {
             console.log("token_exists::no");
         }
     }
-
 
     return (
 
@@ -316,11 +321,40 @@ function CalendarActivities(props) {
                     </div>
                 </div>
 
-                < div className="w-full pt-20 pb-20 m-20 pr-136 pl-136 items-center justify-center flex-wrap flex-row flex">
+                < div className="w-full pt-20 pb-20 m-20 pr-20 pl-20 items-center justify-center flex-wrap flex-row flex">
                     <Grid container spacing={3}>
 
                         <Grid item xs={6} sm={3}>
-                            <Paper className={classes.paper}>xs=12 sm=6</Paper>
+                            <Paper className={classes.paper}>
+                                <List
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader"
+                                    subheader={
+                                        <ListSubheader component="div" id="nested-list-subheader">
+                                            LIA Clubs
+                                        </ListSubheader>
+                                    }
+                                    className={classes.root}
+                                >
+                                    <ListItem button onClick={handleClick}>
+                                        <ListItemIcon>
+                                            <InboxIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Inbox" />
+                                        {open ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItem>
+                                    <Collapse in={open} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem button className={classes.nested}>
+                                                <ListItemIcon>
+                                                    <StarBorder />
+                                                </ListItemIcon>
+                                                <ListItemText primary="Starred" />
+                                            </ListItem>
+                                        </List>
+                                    </Collapse>
+                                </List>
+                            </Paper>
                         </Grid>
 
                         <Grid item xs={12} sm={6}>

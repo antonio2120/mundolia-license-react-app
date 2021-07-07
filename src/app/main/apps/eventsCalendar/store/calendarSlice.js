@@ -13,14 +13,6 @@ export const getCalendars = createAsyncThunk('calendarApp/calendars/getCalendars
 	return data;
 });
 
-export const getStudentCalendars = createAsyncThunk('calendarApp/calendars/getStudentCalendars', async (params) => {
-	const response = await axios.get(process.env.REACT_APP_API+'/google/calendars/alumno', {
-	});
-	console.log('Response: ' + response)
-	const data = await response.data;
-	return data;
-});
-
 export const getGroups = createAsyncThunk('calendarApp/calendars/getGroups', async () => {
 	const response = await axios.get(process.env.REACT_APP_API+'/grupos');
 	const data = await response.data;
@@ -42,7 +34,6 @@ export const submitCreateCalendar = ( subjectData, group ) => async dispatch => 
 			subject_id: subjectData.subject_id
 		})
 		.then(calendar => {
-			console.log(group);
 			dispatch(registerSuccess());
             dispatch(getCalendars({group_id: group}));
 			dispatch(getSubjects({group_id: group}));
@@ -141,10 +132,6 @@ const calendarSlice = createSlice({
 			const { data } = action.payload;
 			state.data = data;
 		},
-		[getStudentCalendars.fulfilled]: (state, action) => {
-			const { data } = action.payload;
-			state.data = data;
-		}
 	}
 });
 
