@@ -35,6 +35,11 @@ const useStyles = makeStyles({
 		bottom: 12,
 		zIndex: 99
 	},
+	img: {
+        width:100,
+        position:"absolute",
+        margin:"1%",
+	},
     imgBackgroundStyle: {
         backgroundImage: "url(assets/images/backgrounds/background-space.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
         width: '100%',
@@ -196,7 +201,9 @@ function AulaVirtualApp(props) {
                                     </div>
                                     </>
                                 :
-                                    <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                <div id="jitsi-container" className={classes.jitsiContainerOpen}>
+                                    <img className={clsx(classes.img)} src="assets/images/logos/clublia.png" />
+                                </div>
                                 }
                             </Grid>
                             <Grid item xs={3} className={classes.rightContainerStyle}>
@@ -238,7 +245,7 @@ function AulaVirtualApp(props) {
                                         aria-label="open left sidebar"
                                         color="primary"
                                     >
-                                        <Typography className={clsx(classes.fileNameStyle,"text-center text-16 font-600 m-4")}>Recarga los archivos </Typography>
+                                        <Typography className={clsx(classes.fileNameStyle,"text-center text-16 font-600 m-4")}>Recursos para la clase </Typography>
                                         <Icon className={clsx(classes.fileNameStyle,"text-center text-16 font-600 mt-4")}>refresh</Icon>
                                     </IconButton>
                                 }
