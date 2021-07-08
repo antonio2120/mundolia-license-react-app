@@ -19,7 +19,6 @@ import Dialog from '@material-ui/core/Dialog';
 import Formsy from "formsy-react";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-<<<<<<< HEAD
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import { logoutUser } from 'app/auth/store/userSlice';
@@ -28,9 +27,7 @@ import { downloadFile } from 'app/main/apps/aulaVirtual/store/aulaSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-=======
 import UserInfoHeader from '../components/UserInfoHeader';
->>>>>>> LIA-189
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
