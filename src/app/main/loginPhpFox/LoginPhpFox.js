@@ -58,9 +58,6 @@ function getUrl(redirect){
 			window.location.href = response.data;
 
 
-			console.log(redirect.redirectValue.data);
-
-			
 			
 			//added to redirection of different phpfox routes
 			if (redirect.redirectValue.data == 'misgrupos') {

@@ -16,16 +16,12 @@ import { getTareasPendientes } from '../store/tareasPendientesSlice';
 import { getTareasEntregadas } from '../store/tareasEntregadasSlice';
 import { useDeepCompareEffect } from '@fuse/hooks';
 // import CircularProgress from '@material-ui/core/CircularProgress';
-import MenuItem from '@material-ui/core/MenuItem';
-import Popover from '@material-ui/core/Popover';
-import { logoutUser } from 'app/auth/store/userSlice';
 import Icon from '@material-ui/core/Icon';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Badge from '@material-ui/core/Badge';
 import { openAvatarLayout } from 'app/store/fuse/avatarSlice';
 import Avatar from '@material-ui/core/Avatar';
 import { setRedirect, getPHPFoxUrl } from '../../../../auth/store/redirectSlice'
+import UserInfoHeader from '../components/UserInfoHeader';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -191,7 +187,7 @@ const useStyles = makeStyles(theme => ({
 		// alignSelf: "left",
 		// textAlign: "left",
 	},
-	avatar: {
+	avatarLeft: {
 		width: 80,
 		height: 80,
 		// position: 'absolute',
@@ -224,16 +220,6 @@ function MiScore(props) {
 
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
-
-	const [userMenu, setUserMenu] = useState(null);
-
-	const userMenuClick = event => {
-		setUserMenu(event.currentTarget);
-	};
-
-	const userMenuClose = () => {
-		setUserMenu(null);
-	};
 
 	useDeepCompareEffect(() => {
 		dispatch(getPHPFoxUrl());	
@@ -288,51 +274,12 @@ function MiScore(props) {
 						</Button>
 					</div>
 
-
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
-
-						
-						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
-							disableRipple
-							onClick={userMenuClick}>
-							<img className={clsx(classes.userIcon)}
-								style={{
-									background: "assets/images/preescolar/infoestudiante.png",
-									backgroundColor: 'transparent',
-								}}
-								width="200"
-								position="right"
-								src="assets/images/preescolar/infoestudiante.png"/>
-						</Button>
-						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
-							{/* <div> */}
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.data.displayName}
-								</p>
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.grade}°
-								</p>
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.school_name}
-								</p>
-						</div>
-
+						<UserInfoHeader/>
 					</div>
+
 				</div>
-
-
-
-
-
-
-
 
 
 				< div className="w-full h-full pt-28 items-center justify-center flex-wrap flex-row flex flex-1 h-full">
@@ -349,7 +296,7 @@ function MiScore(props) {
 							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 
 							<Typography className={clsx(classes.TextTitle)}>
-								Mis Tareas
+								{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
 							</Typography>
 							<div className="flex  flex-wrap p-12 relative overflow-hidden flex-row w-full pb-60">
 								<div className="w-1/3 flex-col items-center justify-center flex" >
@@ -539,8 +486,6 @@ function MiScore(props) {
 						</List>
 					</div>
 
-
-
 					{/* -------------------------- Mi Mundo LIA ------------------------- */}
 
 					<div 
@@ -582,7 +527,7 @@ function MiScore(props) {
 								style={{ borderTopColor: "white" }}>
 								<div className="w-1/3 flex-col items-center justify-center flex" >
 									<Avatar 
-									className={clsx(classes.avatar, 'avatar')}
+									className={clsx(classes.avatarLeft, 'avatar')}
 									onClick={ev => dispatch(openAvatarLayout())}
 									
 										// width="600"
@@ -596,11 +541,11 @@ function MiScore(props) {
 									<Typography className={clsx(classes.TextSubtitle)}>
 										Mi Avatar
 									</Typography>
-									<Button variant="outlined" color="primary" style={{textTransform: 'none', paddingTop: 5}}>
+									{/* <Button variant="outlined" color="primary" style={{textTransform: 'none', paddingTop: 5}}>
 										<Typography className={clsx(classes.Text)}>
 										Herramientas
 										</Typography>
-									</Button>
+									</Button> */}
 								</div>
 
 								{/* <div className="flex  flex-wrap p-12 mt-12 relative overflow-hidden flex-row w-full border-t-1 items-center justify-center"
@@ -611,21 +556,15 @@ function MiScore(props) {
 
 								</div> */}
 
-
 								<div className="flex  flex-wrap  mt-12 pt-20 pb-20 relative overflow-hidden flex-col w-full border-t-1 border-b-1 items-center justify-center"
 								style={{ borderTopColor: "white", borderBottomColor: "white" }}>
 								
-
-								<Icon className={clsx(classes.buildIcon)}>build</Icon>
-								<Typography className={clsx(classes.TextSubtitle)}>
-										Sección en construcción
-								</Typography>
+									<Icon className={clsx(classes.buildIcon)}>build</Icon>
+									<Typography className={clsx(classes.TextSubtitle)}>
+											Sección en construcción
+									</Typography>
+								</div>
 							</div>
-
-
-							</div>
-
-
 						</List>
 					</div>
 
@@ -645,8 +584,6 @@ function MiScore(props) {
 								Mis Clases
 							</Typography>
 
-
-
 							<div className=" flex flex-wrap flex-col w-full mb-10 mt-10 items-center justify-center pb-80">
 								{/* <div className="border-1 flex flex-wrap flex-col p-4 w-350 items-center justify-center"
 									style={{ borderColor: "white" }}>
@@ -663,11 +600,7 @@ function MiScore(props) {
 										</Typography>
 									</Button>
 								</div> */}
-
 							</div>
-
-
-
 
 							<div className="flex  flex-wrap pt-80 pb-80 relative overflow-hidden flex-col w-full border-t-1 border-b-1 items-center justify-center"
 								style={{ borderTopColor: "white", borderBottomColor: "white" }}>
@@ -678,52 +611,8 @@ function MiScore(props) {
 										Sección en construcción
 								</Typography>
 							</div>
-
-
-
-
-
 						</List>
 					</div>
-
-
-
-					
-
-
-					
-
-					<Popover
-						open={Boolean(userMenu)}
-						anchorEl={userMenu}
-						onClose={userMenuClose}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'right'
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right'
-						}}
-						classes={{
-							paper: 'py-8'
-						}}
-					>
-						<MenuItem
-							onClick={() => {
-								dispatch(logoutUser());
-
-								userMenuClose();
-							}}
-						>
-							<ListItemIcon className="min-w-40">
-								<Icon>exit_to_app</Icon>
-							</ListItemIcon>
-							<ListItemText primary="Logout" />
-						</MenuItem>
-					</Popover>
-
-					{/* <AvatarLayout /> */}
 
 				</div>
 			</FuseAnimateGroup>

@@ -19,6 +19,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Formsy from "formsy-react";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+<<<<<<< HEAD
 import MenuItem from '@material-ui/core/MenuItem';
 import Popover from '@material-ui/core/Popover';
 import { logoutUser } from 'app/auth/store/userSlice';
@@ -27,6 +28,9 @@ import { downloadFile } from 'app/main/apps/aulaVirtual/store/aulaSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+=======
+import UserInfoHeader from '../components/UserInfoHeader';
+>>>>>>> LIA-189
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -243,36 +247,7 @@ function MiTarea(props) {
 
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
-						
-						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
-							onClick={userMenuClick}>
-							<img className={clsx(classes.userIcon)}
-								style={{
-									background: "assets/images/preescolar/infoestudiante.png",
-								}}
-								width="200"
-								position="right"
-								src="assets/images/preescolar/infoestudiante.png"/>
-						</Button>
-						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
-							{/* <div> */}
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.data.displayName}
-								</p>
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.grade}
-								</p>
-								<p className={clsx(classes.TextInfo)} 
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
-									{info.school_name}
-								</p>
-						</div>
-
+						<UserInfoHeader/>
 					</div>
 				</div>
 				{

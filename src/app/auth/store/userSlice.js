@@ -108,6 +108,23 @@ export const setUserData = user => async (dispatch, getState) => {
 	// }
 };
 
+export const setUserAvatar = avatarData => async (dispatch, getState) => {
+	
+	const fuseDefaultSettings = getState().fuse.settings.defaults;
+	const user = getState().auth.user;
+	console.log(avatarData)
+	const userSet = _.merge({}, user, {
+
+		data: {
+			// displayName: user.data.displayName,
+			// email: user.data.email,
+			photoURL: avatarData,
+			// settings: { ...fuseDefaultSettings }
+		}
+	});
+	dispatch(setUser(userSet));
+}
+
 export const updateUserSettings = settings => async (dispatch, getState) => {
 	const oldUser = getState().auth.user;
 	const user = _.merge({}, oldUser, { data: { settings } });

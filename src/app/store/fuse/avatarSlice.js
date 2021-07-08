@@ -4,9 +4,11 @@ import {getActivities} from "../../main/apps/activities/store/activitiesSlice";
 import {getGroups} from "../../main/apps/activities/store/groupSlice";
 import jwtService from "../../services/jwtService";
 import {registerError, registerReset, registerSuccess} from "../../main/apps/groups/store/groupSlice";
-import {setUser, updateUserData} from "../../auth/store/userSlice";
+import {setUser, updateUserData, setUserAvatar} from "../../auth/store/userSlice";
 import {getHomeworks} from "../../main/apps/homeworks/store/homeworkSlice";
 import _ from "../../../@lodash";
+import { showMessage } from 'app/store/fuse/messageSlice';
+
 
 export const getAvatars = createAsyncThunk('avatarApp/avatar/getAvatars', async (type) =>{
     const response = await axios.get(process.env.REACT_APP_API + '/avatar', {
@@ -22,10 +24,14 @@ export const submitUpdateAvatar = (userId,avatarData) => async (dispatch, getSta
             avatarId: avatarData,
         })
         .then(response => {
+            console.log(response);
+            dispatch(setUserAvatar(response.data.avatar_path));
             dispatch(registerSuccess());
+            dispatch(showMessage({ message: 'Operación exitosa!', variant: 'success' }));
         })
         .catch(error => {
             return dispatch(registerError(error));
+            dispatch(showMessage({ message: 'Error al actualizar el Avatar', variant: 'error' }));
         });
 };
 
