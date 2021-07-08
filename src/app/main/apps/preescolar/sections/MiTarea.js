@@ -19,6 +19,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Formsy from "formsy-react";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import UserInfoHeader from '../components/UserInfoHeader';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -202,38 +203,7 @@ function MiTarea(props) {
 
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
-
-						<div className={clsx(classes.right), "w-1/3 justify-end logo text-end items-end justify-end"} >
-							<img className={clsx(classes.userIcon)}
-								width="200"
-								position="right"
-								src="assets/images/preescolar/infoestudiante.png" />
-						</div>
-						<div className={clsx(classes.containersInfo), "w-2/3 flex-col"}>
-							{/* <div> */}
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.data.displayName}
-							</p>
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.grade}°
-							</p>
-							<p className={clsx(classes.TextInfo)}
-								style={{
-									paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-								}}>
-								{info.school_name}
-							</p>
-						</div>
-
+						<UserInfoHeader/>
 					</div>
 				</div>
 				{
