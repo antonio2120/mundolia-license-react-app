@@ -7,7 +7,6 @@ const fuseRed = {
     500: '#7274FC',
     600: '#6668E3',
     700: '#5557BD'
-
 };
 
 export default fuseRed;
