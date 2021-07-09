@@ -262,6 +262,7 @@ function MiScore(props) {
 							className={clsx(classes.button)}
 							style={{
 								backgroundColor: 'transparent',
+								textTransform: 'none',
 							}}
 							to={`/apps/landing`}
 							component={Link}

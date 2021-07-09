@@ -153,7 +153,8 @@ function PreescolarLayout(props) {
 						disableRipple
 						style={{
 							backgroundColor: 'transparent',
-							zIndex:3
+							zIndex:3,
+							textTransform: 'none',
 						}}
 						to={`/apps/sections/mistareas`}
 						component={Link}
@@ -162,7 +163,7 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMisActividades : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-							{ escuelabaja ? 'MIS TAREAS' : 'MIS ACTIVIDADES' }
+							{ escuelabaja ? 'Mis Tareas' : 'Mis Actividades' }
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?
@@ -198,7 +199,9 @@ function PreescolarLayout(props) {
 						disableRipple
 						style={{
 							backgroundColor: 'transparent',
-							zIndex:3
+							zIndex:3,
+							textTransform: 'none',
+
 						}}
 						to={`/loginp`}
 						component={Link}
@@ -208,7 +211,7 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-						MI MUNDO LIA {device}
+						Mi mundo Lia {device}
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?
@@ -244,7 +247,9 @@ function PreescolarLayout(props) {
 						disableRipple
 						style={{
 							backgroundColor: 'transparent',
-							zIndex:3
+							zIndex:3,
+							textTransform: 'none',
+
 						}}
 						to={`/apps/aula`}
 						component={Link}
@@ -252,7 +257,7 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMisClases : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-							{ 'MIS CLASES'}
+							{ 'Mis Clases'}
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?
@@ -283,6 +288,8 @@ function PreescolarLayout(props) {
 							backgroundSize: 'contain',
 							backgroundRepeat: 'no-repeat',
 							height: "100%",
+							textTransform: 'none',
+
 							// maxHeight: '100%',
 							// maxWidth: '100%',
 
