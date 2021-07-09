@@ -79,6 +79,9 @@ const useStyles = makeStyles(theme => ({
 	starIcon: {
 		color: 'purple',
 	},
+	redIcon: {
+		color: 'red',
+	},
 	button: {
 		"&:hover": {
 			transform: "scale(1.2) translateX(50px)"
@@ -397,7 +400,6 @@ function MiTarea(props) {
 																		height: 200,
 																		overflowY: 'scroll',
 																		color: 'white',
-																		backgroundColor: 'rgba(0, 0, 0, .1)',
 																		padding: 10,
 																		fontSize: 20,
 																	}}
@@ -551,6 +553,7 @@ function MiTarea(props) {
 																			<Typography className={clsx(classes.LabelText)}>
 																				Adjuntar
 																			</Typography>
+																			<Icon className={clsx(classes.redIcon,"text-center text-40 font-600 ml-4")}>description</Icon>
 																		</Button>
 																		<input
 																			type="file"
@@ -599,6 +602,7 @@ function MiTarea(props) {
 																			<Typography className={clsx(classes.LabelText)}>
 																				Enviar
 																			</Typography>
+																			<Icon className={clsx(classes.redIcon,"text-center text-40 font-600 ml-4")}>send</Icon>
 																		</Button>
 																	</DialogActions>
 																</Formsy>
