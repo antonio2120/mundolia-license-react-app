@@ -76,6 +76,9 @@ const useStyles = makeStyles(theme => ({
 		fontSize: "80px",
 		color: 'red',
 	},
+	starIcon: {
+		color: 'purple',
+	},
 	button: {
 		"&:hover": {
 			transform: "scale(1.2) translateX(50px)"
@@ -178,7 +181,6 @@ function MiTarea(props) {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [fileType, setFileType] = useState('file');
 	const fileInput = useRef(null);
-	console.log("fileInput::",fileInput);
 	const role = useSelector(({ auth }) => auth.user.role);
 	const info = useSelector(({ auth }) => auth.user);
 	const escuelabaja = role == 'alumno' && info.grade <= 3 ? true : false;
@@ -204,6 +206,18 @@ function MiTarea(props) {
 	function handleSubmit() {
         dispatch(submitUploadFile(routeParams, homework, selectedFile, fileType));
 		setSelectedFile(null)
+	}
+	
+	function getPreeStarsIcons(stars){
+		return (
+			<div>
+				<Icon className={clsx(classes.starIcon,"text-center text-40 font-600 mt-4 ml-4")}>star</Icon>
+				<Icon className={clsx(classes.starIcon,"text-center text-40 font-600 mt-4 ml-4")}>star</Icon>
+				<Icon className={clsx(classes.starIcon,"text-center text-40 font-600 mt-4 ml-4")}>star</Icon>
+				<Icon className={clsx(classes.starIcon,"text-center text-40 font-600 mt-4 ml-4")}>{stars > 3 ? 'star' : 'star_border'}</Icon>
+				<Icon className={clsx(classes.starIcon,"text-center text-40 font-600 mt-4 ml-4")}>{stars > 4 ? 'star' : 'star_border'}</Icon>
+			</div>									
+		);
 	}
 
 	return (
@@ -235,8 +249,8 @@ function MiTarea(props) {
 							type="button"
 						>
 							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
-							<Typography className={clsx(classes.TextTitle)}>
-								Mis Tareas
+							<Typography className={clsx(classes.TextTitle)}>	
+								{escuelabaja ? 'Mis Tareas' : 'Mis Actividades'}
 							</Typography>
 						</Button>
 					</div>
@@ -673,19 +687,26 @@ function MiTarea(props) {
 														</Typography>
 														{
 															homework.status == 'Calificado' ?
-																<div
-																	style={{
-																		marginTop: 40,
-																		backgroundColor: '#FFFFFF',
-																		paddingLeft: 25,
-																		paddingRight: 25,
-																		borderRadius: 10,
-																	}}
-																>
+															    (escuelabaja ? 
+																	<div
+																		style={{
+																			marginTop: 40,
+																			backgroundColor: '#FFFFFF',
+																			paddingLeft: 25,
+																			paddingRight: 25,
+																			borderRadius: 10,
+																		}}
+																	>
+																		<Typography className={clsx(classes.LabelScore)}>
+																			{homework.score.slice(homework.score.indexOf('.')) == '.00' ? homework.score.slice(0, homework.score.indexOf('.')) : homework.score}
+																		</Typography>
+																	</div>
+																	:
+																	
 																	<Typography className={clsx(classes.LabelScore)}>
-																		{homework.score.slice(homework.score.indexOf('.')) == '.00' ? homework.score.slice(0, homework.score.indexOf('.')) : homework.score}
+																		{getPreeStarsIcons(homework.preeStars)}
 																	</Typography>
-																</div>
+																)
 																:
 																<div className="flex items-center justify-center h-200 text-center">
 																	<Typography className={clsx(classes.TextInfo)}>
