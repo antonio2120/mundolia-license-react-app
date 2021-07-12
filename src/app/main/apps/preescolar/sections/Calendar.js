@@ -46,11 +46,39 @@ const CustomEvent = ({ event }) => {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
+        '& .rbc-toolbar': {
+            padding: '12px 6px',
+            fontWeight: 600,
+            fontSize: 14,
+            backgroundColor: '#ffffff',
+        },
+        '& .rbc-label': {
+            padding: '8px 6px'
+        },
+        '& .rbc-today': {
+            backgroundColor: '#ffffff'
+        },
+        '& .rbc-header.rbc-today, & .rbc-month-view .rbc-day-bg.rbc-today': {
+            borderBottom: `2px solid ${theme.palette.secondary.main}!important`
+        },
+        '& .rbc-month-view, & .rbc-time-view, & .rbc-agenda-view': {
+            padding: 24,
+            backgroundColor: '#ffffff',
+            [theme.breakpoints.down('sm')]: {
+                padding: 10
+            },
+            ...theme.mixins.border(0)
+        },
+    },
+    addButton: {
+        position: 'absolute',
+        right: 12,
+        top: 172,
+        zIndex: 99
     },
     paper: {
         padding: theme.spacing(3),
-        backgroundColor: "transparent",
+        backgroundColor: "rgb(255, 255, 255, 0.7)",
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
@@ -207,10 +235,7 @@ function CalendarActivities(props) {
 
 
 
-    useDeepCompareEffect(() => {
-        dispatch(getStudentCalendars());
-        dispatch(getStudentSubjects());
-    }, [dispatch, routeParams]);
+
 
     /*let styles = {
         calendar: {
@@ -236,7 +261,12 @@ function CalendarActivities(props) {
             getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendars[i].calendar_id.toString(), calendars[i].custom_color.toString() );
         }
 
-    }, [dispatch, calendars,subjects]);
+    }, [calendars]);
+
+    useEffect(() => {
+        dispatch(getStudentCalendars());
+        console.log('CALL ON INIT');
+    }, []);
 
     /*useEffect(() => {
         for (var i = 0; i < calendarsIds.length; i++) {
@@ -388,7 +418,9 @@ function CalendarActivities(props) {
                                           components={{
                                               event: CustomEvent,
                                           }}
-                                          formats={formats}>
+                                          formats={formats}
+                                          className={classes.root}
+                               >
                                 </Calendar>
                             </Paper>
                         </Grid>

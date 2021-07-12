@@ -13,6 +13,7 @@ import './Preescolar.css';
 import { Link } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import {isMobile} from 'react-device-detect';
+import {getStudentCalendars} from "./store/subjectCalendarSlice";
 
 const useStyles = makeStyles(theme => ({
 	Text: {
