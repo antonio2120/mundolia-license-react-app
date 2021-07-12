@@ -14,18 +14,35 @@ import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Calendar from "@ericz1803/react-google-calendar";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {isMobile} from "react-device-detect";
-import {getStudentCalendars, getSubjects} from '../store/subjectCalendarSlice';
+import {getStudentCalendars, getStudentSubjects} from '../store/subjectCalendarSlice';
 import {useDeepCompareEffect} from "../../../../../@fuse/hooks";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import {Collapse, ListItem} from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
 import InboxIcon from "@material-ui/icons/Inbox";
+import { Calendar,momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import 'moment/locale/es';
+import { getEvents } from './Fetch';
+
+const formats = {
+    eventTimeRangeFormat: () => {
+        return "";
+    },
+};
+
+const localizer = momentLocalizer(moment);
+
+const CustomEvent = ({ event }) => {
+    return (
+        <span> <strong> {event.title} </strong> </span>
+    )
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -178,6 +195,9 @@ function CalendarActivities(props) {
     const calendars = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.data);
     const subjects = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.subjects.data);
     const [open, setOpen] = React.useState(true);
+    const [eventData, setEventData] = React.useState([]);
+    const [calendarsIds, setCalendars] = useState([]);
+
 
     const handleClick = () => {
         setOpen(!open);
@@ -185,14 +205,14 @@ function CalendarActivities(props) {
 
     const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
 
-    const [calendarsIds, setCalendars] = useState([]);
+
 
     useDeepCompareEffect(() => {
         dispatch(getStudentCalendars());
-        dispatch(getSubjects);
+        dispatch(getStudentSubjects());
     }, [dispatch, routeParams]);
 
-    let styles = {
+    /*let styles = {
         calendar: {
             borderWidth: "3px",
             display: 'grid',
@@ -206,17 +226,23 @@ function CalendarActivities(props) {
             border: "1px solid red",
             backgroundColor: "#ffeceb",
         }
-    }
+    }*/
 
     useEffect(() => {
         let calendarsArray = [];
 
         for (let i in calendars) {
-            calendarsArray.push({ calendarId: calendars[i].calendar_id, color: calendars[i].custom_color });
+
+            getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendars[i].calendar_id.toString(), calendars[i].custom_color.toString() );
         }
-        setCalendars(calendarsArray);
-        console.log(calendarsArray);
+
     }, [dispatch, calendars,subjects]);
+
+    /*useEffect(() => {
+        for (var i = 0; i < calendarsIds.length; i++) {
+            getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, 'AIzaSyA43ykItqqQsCxgFmNviQZuRdvaABS5Ru4', calendarsIds[i].calendarId.toString(), calendarsIds[i].color.toString() );
+        }
+    },[calendarsIds]);*/
 
     const [userMenu, setUserMenu] = useState(null);
 
@@ -311,8 +337,7 @@ function CalendarActivities(props) {
 
                 < div className="w-full pt-20 pb-20 m-20 pr-20 pl-20 items-center justify-center flex-wrap flex-row flex">
                     <Grid container spacing={3}>
-
-                        <Grid item xs={6} sm={3}>
+                        <Grid item xs={12} sm={2}>
                             <Paper className={classes.paper}>
                                 <List
                                     component="nav"
@@ -332,26 +357,43 @@ function CalendarActivities(props) {
                                         {open ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
                                     <Collapse in={open} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
-                                            <ListItem button className={classes.nested}>
-                                                <ListItemIcon>
-                                                    <StarBorder />
-                                                </ListItemIcon>
-                                                <ListItemText primary="Starred" />
-                                            </ListItem>
-                                        </List>
+
                                     </Collapse>
                                 </List>
                             </Paper>
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={8}>
                             <Paper className={classes.paper}>
-                                <Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />
+                                {/*<Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />*/}
+                                <Calendar localizer={localizer} events={eventData.length == 0 ? [] : eventData} defaultView='week' messages={{
+                                    next: "Siguiente",
+                                    previous: "Anterior",
+                                    today: "Hoy",
+                                    month: "Mes",
+                                    week: "Semana",
+                                    day: "Día",
+                                    noEventsInRange: "No hay eventos programados"
+                                }}
+                                          views={['day', 'week']}
+                                          step={60} showMultiDayTimes={true} startAccessor="start" endAccessor="end"
+                                          onSelectEvent={event => alert(JSON.stringify(event))}
+                                          eventPropGetter={event => ({
+                                              style: {
+                                                  backgroundColor: event.customColor,
+                                                  fontSize: "10px",
+                                                  textAlign: "center"
+                                              }
+                                          })}
+                                          components={{
+                                              event: CustomEvent,
+                                          }}
+                                          formats={formats}>
+                                </Calendar>
                             </Paper>
                         </Grid>
 
-                        <Grid item xs={6} sm={3}>
+                        <Grid item xs={12} sm={2}>
                             <Paper className={classes.paper}>
                                 <div className="flex w-full flex-col text-center">
                                     <Button

@@ -272,7 +272,7 @@ function PreescolarLayout(props) {
 							// maxWidth: '100%',
 
 						}}
-						to={`/apps/dashboard`}
+						to={`/apps/sections/miscore`}
 						component={Link}
 						type="button"
 					> 						

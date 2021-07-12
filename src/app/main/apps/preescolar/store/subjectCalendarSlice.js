@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {getCalendars} from "../../eventsCalendar/store/calendarSlice";
 
 export const getStudentCalendars = createAsyncThunk('calendarApp/calendars/getStudentCalendars', async (params) => {
     const response = await axios.get(process.env.REACT_APP_API+'/google/calendars/alumno', {
@@ -9,11 +8,10 @@ export const getStudentCalendars = createAsyncThunk('calendarApp/calendars/getSt
     return data;
 });
 
-export const getSubjects = createAsyncThunk('calendarApp/calendars/getSubjects', async (params) => {
-    const response = await axios.get(process.env.REACT_APP_API+'/google/alumno/subjects',{
-        // params:filterContacts
+export const getStudentSubjects = createAsyncThunk('calendarApp/calendars/getStudentSubjects', async (params) => {
+    const response = await axios.get(process.env.REACT_APP_API+'/calendar/student/subjects',{
     });
-    console.log(response.data);
+    console.log(response);
     const data = response.data;
     return data;
 });
@@ -49,7 +47,10 @@ const subjectCalendaSlice = createSlice({
             const { data } = action.payload;
             state.data = data;
         },
-        [getSubjects.fulfilled]: (state, action) => { state.subjects = action.payload },
+        [getStudentSubjects.fulfilled]: (state, action) => {
+            console.log(state);
+            state.subjects = action.payload
+        },
 
     }
 });

@@ -21,6 +21,10 @@ import { logoutUser } from 'app/auth/store/userSlice';
 import Icon from '@material-ui/core/Icon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { getPanelInfo } from '../store/panelSlice';
+import { getCalendar, openCalendarDialog } from '../store/calendarSlice';
+import CalendarDialog from './CalendarDialog';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -31,6 +35,13 @@ const useStyles = makeStyles(theme => ({
 	},
 	Text: {
 		fontSize: "18px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		text: "center",
+		alignSelf: "center",
+	},
+	TextCalendar: {
+		fontSize: "13px",
 		color: 'white',
 		textShadow: '2px 2px 2px black',
 		text: "center",
@@ -59,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 		marginTop: "-40px",
 		paddingTop: "20px",
 		// height: "90px",
-
+		
 		justifyContent: "center",
 		alignItems: "center",
 		text: "center",
@@ -72,6 +83,13 @@ const useStyles = makeStyles(theme => ({
 		width: "280px",
 		textAlign: "center", //*important
 	},
+	paperCalendar: {
+		marginTop: "-40px",
+		paddingTop: "20px",
+		height: "70px",
+		width: "180px",
+		textAlign: "center", //*important
+	},
 	scroll: {
 		width: '100%',
 		position: 'relative',
@@ -79,6 +97,15 @@ const useStyles = makeStyles(theme => ({
 		maxHeight: 390,
 		height: 390,
 		border: 1
+	},
+	scrollCalendar: {
+		width: '100%',
+		position: 'relative',
+		overflow: 'auto',
+		maxHeight: 390,
+		height: 180,
+		border: 1,
+		paddingBottom: 15
 	},
 	containersInfo: {
 		borderRadius: 5,
@@ -115,10 +142,21 @@ const useStyles = makeStyles(theme => ({
 
 	},
 	infoCardsColumn: {
-		paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',
+		paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',												
 		borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
+		
+	},
+	calendarPoints: {
+		paddingLeft: 5, paddingRight: 5, color: '#FFFFFF',
+		borderRadius: 15, fontWeight: "bold", textAlign: "center", borderColor: '#FFD90A', borderWidth: 6,
 
-
+	},
+	TextDaysCalendar: {
+		fontSize: "8px",
+		color: 'white',
+		textShadow: '1px 1px 1px black',
+		text: "center",
+		alignSelf: "center",
 	},
 
 }));
@@ -128,10 +166,12 @@ function MisTareas(props) {
 	const classes = useStyles();
 	const routeParams = useParams();
 	const role = useSelector(({ auth }) => auth.user.role);
-	const pendientes = useSelector(({ MisTareasApp }) => MisTareasApp.tareasPendientes.data);
-	const entregadas = useSelector(({ MisTareasApp }) => MisTareasApp.tareasEntregadas.data);
+	const pendientes = useSelector(({ PreescolarApp }) => PreescolarApp.tareasPendientes.data);
+	const entregadas = useSelector(({ PreescolarApp }) => PreescolarApp.tareasEntregadas.data);
+	const panelInfo = useSelector(({ PreescolarApp }) => PreescolarApp.panel.data);
+	const calendarInfo = useSelector(({ PreescolarApp }) => PreescolarApp.calendar.data);
 	const info = useSelector(({ auth }) => auth.user);
-	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
+	const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ; 
 
 	const [userMenu, setUserMenu] = useState(null);
 
@@ -146,6 +186,8 @@ function MisTareas(props) {
 	useDeepCompareEffect(() => {
 		dispatch(getTareasPendientes());
 		dispatch(getTareasEntregadas());
+		dispatch(getPanelInfo());
+		dispatch(getCalendar());
 	}, [dispatch, routeParams]);
 
 	function handleSubmit(event) {
@@ -196,8 +238,8 @@ function MisTareas(props) {
 
 					{/* ------------------------- Avatar and User Info --------------------- */}
 					<div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
-
-						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"}
+						
+						<Button className={clsx(classes.avatarContainer),"w-1/3 justify-end text-end items-end justify-end"} 
 							onClick={userMenuClick}>
 							<img className={clsx(classes.userIcon)}
 								style={{
@@ -209,18 +251,18 @@ function MisTareas(props) {
 						</Button>
 						<div className={clsx(classes.containersInfo),"w-2/3 flex-col"}>
 							{/* <div> */}
-								<p className={clsx(classes.TextInfo)}
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
 									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
 									{info.data.displayName}
 								</p>
-								<p className={clsx(classes.TextInfo)}
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
 									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
 									{info.grade}°
 								</p>
-								<p className={clsx(classes.TextInfo)}
-								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
+								<p className={clsx(classes.TextInfo)} 
+								style={{paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', 
 									borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",}}>
 									{info.school_name}
 								</p>
@@ -234,15 +276,15 @@ function MisTareas(props) {
 					{/* -------------------------- tasks undelivered ------------------------- */}
 
 					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
+						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/4 sm:w-1/2 flex-col m-20"}
 						elevation={3}
-
+						
 						style={{
 							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
 							backgroundPosition: 'center',
 							backgroundSize: 'cover',
 							backgroundRepeat: 'no-repeat',
-
+							
 						}}>
 
 						<div className={clsx(classes.paperTitle)}
@@ -311,13 +353,13 @@ function MisTareas(props) {
 								}
 							</div>
 							{ pendientes && pendientes.length > 0  ?
-								null
+								null 
 								:
 								<div className="flex flex-1 items-center justify-center h-full">
 									<Typography className={clsx(classes.TextInfo)}>
 										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
 									</Typography>
-								</div>
+								</div>								
 							}
 						</List>
 					</Paper>
@@ -325,15 +367,15 @@ function MisTareas(props) {
 					{/* -------------------------- tasks delivered ------------------------- */}
 
 					<Paper
-						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/3 sm:w-1/2 flex-col m-20"}
+						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/4 sm:w-1/2 flex-col m-20"}
 						elevation={3}
-
+						
 						style={{
 							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
 							backgroundPosition: 'center',
 							backgroundSize: 'cover',
 							backgroundRepeat: 'no-repeat',
-
+							
 						}}>
 
 						<div className={clsx(classes.paperTitle)}
@@ -392,7 +434,7 @@ function MisTareas(props) {
 														</Typography>
 													</p>
 												</div>
-
+												
 											}
 										</>
 									))
@@ -407,6 +449,189 @@ function MisTareas(props) {
 									</Typography>
 								</div>
 							}
+						</List>
+					</Paper>
+
+					{/* -------------------------- tasks qualified ------------------------- */}
+					<Paper
+						className={clsx(classes.container), "w-full max-w-400 rounded-8 items-center justify-center flex w-full md:w-1/4 sm:w-1/2 flex-col m-20"}
+						elevation={3}
+
+						style={{
+							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat',
+
+						}}>
+
+						<div className={clsx(classes.paperTitle)}
+							style={{
+								backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
+								backgroundPosition: 'center',
+								backgroundSize: 'contain',
+								backgroundRepeat: 'no-repeat',
+							}}
+						>
+							<Typography className={clsx(classes.Text)}>
+								{ escuelabaja ? 'Tareas Calificadas' : 'Actividades Calificadas' }
+							</Typography>
+						</div>
+						{/* ----------------------------Info inside card-------------------------- */}
+						<List className={classes.scroll} >
+							<div className="flex flex-row flex-wrap p-8 relative overflow-hidden">
+								{panelInfo &&
+									panelInfo.score.map(row => (
+										<>
+											<div className="flex w-1/5 p-12 text-center items-center justify-center">
+											<img src="assets/images/preescolar/miscalificaciones.png"/>
+											</div>
+
+												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+													style={{
+														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'contain',
+														backgroundRepeat: 'no-repeat',
+													}}
+												>
+													<Typography className={clsx(classes.TextInfo)}>
+														{row.name}
+													</Typography>
+												</div>
+												<div className=" flex w-2/5 p-12 text-center items-center justify-center"
+													style={{
+														backgroundImage: `url("assets/images/preescolar/fecha.png")`,
+														backgroundPosition: 'center',
+														backgroundSize: 'contain',
+														backgroundRepeat: 'no-repeat',
+													}}
+												>
+													<Typography className={clsx(classes.TextInfo)}>
+														{parseFloat(row.calificacion).toFixed(1)}
+													</Typography>
+												</div>
+										</>
+
+									))
+								}
+							</div>
+							{panelInfo && panelInfo.score.length > 0 ?
+								null
+								:
+								<div className="flex flex-1 items-center justify-center h-full">
+									<Typography className={clsx(classes.TextInfo)}>
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
+								</div>
+							}
+						</List>
+					</Paper>
+
+					{/* -------------------------- calendar ------------------------- */}
+					<Paper
+						className={clsx(classes.container), "w-full max-w-200 rounded-8 items-center justify-center flex md:w-1/4 sm:w-1/2 flex-col m-20"}
+						elevation={3}
+
+						style={{
+							backgroundImage: `url("assets/images/preescolar/Back-tareas.png")`,
+							backgroundPosition: 'center',
+							backgroundSize: 'cover',
+							backgroundRepeat: 'no-repeat',
+
+						}}>
+
+						<div className={clsx(classes.paperCalendar)}
+							style={{
+								backgroundImage: `url("assets/images/preescolar/tituloback.png")`,
+								backgroundPosition: 'center',
+								backgroundSize: 'contain',
+								backgroundRepeat: 'no-repeat',
+							}}
+						>
+							<Typography className={clsx(classes.TextCalendar)}>
+								{ escuelabaja ? 'Calendario Semanal Nuevas tareas' : 'Calendario Semanal Nuevas Actividades' }
+								 {/* Nuevas Tareas */}
+							</Typography>
+						</div>
+						{/* ----------------------------Info inside card-------------------------- */}
+						<List className={classes.scrollCalendar}
+						onClick={ calendarInfo ? ev => dispatch(openCalendarDialog(calendarInfo)) : null }
+						>
+
+							<div className="flex flex-row flex-wrap relative overflow-hidden"
+							// onClick={ ev => dispatch(openCalendarDialog(calendarInfo)) }
+							>
+
+
+								<div className=" flex w-1/5 p-3 text-center items-center justify-center border-r-1">
+									<Typography className={clsx(classes.TextDaysCalendar)}>
+										Lunes
+									</Typography>
+								</div>
+								<div className=" flex w-1/5 p-3 text-center items-center justify-center border-r-1 border-l-1">
+									<Typography className={clsx(classes.TextDaysCalendar)}>
+										Martes
+									</Typography>
+								</div>
+								<div className=" flex w-1/5 p-3 text-center items-center justify-center border-r-1 border-l-1">
+									<Typography className={clsx(classes.TextDaysCalendar)}>
+										Miercoles
+									</Typography>
+								</div>
+								<div className=" flex w-1/5 p-3 text-center items-center justify-center border-r-1 border-l-1">
+									<Typography className={clsx(classes.TextDaysCalendar)}>
+										Jueves
+									</Typography>
+								</div>
+								<div className=" flex w-1/5 p-3 text-center items-center justify-center border-l-1">
+									<Typography className={clsx(classes.TextDaysCalendar)}>
+										Viernes
+									</Typography>
+								</div>
+
+								{ calendarInfo &&
+									calendarInfo.map(row => (
+										< div className=" flex w-1/5 p-3 text-center items-center justify-center flex-col h-full">
+
+
+											{ row && row.dayActivities.length > 0 ?
+												<>
+												{ row.dayActivities && row.dayActivities.map(rows => (
+														// 	<Badge badgeContent={ rows.total } color={rows.custom_color} >
+
+														// </Badge>
+														<p className={clsx(classes.calendarPoints)}
+														style={{
+															backgroundColor: rows.custom_color,
+														}}>
+															<Typography className={clsx(classes.TextDaysCalendar)}>
+															{rows.total}
+															</Typography>
+														</p>
+												))}
+
+												</>
+											:
+												null
+
+											}
+										</div>
+									))
+								}
+
+
+
+							</div>
+							{/* {panelInfo && panelInfo.score.length > 0 ?
+								null
+								:
+								<div className="flex flex-1 items-center justify-center h-full">
+									<Typography className={clsx(classes.TextInfo)}>
+										{ escuelabaja ? 'No hay tareas que mostrar!' : 'No hay actividades que mostrar!' }
+									</Typography>
+								</div>
+							} */}
 						</List>
 					</Paper>
 
@@ -439,11 +664,11 @@ function MisTareas(props) {
 							<ListItemText primary="Logout" />
 						</MenuItem>
 					</Popover>
-
+					<CalendarDialog />
 				</div>
 			</FuseAnimateGroup>
 		</div>
 	);
 }
 
-export default withReducer('MisTareasApp', reducer)(MisTareas);
+export default withReducer('PreescolarApp', reducer)(MisTareas);

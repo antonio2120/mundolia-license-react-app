@@ -3,7 +3,7 @@ import axios from 'axios';
 import jwtService from "../../../../services/jwtService";
 import { hideMessage, showMessage } from 'app/store/fuse/messageSlice';
 
-export const getTareasEntregadas = createAsyncThunk('misTareasApp/tareas/getTareasEntregadas', async (role, { getState }) => {
+export const getTareasEntregadas = createAsyncThunk('PreescolarApp/tareas/getTareasEntregadas', async (role, { getState }) => {
 
     // let filterContacts = getState().ActivitiesApp.filter.activity;
 
@@ -26,7 +26,7 @@ export const getTareasEntregadas = createAsyncThunk('misTareasApp/tareas/getTare
 });
 
 const tareasEntregadasSlice = createSlice({
-	name: 'misTareasApp/tareas',
+	name: 'PreescolarApp/tareas',
     initialState: {},
 	reducers: {},
 	extraReducers: {

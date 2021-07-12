@@ -27,6 +27,10 @@ const PreescolarConfig = {
 			path: '/apps/sections/calendario/',
 			component: React.lazy(() => import('./sections/Calendar'))
 		},
+		{
+			path: '/apps/sections/miscore',
+			component: React.lazy(() => import('./sections/MiScore'))
+		}
 	]
 };
 

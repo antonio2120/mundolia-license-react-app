@@ -230,8 +230,7 @@ function Layout1(props) {
 						</div>
 
 					</div>
-
-
+				<AvatarLayout />
 				<FuseMessage />
 			</div>
 
