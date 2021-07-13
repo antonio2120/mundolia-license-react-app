@@ -10,25 +10,17 @@ import { Link, useParams } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import reducer from '../store';
 import withReducer from 'app/store/withReducer';
-import Fab from '@material-ui/core/Fab';
 import Icon from '@material-ui/core/Icon';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import {isMobile} from "react-device-detect";
 import {getStudentCalendars, getStudentSubjects} from '../store/subjectCalendarSlice';
-import {useDeepCompareEffect} from "../../../../../@fuse/hooks";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import {Collapse, ListItem} from "@material-ui/core";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import InboxIcon from "@material-ui/icons/Inbox";
 import { Calendar,momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import 'moment/locale/es';
 import { getEvents } from './Fetch';
+import SubjectListItem from './SubjectListItem';
+import {CircularProgress} from "@material-ui/core";
 
 const formats = {
     eventTimeRangeFormat: () => {
@@ -81,6 +73,10 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "rgb(255, 255, 255, 0.7)",
         textAlign: 'center',
         color: theme.palette.text.secondary,
+        height: 480,
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 480,
     },
     TextTitle: {
         fontWeight: "bold",
@@ -208,54 +204,20 @@ const useStyles = makeStyles(theme => ({
 
 function CalendarActivities(props) {
 
-    /*let calendarsIds = [
-     	{calendarId: "c0ehv4iqcpjhapg7io7pjimri0@group.calendar.google.com"},
-        {calendarId: "u5hkt33v643c7d51lrs6vm81s8@group.calendar.google.com", color: "#8fb4d1"}, //accepts hex and rgb strings (doesn't work with color names)
-        {calendarId: "g4vjt67kr1jsi67kmirfh9kqco@group.calendar.google.com", color: "#8fb4d1"},//accepts hex and rgb strings (doesn't work with color names)
-        {calendarId: "m4q47nj29b2nu6pu2fjklft3b4@group.calendar.google.com", color: "#000000"},//accepts hex and rgb strings (doesn't work with color names)
-    ];*/
-
     const dispatch = useDispatch();
     const classes = useStyles();
-    const routeParams = useParams();
     const role = useSelector(({ auth }) => auth.user.role);
     const info = useSelector(({ auth }) => auth.user);
     const calendars = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.data);
     const subjects = useSelector(({ MisTareasApp }) => MisTareasApp.subjectCalendarSlice.subjects.data);
     const [open, setOpen] = React.useState(true);
     const [eventData, setEventData] = React.useState([]);
-    const [calendarsIds, setCalendars] = useState([]);
-
-
-    const handleClick = () => {
-        setOpen(!open);
-    };
+    const subjectsCalendar = Object.entries(subjects).map(([key, value]) => ({key, value}))
 
     const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
 
-
-
-
-
-    /*let styles = {
-        calendar: {
-            borderWidth: "3px",
-            display: 'grid',
-            backgroundColor: '#ffffff',
-            width: '100%',
-            borderRadius: '30px',
-            maxHeight: '450px',
-            overflow: 'auto'
-        },
-        today: {
-            border: "1px solid red",
-            backgroundColor: "#ffeceb",
-        }
-    }*/
-
     useEffect(() => {
-        let calendarsArray = [];
-
+        setEventData([]);
         for (let i in calendars) {
 
             getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendars[i].calendar_id.toString(), calendars[i].custom_color.toString() );
@@ -265,14 +227,8 @@ function CalendarActivities(props) {
 
     useEffect(() => {
         dispatch(getStudentCalendars());
-        console.log('CALL ON INIT');
+        dispatch(getStudentSubjects());
     }, []);
-
-    /*useEffect(() => {
-        for (var i = 0; i < calendarsIds.length; i++) {
-            getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, 'AIzaSyA43ykItqqQsCxgFmNviQZuRdvaABS5Ru4', calendarsIds[i].calendarId.toString(), calendarsIds[i].color.toString() );
-        }
-    },[calendarsIds]);*/
 
     const [userMenu, setUserMenu] = useState(null);
 
@@ -283,15 +239,6 @@ function CalendarActivities(props) {
     const userMenuClose = () => {
         setUserMenu(null);
     };
-
-    function handleSubmit(event) {
-        const token = localStorage.getItem('jwt_access_token');
-        if (token) {
-            console.log("token_exists::");
-        } else {
-            console.log("token_exists::no");
-        }
-    }
 
     return (
 
@@ -367,32 +314,21 @@ function CalendarActivities(props) {
 
                 < div className="w-full pt-20 pb-20 m-20 pr-20 pl-20 items-center justify-center flex-wrap flex-row flex">
                     <Grid container spacing={3}>
-                        <Grid item xs={12} sm={2}>
-                            <Paper className={classes.paper}>
-                                <List
-                                    component="nav"
-                                    aria-labelledby="nested-list-subheader"
-                                    subheader={
-                                        <ListSubheader component="div" id="nested-list-subheader">
-                                            LIA Clubs
-                                        </ListSubheader>
-                                    }
-                                    className={classes.root}
-                                >
-                                    <ListItem button onClick={handleClick}>
-                                        <ListItemIcon>
-                                            <InboxIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Inbox" />
-                                        {open ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItem>
-                                    <Collapse in={open} timeout="auto" unmountOnExit>
-
-                                    </Collapse>
-                                </List>
-                            </Paper>
-                        </Grid>
-
+                        {subjectsCalendar ?
+                            <Grid item xs={12} sm={2}>
+                                <Paper className={classes.paper}>
+                                    <List component='nav' aria-labelledby='nested-list-subheader'>
+                                        {subjectsCalendar.map(club => {
+                                            return (
+                                                <SubjectListItem  club={club.key} subject={club.value} />
+                                            );
+                                        })}
+                                    </List>
+                                </Paper>
+                            </Grid>
+                            :
+                            <CircularProgress />
+                        }
                         <Grid item xs={12} sm={8}>
                             <Paper className={classes.paper}>
                                 {/*<Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />*/}
@@ -420,6 +356,8 @@ function CalendarActivities(props) {
                                           }}
                                           formats={formats}
                                           className={classes.root}
+                                          min={new Date(0, 0, 0, 8, 0, 0)}
+                                          max={new Date(0, 0, 0, 20, 0, 0)}
                                >
                                 </Calendar>
                             </Paper>

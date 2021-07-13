@@ -34,8 +34,6 @@ const subjectCalendaSlice = createSlice({
             success: false,
             response: false,
             data: {
-                calendars: null,
-                nonCalendars: null
             }
         },
         groups: [],
