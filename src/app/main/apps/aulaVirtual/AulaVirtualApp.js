@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import withReducer from 'app/store/withReducer';
 import React, { useRef,useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDeepCompareEffect } from '@fuse/hooks';
 import reducer from './store';
 import Grid from '@material-ui/core/Grid';
@@ -14,15 +14,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import {submitFileClassroom,getFileClassroom,getMeetingId,getGroupsStudent,getGroups,downloadFile} from './store/aulaSlice.js';
 import { Typography } from '@material-ui/core';
-import FuseLoading from '@fuse/core/FuseLoading';
-import {showMessage} from "../../../store/fuse/messageSlice";
 import clsx from 'clsx';
-import {TextFieldFormsy} from "../../../../@fuse/core/formsy";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Formsy from "formsy-react";
+import UserInfoHeader from '../preescolar/components/UserInfoHeader';
 
 
 const useStyles = makeStyles({
+	TextTitle: {
+		fontWeight: "bold",
+		fontSize: "32px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+	},
 	addButton: {
 		position: 'absolute',
 		right: 12,
@@ -39,6 +41,10 @@ const useStyles = makeStyles({
         width:100,
         position:"absolute",
         margin:"1%",
+	},
+	imgHeader: {
+		maxHeight: "20%",
+		maxWidth: "20%",
 	},
     imgBackgroundStyle: {
         backgroundImage: "url(assets/images/backgrounds/background-space.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
@@ -63,6 +69,13 @@ const useStyles = makeStyles({
         color:"#FFF",
         textShadow:"-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"
     },
+	button: {
+		"&:hover": {
+			transform: "scale(1.2) translateX(50px)"
+			// width:"120%"
+		},
+		justifyContent:"left"
+	},
 	groupButton:{
         backgroundColor:"#4883C0",
         color:"white",
@@ -174,7 +187,31 @@ function AulaVirtualApp(props) {
 					wrapper: 'min-h-0'
 				}}
 				content={ 
-                    <div className={classes.imgBackgroundStyle}>
+                    <div className={classes.imgBackgroundStyle}>   
+                        <div className="float flex w-full flex-wrap ">
+                            <div className="flex w-full md:w-1/2">
+                                <Button
+                                    className={clsx(classes.button)}
+                                    style={{
+                                        backgroundColor: 'transparent',
+                                    }}
+                                    to={`/apps/landing`}
+                                    component={Link}
+                                    type="button"
+                                >
+                                    <img className={clsx(classes.imgHeader)} src="assets/images/preescolar/artes-1.png" />
+                                    <Typography className={clsx(classes.TextTitle)}>	
+                                        Mis Clases
+                                    </Typography>
+                                </Button>
+                            </div>
+
+
+                            {/* ------------------------- Avatar and User Info --------------------- */}
+                            <div className="flex w-full md:w-1/2 items-center justify-center flex-wrap flex-row">
+                                <UserInfoHeader/>
+                            </div>
+                        </div>
                         <Grid container direction="row" className={classes.containerStyle}>
                             <Grid item xs={9} className={classes.containerStyle}>
                                 {openGroups ? 
