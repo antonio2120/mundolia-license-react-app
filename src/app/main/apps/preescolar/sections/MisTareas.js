@@ -226,6 +226,7 @@ function MisTareas(props) {
 							className={clsx(classes.button)}
 							style={{
 								backgroundColor: 'transparent',
+								textTransform: 'none',
 							}}
 							to={`/apps/landing`}
 							component={Link}
@@ -534,7 +535,7 @@ function MisTareas(props) {
 							}}
 						>
 							<Typography className={clsx(classes.TextCalendar)}>
-								{ escuelabaja ? 'Calendario Semanal Nuevas tareas' : 'Calendario Semanal Nuevas Actividades' }
+								{ escuelabaja ? 'Calendario Semanal de tareas' : 'Calendario Semanal de Actividades' }
 								 {/* Nuevas Tareas */}
 							</Typography>
 						</div>

@@ -42,7 +42,13 @@ const useStyles = makeStyles(theme => ({
 		color: 'white',
 		textShadow: '2px 2px 2px black',
 		// paddingLeft: '6px'
-
+	},
+	dashboardText: {
+		fontWeight:"bold",
+		fontSize:"28px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		padding: 15,
 	}
 
 }));
@@ -211,7 +217,7 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-						Mi mundo Lia {device}
+						Mi mundo Lia
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?
@@ -287,7 +293,7 @@ function PreescolarLayout(props) {
 							backgroundPosition: 'center',
 							backgroundSize: 'contain',
 							backgroundRepeat: 'no-repeat',
-							height: "100%",
+							// width: "100%",
 							textTransform: 'none',
 
 							// maxHeight: '100%',
@@ -300,8 +306,8 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMiScore : null }
 					> 						
 
-						<Typography className={clsx(classes.Text)}>
-							Mi Score
+						<Typography className={clsx(classes.dashboardText)}>
+							Dashboard
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?

@@ -270,7 +270,7 @@ function MiScore(props) {
 						>
 							<img className={clsx(classes.img)} src="assets/images/preescolar/explorer.png" />
 							<Typography className={clsx(classes.TextTitle)}>
-								Mi Score
+								Dashboard
 							</Typography>
 						</Button>
 					</div>

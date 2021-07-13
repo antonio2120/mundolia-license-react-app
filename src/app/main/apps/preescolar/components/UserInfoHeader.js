@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { logoutUser } from 'app/auth/store/userSlice';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
 	TextTitle: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	containersInfo: {
 		borderRadius: 5,
-		width: '50px'
+		// width: '50px'
 	},
 	avatarContainer: {
 		// objectPosition: 'right',
@@ -111,29 +112,39 @@ export default function UserInfoHeader() {
                         ? user.data.photoURL
                         : " assets/images/preescolar/infoestudiante.png"} >
                 </Avatar>
-                <div className={clsx(classes.containersInfo), "w-2/3 flex-col"}>
+                <div className={clsx(classes.containersInfo), "w-1/2 flex-col"}>
                     {/* <div> */}
-                    <p className={clsx(classes.TextInfo)}
-                        style={{
-                            paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-                            borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-                        }}>
-                        {info.data.displayName}
-                    </p>
-                    <p className={clsx(classes.TextInfo)}
-                        style={{
-                            paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-                            borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-                        }}>
-                        {info.grade}°
-                    </p>
-                    <p className={clsx(classes.TextInfo)}
-                        style={{
-                            paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF',
-                            borderRadius: 12, fontWeight: "bold", maxWidth: '70%', margin: 5, textAlign: "center",
-                        }}>
-                        {info.school_name}
-                    </p>
+					<div className="flex items-center justify-center">
+						<p style={{
+							paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold",
+							textAlign: "center", minWidth: 30
+						}}>
+							<Typography className={clsx(classes.TextInfo)}>
+								{info.data.displayName}
+							</Typography>
+						</p>
+					</div>
+					<div className="flex items-center justify-center">
+						<p style={{
+							paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold",
+							textAlign: "center", minWidth: 30
+						}}>
+							<Typography className={clsx(classes.TextInfo)}>
+								{info.data.grade}
+							</Typography>
+						</p>
+					</div>
+					<div className="flex items-center justify-center">
+						<p style={{
+							paddingTop: 3, paddingBottom: 3, paddingLeft: 5, paddingRight: 5, backgroundColor: '#FCDB00', color: '#FFFFFF', borderRadius: 12, fontWeight: "bold",
+							textAlign: "center",
+						}}>
+							<Typography className={clsx(classes.TextInfo)}>
+								{info.data.school_name}
+							</Typography>
+						</p>
+					</div>
+
                 </div>
             </div>
 
