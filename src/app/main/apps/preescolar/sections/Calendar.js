@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import reducer from '../store';
 import withReducer from 'app/store/withReducer';
 import Icon from '@material-ui/core/Icon';
-import { makeStyles} from '@material-ui/core/styles';
+import { withStyles, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {getStudentCalendars, getStudentSubjects} from '../store/subjectCalendarSlice';
 import { Calendar,momentLocalizer } from 'react-big-calendar';
@@ -25,6 +25,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
+import Tooltip from '@material-ui/core/Tooltip';
+import parse from 'html-react-parser';
 
 const formats = {
     eventTimeRangeFormat: () => {
@@ -34,10 +36,34 @@ const formats = {
 
 const localizer = momentLocalizer(moment);
 
+const HtmlTooltip = withStyles((theme) => ({
+    tooltip: {
+      backgroundColor: '#f5f5f9',
+      color: 'rgba(0, 0, 0, 0.87)',
+      maxWidth: 220,
+      fontSize: theme.typography.pxToRem(12),
+      border: '1px solid #dadde9',
+    },
+  }))(Tooltip);
+
 const CustomEvent = ({ event }) => {
+    moment.locale('es-MX');
+    var dateString = String(moment(event.start.toString()).format('dddd, Do MMMM h:mm:ss ') + '-' + moment(event.end.toString()).format('hh:mm:ss a')).charAt(0).toUpperCase() + String(moment(event.start.toString()).format('dddd, Do MMMM h:mm:ss ') + '-' + moment(event.end.toString()).format('hh:mm:ss a')).slice(1);
     return (
-        <span> <strong> {event.title} </strong> </span>
-    )
+        <>
+            <HtmlTooltip interactive
+                title={
+                    <React.Fragment>
+                        <div>{event.title}</div><br></br>
+                        <div>{dateString}</div><br></br>
+                        {parse(event.description.toString())}
+                    </React.Fragment>
+                }
+            >
+                <strong> {event.title} </strong>
+            </HtmlTooltip>
+        </>
+    );
 }
 
 const SubjectListItem = ({ club, subject }) => {
@@ -189,19 +215,17 @@ const useStyles = makeStyles(theme => ({
     container: {
         marginTop: "-40px",
         paddingTop: "20px",
-        // height: "90px",
-
         justifyContent: "center",
         alignItems: "center",
         text: "center",
-        textAlign: "center", //*important
+        textAlign: "center",
     },
     paperTitle: {
         marginTop: "-40px",
         paddingTop: "20px",
         height: "70px",
         width: "280px",
-        textAlign: "center", //*important
+        textAlign: "center",
     },
     scroll: {
         width: '100%',
@@ -216,32 +240,10 @@ const useStyles = makeStyles(theme => ({
         width: '50px'
     },
     avatarContainer: {
-        // objectPosition: 'right',
-        // display: 'flex',
-        // flexDirection: "row-reverse"
-        // maxHeight: '40px',
-        // justifyContent: "flex-end",
-        // alignItems: "flex-end",
-        // alignContent: "flex-end",
-        // textAlign:"right",
-        // alignSelf: 'flex-end',
-        // alignContent: 'flex-end',
-        // flexContainer: 'justify-end',
         paddingLeft: '70px',
         paddingRight: '70px',
     },
     userIcon:{
-        // maxHeight: "50%",
-        // maxWidth: "50%",
-        // display: 'flex',
-        // objectFit: 'cover',
-        // flexContainer: 'justify-end',
-        // justifyContent: "flex-end",
-        // alignItems: "flex-end",
-        // alignContent: "flex-end",
-        // textAlign:"right",
-        // alignSelf: 'flex-end',
-        // alignContent: 'flex-end',
         paddingLeft: '100px'
 
     },
@@ -252,8 +254,6 @@ const useStyles = makeStyles(theme => ({
         paddingTop: 12, paddingBottom: 12, paddingLeft: 5, paddingRight: 5, backgroundColor: '#ECA800', color: '#FFFFFF',
         borderRadius: 15, fontWeight: "bold", width: 'full', height: 'full', textAlign: "center", flex: 1, borderColor: '#FFD90A', borderWidth: 6,
     },
-
-
 }));
 
 function CalendarActivities(props) {
@@ -385,7 +385,6 @@ function CalendarActivities(props) {
                         }
                         <Grid item xs={12} sm={8}>
                             <Paper className={classes.paper}>
-                                {/*<Calendar apiKey={process.env.REACT_APP_CALENDAR_KEY} calendars={calendarsIds} styles={styles} language={'ES'} />*/}
                                 <Calendar localizer={localizer} events={eventData.length == 0 ? [] : eventData} defaultView='week' messages={{
                                     next: "Siguiente",
                                     previous: "Anterior",
@@ -395,24 +394,26 @@ function CalendarActivities(props) {
                                     day: "Día",
                                     noEventsInRange: "No hay eventos programados"
                                 }}
-                                          views={['day', 'week']}
-                                          step={60} showMultiDayTimes={true} startAccessor="start" endAccessor="end"
-                                          onSelectEvent={event => alert(JSON.stringify(event))}
-                                          eventPropGetter={event => ({
-                                              style: {
-                                                  backgroundColor: event.customColor,
-                                                  fontSize: "10px",
-                                                  textAlign: "center"
-                                              }
-                                          })}
-                                          components={{
-                                              event: CustomEvent,
-                                          }}
-                                          formats={formats}
-                                          className={classes.root}
-                                          min={new Date(0, 0, 0, 8, 0, 0)}
-                                          max={new Date(0, 0, 0, 20, 0, 0)}
-                               >
+                                    views={['day', 'week']}
+                                    showMultiDayTimes={true} startAccessor="start" endAccessor="end"
+                                    eventPropGetter={event => ({
+                                        style: {
+                                            backgroundColor: event.customColor,
+                                            fontSize: "10px",
+                                            textAlign: "center",
+                                            alignContent: 'center',
+                                            alignItems: 'center'
+                                        }
+                                    })}
+                                    components={{
+                                        event: CustomEvent,
+                                    }}
+                                    formats={formats}
+                                    className={classes.root}
+                                    min={new Date(0, 0, 0, 8)}
+                                    max={new Date(0, 0, 0, 18)}
+                                    tooltipAccessor={null}
+                                >
                                 </Calendar>
                             </Paper>
                         </Grid>
@@ -473,7 +474,6 @@ function CalendarActivities(props) {
                                         to={`/apps/sections/mistareas`}
                                         component={Link}
                                         type="button"
-                                        // onMouseEnter={ playMisTareas }
                                     >
                                         <img className={clsx(classes.imgButton)} src={ escuelabaja ? "assets/images/preescolar/explorer.png" : "assets/images/preescolar/explorer1.png"} />
                                     </Button>
@@ -483,7 +483,6 @@ function CalendarActivities(props) {
                                         }}
                                         to={`/apps/sections/mistareas`}
                                         component={Link}
-                                        // className="justify-start px-32"
                                         color="secondary"
                                     >
                                         <Typography className={clsx(classes.Text)}>

@@ -15,7 +15,8 @@ export function getEvents(callback, apiKey, idCalendar, color) {
                     title: helperResponse.summary.toString(),
                     start: new Date(helperResponse.items[0].start.dateTime.toString()),
                     end: new Date(helperResponse.items[0].end.dateTime.toString()),
-                    customColor: color.toString()
+                    customColor: color.toString(),
+                    description: helperResponse.items[0].description
                 });
                 for (var i = 0; i < datesEvent.length; i++) {
                     var timeStringStart = moment(helperResponse.items[0].start.dateTime.toString()).format('hh:mm:ss a');
@@ -27,7 +28,8 @@ export function getEvents(callback, apiKey, idCalendar, color) {
                         title: helperResponse.summary.toString(),
                         start: new Date(initDate.toString()),
                         end: new Date(endDate.toString()),
-                        customColor: color.toString()
+                        customColor: color.toString(),
+                        description: helperResponse.items[0].description
                     });
                 }
                 callback(events);
