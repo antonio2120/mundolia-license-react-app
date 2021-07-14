@@ -19,8 +19,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import 'moment/locale/es';
 import { getEvents } from './Fetch';
-import SubjectListItem from './SubjectListItem';
 import {CircularProgress} from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import Collapse from "@material-ui/core/Collapse";
 
 const formats = {
     eventTimeRangeFormat: () => {
@@ -33,6 +37,56 @@ const localizer = momentLocalizer(moment);
 const CustomEvent = ({ event }) => {
     return (
         <span> <strong> {event.title} </strong> </span>
+    )
+}
+
+const SubjectListItem = ({ club, subject }) => {
+    const [ open, setOpen ] = useState(false)
+    const handleClick = () => {
+        setOpen(!open)
+    }
+
+    return (
+        <div>
+            <ListItem button key={club}  onClick={handleClick}>
+                <ListItemText
+                    primary={club}
+                />
+                {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse
+                key={club}
+                in={open}
+                timeout='auto'
+                unmountOnExit
+            >
+                {subject ?
+                    <List
+                        component='li'
+                        disablePadding key={club}
+                    >
+                        {subject.map(data => {
+                            return (
+                                <ListItem button key={data.id}>
+                                    <ListItemText
+                                        key={data.id}
+                                        value={data.calendar_id}
+                                        primary={data.custom_name}
+                                        style={{
+                                            backgroundColor: data.custom_color,
+                                            padding: 10,
+                                            borderRadius:10
+                                        }}
+                                    />
+                                </ListItem>
+                            );
+                        })}
+                    </List>
+                    :
+                    null
+                }
+            </Collapse>
+        </div>
     )
 }
 
