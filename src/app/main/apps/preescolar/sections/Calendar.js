@@ -226,6 +226,11 @@ function CalendarActivities(props) {
             setOpen(!open)
         }
 
+        function handleSubmit( calendarId, color) {
+            setEventData([]);
+            getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendarId.toString(), color.toString() );
+        }
+
         return (
             <div>
                 <ListItem button key={club}  onClick={handleClick}>
@@ -235,7 +240,6 @@ function CalendarActivities(props) {
                     {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse
-                    key={club}
                     in={open}
                     timeout='auto'
                     unmountOnExit
@@ -247,7 +251,7 @@ function CalendarActivities(props) {
                         >
                             {subject.map(data => {
                                 return (
-                                    <ListItem button key={data.id}>
+                                    <ListItem button id={data.id}>
                                         <ListItemText
                                             key={data.id}
                                             value={data.calendar_id}
@@ -257,6 +261,7 @@ function CalendarActivities(props) {
                                                 padding: 10,
                                                 borderRadius:10
                                             }}
+                                            onClick={() => handleSubmit(data.calendar_id, data.custom_color)}
                                         />
                                     </ListItem>
                                 );
@@ -270,8 +275,6 @@ function CalendarActivities(props) {
         )
     }
 
-
-
     const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
 
     useEffect(() => {
@@ -283,10 +286,7 @@ function CalendarActivities(props) {
 
     }, [calendars]);
 
-    function getCalendar(calendarId, color){
-        setEventData([]);
-        getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendarId.toString(), color.toString() );
-    }
+
 
     useEffect(() => {
         dispatch(getStudentCalendars());
