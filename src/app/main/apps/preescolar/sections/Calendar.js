@@ -66,55 +66,7 @@ const CustomEvent = ({ event }) => {
     );
 }
 
-const SubjectListItem = ({ club, subject }) => {
-    const [ open, setOpen ] = useState(false)
-    const handleClick = () => {
-        setOpen(!open)
-    }
 
-    return (
-        <div>
-            <ListItem button key={club}  onClick={handleClick}>
-                <ListItemText
-                    primary={club}
-                />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse
-                key={club}
-                in={open}
-                timeout='auto'
-                unmountOnExit
-            >
-                {subject ?
-                    <List
-                        component='li'
-                        disablePadding key={club}
-                    >
-                        {subject.map(data => {
-                            return (
-                                <ListItem button key={data.id}>
-                                    <ListItemText
-                                        key={data.id}
-                                        value={data.calendar_id}
-                                        primary={data.custom_name}
-                                        style={{
-                                            backgroundColor: data.custom_color,
-                                            padding: 10,
-                                            borderRadius:10
-                                        }}
-                                    />
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                    :
-                    null
-                }
-            </Collapse>
-        </div>
-    )
-}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -268,6 +220,58 @@ function CalendarActivities(props) {
     const [eventData, setEventData] = React.useState([]);
     const subjectsCalendar = Object.entries(subjects).map(([key, value]) => ({key, value}))
 
+    const SubjectListItem = ({ club, subject }) => {
+        const [ open, setOpen ] = useState(false)
+        const handleClick = () => {
+            setOpen(!open)
+        }
+
+        return (
+            <div>
+                <ListItem button key={club}  onClick={handleClick}>
+                    <ListItemText
+                        primary={club}
+                    />
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse
+                    key={club}
+                    in={open}
+                    timeout='auto'
+                    unmountOnExit
+                >
+                    {subject ?
+                        <List
+                            component='li'
+                            disablePadding key={club}
+                        >
+                            {subject.map(data => {
+                                return (
+                                    <ListItem button key={data.id}>
+                                        <ListItemText
+                                            key={data.id}
+                                            value={data.calendar_id}
+                                            primary={data.custom_name}
+                                            style={{
+                                                backgroundColor: data.custom_color,
+                                                padding: 10,
+                                                borderRadius:10
+                                            }}
+                                        />
+                                    </ListItem>
+                                );
+                            })}
+                        </List>
+                        :
+                        null
+                    }
+                </Collapse>
+            </div>
+        )
+    }
+
+
+
     const escuelabaja = role== 'alumno' && info.grade <= 3 ? true : false ;
 
     useEffect(() => {
@@ -278,6 +282,11 @@ function CalendarActivities(props) {
         }
 
     }, [calendars]);
+
+    function getCalendar(calendarId, color){
+        setEventData([]);
+        getEvents(events => { setEventData(eventData=> [...eventData, ...events]) }, process.env.REACT_APP_CALENDAR_KEY, calendarId.toString(), color.toString() );
+    }
 
     useEffect(() => {
         dispatch(getStudentCalendars());
@@ -374,7 +383,7 @@ function CalendarActivities(props) {
                                     <List component='nav' aria-labelledby='nested-list-subheader'>
                                         {subjectsCalendar.map(club => {
                                             return (
-                                                <SubjectListItem  club={club.key} subject={club.value} />
+                                                <SubjectListItem key={club.key} club={club.key} subject={club.value} />
                                             );
                                         })}
                                     </List>
