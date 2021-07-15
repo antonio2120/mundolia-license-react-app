@@ -43,7 +43,13 @@ const useStyles = makeStyles(theme => ({
 		color: 'white',
 		textShadow: '2px 2px 2px black',
 		// paddingLeft: '6px'
-
+	},
+	dashboardText: {
+		fontWeight:"bold",
+		fontSize:"28px",
+		color: 'white',
+		textShadow: '2px 2px 2px black',
+		padding: 15,
 	}
 
 }));
@@ -136,9 +142,11 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mis Tareas/Mis Actividades------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
 						to={`/apps/sections/mistareas`}
 						component={Link}
@@ -148,8 +156,11 @@ function PreescolarLayout(props) {
 						<img src={ escuelabaja ? "assets/images/preescolar/explorer.png" : "assets/images/preescolar/explorer1.png"} />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3,
+							textTransform: 'none',
 						}}
 						to={`/apps/sections/mistareas`}
 						component={Link}
@@ -178,9 +189,11 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mundo Lia----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center" raised>
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
 						to={`/loginp`}
 						component={Link}
@@ -189,8 +202,12 @@ function PreescolarLayout(props) {
 						<img className="logo-icon" src="assets/images/preescolar/comunicacion.png" alt="logo" />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3,
+							textTransform: 'none',
+
 						}}
 						to={`/loginp`}
 						component={Link}
@@ -200,7 +217,7 @@ function PreescolarLayout(props) {
 						onMouseEnter={ !escuelabaja && !isMobile ? playMundolia : null }
 					>
 						<Typography className={clsx(classes.Text)}>
-						Mi Mundo Lia {device}
+						Mi mundo Lia
 						</Typography>
 					</Button>
 					{ isMobile && !escuelabaja ?
@@ -220,9 +237,11 @@ function PreescolarLayout(props) {
 				{/* -----------------------Mis Clases----------------------- */}
 				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col text-center">
 					<Button
+						disableRipple
 						className={clsx(classes.button)}
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:1
 						}}
 						component={Link}
 						type="button"
@@ -231,8 +250,12 @@ function PreescolarLayout(props) {
 						<img src={ escuelabaja ? "assets/images/preescolar/artes.png" : "assets/images/preescolar/artes1.png" } alt="logo" />
 					</Button>
 					<Button
+						disableRipple
 						style={{
 							backgroundColor: 'transparent',
+							zIndex:3,
+							textTransform: 'none',
+
 						}}
 						to={`/apps/sections/calendario`}
 						component={Link}
@@ -245,6 +268,7 @@ function PreescolarLayout(props) {
 					</Button>
 					{ isMobile && !escuelabaja ?
 						<Button
+						disableRipple
 							style={{
 								backgroundColor: 'transparent',
 							}}
@@ -257,8 +281,9 @@ function PreescolarLayout(props) {
 					}
 				</div>
 
-				{/* <div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
-				<Button
+				<div className="float flex w-full sm:w-1/2 md:w-1/3 p-12 flex-col items-center justify-center flex-1" >
+					<Button
+						disableRipple
 						justifyContent="center"
 						className={clsx(classes.button)}
 						// className="flex items-center justify-between px-16 h-64 border-b-1"
@@ -268,7 +293,9 @@ function PreescolarLayout(props) {
 							backgroundPosition: 'center',
 							backgroundSize: 'contain',
 							backgroundRepeat: 'no-repeat',
-							height: "100%",
+							// width: "100%",
+							textTransform: 'none',
+
 							// maxHeight: '100%',
 							// maxWidth: '100%',
 
@@ -276,14 +303,28 @@ function PreescolarLayout(props) {
 						to={`/apps/sections/miscore`}
 						component={Link}
 						type="button"
+						onMouseEnter={ !escuelabaja && !isMobile ? playMiScore : null }
 					> 						
 
-						<Typography className={clsx(classes.Text)}>
-							Mi Score
+						<Typography className={clsx(classes.dashboardText)}>
+							Dashboard
 						</Typography>
 					</Button>
+					{ isMobile && !escuelabaja ?
+						<Button
+						disableRipple
+							style={{
+								backgroundColor: 'transparent',
+							}}
+							onClick={playMiScore}
+						>
+							<Icon className={clsx(classes.listenIcon)}>volume_up</Icon>
+						</Button>
+						:
+						null
+					}
 					
-				</div> */}
+				</div>
 
             </FuseAnimateGroup>
 

@@ -35,6 +35,11 @@ const useStyles = makeStyles({
 		bottom: 12,
 		zIndex: 99
 	},
+	img: {
+        width:100,
+        position:"absolute",
+        margin:"1%",
+	},
     imgBackgroundStyle: {
         backgroundImage: "url(assets/images/backgrounds/background-space.png)",backgroundSize:"cover",position:"relative",height:"80%",backgroundSize:"cover",
         width: '100%',
@@ -90,9 +95,8 @@ function AulaVirtualApp(props) {
 
     useEffect(() => {
         if(meetingIdVal.success){
-            console.log("meetingIdVal.success",meetingIdVal.success);
             setOpenGroups(false);
-            createJitsiMeet();
+            createJitsiMeet(meetingIdVal.response.meeting_id);
             dispatch(getFileClassroom(meetingIdVal.response.meeting_id));
             setOpenMeeting(true);
 		}
@@ -107,18 +111,24 @@ function AulaVirtualApp(props) {
 
 	useDeepCompareEffect(() => {
         setOpenMeeting(false);
-        if(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A'){
-            dispatch(getGroups());
-        }else if(role === 'alumno' || role === 'alumno_secundaria' ||  role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A'){
-            dispatch(getGroupsStudent());
+        if('id' in routeParams && routeParams.id !== "all"){
+            createJitsiMeet(routeParams.id);
+            dispatch(getFileClassroom(routeParams.id));
+            setOpenMeeting(true);
+        }else{
+            if(role === 'maestro_preescolar' || role === 'maestro_secundaria' || role === 'profesor_summit_2021' || role === 'maestro' || role ==='maestroe1' || role === 'maestroe2' || role === 'maestroe3' || role === 'Maestro-I' || role === 'Maestro-M' || role === 'Maestro-A'){
+                dispatch(getGroups());
+            }else if(role === 'alumno' || role === 'alumno_secundaria' ||  role === 'preescolar' || role === 'alumnoe0' || role === 'alumnoe1' || role === 'alumnoe2' || role === 'alumnoe3' || role === 'Alumno-I' || role === 'Alumno-M' || role === 'Alumno-A'){
+                dispatch(getGroupsStudent());
+            }
         }
     }, [dispatch, routeParams]);
 
-	function createJitsiMeet(){
+	function createJitsiMeet(meetId){
         try {
             const domain = 'meet.jit.si';
             const options = {
-            roomName: meetingIdVal.response.meeting_id,
+            roomName: meetId,
             parentNode: document.getElementById('jitsi-container'),
             userInfo: {
                 email: user.email,
@@ -191,7 +201,9 @@ function AulaVirtualApp(props) {
                                     </div>
                                     </>
                                 :
-                                    <div id="jitsi-container" className={classes.jitsiContainerOpen}/>
+                                <div id="jitsi-container" className={classes.jitsiContainerOpen}>
+                                    <img className={clsx(classes.img)} src="assets/images/logos/clublia.png" />
+                                </div>
                                 }
                             </Grid>
                             <Grid item xs={3} className={classes.rightContainerStyle}>
@@ -233,7 +245,7 @@ function AulaVirtualApp(props) {
                                         aria-label="open left sidebar"
                                         color="primary"
                                     >
-                                        <Typography className={clsx(classes.fileNameStyle,"text-center text-16 font-600 m-4")}>Recarga los archivos </Typography>
+                                        <Typography className={clsx(classes.fileNameStyle,"text-center text-16 font-600 m-4")}>Recursos para la clase </Typography>
                                         <Icon className={clsx(classes.fileNameStyle,"text-center text-16 font-600 mt-4")}>refresh</Icon>
                                     </IconButton>
                                 }

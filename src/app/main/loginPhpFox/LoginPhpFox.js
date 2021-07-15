@@ -45,12 +45,31 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.contrastText
 	}
 }));
-function getUrl(){
+function getUrl(redirect){
+
+	
 	axios
 	.post(process.env.REACT_APP_API+'/usuario_p/login')
 	.then(response => {
+
+
 		if (response.data) {
+			console.log(response.data);
 			window.location.href = response.data;
+
+
+			
+			//added to redirection of different phpfox routes
+			if (redirect.redirectValue.data == 'misgrupos') {
+				window.location.href = redirect.data + '/groups';
+			}
+
+			if (redirect.redirectValue.data == 'onlinelia') {
+				window.location.href = redirect.data + '/video';
+			}
+			
+				
+
 		} else {
 			//dispatch(showMessage({ message: error.message }));
 		}
@@ -63,7 +82,10 @@ function getUrl(){
 
 function LoginPhpFox() {
 	const classes = useStyles();
-	getUrl();
+	const redirect = useSelector(({ auth }) => auth.redirect);
+	console.log(redirect.data)
+	
+	getUrl(redirect);
 	const dispatch = useDispatch();
 	const role = useSelector(({ auth }) => auth.user.role);
 

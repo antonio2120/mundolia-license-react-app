@@ -35,9 +35,9 @@ function Error404Page() {
 					/>
 				</Paper>
 
-				<Link className="font-medium" to="/apps/dashboards/project">
+				{/* <Link className="font-medium" to="/apps/dashboards/project">
 					Go back to dashboard
-				</Link>
+				</Link> */}
 			</div>
 		</div>
 	);

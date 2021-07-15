@@ -22,6 +22,7 @@ import CSVReader from 'react-csv-reader'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import SimpleTable from './Table'
 import axios from 'axios';
+import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -286,270 +287,274 @@ class LicenciasPage extends Component {
 
 				content={
 					<div className="flex flex-1 relative overflow-hidden">
-						<FuseScrollbars className="w-full overflow-auto">
-							<SwipeableViews
-								className="overflow-hidden"
-								index={this.state.activeStep - 1}
-								onChangeIndex={this.handleChangeActiveStep}
-								ref={this.containerRef}
-								onSwitching={this.onSwitch}
-							>
-								<div className="flex justify-center p-10 pb-64 sm:p-24 sm:pb-30 md:p-20 md:pb-30" key={0}>
-									<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1}>
-										<div className="p-20">
-											<div>
+						<Grid container>
+							<Grid item xs={2}>
+								<Stepper classes={{ root: 'bg-transparent' }} activeStep={this.state.activeStep - 1} orientation="vertical">
 
-												<h1 className="py-16">Descargar Plantilla para carga de usuarios</h1>
-												<a href={'assets/images/user-import/Plantilla_Usuarios_LIA.xlsx'}>
-													<ListItem>
-														<ListItemAvatar>
-															<Avatar>
-																<img src={'assets/images/user-import/xls_ico.png'} />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary="Plantilla_Usuarios_LIA.xlsx"
-														/>
-													</ListItem>
-												</a>
-												<p>
-													Una vez descargado el archivo en formato XLSX (MS Excel), podrá vaciar la información requerida para importar sus usuarios.
-												</p>
-												<p>
-													Al finalizar, deberá guardar este archivo en formato CSV, como se describe a continuación:
-												</p>
-												<List>
-													<ListItem key={'li1'}>
-														<ListItemAvatar>
-															<Avatar>
-																<FolderIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary="Menú Archivo"
-														/>
-													</ListItem>
-													<ListItem key={'li2'}>
-														<ListItemAvatar>
-															<Avatar>
-																<FolderIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary="Guardar Como"
-														/>
-													</ListItem>
-													<ListItem key={'li3'}>
-														<ListItemAvatar>
-															<Avatar>
-																<FolderIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary="Cambiar el tipo de archivo por: CSV UTF-8 (delimitado por comas) (*.csv). Este formato acepta ñ y acentos."
-														/>
-													</ListItem>
-													<ListItem key={'li4'}>
-														<ListItemAvatar>
-															<Avatar>
-																<FolderIcon />
-															</Avatar>
-														</ListItemAvatar>
-														<ListItemText primary="Guardar"/>
-													</ListItem>
-												</List>
-												<p><img className={'max-w-md'} src="assets/images/user-import/xlsx1.jpg" alt=""/></p>
+									<Step key={0} >
+										<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
+											Descargar Plantilla
+										</StepLabel>
+									</Step>
+									<Step key={1} >
+										<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
+											Subir archivo CSV
+										</StepLabel>
+									</Step>
+									<Step key={2} >
+										<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
+											Verificar Datos
+										</StepLabel>
+									</Step>
+									<Step key={4} >
+										<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
+											Resultados
+										</StepLabel>
+									</Step>
 
-											</div>
+								</Stepper>
+							</Grid>
+							<Grid item xs={10}>
+								<FuseScrollbars className="w-full overflow-auto">
+									<SwipeableViews
+										className="overflow-hidden"
+										index={this.state.activeStep - 1}
+										onChangeIndex={this.handleChangeActiveStep}
+										ref={this.containerRef}
+										onSwitching={this.onSwitch}
+									>
+										<div className="flex justify-center p-10 pb-64 sm:p-24 sm:pb-30 md:p-20 md:pb-30" key={0}>
+											<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1}>
+												<div className="p-20">
+													<div>
+
+														<h1 className="py-16">Descargar Plantilla para carga de usuarios</h1>
+														<a href={'assets/images/user-import/Plantilla_Usuarios_LIA.xlsx'}>
+															<ListItem>
+																<ListItemAvatar>
+																	<Avatar>
+																		<img src={'assets/images/user-import/xls_ico.png'} />
+																	</Avatar>
+																</ListItemAvatar>
+																<ListItemText primary="Plantilla_Usuarios_LIA.xlsx"
+																/>
+															</ListItem>
+														</a>
+														<p>
+															Una vez descargado el archivo en formato XLSX (MS Excel), podrá vaciar la información requerida para importar sus usuarios.
+														</p>
+														<p>
+															Al finalizar, deberá guardar este archivo en formato CSV, como se describe a continuación:
+														</p>
+														<List>
+															<ListItem key={'li1'}>
+																<ListItemAvatar>
+																	<Avatar>
+																		<FolderIcon />
+																	</Avatar>
+																</ListItemAvatar>
+																<ListItemText primary="Menú Archivo"
+																/>
+															</ListItem>
+															<ListItem key={'li2'}>
+																<ListItemAvatar>
+																	<Avatar>
+																		<FolderIcon />
+																	</Avatar>
+																</ListItemAvatar>
+																<ListItemText primary="Guardar Como"
+																/>
+															</ListItem>
+															<ListItem key={'li3'}>
+																<ListItemAvatar>
+																	<Avatar>
+																		<FolderIcon />
+																	</Avatar>
+																</ListItemAvatar>
+																<ListItemText primary="Cambiar el tipo de archivo por: CSV UTF-8 (delimitado por comas) (*.csv). Este formato acepta ñ y acentos."
+																/>
+															</ListItem>
+															<ListItem key={'li4'}>
+																<ListItemAvatar>
+																	<Avatar>
+																		<FolderIcon />
+																	</Avatar>
+																</ListItemAvatar>
+																<ListItemText primary="Guardar"/>
+															</ListItem>
+														</List>
+														<p><img className={'max-w-md'} src="assets/images/user-import/xlsx1.jpg" alt=""/></p>
+
+													</div>
+												</div>
+											</Paper>
 										</div>
-									</Paper>
-								</div>
-								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={1}>
-									<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1} margin={'dense'}>
-										<div className="p-20">
-											<div >
-												<h1 className="py-16">Subir archivo con la información de usuarios en formato CSV</h1>
+										<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={1}>
+											<Paper className="w-full  rounded-8 p-16 md:p-24" elevation={1} margin={'dense'}>
+												<div className="p-20">
+													<div >
+														<h1 className="py-16">Subir archivo con la información de usuarios en formato CSV</h1>
 
-												<CSVReader
-													cssClass="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
-													onFileLoaded={this.handleForce}
-													onError={this.handleDarkSideForce}
-													parserOptions={papaparseOptions}
-													inputId="ObiWan"
-													inputStyle={{color: 'red'}}
-													disabled ={this.state.loading}
-													fileEncoding={'UTF-8'}
-												/>
-												{this.state.loading && (<LinearProgress color="secondary" />)}
-
-												<p className="py-16">
-													El archivo en formato CSV UTF-8(delimitado por comas), es resultado de la edición de la plantilla en formato XLSX.
-												</p>
-												<p>Ejemplo:</p>
-
-												<ListItem className="py-16">
-													<ListItemAvatar>
-														<Avatar>
-															<img src={'assets/images/user-import/csv_ico.png'} />
-														</Avatar>
-													</ListItemAvatar>
-													<ListItemText primary="Plantilla_Usuarios_LIA.csv"
-													/>
-												</ListItem>
-
-											</div>
-										</div>
-									</Paper>
-								</div>
-								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={2}>
-									<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
-										<div className="p-24">
-											<h1 className="py-16">Datos a Procesar</h1>
-											<div className="">
-
-
-												<FormControl variant="outlined" className="" fullWidth>
-													{this.state.schools ?
-														(
-														<Autocomplete
-															id="school_id"
-															name="school_id"
-															//value={value}
-															onChange={(event, newValue) => {
-																event.target.name = 'school_id';
-																event.target.value = newValue.id;
-																this.handleChange(event)
-															}}
-															disableClearable={true}
-															//inputValue={inputValue}
-															onInputChange={(event, newInputValue) => {
-																//setInputValue(newInputValue);
-															}}
-															options={this.state.schools}
-															getOptionLabel={(option) => option.title}
-															style={{ width: '100%' }}
-															renderInput={(params) => <TextField {...params} label="Escuela" name="school_id" variant="outlined" fullWidth/>}
-															className="mb-24 MuiInputBase-fullWidth w-full"
+														<CSVReader
+															cssClass="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+															onFileLoaded={this.handleForce}
+															onError={this.handleDarkSideForce}
+															parserOptions={papaparseOptions}
+															inputId="ObiWan"
+															inputStyle={{color: 'red'}}
+															disabled ={this.state.loading}
+															fileEncoding={'UTF-8'}
 														/>
-														):
-														<CircularProgress color="secondary"/>}
-												</FormControl>
-												<Formsy>
-												<TextFieldFormsy
-													className="mb-16"
-													type="password"
-													name="password"
-													label="Contraseña"
-													value={this.state.password}
-													validations={{
-														minLength: 3
-													}}
-													validationErrors={{
-														minLength: 'El mínimo de caracteres es 3'
-													}}
-													onChange={this.setPassword}
-													InputProps={{
-														className: 'pr-2',
-														type: this.state.showPassword ? 'text' : 'password',
-														endAdornment: (
-															<InputAdornment position="end">
-																<IconButton onClick={() => this.setShowPassword(!this.state.showPassword)}>
-																	<Icon className="text-20" color="action">
-																		{this.state.showPassword ? 'visibility' : 'visibility_off'}
-																	</Icon>
-																</IconButton>
-															</InputAdornment>
-														)
-													}}
-													variant="outlined"
-												/>
-												</Formsy>
-											</div>
-											{this.state.recordsAll ?
-												(<SimpleTable data={this.state.recordsAll}/>) :
-												(<h1 className="py-16">No hay datos a procesar</h1>)
+														{this.state.loading && (<LinearProgress color="secondary" />)}
+
+														<p className="py-16">
+															El archivo en formato CSV UTF-8(delimitado por comas), es resultado de la edición de la plantilla en formato XLSX.
+														</p>
+														<p>Ejemplo:</p>
+
+														<ListItem className="py-16">
+															<ListItemAvatar>
+																<Avatar>
+																	<img src={'assets/images/user-import/csv_ico.png'} />
+																</Avatar>
+															</ListItemAvatar>
+															<ListItemText primary="Plantilla_Usuarios_LIA.csv"
+															/>
+														</ListItem>
+
+													</div>
+												</div>
+											</Paper>
+										</div>
+										<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={2}>
+											<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
+												<div className="p-24">
+													<h1 className="py-16">Datos a Procesar</h1>
+													<div className="">
+
+
+														<FormControl variant="outlined" className="" fullWidth>
+															{this.state.schools ?
+																(
+																<Autocomplete
+																	id="school_id"
+																	name="school_id"
+																	//value={value}
+																	onChange={(event, newValue) => {
+																		event.target.name = 'school_id';
+																		event.target.value = newValue.id;
+																		this.handleChange(event)
+																	}}
+																	disableClearable={true}
+																	//inputValue={inputValue}
+																	onInputChange={(event, newInputValue) => {
+																		//setInputValue(newInputValue);
+																	}}
+																	options={this.state.schools}
+																	getOptionLabel={(option) => option.title}
+																	style={{ width: '100%' }}
+																	renderInput={(params) => <TextField {...params} label="Escuela" name="school_id" variant="outlined" fullWidth/>}
+																	className="mb-24 MuiInputBase-fullWidth w-full"
+																/>
+																):
+																<CircularProgress color="secondary"/>}
+														</FormControl>
+														<Formsy>
+														<TextFieldFormsy
+															className="mb-16"
+															type="password"
+															name="password"
+															label="Contraseña"
+															value={this.state.password}
+															validations={{
+																minLength: 3
+															}}
+															validationErrors={{
+																minLength: 'El mínimo de caracteres es 3'
+															}}
+															onChange={this.setPassword}
+															InputProps={{
+																className: 'pr-2',
+																type: this.state.showPassword ? 'text' : 'password',
+																endAdornment: (
+																	<InputAdornment position="end">
+																		<IconButton onClick={() => this.setShowPassword(!this.state.showPassword)}>
+																			<Icon className="text-20" color="action">
+																				{this.state.showPassword ? 'visibility' : 'visibility_off'}
+																			</Icon>
+																		</IconButton>
+																	</InputAdornment>
+																)
+															}}
+															variant="outlined"
+														/>
+														</Formsy>
+													</div>
+													{this.state.recordsAll ?
+														(<SimpleTable data={this.state.recordsAll}/>) :
+														(<h1 className="py-16">No hay datos a procesar</h1>)
+													}
+												</div>
+												<div className="p-24">
+													<Button variant="contained" color="primary"
+															disabled={this.state.loading || !this.state.recordsAll}
+															onClick={() => this.handleImport()}>
+														Importar Usuarios
+													</Button>
+													{this.state.error && (<Alert severity="error">{this.state.errorMessage}</Alert>)}
+												</div>
+												<div className="p-24">
+													{this.state.loading && (<LinearProgress color="secondary" />)}
+												</div>
+											</Paper>
+										</div>
+										<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={3}>
+											<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
+												<div className="p-24">
+													<h1 className="py-16">Resultados de la importación</h1>
+													{this.state.resultImport ?
+														(<SimpleTable data={this.state.resultImport}/>) :
+														(<h1 className="py-16">No hay resultados</h1>)
+													}
+												</div>
+											</Paper>
+										</div>
+									</SwipeableViews>
+								</FuseScrollbars>
+								<div className="flex justify-center w-full absolute left-0 right-0 bottom-0 pb-16 md:pb-32">
+									<div className="flex  w-full px-8">
+										<div>
+											{(this.state.activeStep !== 1 && this.state.activeStep !== 4 )&& (
+												<Fab className="" color="secondary" onClick={() => this.handleBack()} disabled={this.state.loading}>
+													<Icon>{'chevron_left'}</Icon>
+												</Fab>
+											)}
+										</div>
+										<div>
+											{this.state.activeStep === 1 && (
+												<Fab className="" color="secondary" onClick={() => this.handleNext()} disabled={this.state.loading}>
+													<Icon>{'chevron_right'}</Icon>
+												</Fab>
+											)
 											}
 										</div>
-										<div className="p-24">
-											<Button variant="contained" color="primary"
-													disabled={this.state.loading || !this.state.recordsAll}
-													onClick={() => this.handleImport()}>
-												Importar Usuarios
-											</Button>
-											{this.state.error && (<Alert severity="error">{this.state.errorMessage}</Alert>)}
+										<div>
+											{this.state.activeStep === 4 && (
+												<Fab color="secondary" onClick={() => this.handleEnd()} disabled={this.state.loading}>
+													<Icon>check</Icon>
+												</Fab>
+											)}
 										</div>
-										<div className="p-24">
-											{this.state.loading && (<LinearProgress color="secondary" />)}
-										</div>
-									</Paper>
+									</div>
 								</div>
-								<div className="flex justify-center p-16 pb-64 sm:p-24 sm:pb-64 md:p-48 md:pb-64" key={3}>
-									<Paper className="w-full rounded-8 p-16 md:p-24" elevation={1}>
-										<div className="p-24">
-											<h1 className="py-16">Resultados de la importación</h1>
-											{this.state.resultImport ?
-												(<SimpleTable data={this.state.resultImport}/>) :
-												(<h1 className="py-16">No hay resultados</h1>)
-											}
-										</div>
-									</Paper>
-								</div>
-							</SwipeableViews>
-						</FuseScrollbars>
-						<div className="flex justify-center w-full absolute left-0 right-0 bottom-0 pb-16 md:pb-32">
-							<div className="flex  w-full px-8">
-								<div>
-									{(this.state.activeStep !== 1 && this.state.activeStep !== 4 )&& (
-										<Fab className="" color="secondary" onClick={() => this.handleBack()} disabled={this.state.loading}>
-											<Icon>{'chevron_left'}</Icon>
-										</Fab>
-									)}
-								</div>
-								<div>
-									{this.state.activeStep === 1 && (
-										<Fab className="" color="secondary" onClick={() => this.handleNext()} disabled={this.state.loading}>
-											<Icon>{'chevron_right'}</Icon>
-										</Fab>
-									)
-									}
-								</div>
-								<div>
-									{this.state.activeStep === 4 && (
-										<Fab color="secondary" onClick={() => this.handleEnd()} disabled={this.state.loading}>
-											<Icon>check</Icon>
-										</Fab>
-									)}
-								</div>
-							</div>
-						</div>
+
+							</Grid>
+						</Grid>
 					</div>
 
 
 				}
-				leftSidebarContent={
-
-					<Stepper classes={{ root: 'bg-transparent' }} activeStep={this.state.activeStep - 1} orientation="vertical">
-
-						<Step key={0} >
-							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
-								Descargar Plantilla
-							</StepLabel>
-						</Step>
-						<Step key={1} >
-							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
-								Subir archivo CSV
-							</StepLabel>
-						</Step>
-						<Step key={2} >
-							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
-								Verificar Datos
-							</StepLabel>
-						</Step>
-						<Step key={4} >
-							<StepLabel classes={{ root: 'this.classes.stepLabel' }}>
-								Resultados
-							</StepLabel>
-						</Step>
-
-					</Stepper>
-
-				}
+				
 			/>
 		);
 	}
