@@ -9,33 +9,38 @@ export function getEvents(callback, apiKey, idCalendar, color) {
             const events = [];
             var helperResponse = JSON.parse(res.text);
             if(helperResponse.items.length > 0) {
-                var rule = RRule.fromString(helperResponse.items[0].recurrence.toString())
-                var datesEvent = rule.all().toString().split(',');
-                events.push({
-                    title: helperResponse.summary.toString(),
-                    start: new Date(helperResponse.items[0].start.dateTime.toString()),
-                    end: new Date(helperResponse.items[0].end.dateTime.toString()),
-                    customColor: color.toString(),
-                    description: helperResponse.items[0].description
-                });
-                for (var i = 0; i < datesEvent.length; i++) {
-                    var timeStringStart = moment(helperResponse.items[0].start.dateTime.toString()).format('hh:mm:ss a');
-                    var timeStringEnd = moment(helperResponse.items[0].end.dateTime.toString()).format('hh:mm:ss a');
-                    var dateString = moment(datesEvent[i].toString()).format('YYYY-MM-DD');
-                    var initDate = dateString + ' ' + timeStringStart;
-                    var endDate = dateString + ' ' + timeStringEnd;
-                    events.push({
-                        title: helperResponse.summary.toString(),
-                        start: new Date(initDate.toString()),
-                        end: new Date(endDate.toString()),
-                        customColor: color.toString(),
-                        description: helperResponse.items[0].description
-                    });
+                for (var x = 0; x < helperResponse.items.length; x++) {
+                    if(helperResponse.items[x].hasOwnProperty('recurrence') == true) {
+                        var rule = RRule.fromString(helperResponse.items[x].recurrence.toString());
+                        var datesEvent = rule.all().toString().split(',');
+                        for (var i = 0; i < datesEvent.length; i++) {
+                            var timeStringStart = moment(helperResponse.items[x].start.dateTime.toString()).format('hh:mm:ss a');
+                            var timeStringEnd = moment(helperResponse.items[x].end.dateTime.toString()).format('hh:mm:ss a');
+                            var dateString = moment(datesEvent[i].toString()).format('YYYY-MM-DD');
+                            var initDate = dateString + ' ' + timeStringStart;
+                            var endDate = dateString + ' ' + timeStringEnd;
+                            events.push({
+                                title: helperResponse.items[x].summary.toString(),
+                                start: new Date(initDate.toString()),
+                                end: new Date(endDate.toString()),
+                                customColor: color.toString(),
+                                description: helperResponse.items[x].hasOwnProperty('description') == true ? helperResponse.items[x].description : ''
+                            });
+                        }
+                    } else {
+                        events.push({
+                            title: helperResponse.items[x].summary.toString(),
+                            start: new Date(helperResponse.items[x].start.dateTime.toString()),
+                            end: new Date(helperResponse.items[x].end.dateTime.toString()),
+                            customColor: color.toString(),
+                            description: helperResponse.items[x].hasOwnProperty('description') == true ? helperResponse.items[x].description : ''
+                        });
+                    }
                 }
                 callback(events);
             }
         })
         .catch(err => {
-            alert('ERROR GETTING DATA FROM GOOGLE')
+            alert('ERROR GETTING DATA FROM GOOGLE');
         });
 }
